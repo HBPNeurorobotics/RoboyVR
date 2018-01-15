@@ -63,6 +63,17 @@ public class AvatarMovement : MonoBehaviour {
             }
             #endregion
 
+            #region ROTATION_WITH_JOYSTICK
+            //Debug.Log("rot: " + avatar.transform.rotation.x + " " + avatar.transform.rotation.y + " " + avatar.transform.rotation.z + " " + avatar.transform.rotation.w);
+            if(Input.GetAxis("RightJoystick4th") > 0.4 || Input.GetAxis("RightJoystick4th") < -0.4)
+            {
+                //Debug.Log(Input.GetAxis("RightJoystick4th") * 5 + " / " + avatar.transform.rotation.eulerAngles.y);
+                //Quaternion q = Quaternion.Euler(0, Input.GetAxis("RightJoystick4th") * 5 + avatar.transform.rotation.eulerAngles.y, 0);
+                //Quaternion q = Quaternion.Euler(0, Input.GetAxis("RightJoystick4th") * 180, 0);
+                Quaternion q = Quaternion.AngleAxis(Input.GetAxis("RightJoystick4th") * 90, avatar.transform.up);
+                publishRotation(q);
+            }
+            #endregion
         }
         else
         {
@@ -75,5 +86,12 @@ public class AvatarMovement : MonoBehaviour {
     {
         // Publishes the new velocity of the avatar to the appropriate topic
         ROSBridge.Instance.ROS.Publish(ROSAvatarVelPublisher.GetMessageTopic(), new Vector3Msg((double)direction.x, (double)direction.z, (double)direction.y));
+    }
+
+    private void publishRotation(Quaternion rotation)
+    {
+        Debug.Log(rotation);
+        // Publishes the new rotation of the avatar to the appropriate topic
+        ROSBridge.Instance.ROS.Publish(ROSAvatarRotPublisher.GetMessageTopic(), new QuaternionMsg((double)rotation.x, (double)rotation.z, (double)rotation.y, (double)rotation.w));
     }
 }
