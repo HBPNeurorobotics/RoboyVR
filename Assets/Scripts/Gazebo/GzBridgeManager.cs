@@ -71,7 +71,7 @@ public class GzBridgeManager : Singleton<GzBridgeManager>
     /// </summary>
     void OnApplicationQuit()
     {
-        if (!m_Initialized)
+        if (m_Initialized)
             m_GzBridge.Disconnect();
     }
     #endregion //MONOBEHAVIOR_METHODS

@@ -46,7 +46,7 @@ public class ROSBridge : Singleton<ROSBridge> {
     /// <summary>
     /// Initializes the ROS websocket connection and searches for all ROSObjects in the scene.
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         m_ROS = new ROSBridgeWebSocketConnection("ws://" + ROSCoreIP, Port);
 
