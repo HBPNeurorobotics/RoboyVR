@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ROSBridgeLib;
+using ROSBridgeLib.geometry_msgs;
 
 /// <summary>
 /// Handles the ROSBridge connection. Adds all ROS components of each ROSObject in the scene. You need one object of this in each scene where you have ROS actors.
 /// </summary>
 public class ROSBridge : Singleton<ROSBridge> {
+
+    /// <summary>
+    /// Stores the rotation of the avatar as distributed by the corresponding topic.
+    /// </summary>
+    public Quaternion serverAvatarRot;
 
     /// <summary>
     /// The IP address of the roscore running on the other side of the ROSBridge.
@@ -61,7 +67,6 @@ public class ROSBridge : Singleton<ROSBridge> {
                 var subscribers = rosObj.GetComponents<ROSBridgeSubscriber>();
                 var publishers = rosObj.GetComponents<ROSBridgePublisher>();
                 var services = rosObj.GetComponents<ROSBridgeService>();
-
                 foreach (var sub in subscribers)
                     m_ROS.AddSubscriber(sub.GetType());
 
@@ -101,5 +106,14 @@ public class ROSBridge : Singleton<ROSBridge> {
         {
             m_ROS.Disconnect();
         }
+    }
+
+    /// <summary>
+    /// Main function to receive avatar rotation messages from ROSBridge.
+    /// </summary>
+    /// <param name="msg">JSON msg containing the rotation of the avatar in quaternion.</param>
+    public void ReceiveMessage(QuaternionMsg msg)
+    {
+        serverAvatarRot = new Quaternion(-(float)msg.GetX(), -(float)msg.GetZ(), -(float)msg.GetY(), (float)msg.GetW());
     }
 }

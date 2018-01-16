@@ -8,18 +8,30 @@ public class AvatarMovement : MonoBehaviour {
 
     #region PRIVATE_MEMBER_VARIABLES
 
+    /// <summary>
+    /// Private GameObject reference to the avatar.
+    /// </summary>
     private GameObject avatar;
 
+    /// <summary>
+    /// Private vector storing the direction in which the avatar should move.
+    /// </summary>
     private Vector3 movementDirection;
 
+    /// <summary>
+    /// Private variable storing the desired speed for the movement of the avatar.
+    /// </summary>
     private float speed = 10f;
 
     #endregion
 	
+    /// <summary>
+    /// Catches user input to control the avatar movements either through WASD or Joystick.
+    /// </summary>
 	void Update () {
         if(avatar != null)
         {
-            // To take the rotation into account as well the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
+            // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
             // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
             // The resulting vector is then multiplied with the predefined speed.
 
@@ -64,14 +76,12 @@ public class AvatarMovement : MonoBehaviour {
             #endregion
 
             #region ROTATION_WITH_JOYSTICK
-            //Debug.Log("rot: " + avatar.transform.rotation.x + " " + avatar.transform.rotation.y + " " + avatar.transform.rotation.z + " " + avatar.transform.rotation.w);
             if(Input.GetAxis("RightJoystick4th") > 0.4 || Input.GetAxis("RightJoystick4th") < -0.4)
             {
-                //Debug.Log(Input.GetAxis("RightJoystick4th") * 5 + " / " + avatar.transform.rotation.eulerAngles.y);
-                //Quaternion q = Quaternion.Euler(0, Input.GetAxis("RightJoystick4th") * 5 + avatar.transform.rotation.eulerAngles.y, 0);
-                //Quaternion q = Quaternion.Euler(0, Input.GetAxis("RightJoystick4th") * 180, 0);
-                Quaternion q = Quaternion.AngleAxis(Input.GetAxis("RightJoystick4th") * 90, avatar.transform.up);
-                publishRotation(q);
+                // As the published rotation is not added to the orgininal one, but rather replaces it, the addition is done here, by multiplying the  quaternion of the current rotation to the quaternion of the additional rotation.
+                Quaternion rotation = Quaternion.AngleAxis(Input.GetAxis("RightJoystick4th") * 5, avatar.transform.up);
+                rotation *= ROSBridge.Instance.serverAvatarRot;
+                publishRotation(rotation);
             }
             #endregion
         }
@@ -82,16 +92,23 @@ public class AvatarMovement : MonoBehaviour {
 
     }
 
-    private void publishMovementInDirection(Vector3 direction)
+    /// <summary>
+    /// Publishes the movement vector of the avatar, in the correct format to the appropriate topic at ROSBridge.
+    /// </summary>
+    /// <param name="movement">This vector specifies where the avatar should go to.</param>
+    private void publishMovementInDirection(Vector3 movement)
     {
-        // Publishes the new velocity of the avatar to the appropriate topic
-        ROSBridge.Instance.ROS.Publish(ROSAvatarVelPublisher.GetMessageTopic(), new Vector3Msg((double)direction.x, (double)direction.z, (double)direction.y));
+        ROSBridge.Instance.ROS.Publish(ROSAvatarVelPublisher.GetMessageTopic(), new Vector3Msg((double)movement.x, (double)movement.z, (double)movement.y));
     }
 
+    /// <summary>
+    /// Publishes the rotation of the avatar, in the correct format to the appropriate topic at ROSBridge.
+    /// The specified rotation is not added to the original one, but replaces it.
+    /// </summary>
+    /// <param name="rotation">The rotation in quaternion specifies the new rotation of the avatar.</param>
     private void publishRotation(Quaternion rotation)
     {
-        Debug.Log(rotation);
-        // Publishes the new rotation of the avatar to the appropriate topic
-        ROSBridge.Instance.ROS.Publish(ROSAvatarRotPublisher.GetMessageTopic(), new QuaternionMsg((double)rotation.x, (double)rotation.z, (double)rotation.y, (double)rotation.w));
+        Debug.Log("Rotation send to the server: "+rotation);
+        ROSBridge.Instance.ROS.Publish(ROSAvatarRotPublisher.GetMessageTopic(), new QuaternionMsg(-(double)rotation.x, -(double)rotation.z, -(double)rotation.y, (double)rotation.w));
     }
 }
