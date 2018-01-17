@@ -23,13 +23,21 @@ public class AvatarMovement : MonoBehaviour {
     /// </summary>
     private float speed = 10f;
 
+    bool instantiate = true;
+
     #endregion
 	
     /// <summary>
     /// Catches user input to control the avatar movements either through WASD or Joystick.
     /// </summary>
 	void Update () {
-        if(avatar != null)
+        if (instantiate && Input.GetKey(KeyCode.I))
+        {
+            GzBridgeManager.Instance.m_GzBridge.Publish(GzFactoryPublisher.GetMessageTopic(), new GzFactoryMsg2("user_avatar_basic", new PoseMsg(new PointMsg(0, 0, 0), new QuaternionMsg(0, 0, 0, 1))));
+            instantiate = false;
+        }
+
+        if (avatar != null)
         {
             // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
             // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).

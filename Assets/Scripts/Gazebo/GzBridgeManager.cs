@@ -36,7 +36,7 @@ public class GzBridgeManager : Singleton<GzBridgeManager>
     /// <summary>
     /// ROSBridge websocket
     /// </summary>
-    private GzBridgeWebSocketConnection m_GzBridge = null;
+    public GzBridgeWebSocketConnection m_GzBridge = null;
 
     /// <summary>
     /// Variable to check if the ROS connection is working!
@@ -132,6 +132,7 @@ public class GzBridgeManager : Singleton<GzBridgeManager>
             m_GzBridge.AddSubscriber(typeof(GzPoseInfoSubscriber));
             m_GzBridge.AddSubscriber(typeof(GzModelInfoSubscriber));
             m_GzBridge.AddSubscriber(typeof(GzMaterialSubscriber));
+            m_GzBridge.AddPublisher(typeof(GzFactoryPublisher));
             m_GzBridge.Connect();
             m_Initialized = true;
 
