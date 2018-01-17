@@ -35,6 +35,11 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     private GameObject avatar;
 
     /// <summary>
+    /// Private GameObject reference to the head of the avatar.
+    /// </summary>
+    private GameObject avatarHead;
+
+    /// <summary>
     /// The offset between avatar's head and its body.
     /// </summary>
     private float distanceHeadToBody = 1.6f;
@@ -74,7 +79,20 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
         {
             avatar = GameObject.Find("user_avatar_default_owner");
             formerVivePosition = newVivePosition.localPosition;
-        }    
-        
+        }
+
+        // Set the layer of the avatar's head and its children to "AvatarHead" to prevent the VR camera from rendering it, which would cause the head to randomply appear.
+        if (avatarHead != null)
+        {
+            avatarHead.layer = LayerMask.NameToLayer("AvatarHead");
+            for(int i = 0; i < avatarHead.transform.childCount; i++)
+            {
+                avatarHead.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("AvatarHead");
+            }
+        }
+        else
+        {
+            avatarHead = GameObject.Find("user_avatar_default_owner::user_avatar_basic::body::head_visual");
+        }
     }
 }
