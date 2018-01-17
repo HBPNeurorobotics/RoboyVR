@@ -3,44 +3,71 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class VRMountToAvatarHeadset : MonoBehaviour {
+    #region PUBLIC_MEMBER_VARIABLES
 
+    /// <summary>
+    /// Reference to the Transform of the VR camera.
+    /// </summary>
     public Transform newVivePosition;
 
-    private Vector3 formerVivePosition;
-    private Vector3 avatarOldPosition;
-    private Vector3 difference = Vector3.zero;
+    #endregion
 
+    #region PRIVATE_MEMBER_VARIABLES
+
+    /// <summary>
+    /// Vector to store the last position of the VR camera.
+    /// </summary>
+    private Vector3 formerVivePosition = Vector3.zero;
+
+    /// <summary>
+    /// Vector to store the last position of the avatar.
+    /// </summary>
+    private Vector3 formerAvatarPosition = Vector3.zero;
+
+    /// <summary>
+    /// Vector to store the offset between the center of the play area [CameraRig] and the VR camera.
+    /// </summary>
+    private Vector3 viveOffset = Vector3.zero;
+
+    /// <summary>
+    /// Private GameObject reference to the avatar.
+    /// </summary>
     private GameObject avatar;
 
+    /// <summary>
+    /// The offset between avatar's head and its body.
+    /// </summary>
     private float distanceHeadToBody = 1.6f;
 
-    private void Start()
-    {
-        formerVivePosition = newVivePosition.localPosition;
-        avatarOldPosition = Vector3.zero;
-    }
+    #endregion
 
+
+    /// <summary>
+    /// Catches position changes of the avatar and the VR headset to either follow them (avatar) or compensate them (VR headset).
+    /// The compensation is done to keep the position of the VR headset stable and prevent the user from moving the headset without moving the avatar.
+    /// </summary>
     void Update () {
         if(avatar != null)
         {
-            //Debug.Log("Vive position: " + newVivePosition.position);
-            if (Mathf.Abs(avatarOldPosition.x - avatar.transform.position.x) > 0.01 || Mathf.Abs(avatarOldPosition.y - avatar.transform.position.y) > 0.01 || Mathf.Abs(avatarOldPosition.z - avatar.transform.position.z) > 0.01)
+            // Position change of the avatar
+            if (Mathf.Abs(formerAvatarPosition.x - avatar.transform.position.x) > 0.01 || Mathf.Abs(formerAvatarPosition.y - avatar.transform.position.y) > 0.01 || Mathf.Abs(formerAvatarPosition.z - avatar.transform.position.z) > 0.01)
             {
-                if (difference == Vector3.zero)
+                // The viveOffset is needed to align the VR headset with the head of the avatar..
+                if (viveOffset == Vector3.zero)
                 {
-                    difference = newVivePosition.localPosition;
-                    difference -= new Vector3(0, 1.6f, 0);
+                    viveOffset = newVivePosition.localPosition;
+                    viveOffset -= new Vector3(0, 1.6f, 0);
                 }
-                Vector3 newPos = avatar.transform.position - difference;
-                this.gameObject.transform.position = newPos;
-                avatarOldPosition = avatar.transform.position;
+                this.gameObject.transform.position = avatar.transform.position - viveOffset;
+                formerAvatarPosition = avatar.transform.position;
             }
+            // Position change of the VR headset
             if (Mathf.Abs(formerVivePosition.x - newVivePosition.localPosition.x) > 0.01 || Mathf.Abs(formerVivePosition.y - newVivePosition.localPosition.y) > 0.01 || Mathf.Abs(formerVivePosition.z - newVivePosition.localPosition.z) > 0.01)
             {
                 this.gameObject.transform.localPosition += (formerVivePosition - newVivePosition.localPosition);
                 formerVivePosition = newVivePosition.localPosition;
-                difference = newVivePosition.localPosition;
-                difference -= new Vector3(0, distanceHeadToBody, 0);
+                viveOffset = newVivePosition.localPosition;
+                viveOffset -= new Vector3(0, distanceHeadToBody, 0);
             }
         }
         else
