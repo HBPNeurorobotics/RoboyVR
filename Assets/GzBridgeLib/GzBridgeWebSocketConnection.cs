@@ -204,6 +204,12 @@ namespace GzBridgeLib
                 _ws.Send(ROSBridgeMsg.Subscribe(GetMessageTopic(p), GetMessageType(p)));
                 Debug.Log ("Sending " + ROSBridgeMsg.Subscribe (GetMessageTopic(p), GetMessageType (p)));
             }
+
+            // instantiate an avatar
+            string s = "{\"op\": \"publish\", \"topic\": \"" + "~/factory" + "\", \"msg\": \"user_avatar_basic\", \"pose\":" + "{\"position\" : " + "{\"x\" : " + 4 + ", \"y\" : " + 4 + ", \"z\" : " + 4 + "}" + ", \"orientation\" : " + "{\"x\" : " + 0 + ", \"y\" : " + 1 + ", \"z\" : " + 1 + ", \"w\" : " + 1 + "}" + "}" + "}";
+            _ws.Send(s);
+            Debug.Log("Sending " + s);
+
             foreach (Type p in _publishers)
             {
                 _ws.Send(ROSBridgeMsg.Advertise(GetMessageTopic(p), GetMessageType(p)));
@@ -310,7 +316,7 @@ namespace GzBridgeLib
             if (_ws != null)
             {
                 string s = ROSBridgeMsg.Publish(topic, msg.ToYAMLString());
-                Debug.Log ("Sending " + s);
+                Debug.Log ("Gz Sending " + s);
                 _ws.Send(s);
             }
         }

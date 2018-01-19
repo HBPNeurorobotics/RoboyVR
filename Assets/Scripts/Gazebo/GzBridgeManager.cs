@@ -132,7 +132,6 @@ public class GzBridgeManager : Singleton<GzBridgeManager>
             m_GzBridge.AddSubscriber(typeof(GzPoseInfoSubscriber));
             m_GzBridge.AddSubscriber(typeof(GzModelInfoSubscriber));
             m_GzBridge.AddSubscriber(typeof(GzMaterialSubscriber));
-            m_GzBridge.AddPublisher(typeof(GzFactoryPublisher));
             m_GzBridge.Connect();
             m_Initialized = true;
 
