@@ -23,7 +23,10 @@ public class AvatarMovement : MonoBehaviour {
     /// </summary>
     private float speed = 10f;
 
-    bool instantiate = true;
+    /// <summary>
+    /// The identifier to uniquely identify the user's avatar and the corresponding topics
+    /// </summary>
+    private string avatarId = "";
 
     #endregion
 	
@@ -32,65 +35,72 @@ public class AvatarMovement : MonoBehaviour {
     /// </summary>
 	void Update () {
 
-        if (avatar != null)
+        if (avatarId != "")
         {
-            // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
-            // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
-            // The resulting vector is then multiplied with the predefined speed.
+            if (avatar != null)
+            {
+                // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
+                // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
+                // The resulting vector is then multiplied with the predefined speed.
 
-            #region MOVEMENT_WITH_WASD
-            if (Input.GetKey(KeyCode.S))
-            {
-                movementDirection = avatar.transform.rotation * new Vector3(0, 0, 1);
-                publishMovementInDirection(movementDirection * -1 * speed);
-            }
-            else if (Input.GetKey(KeyCode.W))
-            {
-                movementDirection = avatar.transform.rotation * new Vector3(0, 0, 1);
-                publishMovementInDirection(movementDirection * speed);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                movementDirection = avatar.transform.rotation * new Vector3(1, 0, 0);
-                publishMovementInDirection(movementDirection * speed);
-            }
-            else if (Input.GetKey(KeyCode.A))
-            {
-                movementDirection = avatar.transform.rotation * new Vector3(1, 0, 0);
-                publishMovementInDirection(movementDirection * -1 * speed);
-            }
-            #endregion
+                #region MOVEMENT_WITH_WASD
+                if (Input.GetKey(KeyCode.S))
+                {
+                    movementDirection = avatar.transform.rotation * new Vector3(0, 0, 1);
+                    publishMovementInDirection(movementDirection * -1 * speed);
+                }
+                else if (Input.GetKey(KeyCode.W))
+                {
+                    movementDirection = avatar.transform.rotation * new Vector3(0, 0, 1);
+                    publishMovementInDirection(movementDirection * speed);
+                }
+                else if (Input.GetKey(KeyCode.D))
+                {
+                    movementDirection = avatar.transform.rotation * new Vector3(1, 0, 0);
+                    publishMovementInDirection(movementDirection * speed);
+                }
+                else if (Input.GetKey(KeyCode.A))
+                {
+                    movementDirection = avatar.transform.rotation * new Vector3(1, 0, 0);
+                    publishMovementInDirection(movementDirection * -1 * speed);
+                }
+                #endregion
 
-            #region MOVEMENT_WITH_JOYSTICK
-            movementDirection = Vector3.zero;
-            // As the Joystick always returns a value after it was moved ones, a threshold of 0.4 and -0.4 is used to differentiate between input and noise.
-            if (Input.GetAxis("LeftJoystickX") > 0.4 || Input.GetAxis("LeftJoystickX") < -0.4)
-            {
-                movementDirection.x = Input.GetAxis("LeftJoystickX");
-            }
-            if(Input.GetAxis("LeftJoystickY") > 0.4 || Input.GetAxis("LeftJoystickY") < -0.4)
-            {
-                movementDirection.z = Input.GetAxis("LeftJoystickY") * -1;
-            }
-            if(movementDirection != Vector3.zero)
-            {
+                #region MOVEMENT_WITH_JOYSTICK
+                movementDirection = Vector3.zero;
+                // As the Joystick always returns a value after it was moved ones, a threshold of 0.4 and -0.4 is used to differentiate between input and noise.
+                if (Input.GetAxis("LeftJoystickX") > 0.4 || Input.GetAxis("LeftJoystickX") < -0.4)
+                {
+                    movementDirection.x = Input.GetAxis("LeftJoystickX");
+                }
+                if (Input.GetAxis("LeftJoystickY") > 0.4 || Input.GetAxis("LeftJoystickY") < -0.4)
+                {
+                    movementDirection.z = Input.GetAxis("LeftJoystickY") * -1;
+                }
                 publishMovementInDirection((avatar.transform.rotation * movementDirection) * speed);
-            }
-            #endregion
+                #endregion
 
-            #region ROTATION_WITH_JOYSTICK
-            if(Input.GetAxis("RightJoystick4th") > 0.4 || Input.GetAxis("RightJoystick4th") < -0.4)
-            {
-                // As the published rotation is not added to the orgininal one, but rather replaces it, the addition is done here, by multiplying the  quaternion of the current rotation to the quaternion of the additional rotation.
-                Quaternion rotation = Quaternion.AngleAxis(Input.GetAxis("RightJoystick4th") * 5, avatar.transform.up);
-                rotation *= ROSBridge.Instance.serverAvatarRot;
-                publishRotation(rotation);
+                #region ROTATION_WITH_JOYSTICK
+                if (Input.GetAxis("RightJoystick4th") > 0.4 || Input.GetAxis("RightJoystick4th") < -0.4)
+                {
+                    // As the published rotation is not added to the orgininal one, but rather replaces it, the addition is done here, by multiplying the  quaternion of the current rotation to the quaternion of the additional rotation.
+                    Quaternion rotation = Quaternion.AngleAxis(Input.GetAxis("RightJoystick4th") * 5, avatar.transform.up);
+                    if (ROSBridge.Instance.serverAvatarRot.y > 0.01)
+                    {
+                        rotation *= ROSBridge.Instance.serverAvatarRot;
+                    }
+                    publishRotation(rotation);
+                }
+                #endregion
             }
-            #endregion
+            else
+            {
+                avatar = GameObject.Find("user_avatar_" + avatarId);
+            }
         }
         else
         {
-            avatar = GameObject.Find("user_avatar_default_owner");
+            avatarId = GzBridgeManager.Instance.avatarId;
         }
 
     }

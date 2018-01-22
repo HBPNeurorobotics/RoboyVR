@@ -44,6 +44,11 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     /// </summary>
     private float distanceHeadToBody = 1.6f;
 
+    /// <summary>
+    /// The identifier to uniquely identify the user's avatar and the corresponding topics
+    /// </summary>
+    private string avatarId = "";
+
     #endregion
 
 
@@ -52,47 +57,54 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     /// The compensation is done to keep the position of the VR headset stable and prevent the user from moving the headset without moving the avatar.
     /// </summary>
     void Update () {
-        if(avatar != null)
+        if(avatarId != "")
         {
-            // Position change of the avatar
-            if (Mathf.Abs(formerAvatarPosition.x - avatar.transform.position.x) > 0.01 || Mathf.Abs(formerAvatarPosition.y - avatar.transform.position.y) > 0.01 || Mathf.Abs(formerAvatarPosition.z - avatar.transform.position.z) > 0.01)
+            if (avatar != null)
             {
-                // The viveOffset is needed to align the VR headset with the head of the avatar..
-                if (viveOffset == Vector3.zero)
+                // Position change of the avatar
+                if (Mathf.Abs(formerAvatarPosition.x - avatar.transform.position.x) > 0.01 || Mathf.Abs(formerAvatarPosition.y - avatar.transform.position.y) > 0.01 || Mathf.Abs(formerAvatarPosition.z - avatar.transform.position.z) > 0.01)
                 {
-                    viveOffset = newVivePosition.localPosition;
-                    viveOffset -= new Vector3(0, 1.6f, 0);
+                    // The viveOffset is needed to align the VR headset with the head of the avatar..
+                    if (viveOffset == Vector3.zero)
+                    {
+                        viveOffset = newVivePosition.localPosition;
+                        viveOffset -= new Vector3(0, 1.6f, 0);
+                    }
+                    this.gameObject.transform.position = avatar.transform.position - viveOffset;
+                    formerAvatarPosition = avatar.transform.position;
                 }
-                this.gameObject.transform.position = avatar.transform.position - viveOffset;
-                formerAvatarPosition = avatar.transform.position;
+                // Position change of the VR headset
+                if (Mathf.Abs(formerVivePosition.x - newVivePosition.localPosition.x) > 0.01 || Mathf.Abs(formerVivePosition.y - newVivePosition.localPosition.y) > 0.01 || Mathf.Abs(formerVivePosition.z - newVivePosition.localPosition.z) > 0.01)
+                {
+                    this.gameObject.transform.localPosition += (formerVivePosition - newVivePosition.localPosition);
+                    formerVivePosition = newVivePosition.localPosition;
+                    viveOffset = newVivePosition.localPosition;
+                    viveOffset -= new Vector3(0, distanceHeadToBody, 0);
+                }
             }
-            // Position change of the VR headset
-            if (Mathf.Abs(formerVivePosition.x - newVivePosition.localPosition.x) > 0.01 || Mathf.Abs(formerVivePosition.y - newVivePosition.localPosition.y) > 0.01 || Mathf.Abs(formerVivePosition.z - newVivePosition.localPosition.z) > 0.01)
+            else
             {
-                this.gameObject.transform.localPosition += (formerVivePosition - newVivePosition.localPosition);
+                avatar = GameObject.Find("user_avatar_" + avatarId);
                 formerVivePosition = newVivePosition.localPosition;
-                viveOffset = newVivePosition.localPosition;
-                viveOffset -= new Vector3(0, distanceHeadToBody, 0);
             }
-        }
-        else
-        {
-            avatar = GameObject.Find("user_avatar_default_owner");
-            formerVivePosition = newVivePosition.localPosition;
-        }
 
-        // Set the layer of the avatar's head and its children to "AvatarHead" to prevent the VR camera from rendering it, which would cause the head to randomply appear.
-        if (avatarHead != null)
-        {
-            avatarHead.layer = LayerMask.NameToLayer("AvatarHead");
-            for(int i = 0; i < avatarHead.transform.childCount; i++)
+            // Set the layer of the avatar's head and its children to "AvatarHead" to prevent the VR camera from rendering it, which would cause the head to randomply appear.
+            if (avatarHead != null)
             {
-                avatarHead.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("AvatarHead");
+                avatarHead.layer = LayerMask.NameToLayer("AvatarHead");
+                for (int i = 0; i < avatarHead.transform.childCount; i++)
+                {
+                    avatarHead.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("AvatarHead");
+                }
+            }
+            else
+            {
+                avatarHead = GameObject.Find("user_avatar_" + avatarId + "::user_avatar_basic::body::head_visual");
             }
         }
         else
         {
-            avatarHead = GameObject.Find("user_avatar_default_owner::user_avatar_basic::body::head_visual");
+            avatarId = GzBridgeManager.Instance.avatarId;
         }
     }
 }

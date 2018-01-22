@@ -91,12 +91,12 @@ public class NRPBackendManager : MonoBehaviour {
             ROSAvatarRotPublisher.setAvatarId(avatarId);
             ROSAvatarRotSubscriber.setAvatarId(avatarId);
 
-            this.ConnectToROSBridge();
-
             GzBridgeManager.avatarId = avatarId;
             GzBridgeManager.URL = NRPBackendIP + ":" + GzBridgePort.ToString() + "/gzbridge?token=" + this.authToken;
             GzBridgeManager.GazeboScene = this.GazeboScene;
             GzBridgeManager.ConnectToGzBridge();
+
+            this.ConnectToROSBridge();
         }
     }
 }
