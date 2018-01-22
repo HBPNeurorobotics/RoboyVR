@@ -8,6 +8,7 @@ using WebSocketSharp.Server;
 using SimpleJSON;
 using UnityEngine;
 using ROSBridgeLib;
+using ROSBridgeLib.geometry_msgs;
 
 /**
  * This class handles the connection with the external ROS world, deserializing
@@ -62,6 +63,7 @@ namespace GzBridgeLib
             }
         };
         private string _url;
+        private string _avatarIdentifier;
         private WebSocket _ws;
         private System.Threading.Thread _myThread;
         private List<Type> _subscribers; // our subscribers
@@ -205,16 +207,18 @@ namespace GzBridgeLib
                 Debug.Log ("Sending " + ROSBridgeMsg.Subscribe (GetMessageTopic(p), GetMessageType (p)));
             }
 
-            // instantiate an avatar
-            string s = "{\"op\": \"publish\", \"topic\": \"" + "~/factory" + "\", \"msg\": \"user_avatar_basic\", \"pose\":" + "{\"position\" : " + "{\"x\" : " + 4 + ", \"y\" : " + 4 + ", \"z\" : " + 4 + "}" + ", \"orientation\" : " + "{\"x\" : " + 0 + ", \"y\" : " + 1 + ", \"z\" : " + 1 + ", \"w\" : " + 1 + "}" + "}" + "}";
-            _ws.Send(s);
-            Debug.Log("Sending " + s);
-
             foreach (Type p in _publishers)
             {
                 _ws.Send(ROSBridgeMsg.Advertise(GetMessageTopic(p), GetMessageType(p)));
                 Debug.Log ("Sending " + ROSBridgeMsg.Advertise (GetMessageTopic(p), GetMessageType(p)));
             }
+
+            /**
+             * Instantiate the avatar with the following message
+             * "{\"op\": \"publish\", \"topic\": \"" + "~/factory" + "\", \"msg\": {\"name\":\"Test\",\"type\":\"user_avatar_basic\",\"createEntity\":1,\"position\":{\"x\":5,\"y\":0,\"z\":0},\"orientation\":{\"w\":1,\"x\":0,\"y\":0,\"z\":0}}" + "}";
+             */
+            Publish(GzFactoryPublisher.GetMessageTopic(), new GzFactoryMsg("user_avatar_" + _avatarIdentifier, "user_avatar_basic", new PointMsg(5, 0, 0), new QuaternionMsg(0, 0, 0, 1)));
+
             while (true)
             {
                 Thread.Sleep(10000);
@@ -329,6 +333,11 @@ namespace GzBridgeLib
                 //Debug.Log ("Sending " + s);
                 _ws.Send(s);
             }
+        }
+
+        public void setAvatarIdentifier(string token)
+        {
+            _avatarIdentifier = token;
         }
     }
 }

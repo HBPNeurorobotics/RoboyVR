@@ -6,9 +6,16 @@ using ROSBridgeLib.geometry_msgs;
 
 public class ROSAvatarRotPublisher : ROSBridgePublisher
 {
-	public new static string GetMessageTopic()
+    private static string _avatarId = "";
+
+    public static void setAvatarId(string id)
     {
-        return "/user_avatar_default_owner/cmd_rot";
+        _avatarId = id;
+    }
+
+    public new static string GetMessageTopic()
+    {
+        return "/user_avatar_" + _avatarId + "/cmd_rot";
     }
 
     public new static string GetMessageType()

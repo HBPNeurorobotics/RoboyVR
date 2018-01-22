@@ -11,6 +11,7 @@ public class ROSAvatarRotSubscriber : ROSBridgeSubscriber {
     #endregion //PUBLIC_MEMBER_VARIABLES
 
     #region PRIVATE_MEMBER_VARIABLES
+    private static string _avatarId = "";
     #endregion //PRIVATE_MEMBER_VARIABLES
 
     #region MONOBEHAVIOR_METHODS
@@ -18,9 +19,14 @@ public class ROSAvatarRotSubscriber : ROSBridgeSubscriber {
 
     #region PUBLIC_METHODS
 
+    public static void setAvatarId(string id)
+    {
+        _avatarId = id;
+    }
+
     public new static string GetMessageTopic()
     {
-        return "/user_avatar_default_owner/cmd_rot";
+        return "/user_avatar_" + _avatarId + "/cmd_rot";
     }
 
     public new static string GetMessageType()

@@ -31,11 +31,6 @@ public class AvatarMovement : MonoBehaviour {
     /// Catches user input to control the avatar movements either through WASD or Joystick.
     /// </summary>
 	void Update () {
-        if (instantiate && Input.GetKey(KeyCode.I))
-        {
-            GzBridgeManager.Instance.m_GzBridge.Publish(GzFactoryPublisher.GetMessageTopic(), new GzFactoryMsg2("user_avatar_basic", new PoseMsg(new PointMsg(0, 0, 0), new QuaternionMsg(0, 0, 0, 1))));
-            instantiate = false;
-        }
 
         if (avatar != null)
         {

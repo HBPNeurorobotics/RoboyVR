@@ -23,7 +23,8 @@ public class NRPBackendManager : MonoBehaviour {
         if (!string.IsNullOrEmpty(this.NRPBackendIP))
         {
             this.ConnectToGazeboBridge();
-            this.ConnectToROSBridge();
+            // the ROS connection was moved to the coroutine so that the token, which is used as part of the avatar's topic name has arrived before the topic is subscribed or published to
+            //this.ConnectToROSBridge();
         }
     }
 	
@@ -82,6 +83,17 @@ public class NRPBackendManager : MonoBehaviour {
             this.authToken = data.text;
             //Debug.Log("auth token: " + this.authToken);
 
+            // the authentication token needs to be adapted to be used as avatar id, as the topics doesn't allow '-' in their names
+            string avatarId = this.authToken.Replace('-', '_');
+
+            // set the avatar id for all avatar publisher and subscriber
+            ROSAvatarVelPublisher.setAvatarId(avatarId);
+            ROSAvatarRotPublisher.setAvatarId(avatarId);
+            ROSAvatarRotSubscriber.setAvatarId(avatarId);
+
+            this.ConnectToROSBridge();
+
+            GzBridgeManager.avatarId = avatarId;
             GzBridgeManager.URL = NRPBackendIP + ":" + GzBridgePort.ToString() + "/gzbridge?token=" + this.authToken;
             GzBridgeManager.GazeboScene = this.GazeboScene;
             GzBridgeManager.ConnectToGzBridge();

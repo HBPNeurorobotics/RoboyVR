@@ -27,6 +27,11 @@ public class GzBridgeManager : Singleton<GzBridgeManager>
     /// </summary>
     public string URL = "192.168.0.17:8080/gzbridge";
 
+    /// <summary>
+    /// The identifier to uniquely identify the user's avatar
+    /// </summary>
+    public string avatarId = "";
+
     public GameObject GazeboScene = null;
 
     #endregion //PUBLIC_MEMBER_VARIABLES
@@ -123,6 +128,7 @@ public class GzBridgeManager : Singleton<GzBridgeManager>
             return;
 
         m_GzBridge = new GzBridgeWebSocketConnection("ws://" + URL);
+        m_GzBridge.setAvatarIdentifier(avatarId);
 
         // DOES NOT WORK! m_Ros is never null if you call the Constructor, WAIT TILL SIMON IMPLEMENTS UDP BROADCAST WITH ROS CONFIGURATION, GET THE IP ADDRESS FROM THE BROADCAST
         if (m_GzBridge != null)

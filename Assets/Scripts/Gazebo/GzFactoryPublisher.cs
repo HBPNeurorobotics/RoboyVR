@@ -15,7 +15,7 @@ public class GzFactoryPublisher : ROSBridgePublisher {
         return "gazebo.msgs.Factory";
     }
 
-    public static string ToYAMLString(GzFactoryMsg2 msg)
+    public static string ToYAMLString(GzFactoryMsg msg)
     {
         return msg.ToYAMLString();
     }
