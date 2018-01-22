@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class VRMountToAvatarHeadset : MonoBehaviour {
@@ -24,6 +25,7 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     /// </summary>
     private Vector3 formerAvatarPosition = Vector3.zero;
 
+
     /// <summary>
     /// Vector to store the offset between the center of the play area [CameraRig] and the VR camera.
     /// </summary>
@@ -43,6 +45,7 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     /// The offset between avatar's head and its body.
     /// </summary>
     private float distanceHeadToBody = 1.6f;
+
 
     /// <summary>
     /// The identifier to uniquely identify the user's avatar and the corresponding topics
@@ -68,7 +71,7 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
                     if (viveOffset == Vector3.zero)
                     {
                         viveOffset = newVivePosition.localPosition;
-                        viveOffset -= new Vector3(0, 1.6f, 0);
+                        viveOffset -= new Vector3(0f, distanceHeadToBody, 0);
                     }
                     this.gameObject.transform.position = avatar.transform.position - viveOffset;
                     formerAvatarPosition = avatar.transform.position;
@@ -79,8 +82,9 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
                     this.gameObject.transform.localPosition += (formerVivePosition - newVivePosition.localPosition);
                     formerVivePosition = newVivePosition.localPosition;
                     viveOffset = newVivePosition.localPosition;
-                    viveOffset -= new Vector3(0, distanceHeadToBody, 0);
+                    viveOffset -= new Vector3(0f, distanceHeadToBody, 0);
                 }
+
             }
             else
             {
@@ -107,4 +111,5 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
             avatarId = GzBridgeManager.Instance.avatarId;
         }
     }
+
 }
