@@ -66,20 +66,16 @@ public class AvatarMovement : MonoBehaviour {
                     movementDirection.z = Input.GetAxis("LeftJoystickY") * -1;
                 }
                 publishMovementInDirection((avatar.transform.rotation * movementDirection) * speed);
-                // The VR camera is moved a little bit in front of the avatar to prevent the body from being in the camera image and irritating the user while moving
+                //The VR camera is moved a little bit in front of the avatar to prevent the body from being in the camera image and irritating the user while moving
                 if (vrHeadset != null)
-                {
-                    if (movementDirection.z == 0 && movementDirection.x != 0)
                     {
-                        movementDirection.z = 0.3f;
+                        if (movementDirection.z < 0)
+                        {
+                            movementDirection = Vector3.zero;
+                        }
+                        if(movementDirection!= Vector3.zero)
+                            vrHeadset.setCameraMovementOffset(avatar.transform.rotation * movementDirection);
                     }
-                    if (movementDirection.z < 0)
-                    {
-                        movementDirection = Vector3.zero;
-                    }
-                        
-                    vrHeadset.setCameraMovementOffset(avatar.transform.rotation * movementDirection);
-                }
                 #endregion
 
             }
