@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ROSBridgeLib;
 using ROSBridgeLib.geometry_msgs;
+using Pose = Thalmic.Myo.Pose;
+using VibrationType = Thalmic.Myo.VibrationType;
 
 public class AvatarMovement : MonoBehaviour {
 
@@ -42,6 +44,11 @@ public class AvatarMovement : MonoBehaviour {
     /// </summary>
     private string avatarId = "";
 
+    /// <summary>
+    /// Myo transform to get the transformations of the Myo
+    /// </summary>
+    private Transform _myoTransform = null;
+
     #endregion
 
 
@@ -54,6 +61,13 @@ public class AvatarMovement : MonoBehaviour {
 
     #endregion
 
+    /// <summary>
+    /// Get's the transform component of the Myo through the static instance of the ThalmicHub
+    /// </summary>
+    private void Awake()
+    {
+        _myoTransform = ThalmicHub.instance.gameObject.transform.GetChild(0);
+    }
 
     /// <summary>
     /// Catches user input to control the avatar movements either through WASD or Joystick.
