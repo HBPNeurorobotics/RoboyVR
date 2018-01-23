@@ -21,7 +21,21 @@ public class AvatarMovement : MonoBehaviour {
     /// <summary>
     /// Private variable storing the desired speed for the movement of the avatar.
     /// </summary>
-    private float speed = 5f;
+    private float speed = 1f;
+
+    /// <summary>
+    /// This is the maximal allowed spped the user can use
+    /// </summary>
+    private float speedMax = 6f;
+
+    /// <summary>
+    /// This is the minimum speed which is usually used
+    private float speedMin = 3f;
+
+    /// <summary>
+    /// As the Joystick always returns a value after it was moved ones, a threshold of 0.4 and -0.4 is used to differentiate between input and noise
+    /// </summary>
+    private float joystickThreshold = 0.4f;
 
     /// <summary>
     /// The identifier to uniquely identify the user's avatar and the corresponding topics
@@ -57,11 +71,11 @@ public class AvatarMovement : MonoBehaviour {
                 #region MOVEMENT_WITH_JOYSTICK
                 movementDirection = Vector3.zero;
                 // As the Joystick always returns a value after it was moved ones, a threshold of 0.4 and -0.4 is used to differentiate between input and noise.
-                if (Input.GetAxis("LeftJoystickX") > 0.4 || Input.GetAxis("LeftJoystickX") < -0.4)
+                if (Input.GetAxis("LeftJoystickX") > joystickThreshold || Input.GetAxis("LeftJoystickX") < -joystickThreshold)
                 {
                     movementDirection.x = Input.GetAxis("LeftJoystickX");
                 }
-                if (Input.GetAxis("LeftJoystickY") > 0.4 || Input.GetAxis("LeftJoystickY") < -0.4)
+                if (Input.GetAxis("LeftJoystickY") > joystickThreshold || Input.GetAxis("LeftJoystickY") < -joystickThreshold)
                 {
                     movementDirection.z = Input.GetAxis("LeftJoystickY") * -1;
                 }
@@ -76,6 +90,17 @@ public class AvatarMovement : MonoBehaviour {
                         if(movementDirection!= Vector3.zero)
                             vrHeadset.setCameraMovementOffset(avatar.transform.rotation * movementDirection);
                     }
+                #endregion
+
+                #region SPEED_CONTROL_WITH_JOYSTICK
+                if(Input.GetAxis("RightJoystick5th") > joystickThreshold || Input.GetAxis("RightJoystick5th") < -joystickThreshold)
+                {
+                    speed = (Mathf.Abs(Input.GetAxis("RightJoystick5th")) - joystickThreshold) * ((speedMax - speedMin)/(1 - joystickThreshold)) + speedMin;
+                }
+                else
+                {
+                    speed = speedMin;
+                }
                 #endregion
 
             }
