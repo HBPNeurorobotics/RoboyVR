@@ -25,6 +25,10 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     /// </summary>
     private Vector3 formerAvatarPosition = Vector3.zero;
 
+    /// <summary>
+    /// This is the offset between the camera and the avatar while moving
+    /// </summary>
+    private Vector3 cameraMovementOffset = Vector3.zero;
 
     /// <summary>
     /// Vector to store the offset between the center of the play area [CameraRig] and the VR camera.
@@ -84,7 +88,8 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
                     viveOffset = newVivePosition.localPosition;
                     viveOffset -= new Vector3(0f, distanceHeadToBody, 0);
                 }
-
+                // Allows the camera to move in front of the avatar while moving forward, to prevent the body from appearing in the camera image
+                this.gameObject.transform.localPosition += cameraMovementOffset;
             }
             else
             {
@@ -92,24 +97,20 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
                 formerVivePosition = newVivePosition.localPosition;
             }
 
-            // Set the layer of the avatar's head and its children to "AvatarHead" to prevent the VR camera from rendering it, which would cause the head to randomply appear.
-            if (avatarHead != null)
-            {
-                avatarHead.layer = LayerMask.NameToLayer("AvatarHead");
-                for (int i = 0; i < avatarHead.transform.childCount; i++)
-                {
-                    avatarHead.transform.GetChild(0).gameObject.layer = LayerMask.NameToLayer("AvatarHead");
-                }
-            }
-            else
-            {
-                avatarHead = GameObject.Find("user_avatar_" + avatarId + "::user_avatar_basic::body::head_visual");
-            }
         }
         else
         {
             avatarId = GzBridgeManager.Instance.avatarId;
         }
+    }
+
+    /// <summary>
+    /// This method sets the camera offset with regards to the avatar position
+    /// </summary>
+    /// <param name="movement"></param>
+    public void setCameraMovementOffset(Vector3 movement)
+    {
+        cameraMovementOffset = (movement.normalized) * 0.1f;  
     }
 
 }

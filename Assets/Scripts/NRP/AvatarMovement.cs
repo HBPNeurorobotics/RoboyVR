@@ -29,11 +29,22 @@ public class AvatarMovement : MonoBehaviour {
     private string avatarId = "";
 
     #endregion
-	
+
+
+    #region PUBLIC_MEMBER_VARIABLES
+
+    /// <summary>
+    /// Public reference to the script VRMountToAvatarHeadset, needed to set the offset between camera and avatar while moving
+    /// </summary>
+    public VRMountToAvatarHeadset vrHeadset = null;
+
+    #endregion
+
+
     /// <summary>
     /// Catches user input to control the avatar movements either through WASD or Joystick.
     /// </summary>
-	void Update () {
+    void Update () {
 
         if (avatarId != "")
         {
@@ -55,6 +66,20 @@ public class AvatarMovement : MonoBehaviour {
                     movementDirection.z = Input.GetAxis("LeftJoystickY") * -1;
                 }
                 publishMovementInDirection((avatar.transform.rotation * movementDirection) * speed);
+                // The VR camera is moved a little bit in front of the avatar to prevent the body from being in the camera image and irritating the user while moving
+                if (vrHeadset != null)
+                {
+                    if (movementDirection.z == 0 && movementDirection.x != 0)
+                    {
+                        movementDirection.z = 0.3f;
+                    }
+                    if (movementDirection.z < 0)
+                    {
+                        movementDirection = Vector3.zero;
+                    }
+                        
+                    vrHeadset.setCameraMovementOffset(avatar.transform.rotation * movementDirection);
+                }
                 #endregion
 
             }
