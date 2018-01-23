@@ -631,8 +631,11 @@ public class GazeboSceneManager : MonoBehaviour {
         {
             Debug.Log("SetPoseFromJSON - " + name + ", json_reference_frame: " + json_reference_frame.ToString());
         }
-
-        gameobject.transform.localRotation = rotation /** Quaternion.AngleAxis(180f, Vector3.up)*/;
+        // The user's avatar takes the rotation directly from the VR headset and not from the server to countervail latency and prevent glitches
+        if (!gameobject.name.Equals("user_avatar_" + GzBridgeManager.Instance.avatarId))
+        {
+            gameobject.transform.localRotation = rotation /* Quaternion.AngleAxis(180f, Vector3.up)*/;
+        }
         gameobject.transform.localPosition = position;
     }
 

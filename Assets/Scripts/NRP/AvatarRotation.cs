@@ -9,6 +9,11 @@ public class AvatarRotation : MonoBehaviour {
     #region PRIVATE_MEMBER_VARIABLES
 
     /// <summary>
+    /// Private GameObject reference to the avatar.
+    /// </summary>
+    private GameObject avatar = null;
+
+    /// <summary>
     /// Private variable storing the y component of the quaternion from the former rotation 
     /// </summary>
     private float formerRotationY = 0f;
@@ -34,16 +39,19 @@ public class AvatarRotation : MonoBehaviour {
         if (avatarId != "")
         {
 
+            if (avatar != null)
+            {
 
                 if (Mathf.Abs(this.gameObject.transform.rotation.y - formerRotationY) > 0.05 || Mathf.Abs(this.gameObject.transform.rotation.w - formerRotationW) > 0.05)
                 {
                     Quaternion rotation = new Quaternion(0, this.gameObject.transform.rotation.y, 0, this.gameObject.transform.rotation.w);
+                    // The new rotation is published to the server
                     publishRotation(rotation);
+                    // The avatar in Unity directly takes the rotation from the VR headset to countervail latency and prevent glitches
+                    avatar.transform.rotation = rotation;
                     formerRotationY = this.gameObject.transform.rotation.y;
                     formerRotationW = this.gameObject.transform.rotation.w;
                 }
-                
-                
 
                 //#region ROTATION_WITH_JOYSTICK
                 //if (Input.GetAxis("RightJoystick4th") > 0.4 || Input.GetAxis("RightJoystick4th") < -0.4)
@@ -57,6 +65,12 @@ public class AvatarRotation : MonoBehaviour {
                 //    publishRotation(rotation);
                 //}
                 //#endregion
+
+            }
+            else
+            {
+                avatar = GameObject.Find("user_avatar_" + avatarId);
+            }
 
         }
         else
