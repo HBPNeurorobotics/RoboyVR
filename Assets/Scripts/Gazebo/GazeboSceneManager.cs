@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using UnityEditor;
 using UnityEngine;
+using ROSBridgeLib.geometry_msgs;
 
 public class GazeboSceneManager : MonoBehaviour {
 
@@ -15,6 +16,9 @@ public class GazeboSceneManager : MonoBehaviour {
         DIRECTIONAL = 3,
         UNKNOWN = 4
     }
+
+    private bool avatarInScene = false;
+    private string avatarId = "";
 
     // scene access
     private string scene_name_ = null;
@@ -40,7 +44,10 @@ public class GazeboSceneManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-		
+	    if(avatarId == "")
+        {
+            avatarId = GzBridgeManager.Instance.avatarId;
+        }	
 	}
 
     #region ON_MESSAGE_FUNCTIONS
@@ -93,6 +100,12 @@ public class GazeboSceneManager : MonoBehaviour {
         JSONArray json_models = json_scene["model"].AsArray;
         foreach (JSONNode json_model in json_models)
         {
+            string modelName = json_model["name"];
+            string avatar = "user_avatar_" + avatarId;
+            if (modelName == avatar)
+            {
+                avatarInScene = true;
+            }
             this.SetModelFromJSON(json_model, models_parent.transform);
         }
 
@@ -104,6 +117,16 @@ public class GazeboSceneManager : MonoBehaviour {
         foreach (JSONNode json_joint in json_joints)
         {
             this.SetJointFromJSON(json_joint, joints_parent.transform);
+        }
+
+        if (!avatarInScene)
+        {
+            /**
+             * Instantiate the avatar with the following message if it doesn't already exists in the scene
+             * "{\"op\": \"publish\", \"topic\": \"" + "~/factory" + "\", \"msg\": {\"name\":\"Test\",\"type\":\"user_avatar_basic\",\"createEntity\":1,\"position\":{\"x\":5,\"y\":0,\"z\":0},\"orientation\":{\"w\":1,\"x\":0,\"y\":0,\"z\":0}}" + "}";
+             */
+            GzBridgeManager.Instance.m_GzBridge.Publish(GzFactoryPublisher.GetMessageTopic(), new GzFactoryMsg("user_avatar_" + avatarId, "user_avatar_basic", new PointMsg(5, 0, 0), new QuaternionMsg(0, 0, 0, 1)));
+            avatarInScene = true;
         }
 
         return true;

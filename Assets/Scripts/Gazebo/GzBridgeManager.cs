@@ -128,7 +128,6 @@ public class GzBridgeManager : Singleton<GzBridgeManager>
             return;
 
         m_GzBridge = new GzBridgeWebSocketConnection("ws://" + URL);
-        m_GzBridge.setAvatarIdentifier(avatarId);
 
         // DOES NOT WORK! m_Ros is never null if you call the Constructor, WAIT TILL SIMON IMPLEMENTS UDP BROADCAST WITH ROS CONFIGURATION, GET THE IP ADDRESS FROM THE BROADCAST
         if (m_GzBridge != null)
