@@ -312,7 +312,7 @@ namespace GzBridgeLib
             if (_ws != null)
             {
                 string s = ROSBridgeMsg.Publish(topic, msg.ToYAMLString());
-                Debug.Log ("Gz Sending " + s);
+                //Debug.Log ("Gz Sending " + s);
                 _ws.Send(s);
             }
         }
