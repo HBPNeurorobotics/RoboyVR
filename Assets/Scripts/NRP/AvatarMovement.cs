@@ -5,6 +5,8 @@ using ROSBridgeLib;
 using ROSBridgeLib.geometry_msgs;
 using Pose = Thalmic.Myo.Pose;
 using VibrationType = Thalmic.Myo.VibrationType;
+using LockingPolicy = Thalmic.Myo.LockingPolicy;
+using UnlockType = Thalmic.Myo.UnlockType;
 
 public class AvatarMovement : MonoBehaviour {
 
@@ -49,6 +51,19 @@ public class AvatarMovement : MonoBehaviour {
     /// </summary>
     private Transform _myoTransform = null;
 
+    /// <summary>
+    /// A rotation that compensates for the Myo armband's orientation parallel to the ground, i.e. yaw.
+    /// Once set, the direction the Myo armband is facing becomes "forward" within the program.
+    /// </summary>
+    private Quaternion _antiYaw = Quaternion.identity;
+
+    /// <summary>
+    /// The pose from the last update. This is used to determine if the pose has changed
+    /// so that actions are only performed upon making them rather than every frame during
+    /// which they are active.
+    /// </summary>
+    private Pose _lastPose = Pose.Unknown;
+
     #endregion
 
 
@@ -58,6 +73,9 @@ public class AvatarMovement : MonoBehaviour {
     /// Public reference to the script VRMountToAvatarHeadset, needed to set the offset between camera and avatar while moving
     /// </summary>
     public VRMountToAvatarHeadset vrHeadset = null;
+
+
+
 
     #endregion
 
@@ -78,11 +96,44 @@ public class AvatarMovement : MonoBehaviour {
         {
             if (avatar != null)
             {
+                #region MOVEMENT_WITH_MYO
+                // Access the ThalmicMyo component attached to the child of the ThalmicHub
+                ThalmicMyo thalmicMyo = ThalmicHub.instance.GetComponentInChildren<ThalmicMyo>();
+
+                #region Code to compensate for wrong Myo direction
+                // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
+                // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
+                // the rotation needs to be updated to compensate.
+                if (thalmicMyo.xDirection == Thalmic.Myo.XDirection.TowardWrist)
+                {
+                    // Mirror the rotation around the XZ plane in Unity's coordinate system (XY plane in Myo's coordinate
+                    // system). This makes the rotation reflect the arm's orientation, rather than that of the Myo armband.
+                    transform.rotation = new Quaternion(transform.localRotation.x,
+                                                        -transform.localRotation.y,
+                                                        transform.localRotation.z,
+                                                        -transform.localRotation.w);
+                }
+                #endregion
+
+                if(thalmicMyo.pose != _lastPose)
+                {
+                    if(thalmicMyo.pose == Pose.WaveOut)
+                    {
+                        Debug.Log("WaveOut");
+                    }else if(thalmicMyo.pose == Pose.WaveIn)
+                    {
+                        Debug.Log("WaveIn");
+                    }
+                    _lastPose = thalmicMyo.pose;
+                }
+
+                #endregion
+
+                #region MOVEMENT_WITH_JOYSTICK
                 // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
                 // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
                 // The resulting vector is then multiplied with the predefined speed.
 
-                #region MOVEMENT_WITH_JOYSTICK
                 movementDirection = Vector3.zero;
                 // As the Joystick always returns a value after it was moved ones, a threshold of 0.4 and -0.4 is used to differentiate between input and noise.
                 if (Input.GetAxis("LeftJoystickX") > joystickThreshold || Input.GetAxis("LeftJoystickX") < -joystickThreshold)
@@ -137,6 +188,23 @@ public class AvatarMovement : MonoBehaviour {
     private void publishMovementInDirection(Vector3 movement)
     {
         ROSBridge.Instance.ROS.Publish(ROSAvatarVelPublisher.GetMessageTopic(), new Vector3Msg((double)movement.x, (double)movement.z, (double)movement.y));
+    }
+
+    /// <summary>
+    /// Extend the unlock if ThalmcHub's locking policy is standard, and notifies the given myo that a user action was recognized.
+    /// This code is from the script JointOrientation out of the Myo Sample project
+    /// </summary>
+    /// <param name="myo">A reference to the ThalmicMyo component in the scene.</param>
+    public static void ExtendUnlockAndNotifyUserActionForMyo(ThalmicMyo myo)
+    {
+        ThalmicHub hub = ThalmicHub.instance;
+
+        if (hub.lockingPolicy == LockingPolicy.Standard)
+        {
+            myo.Unlock(UnlockType.Timed);
+        }
+
+        myo.NotifyUserAction();
     }
 
 }
