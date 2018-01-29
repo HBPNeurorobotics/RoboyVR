@@ -84,6 +84,12 @@ public class AvatarMovement : MonoBehaviour {
     /// </summary>
     private bool synch = true;
 
+    /// <summary>
+    /// This boolean is used to determine if the movement direction has just changed to zero and should therefore be published to the server,
+    /// or is still zero and should thus not be published to reduce traffic.
+    /// </summary>
+    private bool zeroBefore = false;
+
     #endregion
 
 
@@ -202,10 +208,15 @@ public class AvatarMovement : MonoBehaviour {
                         // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
                         // The resulting vector is then multiplied with the predefined speed.
                         publishMovementInDirection((myoInitialRotation * (_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z))) * speed);
+                        zeroBefore = false;
                     }
                     else
                     {
-                        publishMovementInDirection(Vector3.zero);
+                        if (!zeroBefore)
+                        {
+                            publishMovementInDirection(Vector3.zero);
+                        }
+                        zeroBefore = true;
                     }
                 }
                 #endregion
@@ -226,10 +237,24 @@ public class AvatarMovement : MonoBehaviour {
                         movementDirection.z = Input.GetAxis("LeftJoystickY") * -1;
                     }
 
-                    // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
-                    // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
-                    // The resulting vector is then multiplied with the predefined speed.
-                    publishMovementInDirection((avatar.transform.rotation * movementDirection) * speed);
+                    // Only publish the movement direction to the server, if it is not zero all the time
+                    if (!(zeroBefore && movementDirection == Vector3.zero))
+                    {
+                        // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
+                        // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
+                        // The resulting vector is then multiplied with the predefined speed.
+                        publishMovementInDirection((avatar.transform.rotation * movementDirection) * speed);
+
+                        if (movementDirection == Vector3.zero)
+                        {
+                            zeroBefore = true;
+                        }
+                        else
+                        {
+                            zeroBefore = false;
+                        }
+                    }
+                    
 
                     #region SPEED_CONTROL
                     if (Input.GetAxis("RightJoystick5th") > joystickThreshold || Input.GetAxis("RightJoystick5th") < -joystickThreshold)
