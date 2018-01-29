@@ -13,14 +13,42 @@ public class AvatarMovement : MonoBehaviour {
     #region PRIVATE_MEMBER_VARIABLES
 
     /// <summary>
+    /// Reference to the Myo component in the scene.
+    /// </summary>
+    private ThalmicMyo thalmicMyo;
+
+    /// <summary>
+    /// The pose from the last update. This is used to determine if the pose has changed
+    /// so that actions are only performed upon making them rather than every frame during
+    /// which they are active.
+    /// </summary>
+    private Pose _lastPose = Pose.Unknown;
+
+    /// <summary>
     /// Private GameObject reference to the avatar.
     /// </summary>
     private GameObject avatar;
 
     /// <summary>
+    /// Myo transform to get the transformations of the Myo
+    /// </summary>
+    private Transform _myoTransform = null;
+
+    /// <summary>
     /// Private vector storing the direction in which the avatar should move.
     /// </summary>
     private Vector3 movementDirection;
+
+    /// <summary>
+    /// This rotation is used to synch the initial rotation of the Myo with the initial rotation of the avatar.
+    /// By multiplying this rotation to the movement vector of the Myo, the avatar can just go into the direction without further adaptions.
+    /// </summary>
+    private Quaternion myoInitialRotation = Quaternion.identity;
+
+    /// <summary>
+    /// The identifier to uniquely identify the user's avatar and the corresponding topics
+    /// </summary>
+    private string avatarId = "";
 
     /// <summary>
     /// Private variable storing the desired speed for the movement of the avatar.
@@ -47,47 +75,19 @@ public class AvatarMovement : MonoBehaviour {
     private float _directionFactor = 1;
 
     /// <summary>
-    /// The identifier to uniquely identify the user's avatar and the corresponding topics
-    /// </summary>
-    private string avatarId = "";
-
-    /// <summary>
-    /// Myo transform to get the transformations of the Myo
-    /// </summary>
-    private Transform _myoTransform = null;
-
-    /// <summary>
-    /// A rotation that compensates for the Myo armband's orientation parallel to the ground, i.e. yaw.
-    /// Once set, the direction the Myo armband is facing becomes "forward" within the program.
-    /// </summary>
-    private Quaternion _antiYaw = Quaternion.identity;
-
-    /// <summary>
-    /// The pose from the last update. This is used to determine if the pose has changed
-    /// so that actions are only performed upon making them rather than every frame during
-    /// which they are active.
-    /// </summary>
-    private Pose _lastPose = Pose.Unknown;
-
-    /// <summary>
     /// To know when the player should move
     /// </summary>
     private bool _move = false;
 
     /// <summary>
-    /// Reference to the Myo component in the scene.
+    /// Used to trigger the synchronization of the Myo position and the avatar initial position.
     /// </summary>
-    private ThalmicMyo thalmicMyo;
+    private bool synch = true;
 
     #endregion
 
 
     #region PUBLIC_MEMBER_VARIABLES
-
-    /// <summary>
-    /// Public reference to the script VRMountToAvatarHeadset, needed to set the offset between camera and avatar while moving
-    /// </summary>
-    public VRMountToAvatarHeadset vrHeadset = null;
 
     /// <summary>
     /// Enum representing the different control types of the avatar.
@@ -99,7 +99,13 @@ public class AvatarMovement : MonoBehaviour {
     /// </summary>
     public ControlType _contrType;
 
+    /// <summary>
+    /// Public reference to the script VRMountToAvatarHeadset, needed to set the offset between camera and avatar while moving
+    /// </summary>
+    public VRMountToAvatarHeadset vrHeadset = null;
+
     #endregion
+
 
     /// <summary>
     /// Initialize the Myo specific components
@@ -122,24 +128,20 @@ public class AvatarMovement : MonoBehaviour {
         {
             if (avatar != null)
             {
-
                 #region MOVEMENT_WITH_MYO
-                if(_contrType == ControlType.Gesture)
+                if (_contrType == ControlType.Gesture)
                 {
-                    #region Code to compensate for wrong Myo direction
-                    // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
-                    // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
-                    // the rotation needs to be updated to compensate.
-                    if (thalmicMyo.xDirection == Thalmic.Myo.XDirection.TowardWrist)
+                    if (synch)
                     {
-                        // Mirror the rotation around the XZ plane in Unity's coordinate system (XY plane in Myo's coordinate
-                        // system). This makes the rotation reflect the arm's orientation, rather than that of the Myo armband.
-                        transform.rotation = new Quaternion(transform.localRotation.x,
-                                                            -transform.localRotation.y,
-                                                            transform.localRotation.z,
-                                                            -transform.localRotation.w);
+                        // Synchronization between Myo and Avatar:
+                        // _antiYaw represents a rotation of the Myo armband about the Y axis (up) which aligns the forward
+                        // vector of the rotation with Z = 1.
+                        Quaternion antiYaw = Quaternion.FromToRotation(new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z),
+                            new Vector3(avatar.transform.forward.x, 0, avatar.transform.forward.z));
+                        myoInitialRotation = antiYaw * Quaternion.LookRotation(new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z));
+                        synch = false;
                     }
-                    #endregion
+
 
                     //if (thalmicMyo.pose != _lastPose)
                     //{
@@ -155,14 +157,18 @@ public class AvatarMovement : MonoBehaviour {
                     //}
 
                     //Debug.Log("Y direction: " + _myoTransform.forward.y);
-                    if (_myoTransform.forward.y > 0.3)
+                    //Debug.Log("X: " + _myoTransform.forward.x + " z: " + _myoTransform.forward.z);
+                    //Debug.Log(Vector3.Angle((avatar.transform.rotation * (_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z))), avatar.transform.forward));
+
+
+                    if (_myoTransform.forward.y > -0.7 && _myoTransform.forward.y < 0.3)
                     {
                         // Move forward
                         _move = true;
                         _directionFactor = 1;
 
                     }
-                    else if (_myoTransform.forward.y < -0.3)
+                    else if (_myoTransform.forward.y < -1)
                     {
                         // Move backward
                         _move = true;
@@ -174,16 +180,32 @@ public class AvatarMovement : MonoBehaviour {
                         _move = false;
                     }
 
+
+                    #region Code to compensate for wrong Myo direction
+                    // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
+                    // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
+                    // the rotation needs to be updated to compensate.
+                    if (thalmicMyo.xDirection == Thalmic.Myo.XDirection.TowardWrist)
+                    {
+                        // Mirror the rotation around the XZ plane in Unity's coordinate system (XY plane in Myo's coordinate
+                        // system). This makes the rotation reflect the arm's orientation, rather than that of the Myo armband.
+                        myoInitialRotation = new Quaternion(myoInitialRotation.x,
+                                                            -myoInitialRotation.y,
+                                                            myoInitialRotation.z,
+                                                            -myoInitialRotation.w);
+                    }
+                    #endregion
+
                     if (_move)
                     {
                         // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
                         // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
                         // The resulting vector is then multiplied with the predefined speed.
-                        publishMovementInDirection((avatar.transform.rotation * (_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z))) * speed);
+                        publishMovementInDirection((myoInitialRotation * (_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z))) * speed);
                     }
                     else
                     {
-                        publishMovementInDirection((avatar.transform.rotation * (_directionFactor * Vector3.zero)) * speed);
+                        publishMovementInDirection(Vector3.zero);
                     }
                 }
                 #endregion
@@ -272,4 +294,24 @@ public class AvatarMovement : MonoBehaviour {
         myo.NotifyUserAction();
     }
 
+    /// <summary>
+    /// This method solves a linear equation system with two unknowns of the form:
+    /// y1 = k * x1 + d
+    /// y2 = k * x2 + d
+    /// The unknowns are k and d and are returned as a Vector2(float k, float d).
+    /// </summary>
+    /// <param name="y1"></param>
+    /// <param name="x1"></param>
+    /// <param name="y2"></param>
+    /// <param name="x2"></param>
+    /// <returns></returns>
+    public static Vector2 solveLinearEquationWithTwoUnknowns(float y1, float x1, float y2, float x2)
+    {
+        Matrix4x4 factorEquation = Matrix4x4.identity;
+        factorEquation[0, 0] = x1;
+        factorEquation[1, 0] = x2;
+        factorEquation[0, 1] = 1;
+        Vector4 resultingSpeedFactors = factorEquation.inverse * new Vector4(y1, y2, 1, 1);
+        return new Vector2(resultingSpeedFactors.x, resultingSpeedFactors.y);
+    }
 }
