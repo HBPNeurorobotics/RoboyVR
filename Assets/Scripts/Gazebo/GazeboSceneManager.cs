@@ -559,6 +559,13 @@ public class GazeboSceneManager : MonoBehaviour {
         //Debug.Log("material: " + json_material.ToString());
         this.SetMaterialFromJSON(json_material, geometry_gameobject);
 
+        // Make the avatar's body invisible to prevent it from appearing in the VR display, by setting the ShadowCastingMode to ShadowOnly
+        if (parent_transform.gameObject.name.Contains("avatar"))
+        {
+            Debug.Log("Succesfully set ShadowCastingMode of " + parent_transform.gameObject.name + " to ShadowOnly.");
+            geometry_gameobject.GetComponent<MeshRenderer>().shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+        }
+
         return geometry_gameobject;
     }
 

@@ -210,17 +210,6 @@ public class AvatarMovement : MonoBehaviour {
                 }
                 #endregion
 
-                //The VR camera is moved a little bit in front of the avatar to prevent the body from being in the camera image and irritating the user while moving
-                if (vrHeadset != null)
-                {
-                    if (movementDirection.z < 0)
-                    {
-                        movementDirection = Vector3.zero;
-                    }
-                    if (movementDirection != Vector3.zero)
-                        vrHeadset.setCameraMovementOffset(avatar.transform.rotation * movementDirection);
-                }
-
 
                 #region MOVEMENT_WITH_JOYSTICK
                 if(_contrType == ControlType.Joystick)

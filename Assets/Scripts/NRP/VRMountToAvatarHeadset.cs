@@ -77,8 +77,8 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
                         viveOffset = newVivePosition.localPosition;
                         viveOffset -= new Vector3(0f, distanceHeadToBody, 0);
                     }
-                    // The cameraMovementOffset allows the camera to move in front of the avatar while moving forward, to prevent the body from appearing in the camera image
-                    this.gameObject.transform.position = avatar.transform.position - viveOffset + cameraMovementOffset;
+
+                    this.gameObject.transform.position = avatar.transform.position - viveOffset;
                     formerAvatarPosition = avatar.transform.position;
                 }
                 // Position change of the VR headset
@@ -103,13 +103,5 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// This method sets the camera offset with regards to the avatar position
-    /// </summary>
-    /// <param name="movement"> Vector3 which defines the direction in which the camera should be moved</param>
-    public void setCameraMovementOffset(Vector3 movement)
-    {
-        cameraMovementOffset = (movement.normalized) * 0.12f;  
-    }
 
 }
