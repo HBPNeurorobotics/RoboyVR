@@ -11,22 +11,22 @@ public class AvatarRotation : MonoBehaviour {
     /// <summary>
     /// Private GameObject reference to the avatar.
     /// </summary>
-    private GameObject avatar = null;
+    private GameObject _avatar = null;
 
     /// <summary>
     /// Private variable storing the y component of the quaternion from the former rotation 
     /// </summary>
-    private float formerRotationY = 0f;
+    private float _formerRotationY = 0f;
 
     /// <summary>
     /// Private variable storing the w component of the quaternion from the former rotation 
     /// </summary>
-    private float formerRotationW = 0f;
+    private float _formerRotationW = 0f;
 
     /// <summary>
     /// The identifier to uniquely identify the user's avatar and the corresponding topics
     /// </summary>
-    private string avatarId = "";
+    private string _avatarId = "";
 
     #endregion
 
@@ -36,21 +36,21 @@ public class AvatarRotation : MonoBehaviour {
     void Update()
     {
 
-        if (avatarId != "")
+        if (_avatarId != "")
         {
 
-            if (avatar != null)
+            if (_avatar != null)
             {
 
-                if (Mathf.Abs(this.gameObject.transform.rotation.y - formerRotationY) > 0.05 || Mathf.Abs(this.gameObject.transform.rotation.w - formerRotationW) > 0.05)
+                if (Mathf.Abs(this.gameObject.transform.rotation.y - _formerRotationY) > 0.05 || Mathf.Abs(this.gameObject.transform.rotation.w - _formerRotationW) > 0.05)
                 {
                     Quaternion rotation = new Quaternion(0, this.gameObject.transform.rotation.y, 0, this.gameObject.transform.rotation.w);
                     // The new rotation is published to the server
                     publishRotation(rotation);
                     // The avatar in Unity directly takes the rotation from the VR headset to countervail latency and prevent glitches
-                    avatar.transform.rotation = rotation;
-                    formerRotationY = this.gameObject.transform.rotation.y;
-                    formerRotationW = this.gameObject.transform.rotation.w;
+                    _avatar.transform.rotation = rotation;
+                    _formerRotationY = this.gameObject.transform.rotation.y;
+                    _formerRotationW = this.gameObject.transform.rotation.w;
                 }
 
                 //#region ROTATION_WITH_JOYSTICK
@@ -69,13 +69,13 @@ public class AvatarRotation : MonoBehaviour {
             }
             else
             {
-                avatar = GameObject.Find("user_avatar_" + avatarId);
+                _avatar = GameObject.Find("user_avatar_" + _avatarId);
             }
 
         }
         else
         {
-            avatarId = GzBridgeManager.Instance.avatarId;
+            _avatarId = GzBridgeManager.Instance.avatarId;
         }
 
     }

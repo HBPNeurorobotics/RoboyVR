@@ -18,43 +18,42 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     /// <summary>
     /// Vector to store the last position of the VR camera.
     /// </summary>
-    private Vector3 formerVivePosition = Vector3.zero;
+    private Vector3 _formerVivePosition = Vector3.zero;
 
     /// <summary>
     /// Vector to store the last position of the avatar.
     /// </summary>
-    private Vector3 formerAvatarPosition = Vector3.zero;
+    private Vector3 _formerAvatarPosition = Vector3.zero;
 
     /// <summary>
     /// This is the offset between the camera and the avatar while moving
     /// </summary>
-    private Vector3 cameraMovementOffset = Vector3.zero;
+    private Vector3 _cameraMovementOffset = Vector3.zero;
 
     /// <summary>
     /// Vector to store the offset between the center of the play area [CameraRig] and the VR camera.
     /// </summary>
-    private Vector3 viveOffset = Vector3.zero;
+    private Vector3 _viveOffset = Vector3.zero;
 
     /// <summary>
     /// Private GameObject reference to the avatar.
     /// </summary>
-    private GameObject avatar;
+    private GameObject _avatar;
 
     /// <summary>
     /// Private GameObject reference to the head of the avatar.
     /// </summary>
-    private GameObject avatarHead;
+    private GameObject _avatarHead;
 
     /// <summary>
     /// The offset between avatar's head and its body.
     /// </summary>
-    private float distanceHeadToBody = 1.6f;
-
-
+    private float _distanceHeadToBody = 1.6f;
+    
     /// <summary>
     /// The identifier to uniquely identify the user's avatar and the corresponding topics
     /// </summary>
-    private string avatarId = "";
+    private string _avatarId = "";
 
     #endregion
 
@@ -64,42 +63,42 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     /// The compensation is done to keep the position of the VR headset stable and prevent the user from moving the headset without moving the avatar.
     /// </summary>
     void Update () {
-        if(avatarId != "")
+        if(_avatarId != "")
         {
-            if (avatar != null)
+            if (_avatar != null)
             {
                 // Position change of the avatar
-                if (Mathf.Abs(formerAvatarPosition.x - avatar.transform.position.x) > 0.01 || Mathf.Abs(formerAvatarPosition.y - avatar.transform.position.y) > 0.01 || Mathf.Abs(formerAvatarPosition.z - avatar.transform.position.z) > 0.01)
+                if (Mathf.Abs(_formerAvatarPosition.x - _avatar.transform.position.x) > 0.01 || Mathf.Abs(_formerAvatarPosition.y - _avatar.transform.position.y) > 0.01 || Mathf.Abs(_formerAvatarPosition.z - _avatar.transform.position.z) > 0.01)
                 {
                     // The viveOffset is needed to align the VR headset with the head of the avatar..
-                    if (viveOffset == Vector3.zero)
+                    if (_viveOffset == Vector3.zero)
                     {
-                        viveOffset = newVivePosition.localPosition;
-                        viveOffset -= new Vector3(0f, distanceHeadToBody, 0);
+                        _viveOffset = newVivePosition.localPosition;
+                        _viveOffset -= new Vector3(0f, _distanceHeadToBody, 0);
                     }
 
-                    this.gameObject.transform.position = avatar.transform.position - viveOffset;
-                    formerAvatarPosition = avatar.transform.position;
+                    this.gameObject.transform.position = _avatar.transform.position - _viveOffset;
+                    _formerAvatarPosition = _avatar.transform.position;
                 }
                 // Position change of the VR headset
-                if (Mathf.Abs(formerVivePosition.x - newVivePosition.localPosition.x) > 0.01 || Mathf.Abs(formerVivePosition.y - newVivePosition.localPosition.y) > 0.01 || Mathf.Abs(formerVivePosition.z - newVivePosition.localPosition.z) > 0.01)
+                if (Mathf.Abs(_formerVivePosition.x - newVivePosition.localPosition.x) > 0.01 || Mathf.Abs(_formerVivePosition.y - newVivePosition.localPosition.y) > 0.01 || Mathf.Abs(_formerVivePosition.z - newVivePosition.localPosition.z) > 0.01)
                 {
-                    this.gameObject.transform.localPosition += (formerVivePosition - newVivePosition.localPosition);
-                    formerVivePosition = newVivePosition.localPosition;
-                    viveOffset = newVivePosition.localPosition;
-                    viveOffset -= new Vector3(0f, distanceHeadToBody, 0);
+                    this.gameObject.transform.localPosition += (_formerVivePosition - newVivePosition.localPosition);
+                    _formerVivePosition = newVivePosition.localPosition;
+                    _viveOffset = newVivePosition.localPosition;
+                    _viveOffset -= new Vector3(0f, _distanceHeadToBody, 0);
                 }
             }
             else
             {
-                avatar = GameObject.Find("user_avatar_" + avatarId);
-                formerVivePosition = newVivePosition.localPosition;
+                _avatar = GameObject.Find("user_avatar_" + _avatarId);
+                _formerVivePosition = newVivePosition.localPosition;
             }
 
         }
         else
         {
-            avatarId = GzBridgeManager.Instance.avatarId;
+            _avatarId = GzBridgeManager.Instance.avatarId;
         }
     }
 
