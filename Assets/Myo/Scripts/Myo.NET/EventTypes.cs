@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -84,5 +84,16 @@ namespace Thalmic.Myo
         }
 
         public sbyte Rssi { get; private set; }
+    }
+    
+        public class EmgDataEventArgs : MyoEventArgs
+    {
+        public EmgDataEventArgs(Myo myo, DateTime timestamp, int[] emg)
+            : base(myo, timestamp)
+        {
+            this.Emg = emg;
+        }
+
+        public int[] Emg { get; private set; }
     }
 }

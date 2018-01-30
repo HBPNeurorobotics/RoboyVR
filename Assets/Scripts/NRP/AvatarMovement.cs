@@ -153,6 +153,16 @@ public class AvatarMovement : MonoBehaviour {
         {
             if (_avatar != null)
             {
+                // Test for EMG data
+                for(int i = 0; i< _thalmicMyo.emg.Length; i++)
+                {
+                    if (_thalmicMyo.emg[i] > 80)
+                    {
+                        Debug.Log("JA");
+                    }
+                }
+                
+
                 #region MOVEMENT_WITH_MYO
                 if (contrType == ControlType.Gesture)
                 {
@@ -173,15 +183,13 @@ public class AvatarMovement : MonoBehaviour {
                     //Debug.Log("Y direction: " + _myoTransform.forward.y);
                     //Debug.Log("X: " + _myoTransform.forward.x + " z: " + _myoTransform.forward.z);
                     //Debug.Log(Vector3.Angle((avatar.transform.rotation * (_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z))), avatar.transform.forward));
-
-
                     //Debug.Log("Myo: "+_myoArmMirroring * _myoTransform.forward);
 
                     if (_myoTransform.forward.y > _deflectionMin)
                     {
                         // Move forward
                         _move = true;
-                        _directionFactor = 1;
+                        _directionFactor = -1;
 
                     }
                     else
