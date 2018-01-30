@@ -50,6 +50,16 @@ public class AvatarMovement : MonoBehaviour {
     private float _speed = 3f;
 
     /// <summary>
+    /// Variable for speed / deflection mapping with speed = k * myo-deflection + d
+    /// </summary>
+    private float _speedFunction_k = 1;
+
+    /// <summary>
+    /// Variable for speed / deflection mapping with speed = k * myo-deflection + d
+    /// </summary>
+    private float _speedFunction_d = 0;
+
+    /// <summary>
     /// This is the maximal allowed spped the user can use
     /// </summary>
     private float _speedMax = 6f;
@@ -62,6 +72,11 @@ public class AvatarMovement : MonoBehaviour {
     /// Minimal arm movement along th y-axis to trigger movement.
     /// </summary>
     private float _deflectionMin = -0.7f;
+
+    /// <summary>
+    /// Maximal arm movement along the y-axis.
+    /// </summary>
+    private float _deflectionMax = 0.3f;
 
     /// <summary>
     /// As the Joystick always returns a value after it was moved ones, a threshold of 0.4 and -0.4 is used to differentiate between input and noise
@@ -120,6 +135,16 @@ public class AvatarMovement : MonoBehaviour {
     }
 
     /// <summary>
+    /// Calculate the appropriate speed and deflection mapping
+    /// </summary>
+    private void Start()
+    {
+        Vector2 res = solveLinearEquationWithTwoUnknowns(_speedMin, _deflectionMin, _speedMax, _deflectionMax);
+        _speedFunction_k = res.x;
+        _speedFunction_d = res.y;
+    }
+
+    /// <summary>
     /// Catches user input to control the avatar movements either through WASD or Joystick.
     /// </summary>
     void Update () {
@@ -131,7 +156,7 @@ public class AvatarMovement : MonoBehaviour {
                 #region MOVEMENT_WITH_MYO
                 if (contrType == ControlType.Gesture)
                 {
-                    Debug.Log(_myoTransform.forward);
+                    
                     //if (thalmicMyo.pose != _lastPose)
                     //{
                     //    if (thalmicMyo.pose == Pose.WaveOut)
@@ -156,7 +181,7 @@ public class AvatarMovement : MonoBehaviour {
                     {
                         // Move forward
                         _move = true;
-                        _directionFactor = -1;
+                        _directionFactor = 1;
 
                     }
                     else
@@ -167,6 +192,8 @@ public class AvatarMovement : MonoBehaviour {
 
                     if (_move)
                     {
+                        //Debug.Log(_myoTransform.forward);
+                        _speed = _myoTransform.forward.y * _speedFunction_k + _speedFunction_d;
                         publishMovementInDirection(_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z) * _speed);
                         _zeroBefore = false;
                     }
