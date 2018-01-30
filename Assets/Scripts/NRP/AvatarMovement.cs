@@ -40,12 +40,6 @@ public class AvatarMovement : MonoBehaviour {
     private Vector3 movementDirection;
 
     /// <summary>
-    /// This rotation is used to synch the initial rotation of the Myo with the initial rotation of the avatar.
-    /// By multiplying this rotation to the movement vector of the Myo, the avatar can just go into the direction without further adaptions.
-    /// </summary>
-    private Quaternion myoInitialRotation = Quaternion.identity;
-
-    /// <summary>
     /// The identifier to uniquely identify the user's avatar and the corresponding topics
     /// </summary>
     private string avatarId = "";
@@ -65,6 +59,11 @@ public class AvatarMovement : MonoBehaviour {
     private float speedMin = 3f;
 
     /// <summary>
+    /// Minimal arm movement along th y-axis to trigger movement.
+    /// </summary>
+    private float _deflectionMin = -0.7f;
+
+    /// <summary>
     /// As the Joystick always returns a value after it was moved ones, a threshold of 0.4 and -0.4 is used to differentiate between input and noise
     /// </summary>
     private float joystickThreshold = 0.4f;
@@ -78,11 +77,6 @@ public class AvatarMovement : MonoBehaviour {
     /// To know when the player should move
     /// </summary>
     private bool _move = false;
-
-    /// <summary>
-    /// Used to trigger the synchronization of the Myo position and the avatar initial position.
-    /// </summary>
-    private bool synch = true;
 
     /// <summary>
     /// This boolean is used to determine if the movement direction has just changed to zero and should therefore be published to the server,
@@ -137,18 +131,7 @@ public class AvatarMovement : MonoBehaviour {
                 #region MOVEMENT_WITH_MYO
                 if (_contrType == ControlType.Gesture)
                 {
-                    if (synch)
-                    {
-                        // Synchronization between Myo and Avatar:
-                        // _antiYaw represents a rotation of the Myo armband about the Y axis (up) which aligns the forward
-                        // vector of the rotation with Z = 1.
-                        Quaternion antiYaw = Quaternion.FromToRotation(new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z),
-                            new Vector3(avatar.transform.forward.x, 0, avatar.transform.forward.z));
-                        myoInitialRotation = antiYaw * Quaternion.LookRotation(new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z));
-                        synch = false;
-                    }
-
-
+                    Debug.Log(_myoTransform.forward);
                     //if (thalmicMyo.pose != _lastPose)
                     //{
                     //    if (thalmicMyo.pose == Pose.WaveOut)
@@ -167,18 +150,14 @@ public class AvatarMovement : MonoBehaviour {
                     //Debug.Log(Vector3.Angle((avatar.transform.rotation * (_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z))), avatar.transform.forward));
 
 
-                    if (_myoTransform.forward.y > -0.7 && _myoTransform.forward.y < 0.3)
+                    //Debug.Log("Myo: "+_myoArmMirroring * _myoTransform.forward);
+
+                    if (_myoTransform.forward.y > _deflectionMin)
                     {
                         // Move forward
                         _move = true;
-                        _directionFactor = 1;
-
-                    }
-                    else if (_myoTransform.forward.y < -1)
-                    {
-                        // Move backward
-                        _move = true;
                         _directionFactor = -1;
+
                     }
                     else
                     {
@@ -186,28 +165,9 @@ public class AvatarMovement : MonoBehaviour {
                         _move = false;
                     }
 
-
-                    #region Code to compensate for wrong Myo direction
-                    // The above calculations were done assuming the Myo armbands's +x direction, in its own coordinate system,
-                    // was facing toward the wearer's elbow. If the Myo armband is worn with its +x direction facing the other way,
-                    // the rotation needs to be updated to compensate.
-                    if (thalmicMyo.xDirection == Thalmic.Myo.XDirection.TowardWrist)
-                    {
-                        // Mirror the rotation around the XZ plane in Unity's coordinate system (XY plane in Myo's coordinate
-                        // system). This makes the rotation reflect the arm's orientation, rather than that of the Myo armband.
-                        myoInitialRotation = new Quaternion(myoInitialRotation.x,
-                                                            -myoInitialRotation.y,
-                                                            myoInitialRotation.z,
-                                                            -myoInitialRotation.w);
-                    }
-                    #endregion
-
                     if (_move)
                     {
-                        // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
-                        // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
-                        // The resulting vector is then multiplied with the predefined speed.
-                        publishMovementInDirection((myoInitialRotation * (_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z))) * speed);
+                        publishMovementInDirection(_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z) * speed);
                         zeroBefore = false;
                     }
                     else
@@ -288,6 +248,7 @@ public class AvatarMovement : MonoBehaviour {
     /// <param name="movement">This vector specifies where the avatar should go to.</param>
     private void publishMovementInDirection(Vector3 movement)
     {
+        //Debug.Log("Mov: " + movement);
         ROSBridge.Instance.ROS.Publish(ROSAvatarVelPublisher.GetMessageTopic(), new Vector3Msg((double)movement.x, (double)movement.z, (double)movement.y));
     }
 
