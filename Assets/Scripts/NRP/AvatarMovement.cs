@@ -46,6 +46,11 @@ public class AvatarMovement : MonoBehaviour {
     private Quaternion _antiYaw = Quaternion.identity;
 
     /// <summary>
+    /// Coroutine for making the Myo armband pulse
+    /// </summary>
+    private IEnumerator _coroutinePulse;
+
+    /// <summary>
     /// The identifier to uniquely identify the user's avatar and the corresponding topics
     /// </summary>
     private string _avatarId = "";
@@ -115,6 +120,11 @@ public class AvatarMovement : MonoBehaviour {
     /// A boolean indicating if the Myo should be synchronized with the direction of the Vive.
     /// </summary>
     private bool _synch = true;
+
+    /// <summary>
+    /// Boolean to check if the coroutine is already running
+    /// </summary>
+    private bool _isCoroutineRunning = false;
 
     #endregion
 
@@ -194,6 +204,8 @@ public class AvatarMovement : MonoBehaviour {
                 #region MOVEMENT_WITH_MYO
                 if (contrType == ControlType.Gesture)
                 {
+                    // Define the coroutine used to pulse the vibration the armband
+                    _coroutinePulse = PulseVibration(1.5f, _thalmicMyo);
 
                     // Update references between Myo and Vive. 
                     if (_synch)
@@ -265,6 +277,10 @@ public class AvatarMovement : MonoBehaviour {
                             publishMovementInDirection(_directionFactor * (_avatar.transform.rotation * new Vector3(0, 0, 1)) * _speed);
 
                         }
+
+                        // Start the pulsing of the Myo if needed
+                        if (!_isCoroutineRunning) StartCoroutine(_coroutinePulse);
+
                         _zeroBefore = false;
                     }
                     else
@@ -273,6 +289,10 @@ public class AvatarMovement : MonoBehaviour {
                         {
                             publishMovementInDirection(Vector3.zero);
                         }
+
+                        // Stop coroutine if running
+                        if (_isCoroutineRunning) StopCoroutine(_coroutinePulse);
+
                         _zeroBefore = true;
                     }
                 }
@@ -450,5 +470,24 @@ public class AvatarMovement : MonoBehaviour {
             return angle + 360.0f;
         }
         return angle;
+    }
+
+    /// <summary>
+    /// To make the Myo vibrate in specific time intervals
+    /// </summary>
+    /// <param name="waitTime"></param>
+    /// <param name="thalmicMyo"></param>
+    /// <returns></returns>
+    private IEnumerator PulseVibration(float waitTime, ThalmicMyo thalmicMyo)
+    {
+        _isCoroutineRunning = true;
+
+        while (_move)
+        {
+            thalmicMyo.Vibrate(VibrationType.Short);
+            yield return new WaitForSeconds(waitTime);
+        }
+
+        _isCoroutineRunning = false;
     }
 }
