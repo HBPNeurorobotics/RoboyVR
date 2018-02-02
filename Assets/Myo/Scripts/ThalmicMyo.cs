@@ -8,6 +8,15 @@ using Pose = Thalmic.Myo.Pose;
 using UnlockType = Thalmic.Myo.UnlockType;
 using StreamEmg = Thalmic.Myo.StreamEmg;
 
+/**
+ * This class includes code from the Myo-SDK-win-0.9.0 package as well as the patch from Chris Zaharia from
+ * https://gist.github.com/chrisjz/efb6d3aa53fd65fb2364 (with changes up to the 24.12.2014)
+ * 
+ * @author Thalmic Labs, Chris Zaharia
+ **/
+
+
+
 // Represents a Myo armband. Myo's orientation is made available through transform.localRotation, and other properties
 // like the current pose are provided explicitly below. All spatial data about Myo is provided following Unity
 // coordinate system conventions (the y axis is up, the z axis is forward, and the coordinate system is left-handed).

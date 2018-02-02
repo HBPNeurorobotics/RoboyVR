@@ -72,7 +72,7 @@ public class AvatarMovement : MonoBehaviour {
 
     /// <summary>
     /// This is the minimum speed which is usually used
-    private float _speedMin = 3f;
+    private float _speedMin = 2f;
 
     /// <summary>
     /// Minimal arm movement along th y-axis to trigger movement.
@@ -176,15 +176,7 @@ public class AvatarMovement : MonoBehaviour {
         {
             if (_avatar != null)
             {
-                // Test for EMG data
-                for(int i = 0; i< _thalmicMyo.emg.Length; i++)
-                {
-                    if (_thalmicMyo.emg[i] > 80)
-                    {
-                        Debug.Log("JA");
-                    }
-                }
-
+                
                 //if (thalmicMyo.pose != _lastPose)
                 //{
                 //    if (thalmicMyo.pose == Pose.WaveOut)
@@ -241,6 +233,11 @@ public class AvatarMovement : MonoBehaviour {
                         _move = true;
                         _directionFactor = 1;
 
+                    }else if (_myoTransform.forward.y <= _deflectionMin && Mathf.Abs(relativeRoll) >= 90)
+                    {
+                        // Move backward
+                        _move = true;
+                        _directionFactor = -1;
                     }
                     else
                     {
@@ -250,9 +247,24 @@ public class AvatarMovement : MonoBehaviour {
 
                     if (_move)
                     {
-                        _speed = _myoTransform.forward.y * _speedFunction_k + _speedFunction_d;
-                        // Here the anti - roll and yaw rotations are applied to the myo Armband's forward direction to yield the correct orientation.
-                        publishMovementInDirection(_directionFactor * (_antiYaw * antiRoll * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z)) * _speed);
+                        if (_directionFactor > 0)
+                        {
+                            // Move forward in the direction where the user is pointing with the Myo
+
+                            _speed = _myoTransform.forward.y * _speedFunction_k + _speedFunction_d;
+                            // Here the anti - roll and yaw rotations are applied to the myo Armband's forward direction to yield the correct orientation.
+                            publishMovementInDirection(_directionFactor * (_antiYaw * antiRoll * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z)) * _speed);
+                        }
+                        else
+                        {
+                            // Move backward in the inverse direction of the avatar's forward direction with constant speed
+
+                            _speed = 3f;
+                            // When performing a backward movement, the user should go into the inverse direction he is looking at right now.
+                            // Therefore, one needs to take the avatar rotation into account as well, like when performing the movement with teh joystick
+                            publishMovementInDirection(_directionFactor * (_avatar.transform.rotation * new Vector3(0, 0, 1)) * _speed);
+
+                        }
                         _zeroBefore = false;
                     }
                     else

@@ -4,6 +4,13 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
+/**
+ * This class includes code from the Myo-SDK-win-0.9.0 package as well as the patch from Chris Zaharia from
+ * https://gist.github.com/chrisjz/efb6d3aa53fd65fb2364 (with changes up to the 24.12.2014)
+ * 
+ * @author Thalmic Labs, Chris Zaharia
+ **/
+
 namespace Thalmic.Myo
 {
     public class Myo
