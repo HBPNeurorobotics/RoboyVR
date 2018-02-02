@@ -18,13 +18,6 @@ public class AvatarMovement : MonoBehaviour {
     private ThalmicMyo _thalmicMyo;
 
     /// <summary>
-    /// The pose from the last update. This is used to determine if the pose has changed
-    /// so that actions are only performed upon making them rather than every frame during
-    /// which they are active.
-    /// </summary>
-    private Pose _lastPose = Pose.Unknown;
-
-    /// <summary>
     /// Private GameObject reference to the avatar.
     /// </summary>
     private GameObject _avatar;
@@ -106,6 +99,11 @@ public class AvatarMovement : MonoBehaviour {
     private float _referenceRoll = 0.0f;
 
     /// <summary>
+    /// Time when the last gesture was performed and recognized.
+    /// </summary>
+    private float _lastGestureTime = 0f;
+
+    /// <summary>
     /// To know when the player should move
     /// </summary>
     private bool _move = false;
@@ -125,6 +123,12 @@ public class AvatarMovement : MonoBehaviour {
     /// Boolean to check if the coroutine is already running
     /// </summary>
     private bool _isCoroutineRunning = false;
+
+    /// <summary>
+    /// Boolean to control the movement mode.
+    /// Only allow the user to control the avatar with gestures if movement mode is activated.
+    /// </summary>
+    private bool _movementModeActive = false;
 
     #endregion
 
@@ -186,23 +190,31 @@ public class AvatarMovement : MonoBehaviour {
         {
             if (_avatar != null)
             {
-                
-                //if (thalmicMyo.pose != _lastPose)
-                //{
-                //    if (thalmicMyo.pose == Pose.WaveOut)
-                //    {
-                //        Debug.Log("WaveOut");
-                //    }
-                //    else if (thalmicMyo.pose == Pose.WaveIn)
-                //    {
-                //        Debug.Log("WaveIn");
-                //    }
-                //    _lastPose = thalmicMyo.pose;
-                //}
-
-
                 #region MOVEMENT_WITH_MYO
-                if (contrType == ControlType.Gesture)
+
+                // Enter / Exit movement mode when any gesture was performed with sufficient strength
+                if (contrType == ControlType.Gesture && _lastGestureTime + 2 < Time.time)
+                {
+                    for (int i = 0; i < _thalmicMyo.emg.Length; i++)
+                    {
+                        if (_thalmicMyo.emg[i] > 70)
+                        {
+                            _movementModeActive = !_movementModeActive;
+
+                            // Stop movement when switching movement mode off
+                            if(!_movementModeActive && _move)
+                            {
+                                publishMovementInDirection(Vector3.zero);
+                                _move = false;
+                            }
+
+                            _lastGestureTime = Time.time;
+                            break;
+                        }
+                    }
+                }
+
+                if (contrType == ControlType.Gesture && _movementModeActive)
                 {
                     // Define the coroutine used to pulse the vibration the armband
                     _coroutinePulse = PulseVibration(1.5f, _thalmicMyo);
