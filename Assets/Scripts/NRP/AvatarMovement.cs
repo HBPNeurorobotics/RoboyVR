@@ -40,6 +40,12 @@ public class AvatarMovement : MonoBehaviour {
     private Vector3 _movementDirection;
 
     /// <summary>
+    ///  A rotation that compensates for the Myo armband's orientation parallel to the ground, i.e. yaw.
+    ///  Once set, the direction the Myo armband is facing becomes "forward" within the program.
+    /// </summary>
+    private Quaternion _antiYaw = Quaternion.identity;
+
+    /// <summary>
     /// The identifier to uniquely identify the user's avatar and the corresponding topics
     /// </summary>
     private string _avatarId = "";
@@ -89,6 +95,12 @@ public class AvatarMovement : MonoBehaviour {
     private float _directionFactor = 1;
 
     /// <summary>
+    /// A reference angle representing how the armband is rotated about the wearer's arm, i.e. roll.
+    /// Set together with _antiYaw
+    /// </summary>
+    private float _referenceRoll = 0.0f;
+
+    /// <summary>
     /// To know when the player should move
     /// </summary>
     private bool _move = false;
@@ -98,6 +110,11 @@ public class AvatarMovement : MonoBehaviour {
     /// or is still zero and should thus not be published to reduce traffic.
     /// </summary>
     private bool _zeroBefore = false;
+
+    /// <summary>
+    /// A boolean indicating if the Myo should be synchronized with the direction of the Vive.
+    /// </summary>
+    private bool _synch = true;
 
     #endregion
 
@@ -118,6 +135,12 @@ public class AvatarMovement : MonoBehaviour {
     /// Public reference to the script VRMountToAvatarHeadset, needed to set the offset between camera and avatar while moving
     /// </summary>
     public VRMountToAvatarHeadset vrHeadset = null;
+
+    /// <summary>
+    /// Transform of the Vive-HMD.
+    /// Needed to ensure that both reference systems (Myo and Vive) face into the same direction
+    /// </summary>
+    public Transform vivePosition;
 
     #endregion
 
@@ -161,35 +184,62 @@ public class AvatarMovement : MonoBehaviour {
                         Debug.Log("JA");
                     }
                 }
-                
+
+                //if (thalmicMyo.pose != _lastPose)
+                //{
+                //    if (thalmicMyo.pose == Pose.WaveOut)
+                //    {
+                //        Debug.Log("WaveOut");
+                //    }
+                //    else if (thalmicMyo.pose == Pose.WaveIn)
+                //    {
+                //        Debug.Log("WaveIn");
+                //    }
+                //    _lastPose = thalmicMyo.pose;
+                //}
+
 
                 #region MOVEMENT_WITH_MYO
                 if (contrType == ControlType.Gesture)
                 {
-                    
-                    //if (thalmicMyo.pose != _lastPose)
-                    //{
-                    //    if (thalmicMyo.pose == Pose.WaveOut)
-                    //    {
-                    //        Debug.Log("WaveOut");
-                    //    }
-                    //    else if (thalmicMyo.pose == Pose.WaveIn)
-                    //    {
-                    //        Debug.Log("WaveIn");
-                    //    }
-                    //    _lastPose = thalmicMyo.pose;
-                    //}
 
-                    //Debug.Log("Y direction: " + _myoTransform.forward.y);
-                    //Debug.Log("X: " + _myoTransform.forward.x + " z: " + _myoTransform.forward.z);
-                    //Debug.Log(Vector3.Angle((avatar.transform.rotation * (_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z))), avatar.transform.forward));
-                    //Debug.Log("Myo: "+_myoArmMirroring * _myoTransform.forward);
+                    // Update references between Myo and Vive. 
+                    if (_synch)
+                    {
+                        // _antiYaw represents a rotation of the Myo armband about the Y axis (up) which aligns the forward
+                        // vector of the rotation with Z = 1 when the wearer's arm is pointing in the reference direction / Vive looking direction.
+                        _antiYaw = Quaternion.FromToRotation(
+                        new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z),
+                        new Vector3(vivePosition.forward.x, 0, vivePosition.forward.z)
+                        );
+
+                        // _referenceRoll represents how many degrees the Myo armband is rotated clockwise
+                        // about its forward axis (when looking down the wearer's arm towards their hand) from the reference zero
+                        // roll direction. This direction is calculated and explained below. When this reference is
+                        // taken, the joint will be rotated about its forward axis such that it faces upwards when
+                        // the roll value matches the reference.
+                        Vector3 referenceZeroRoll = computeZeroRollVector(_myoTransform.forward);
+                        _referenceRoll = rollFromZero(referenceZeroRoll, _myoTransform.forward, _myoTransform.up);
+
+                        _synch = false;
+                    }
+
+                    // Current zero roll vector and roll value.
+                    Vector3 zeroRoll = computeZeroRollVector(_myoTransform.forward);
+                    float roll = rollFromZero(zeroRoll, _myoTransform.forward, _myoTransform.up);
+
+                    // The relative roll is simply how much the current roll has changed relative to the reference roll.
+                    // adjustAngle simply keeps the resultant value within -180 to 180 degrees.
+                    float relativeRoll = normalizeAngle(roll - _referenceRoll);
+
+                    // antiRoll represents a rotation about the myo Armband's forward axis adjusting for reference roll.
+                    Quaternion antiRoll = Quaternion.AngleAxis(relativeRoll, _myoTransform.forward);
 
                     if (_myoTransform.forward.y > _deflectionMin)
                     {
                         // Move forward
                         _move = true;
-                        _directionFactor = -1;
+                        _directionFactor = 1;
 
                     }
                     else
@@ -200,9 +250,9 @@ public class AvatarMovement : MonoBehaviour {
 
                     if (_move)
                     {
-                        //Debug.Log(_myoTransform.forward);
                         _speed = _myoTransform.forward.y * _speedFunction_k + _speedFunction_d;
-                        publishMovementInDirection(_directionFactor * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z) * _speed);
+                        // Here the anti - roll and yaw rotations are applied to the myo Armband's forward direction to yield the correct orientation.
+                        publishMovementInDirection(_directionFactor * (_antiYaw * antiRoll * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z)) * _speed);
                         _zeroBefore = false;
                     }
                     else
@@ -283,26 +333,9 @@ public class AvatarMovement : MonoBehaviour {
     /// <param name="movement">This vector specifies where the avatar should go to.</param>
     private void publishMovementInDirection(Vector3 movement)
     {
-        //Debug.Log("Mov: " + movement);
         ROSBridge.Instance.ROS.Publish(ROSAvatarVelPublisher.GetMessageTopic(), new Vector3Msg((double)movement.x, (double)movement.z, (double)movement.y));
     }
 
-    /// <summary>
-    /// Extend the unlock if ThalmcHub's locking policy is standard, and notifies the given myo that a user action was recognized.
-    /// This code is from the script JointOrientation out of the Myo Sample project
-    /// </summary>
-    /// <param name="myo">A reference to the ThalmicMyo component in the scene.</param>
-    public static void ExtendUnlockAndNotifyUserActionForMyo(ThalmicMyo myo)
-    {
-        ThalmicHub hub = ThalmicHub.instance;
-
-        if (hub.lockingPolicy == LockingPolicy.Standard)
-        {
-            myo.Unlock(UnlockType.Timed);
-        }
-
-        myo.NotifyUserAction();
-    }
 
     /// <summary>
     /// This method solves a linear equation system with two unknowns of the form:
@@ -323,5 +356,87 @@ public class AvatarMovement : MonoBehaviour {
         factorEquation[0, 1] = 1;
         Vector4 resultingSpeedFactors = factorEquation.inverse * new Vector4(y1, y2, 1, 1);
         return new Vector2(resultingSpeedFactors.x, resultingSpeedFactors.y);
+    }
+
+
+    /// <summary>
+    /// Extend the unlock if ThalmcHub's locking policy is standard, and notifies the given myo that a user action was recognized.
+    /// This code is from the script JointOrientation out of the Myo Sample project
+    /// </summary>
+    /// <param name="myo">A reference to the ThalmicMyo component in the scene.</param>
+    public static void ExtendUnlockAndNotifyUserActionForMyo(ThalmicMyo myo)
+    {
+        ThalmicHub hub = ThalmicHub.instance;
+
+        if (hub.lockingPolicy == LockingPolicy.Standard)
+        {
+            myo.Unlock(UnlockType.Timed);
+        }
+
+        myo.NotifyUserAction();
+    }
+
+    /// <summary>
+    /// Compute a vector that points perpendicular to the forward direction,
+    /// minimizing angular distance from world up (positive Y axis).
+    /// This represents the direction of no rotation about its forward axis.
+    /// </summary>
+    /// <param name="forward"></param>
+    /// <returns></returns>
+    Vector3 computeZeroRollVector(Vector3 forward)
+    {
+        Vector3 antigravity = Vector3.up;
+        Vector3 m = Vector3.Cross(_myoTransform.forward, antigravity);
+        Vector3 roll = Vector3.Cross(m, _myoTransform.forward);
+
+        return roll.normalized;
+    }
+
+    /// <summary>
+    /// Compute the angle of rotation clockwise about the forward axis relative to the provided zero roll direction.
+    /// As the armband is rotated about the forward axis this value will change, regardless of which way the
+    /// forward vector of the Myo is pointing. The returned value will be between -180 and 180 degrees.
+    /// IMPROTANT: This is the roll from the myo, not your arm; it is 0 if the Logo is facing upwards
+    /// </summary>
+    /// <param name="zeroRoll"></param>
+    /// <param name="forward"></param>
+    /// <param name="up"></param>
+    /// <returns></returns>
+    float rollFromZero(Vector3 zeroRoll, Vector3 forward, Vector3 up)
+    {
+        // The cosine of the angle between the up vector and the zero roll vector. Since both are
+        // orthogonal to the forward vector, this tells us how far the Myo has been turned around the
+        // forward axis relative to the zero roll vector, but we need to determine separately whether the
+        // Myo has been rolled clockwise or counterclockwise.
+        float cosine = Vector3.Dot(up, zeroRoll);
+
+        // To determine the sign of the roll, we take the cross product of the up vector and the zero
+        // roll vector. This cross product will either be the same or opposite direction as the forward
+        // vector depending on whether up is clockwise or counter-clockwise from zero roll.
+        // Thus the sign of the dot product of forward and it yields the sign of our roll value.
+        Vector3 cp = Vector3.Cross(up, zeroRoll);
+        float directionCosine = Vector3.Dot(forward, cp);
+        float sign = directionCosine < 0.0f ? 1.0f : -1.0f;
+
+        // Return the angle of roll (in degrees) from the cosine and the sign.
+        return sign * Mathf.Rad2Deg * Mathf.Acos(cosine);
+    }
+
+    /// <summary>
+    /// Adjust the provided angle to be within a -180 to 180.
+    /// </summary>
+    /// <param name="angle"></param>
+    /// <returns></returns>
+    float normalizeAngle(float angle)
+    {
+        if (angle > 180.0f)
+        {
+            return angle - 360.0f;
+        }
+        if (angle < -180.0f)
+        {
+            return angle + 360.0f;
+        }
+        return angle;
     }
 }
