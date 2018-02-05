@@ -55,6 +55,16 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     /// </summary>
     private string _avatarId = "";
 
+    /// <summary>
+    /// Determines if the Vive should stick to the head (active) or move freely (not active).
+    /// </summary>
+    private bool _active = false;
+
+    /// <summary>
+    /// Allows the script to set the avatar position at the start of the simulation, although movement mode isn't enabled.
+    /// </summary>
+    private bool _initiatePosition = true;
+
     #endregion
 
 
@@ -67,27 +77,55 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
         {
             if (_avatar != null)
             {
-                // Position change of the avatar
-                if (Mathf.Abs(_formerAvatarPosition.x - _avatar.transform.position.x) > 0.01 || Mathf.Abs(_formerAvatarPosition.y - _avatar.transform.position.y) > 0.01 || Mathf.Abs(_formerAvatarPosition.z - _avatar.transform.position.z) > 0.01)
+                if (_active || _initiatePosition)
                 {
-                    // The viveOffset is needed to align the VR headset with the head of the avatar..
-                    if (_viveOffset == Vector3.zero)
+                    // Position change of the avatar
+                    if (Mathf.Abs(_formerAvatarPosition.x - _avatar.transform.position.x) > 0.01 || Mathf.Abs(_formerAvatarPosition.y - _avatar.transform.position.y) > 0.01 || Mathf.Abs(_formerAvatarPosition.z - _avatar.transform.position.z) > 0.01)
                     {
+                        // The viveOffset is needed to align the VR headset with the head of the avatar..
+                        if (_viveOffset == Vector3.zero)
+                        {
+                            _viveOffset = newVivePosition.localPosition;
+                            _viveOffset -= new Vector3(0f, _distanceHeadToBody, 0);
+                        }
+
+                        this.gameObject.transform.position = _avatar.transform.position - _viveOffset;
+                        _formerAvatarPosition = _avatar.transform.position;
+                    }
+                    // Position change of the VR headset
+                    if (Mathf.Abs(_formerVivePosition.x - newVivePosition.localPosition.x) > 0.01 || Mathf.Abs(_formerVivePosition.y - newVivePosition.localPosition.y) > 0.01 || Mathf.Abs(_formerVivePosition.z - newVivePosition.localPosition.z) > 0.01)
+                    {
+                        this.gameObject.transform.localPosition += (_formerVivePosition - newVivePosition.localPosition);
+                        _formerVivePosition = newVivePosition.localPosition;
                         _viveOffset = newVivePosition.localPosition;
                         _viveOffset -= new Vector3(0f, _distanceHeadToBody, 0);
                     }
+                    _initiatePosition = false;
+                }
 
-                    this.gameObject.transform.position = _avatar.transform.position - _viveOffset;
-                    _formerAvatarPosition = _avatar.transform.position;
-                }
-                // Position change of the VR headset
-                if (Mathf.Abs(_formerVivePosition.x - newVivePosition.localPosition.x) > 0.01 || Mathf.Abs(_formerVivePosition.y - newVivePosition.localPosition.y) > 0.01 || Mathf.Abs(_formerVivePosition.z - newVivePosition.localPosition.z) > 0.01)
-                {
-                    this.gameObject.transform.localPosition += (_formerVivePosition - newVivePosition.localPosition);
-                    _formerVivePosition = newVivePosition.localPosition;
-                    _viveOffset = newVivePosition.localPosition;
-                    _viveOffset -= new Vector3(0f, _distanceHeadToBody, 0);
-                }
+                // Alternative code to only enable free movement in y direction when not in movement mode
+                //else
+                //{
+                //    // Position change of the avatar
+                //    if (Mathf.Abs(_formerAvatarPosition.x - _avatar.transform.position.x) > 0.01 || Mathf.Abs(_formerAvatarPosition.z - _avatar.transform.position.z) > 0.01)
+                //    {
+                //        // The viveOffset is needed to align the VR headset with the head of the avatar..
+                //        if (_viveOffset == Vector3.zero)
+                //        {
+                //            _viveOffset = new Vector3(newVivePosition.localPosition.x, 0, newVivePosition.localPosition.z);
+                //        }
+                //        this.gameObject.transform.position = new Vector3(_avatar.transform.position.x - _viveOffset.x, this.gameObject.transform.position.y, _avatar.transform.position.z - _viveOffset.z);
+                //        _formerAvatarPosition = _avatar.transform.position;
+                //    }
+                //    // Position change of the VR headset
+                //    if (Mathf.Abs(_formerVivePosition.x - newVivePosition.localPosition.x) > 0.01 || Mathf.Abs(_formerVivePosition.z - newVivePosition.localPosition.z) > 0.01)
+                //    {
+                //        this.gameObject.transform.localPosition += new Vector3((_formerVivePosition - newVivePosition.localPosition).x, 0, (_formerVivePosition - newVivePosition.localPosition).z);
+                //        _formerVivePosition = newVivePosition.localPosition;
+                //        _viveOffset = new Vector3(newVivePosition.localPosition.x, 0, newVivePosition.localPosition.z);
+                //    }
+                //}
+                
             }
             else
             {
@@ -102,5 +140,13 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Activates the fixation of the Vive to the avatar's head, which prevents free movement of the Vive in any direction.
+    /// </summary>
+    /// <param name="state"></param>
+    public void activateViveFixationToHead(bool state)
+    {
+        _active = state;
+    }
 
 }

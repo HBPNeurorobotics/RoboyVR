@@ -104,6 +104,11 @@ public class AvatarMovement : MonoBehaviour {
     private float _lastGestureTime = 0f;
 
     /// <summary>
+    /// Height of the Vive at the time the user switches from movement to free mode.
+    /// </summary>
+    private float _originalHeight = 0f;
+
+    /// <summary>
     /// To know when the player should move
     /// </summary>
     private bool _move = false;
@@ -185,7 +190,6 @@ public class AvatarMovement : MonoBehaviour {
     /// Catches user input to control the avatar movements either through WASD or Joystick.
     /// </summary>
     void Update () {
-
         if (_avatarId != "")
         {
             if (_avatar != null)
@@ -203,9 +207,24 @@ public class AvatarMovement : MonoBehaviour {
                             //Debug.Log(_thalmicMyo.emg[0] + " " + _thalmicMyo.emg[1] + " " + _thalmicMyo.emg[2] + " " + _thalmicMyo.emg[3] + " " +
                             //    _thalmicMyo.emg[4] + " " + _thalmicMyo.emg[5] + " " + _thalmicMyo.emg[6] + " " + _thalmicMyo.emg[7]);
 
-                            _movementModeActive = !_movementModeActive;
-                            _thalmicMyo.Vibrate(VibrationType.Medium);
+                            // Only change into active movement mode if the user isn't kneeling on the ground
+                            if (vivePosition.position.y > (_originalHeight - 0.1) || _movementModeActive)
+                            {
+                                _movementModeActive = !_movementModeActive;
+                                vrHeadset.activateViveFixationToHead(_movementModeActive);
+                                _thalmicMyo.Vibrate(VibrationType.Medium);
 
+                                if (!_movementModeActive)
+                                {
+                                    // Track the y position of the Vive to determine if the player is kneeling or not
+                                    _originalHeight = vivePosition.position.y;
+                                }
+                                else{
+                                    // Always synch the player when switching into movement mode
+                                    _synch = true;
+                                }
+                            }
+                            
                             // Stop movement when switching movement mode off
                             if (!_movementModeActive && _move)
                             {
