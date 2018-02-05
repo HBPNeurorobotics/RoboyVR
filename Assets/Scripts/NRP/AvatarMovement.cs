@@ -192,17 +192,22 @@ public class AvatarMovement : MonoBehaviour {
             {
                 #region MOVEMENT_WITH_MYO
 
-                // Enter / Exit movement mode when any gesture was performed with sufficient strength
-                if (contrType == ControlType.Gesture && _lastGestureTime + 2 < Time.time)
+                // Enter / Exit movement mode when any gesture was performed with sufficient strength and the arm was pointing downwards
+                if (contrType == ControlType.Gesture && _lastGestureTime + 2 < Time.time && _myoTransform.forward.y < _deflectionMin)
                 {
+                    // Iterate through all emg sensors, if one has a value larger than 80 a gesture was performed
                     for (int i = 0; i < _thalmicMyo.emg.Length; i++)
                     {
-                        if (_thalmicMyo.emg[i] > 70)
+                        if (_thalmicMyo.emg[i] > 80)
                         {
+                            //Debug.Log(_thalmicMyo.emg[0] + " " + _thalmicMyo.emg[1] + " " + _thalmicMyo.emg[2] + " " + _thalmicMyo.emg[3] + " " +
+                            //    _thalmicMyo.emg[4] + " " + _thalmicMyo.emg[5] + " " + _thalmicMyo.emg[6] + " " + _thalmicMyo.emg[7]);
+
                             _movementModeActive = !_movementModeActive;
+                            _thalmicMyo.Vibrate(VibrationType.Medium);
 
                             // Stop movement when switching movement mode off
-                            if(!_movementModeActive && _move)
+                            if (!_movementModeActive && _move)
                             {
                                 publishMovementInDirection(Vector3.zero);
                                 _move = false;
@@ -214,6 +219,7 @@ public class AvatarMovement : MonoBehaviour {
                     }
                 }
 
+                // If movement mode is activated track the movements of the Myo and translate them into avatar movements
                 if (contrType == ControlType.Gesture && _movementModeActive)
                 {
                     // Define the coroutine used to pulse the vibration the armband
