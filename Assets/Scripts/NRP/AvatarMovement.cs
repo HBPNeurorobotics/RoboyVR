@@ -216,7 +216,6 @@ public class AvatarMovement : MonoBehaviour {
                             if (vivePosition.position.y > (_originalHeight - 0.1) || _movementModeActive)
                             {
                                 _movementModeActive = !_movementModeActive;
-                                vrHeadset.activateViveFixationToHead(_movementModeActive);
                                 _thalmicMyo.Vibrate(VibrationType.Medium);
 
                                 if (!_movementModeActive)
@@ -234,7 +233,7 @@ public class AvatarMovement : MonoBehaviour {
                             if (!_movementModeActive && _move)
                             {
                                 publishMovementInDirection(Vector3.zero);
-                                _move = false;
+                                enableMovement(false);
                             }
 
                             _lastGestureTime = Time.time;
@@ -284,19 +283,19 @@ public class AvatarMovement : MonoBehaviour {
                     if (_myoTransform.forward.y > _deflectionMin)
                     {
                         // Move forward
-                        _move = true;
+                        enableMovement(true);
                         _directionFactor = 1;
 
                     }else if (_myoTransform.forward.y <= _deflectionMin && Mathf.Abs(relativeRoll) >= 90)
                     {
                         // Move backward
-                        _move = true;
+                        enableMovement(true);
                         _directionFactor = -1;
                     }
                     else
                     {
                         // Don't move
-                        _move = false;
+                        enableMovement(false);
                     }
 
                     if (_move)
@@ -531,5 +530,15 @@ public class AvatarMovement : MonoBehaviour {
         }
 
         _isCoroutineRunning = false;
+    }
+
+    /// <summary>
+    /// Sets the movement indicator _move and enables / disables the fixation of the Vive to the avatar's head
+    /// </summary>
+    /// <param name="enable">bool to enable / disable movement</param>
+    private void enableMovement(bool enable)
+    {
+        _move = enable;
+        vrHeadset.activateViveFixationToHead(enable);
     }
 }
