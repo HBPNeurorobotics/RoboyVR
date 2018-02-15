@@ -13,6 +13,11 @@ public class NRPBackendManager : MonoBehaviour {
     public string AuthPassword = "password";
     public GameObject GazeboScene = null;
 
+    /// <summary>
+    /// The coordinates of the point where the avatar should spawn.
+    /// </summary>
+    public Vector3 avatarPosition = Vector3.zero;
+
     private GzBridgeManager GzBridgeManager;
     private ROSBridge ROSBridgeManager;
     private string authToken = null;
@@ -91,6 +96,7 @@ public class NRPBackendManager : MonoBehaviour {
             ROSAvatarRotPublisher.setAvatarId(avatarId);
             ROSAvatarRotSubscriber.setAvatarId(avatarId);
 
+            GzBridgeManager.avatarPosition = avatarPosition;
             GzBridgeManager.avatarId = avatarId;
             GzBridgeManager.URL = NRPBackendIP + ":" + GzBridgePort.ToString() + "/gzbridge?token=" + this.authToken;
             GzBridgeManager.GazeboScene = this.GazeboScene;

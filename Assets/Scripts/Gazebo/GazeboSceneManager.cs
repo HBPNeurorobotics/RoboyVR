@@ -17,8 +17,20 @@ public class GazeboSceneManager : MonoBehaviour {
         UNKNOWN = 4
     }
 
+    /// <summary>
+    /// Boolean which indicates if the avatar is already in the scene or not.
+    /// </summary>
     private bool avatarInScene = false;
+
+    /// <summary>
+    /// The identifier to uniquely identify the user's avatar.
+    /// </summary>
     private string avatarId = "";
+
+    /// <summary>
+    /// The coordinates of the point where the avatar should spawn.
+    /// </summary>
+    private Vector3 avatarPosition = Vector3.zero;
 
     // scene access
     private string scene_name_ = null;
@@ -47,7 +59,9 @@ public class GazeboSceneManager : MonoBehaviour {
 	    if(avatarId == "")
         {
             avatarId = GzBridgeManager.Instance.avatarId;
-        }	
+            avatarPosition = GzBridgeManager.Instance.avatarPosition;
+        }
+        
 	}
 
     #region ON_MESSAGE_FUNCTIONS
@@ -125,7 +139,7 @@ public class GazeboSceneManager : MonoBehaviour {
              * Instantiate the avatar with the following message if it doesn't already exists in the scene
              * "{\"op\": \"publish\", \"topic\": \"" + "~/factory" + "\", \"msg\": {\"name\":\"Test\",\"type\":\"user_avatar_basic\",\"createEntity\":1,\"position\":{\"x\":5,\"y\":0,\"z\":0},\"orientation\":{\"w\":1,\"x\":0,\"y\":0,\"z\":0}}" + "}";
              */
-            GzBridgeManager.Instance.m_GzBridge.Publish(GzFactoryPublisher.GetMessageTopic(), new GzFactoryMsg("user_avatar_" + avatarId, "user_avatar_basic", new PointMsg(5, 0, 0), new QuaternionMsg(0, 0, 0, 1)));
+            GzBridgeManager.Instance.m_GzBridge.Publish(GzFactoryPublisher.GetMessageTopic(), new GzFactoryMsg("user_avatar_" + avatarId, "user_avatar_basic", new PointMsg(avatarPosition.x, avatarPosition.y, avatarPosition.z), new QuaternionMsg(0, 0, 0, 1)));
             avatarInScene = true;
         }
 

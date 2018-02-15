@@ -32,6 +32,11 @@ public class GzBridgeManager : Singleton<GzBridgeManager>
     /// </summary>
     public string avatarId = "";
 
+    /// <summary>
+    /// The coordinates where the avatar should be spawned.
+    /// </summary>
+    public Vector3 avatarPosition = Vector3.zero;
+
     public GameObject GazeboScene = null;
 
     #endregion //PUBLIC_MEMBER_VARIABLES

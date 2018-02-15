@@ -184,11 +184,6 @@ public class AvatarMovement : MonoBehaviour {
         Vector2 res = solveLinearEquationWithTwoUnknowns(_speedMin, _deflectionMin, _speedMax, _deflectionMax);
         _speedFunction_k = res.x;
         _speedFunction_d = res.y;
-
-        if(contrType == ControlType.Joystick)
-        {
-            vrHeadset.activateViveFixationToHead(true);
-        }
     }
 
     /// <summary>
@@ -366,11 +361,14 @@ public class AvatarMovement : MonoBehaviour {
                         if (_movementDirection == Vector3.zero)
                         {
                             _zeroBefore = true;
+                            vrHeadset.activateViveFixationToHead(false);
                         }
-                        else
+                        else if(_zeroBefore)
                         {
                             _zeroBefore = false;
+                            vrHeadset.activateViveFixationToHead(true);
                         }
+                        
                     }
                     
 
