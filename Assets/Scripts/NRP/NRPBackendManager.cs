@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using ROSBridgeLib.geometry_msgs;
+using ROSBridgeLib.gazebo_msgs;
 
 public class NRPBackendManager : MonoBehaviour {
 
@@ -21,9 +23,11 @@ public class NRPBackendManager : MonoBehaviour {
     private GzBridgeManager GzBridgeManager;
     private ROSBridge ROSBridgeManager;
     private string authToken = null;
+    private string avatarId = null;
+    private float resetTime = 0;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         if (!string.IsNullOrEmpty(this.NRPBackendIP))
         {
@@ -33,10 +37,31 @@ public class NRPBackendManager : MonoBehaviour {
         }
     }
 	
-	// Update is called once per frame
+	
+    /// <summary>
+    /// Enables the user to reset the avatar's position to the starting position by pressing R and T.
+    /// </summary>
 	void Update () {
-		
-	}
+        if (Input.GetKey(KeyCode.R) && Input.GetKey(KeyCode.T) && Time.time > resetTime + 5 && avatarId != null)
+        {
+            Debug.Log("Reset avatar position");
+           
+            // Tells the server to reset the avatar.
+            ROSBridge.Instance.ROS.Publish(ROSAvatarResetPublisher.GetMessageTopic(),new ModelStateMsg("user_avatar_"+avatarId, 
+                new PoseMsg(new PointMsg(avatarPosition.x, avatarPosition.z, avatarPosition.y), new QuaternionMsg(0, 0, 0, 1)), 
+                new Vector3Msg(1, 1, 1), 
+                new TwistMsg(new Vector3Msg(0, 0, 0), new Vector3Msg(0, 0, 0))));
+
+            resetTime = Time.time;
+
+            // Synchronize the VR headset with the new avatar position.
+            VRMountToAvatarHeadset vr = FindObjectOfType<VRMountToAvatarHeadset>();
+            if(vr != null)
+            {
+                vr.synchronizeVRToAvatarPosition();
+            }
+        }
+    }
 
     private void ConnectToGazeboBridge()
     {
@@ -89,7 +114,7 @@ public class NRPBackendManager : MonoBehaviour {
             //Debug.Log("auth token: " + this.authToken);
 
             // the authentication token needs to be adapted to be used as avatar id, as the topics doesn't allow '-' in their names
-            string avatarId = this.authToken.Replace('-', '_');
+            avatarId = this.authToken.Replace('-', '_');
 
             // set the avatar id for all avatar publisher and subscriber
             ROSAvatarVelPublisher.setAvatarId(avatarId);

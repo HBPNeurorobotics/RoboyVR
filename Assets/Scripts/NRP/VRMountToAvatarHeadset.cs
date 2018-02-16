@@ -61,9 +61,9 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     private bool _active = false;
 
     /// <summary>
-    /// Allows the script to set the avatar position at the start of the simulation, although movement mode isn't enabled.
+    /// Allows the script to set the VR headset positon to the avatar position, although movement mode isn't enabled.
     /// </summary>
-    private bool _initiatePosition = true;
+    private bool _synchWithAvatarPosition = true;
 
     #endregion
 
@@ -77,7 +77,8 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
         {
             if (_avatar != null)
             {
-                if (_initiatePosition)
+                // Synchronize the position of the VR headset with the position of the avatar if the corresponding booelan is true and the avatar has moved since the last frame / is not at position (0, 0, 0)
+                if (_synchWithAvatarPosition && (Mathf.Abs(_formerAvatarPosition.x - _avatar.transform.position.x) > 0.1 || Mathf.Abs(_formerAvatarPosition.y - _avatar.transform.position.y) > 0.1 || Mathf.Abs(_formerAvatarPosition.z - _avatar.transform.position.z) > 0.1))
                 {
                     // The viveOffset is needed to align the VR headset with the head of the avatar..
                     if (_viveOffset == Vector3.zero)
@@ -87,7 +88,7 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
                     }
 
                     this.gameObject.transform.position = _avatar.transform.position - _viveOffset;
-                    _initiatePosition = false;
+                    _synchWithAvatarPosition = false;
                 }
                 if (_active)
                 {
@@ -158,6 +159,14 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
     public void activateViveFixationToHead(bool state)
     {
         _active = state;
+    }
+
+    /// <summary>
+    /// Synchronizes the position of the VR headset to the current position of the avatar.
+    /// </summary>
+    public void synchronizeVRToAvatarPosition()
+    {
+        _synchWithAvatarPosition = true;
     }
 
 }
