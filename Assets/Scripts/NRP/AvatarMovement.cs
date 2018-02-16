@@ -39,6 +39,11 @@ public class AvatarMovement : MonoBehaviour {
     private Quaternion _antiYaw = Quaternion.identity;
 
     /// <summary>
+    /// antiRoll represents a rotation about the myo Armband's forward axis adjusting for reference roll.
+    /// </summary>
+    private Quaternion _antiRoll = Quaternion.identity;
+
+    /// <summary>
     /// Coroutine for making the Myo armband pulse
     /// </summary>
     private IEnumerator _coroutinePulse;
@@ -75,7 +80,7 @@ public class AvatarMovement : MonoBehaviour {
     /// <summary>
     /// Minimal arm movement along th y-axis to trigger movement.
     /// </summary>
-    private float _deflectionMin = -0.7f;
+    private float _deflectionMin = -0.8f;
 
     /// <summary>
     /// Maximal arm movement along the y-axis.
@@ -190,59 +195,15 @@ public class AvatarMovement : MonoBehaviour {
     /// Catches user input to control the avatar movements either through WASD or Joystick.
     /// </summary>
     void Update () {
-        //Debug.Log(_myoTransform.forward.y);
+        
         if (_avatarId != "")
         {
             if (_avatar != null)
             {
                 #region MOVEMENT_WITH_MYO
 
-                // Enter / Exit movement mode when any gesture was performed with sufficient strength and the arm was pointing downwards
-                if (contrType == ControlType.Gesture && _lastGestureTime + 2 < Time.time && _myoTransform.forward.y < _deflectionMin)
+                if(contrType == ControlType.Gesture)
                 {
-                    // Iterate through all emg sensors, if one has a value larger than 80 a gesture was performed
-                    for (int i = 0; i < _thalmicMyo.emg.Length; i++)
-                    {
-                        if (_thalmicMyo.emg[i] > 80)
-                        {
-                            //Debug.Log(_thalmicMyo.emg[0] + " " + _thalmicMyo.emg[1] + " " + _thalmicMyo.emg[2] + " " + _thalmicMyo.emg[3] + " " +
-                            //    _thalmicMyo.emg[4] + " " + _thalmicMyo.emg[5] + " " + _thalmicMyo.emg[6] + " " + _thalmicMyo.emg[7]);
-
-                            // Only change into active movement mode if the user isn't kneeling on the ground
-                            if (vivePosition.position.y > (_originalHeight - 0.1) || _movementModeActive)
-                            {
-                                _movementModeActive = !_movementModeActive;
-                                _thalmicMyo.Vibrate(VibrationType.Medium);
-
-                                if (!_movementModeActive)
-                                {
-                                    // Track the y position of the Vive to determine if the player is kneeling or not
-                                    _originalHeight = vivePosition.position.y;
-                                }
-                                else{
-                                    // Always synch the player when switching into movement mode
-                                    _synch = true;
-                                }
-                            }
-                            
-                            // Stop movement when switching movement mode off
-                            if (!_movementModeActive && _move)
-                            {
-                                publishMovementInDirection(Vector3.zero);
-                                enableMovement(false);
-                            }
-
-                            _lastGestureTime = Time.time;
-                            break;
-                        }
-                    }
-                }
-
-                // If movement mode is activated track the movements of the Myo and translate them into avatar movements
-                if (contrType == ControlType.Gesture && _movementModeActive)
-                {
-                    // Define the coroutine used to pulse the vibration the armband
-                    _coroutinePulse = PulseVibration(1.5f, _thalmicMyo);
 
                     // Update references between Myo and Vive. 
                     if (_synch)
@@ -274,65 +235,119 @@ public class AvatarMovement : MonoBehaviour {
                     float relativeRoll = normalizeAngle(roll - _referenceRoll);
 
                     // antiRoll represents a rotation about the myo Armband's forward axis adjusting for reference roll.
-                    Quaternion antiRoll = Quaternion.AngleAxis(relativeRoll, _myoTransform.forward);
+                    _antiRoll = Quaternion.AngleAxis(relativeRoll, _myoTransform.forward);
 
-                    if (_myoTransform.forward.y > _deflectionMin)
-                    {
-                        // Move forward
-                        enableMovement(true);
-                        _directionFactor = 1;
 
-                    }else if (_myoTransform.forward.y <= _deflectionMin && Mathf.Abs(relativeRoll) >= 90)
+                    Vector3 tmp = _antiYaw * _antiRoll * _myoTransform.forward;
+                    // Enter / Exit movement mode when any gesture was performed with sufficient strength (_thalmicMyo.emg[i] > 85) and the arm was pointing downwards and not backwards or sidewards (Mathf.Abs(relativeRoll) < 20)
+                    if (_lastGestureTime + 2 < Time.time && _myoTransform.forward.y < _deflectionMin && Mathf.Abs(relativeRoll) < 20)
                     {
-                        // Move backward
-                        enableMovement(true);
-                        _directionFactor = -1;
-                    }
-                    else
-                    {
-                        // Don't move
-                        enableMovement(false);
-                    }
-
-                    if (_move)
-                    {
-                        if (_directionFactor > 0)
+                        // Iterate through all emg sensors, if one has a value larger than 80 a gesture was performed
+                        for (int i = 0; i < _thalmicMyo.emg.Length; i++)
                         {
-                            // Move forward in the direction where the user is pointing with the Myo
+                            if (_thalmicMyo.emg[i] > 85)
+                            {
+                                //Debug.Log(_thalmicMyo.emg[0] + " " + _thalmicMyo.emg[1] + " " + _thalmicMyo.emg[2] + " " + _thalmicMyo.emg[3] + " " +
+                                //    _thalmicMyo.emg[4] + " " + _thalmicMyo.emg[5] + " " + _thalmicMyo.emg[6] + " " + _thalmicMyo.emg[7]);
 
-                            _speed = _myoTransform.forward.y * _speedFunction_k + _speedFunction_d;
-                            // Here the anti - roll and yaw rotations are applied to the myo Armband's forward direction to yield the correct orientation.
-                            publishMovementInDirection(_directionFactor * (_antiYaw * antiRoll * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z)) * _speed);
+                                // Only change into active movement mode if the user isn't kneeling on the ground
+                                if (vivePosition.position.y > (_originalHeight - 0.1) || _movementModeActive)
+                                {
+                                    _movementModeActive = !_movementModeActive;
+                                    _thalmicMyo.Vibrate(VibrationType.Medium);
+
+                                    if (!_movementModeActive)
+                                    {
+                                        // Track the y position of the Vive to determine if the player is kneeling or not
+                                        _originalHeight = vivePosition.position.y;
+                                    }
+                                    else
+                                    {
+                                        // Always synch the player when switching into movement mode
+                                        _synch = true;
+                                    }
+                                }
+
+                                // Stop movement when switching movement mode off
+                                if (!_movementModeActive && _move)
+                                {
+                                    publishMovementInDirection(Vector3.zero);
+                                    enableMovement(false);
+                                }
+
+                                _lastGestureTime = Time.time;
+                                break;
+                            }
+                        }
+                    }
+
+
+                    // If movement mode is activated track the movements of the Myo and translate them into avatar movements
+                    if (_movementModeActive)
+                    {
+                        // Define the coroutine used to pulse the vibration the armband
+                        _coroutinePulse = PulseVibration(1.5f, _thalmicMyo);
+
+                        if (_myoTransform.forward.y > _deflectionMin)
+                        {
+                            // Move forward
+                            enableMovement(true);
+                            _directionFactor = 1;
+
+                        }
+                        else if (_myoTransform.forward.y <= _deflectionMin && Mathf.Abs(relativeRoll) >= 90)
+                        {
+                            // Move backward
+                            enableMovement(true);
+                            _directionFactor = -1;
                         }
                         else
                         {
-                            // Move backward in the inverse direction of the avatar's forward direction with constant speed
-
-                            _speed = 3f;
-                            // When performing a backward movement, the user should go into the inverse direction he is looking at right now.
-                            // Therefore, one needs to take the avatar rotation into account as well, like when performing the movement with teh joystick
-                            publishMovementInDirection(_directionFactor * (_avatar.transform.rotation * new Vector3(0, 0, 1)) * _speed);
-
+                            // Don't move
+                            enableMovement(false);
                         }
 
-                        // Start the pulsing of the Myo if needed
-                        if (!_isCoroutineRunning) StartCoroutine(_coroutinePulse);
-
-                        _zeroBefore = false;
-                    }
-                    else
-                    {
-                        if (!_zeroBefore)
+                        if (_move)
                         {
-                            publishMovementInDirection(Vector3.zero);
+                            if (_directionFactor > 0)
+                            {
+                                // Move forward in the direction where the user is pointing with the Myo
+
+                                _speed = _myoTransform.forward.y * _speedFunction_k + _speedFunction_d;
+                                // Here the anti - roll and yaw rotations are applied to the myo Armband's forward direction to yield the correct orientation.
+                                publishMovementInDirection(_directionFactor * (_antiYaw * _antiRoll * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z)) * _speed);
+                            }
+                            else
+                            {
+                                // Move backward in the inverse direction of the avatar's forward direction with constant speed
+
+                                _speed = 3f;
+                                // When performing a backward movement, the user should go into the inverse direction he is looking at right now.
+                                // Therefore, one needs to take the avatar rotation into account as well, like when performing the movement with teh joystick
+                                publishMovementInDirection(_directionFactor * (_avatar.transform.rotation * new Vector3(0, 0, 1)) * _speed);
+
+                            }
+
+                            // Start the pulsing of the Myo if needed
+                            if (!_isCoroutineRunning) StartCoroutine(_coroutinePulse);
+
+                            _zeroBefore = false;
                         }
+                        else
+                        {
+                            if (!_zeroBefore)
+                            {
+                                publishMovementInDirection(Vector3.zero);
+                            }
 
-                        // Stop coroutine if running
-                        if (_isCoroutineRunning) StopCoroutine(_coroutinePulse);
+                            // Stop coroutine if running
+                            if (_isCoroutineRunning) StopCoroutine(_coroutinePulse);
 
-                        _zeroBefore = true;
+                            _zeroBefore = true;
+                        }
                     }
                 }
+
                 #endregion
 
 
