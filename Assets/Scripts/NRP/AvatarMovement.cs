@@ -61,12 +61,22 @@ public class AvatarMovement : MonoBehaviour {
     /// <summary>
     /// Variable for speed / deflection mapping with speed = k * myo-deflection + d
     /// </summary>
-    private float _speedFunction_k = 1;
+    private float _myo_speedFunction_k = 1;
 
     /// <summary>
     /// Variable for speed / deflection mapping with speed = k * myo-deflection + d
     /// </summary>
-    private float _speedFunction_d = 0;
+    private float _myo_speedFunction_d = 0;
+
+    /// <summary>
+    /// Variable for speed / joystick mapping with speed = k * joystick + d
+    /// </summary>
+    private float _joystick_speedFunction_k = 1;
+
+    /// <summary>
+    /// Variable for speed / joystick mapping with speed = k * joystick + d
+    /// </summary>
+    private float _joystick_speedFunction_d = 0;
 
     /// <summary>
     /// This is the maximal allowed spped the user can use
@@ -88,9 +98,9 @@ public class AvatarMovement : MonoBehaviour {
     private float _deflectionMax = 0.3f;
 
     /// <summary>
-    /// As the Joystick always returns a value after it was moved ones, a threshold of 0.4 and -0.4 is used to differentiate between input and noise
+    /// As the Joystick always returns a value after it was moved ones, a threshold of 0.1 and -0.1 is used to differentiate between input and noise
     /// </summary>
-    private float _joystickThreshold = 0.4f;
+    private float _joystickThreshold = 0.1f;
 
     /// <summary>
     /// Factor to determine if we want to move forward (1) or backward (-1)
@@ -187,8 +197,11 @@ public class AvatarMovement : MonoBehaviour {
     private void Start()
     {
         Vector2 res = solveLinearEquationWithTwoUnknowns(_speedMin, _deflectionMin, _speedMax, _deflectionMax);
-        _speedFunction_k = res.x;
-        _speedFunction_d = res.y;
+        _myo_speedFunction_k = res.x;
+        _myo_speedFunction_d = res.y;
+        res = solveLinearEquationWithTwoUnknowns(_speedMin, _joystickThreshold, _speedMax, 1);
+        _joystick_speedFunction_k = res.x;
+        _joystick_speedFunction_d = res.y;
     }
 
     /// <summary>
@@ -205,6 +218,7 @@ public class AvatarMovement : MonoBehaviour {
                 if(contrType == ControlType.Gesture)
                 {
 
+                    #region MYO_SYNCHRONIZATION
                     // Update references between Myo and Vive. 
                     if (_synch)
                     {
@@ -236,8 +250,9 @@ public class AvatarMovement : MonoBehaviour {
 
                     // antiRoll represents a rotation about the myo Armband's forward axis adjusting for reference roll.
                     _antiRoll = Quaternion.AngleAxis(relativeRoll, _myoTransform.forward);
+                    #endregion
 
-
+                    #region CHANGE_MOVEMENT_MDOE
                     Vector3 tmp = _antiYaw * _antiRoll * _myoTransform.forward;
                     // Enter / Exit movement mode when any gesture was performed with sufficient strength (_thalmicMyo.emg[i] > 85) and the arm was pointing downwards and not backwards or sidewards (Mathf.Abs(relativeRoll) < 20)
                     if (_lastGestureTime + 2 < Time.time && _myoTransform.forward.y < _deflectionMin && Mathf.Abs(relativeRoll) < 20)
@@ -280,8 +295,9 @@ public class AvatarMovement : MonoBehaviour {
                             }
                         }
                     }
+                    #endregion
 
-
+                    #region MOVEMENT_CONTROL
                     // If movement mode is activated track the movements of the Myo and translate them into avatar movements
                     if (_movementModeActive)
                     {
@@ -313,7 +329,7 @@ public class AvatarMovement : MonoBehaviour {
                             {
                                 // Move forward in the direction where the user is pointing with the Myo
 
-                                _speed = _myoTransform.forward.y * _speedFunction_k + _speedFunction_d;
+                                _speed = _myoTransform.forward.y * _myo_speedFunction_k + _myo_speedFunction_d;
                                 // Here the anti - roll and yaw rotations are applied to the myo Armband's forward direction to yield the correct orientation.
                                 publishMovementInDirection(_directionFactor * (_antiYaw * _antiRoll * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z)) * _speed);
                             }
@@ -346,6 +362,7 @@ public class AvatarMovement : MonoBehaviour {
                             _zeroBefore = true;
                         }
                     }
+                    #endregion
                 }
 
                 #endregion
@@ -356,7 +373,7 @@ public class AvatarMovement : MonoBehaviour {
                 {
                     _movementDirection = Vector3.zero;
 
-                    // As the Joystick always returns a value after it was moved ones, a threshold of 0.4 and -0.4 is used to differentiate between input and noise.
+                    // As the Joystick always returns a value after it was moved ones, a threshold of 0.1 and -0.1 is used to differentiate between input and noise.
                     if (Input.GetAxis("LeftJoystickX") > _joystickThreshold || Input.GetAxis("LeftJoystickX") < -_joystickThreshold)
                     {
                         _movementDirection.x = Input.GetAxis("LeftJoystickX");
@@ -372,7 +389,10 @@ public class AvatarMovement : MonoBehaviour {
                         // To take the rotation into account as well when performing a movement, the gameObject avatar's rotation is used to transform the direction vector into the right coordinate frame.
                         // Thereby, it is important to take the quaternion as the first factor of the multiplication and the vector as the second (quaternion * vector).
                         // The resulting vector is then multiplied with the predefined speed.
-                        publishMovementInDirection((_avatar.transform.rotation * _movementDirection) * _speed);
+                        Vector3 rotMovement = _avatar.transform.rotation * _movementDirection;
+                        // Determine the speed given through the deflections of the left joystick
+                        Vector3 speedVector = new Vector3(Mathf.Abs(_movementDirection.x) * _joystick_speedFunction_k + _joystick_speedFunction_d, 0, Mathf.Abs(_movementDirection.z) * _joystick_speedFunction_k + _joystick_speedFunction_d);
+                        publishMovementInDirection(Vector3.Scale(rotMovement, speedVector));
 
                         if (_movementDirection == Vector3.zero)
                         {
@@ -386,18 +406,6 @@ public class AvatarMovement : MonoBehaviour {
                         }
                         
                     }
-                    
-
-                    #region SPEED_CONTROL
-                    if (Input.GetAxis("RightJoystick5th") > _joystickThreshold || Input.GetAxis("RightJoystick5th") < -_joystickThreshold)
-                    {
-                        _speed = (Mathf.Abs(Input.GetAxis("RightJoystick5th")) - _joystickThreshold) * ((_speedMax - _speedMin) / (1 - _joystickThreshold)) + _speedMin;
-                    }
-                    else
-                    {
-                        _speed = _speedMin;
-                    }
-                    #endregion
                 }
                 #endregion
 
