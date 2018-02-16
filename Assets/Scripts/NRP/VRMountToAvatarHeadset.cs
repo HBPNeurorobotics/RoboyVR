@@ -77,7 +77,19 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
         {
             if (_avatar != null)
             {
-                if (_active || _initiatePosition)
+                if (_initiatePosition)
+                {
+                    // The viveOffset is needed to align the VR headset with the head of the avatar..
+                    if (_viveOffset == Vector3.zero)
+                    {
+                        _viveOffset = newVivePosition.localPosition;
+                        _viveOffset -= new Vector3(0f, _distanceHeadToBody, 0);
+                    }
+
+                    this.gameObject.transform.position = _avatar.transform.position - _viveOffset;
+                    _initiatePosition = false;
+                }
+                if (_active)
                 {
                     // Position change of the avatar
                     if (Mathf.Abs(_formerAvatarPosition.x - _avatar.transform.position.x) > 0.01 || Mathf.Abs(_formerAvatarPosition.y - _avatar.transform.position.y) > 0.01 || Mathf.Abs(_formerAvatarPosition.z - _avatar.transform.position.z) > 0.01)
@@ -100,7 +112,6 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
                         _viveOffset = newVivePosition.localPosition;
                         _viveOffset -= new Vector3(0f, _distanceHeadToBody, 0);
                     }
-                    _initiatePosition = false;
                 }
 
                 // Alternative code to only enable free movement in y direction when not in movement mode

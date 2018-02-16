@@ -143,7 +143,7 @@ public class AvatarMovement : MonoBehaviour {
     /// <summary>
     /// Enum representing the different control types of the avatar.
     /// </summary>
-    public enum ControlType { Joystick, Gesture };
+    public enum ControlType { Joystick = 0, Gesture = 1 };
 
     /// <summary>
     /// Currently used control tpye for navigating the avatar.
@@ -190,6 +190,7 @@ public class AvatarMovement : MonoBehaviour {
     /// Catches user input to control the avatar movements either through WASD or Joystick.
     /// </summary>
     void Update () {
+        //Debug.Log(_myoTransform.forward.y);
         if (_avatarId != "")
         {
             if (_avatar != null)

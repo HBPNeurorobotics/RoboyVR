@@ -139,7 +139,7 @@ public class GazeboSceneManager : MonoBehaviour {
              * Instantiate the avatar with the following message if it doesn't already exists in the scene
              * "{\"op\": \"publish\", \"topic\": \"" + "~/factory" + "\", \"msg\": {\"name\":\"Test\",\"type\":\"user_avatar_basic\",\"createEntity\":1,\"position\":{\"x\":5,\"y\":0,\"z\":0},\"orientation\":{\"w\":1,\"x\":0,\"y\":0,\"z\":0}}" + "}";
              */
-            GzBridgeManager.Instance.m_GzBridge.Publish(GzFactoryPublisher.GetMessageTopic(), new GzFactoryMsg("user_avatar_" + avatarId, "user_avatar_basic", new PointMsg(avatarPosition.x, avatarPosition.y, avatarPosition.z), new QuaternionMsg(0, 0, 0, 1)));
+            GzBridgeManager.Instance.m_GzBridge.Publish(GzFactoryPublisher.GetMessageTopic(), new GzFactoryMsg("user_avatar_" + avatarId, "user_avatar_basic", new PointMsg(avatarPosition.x, avatarPosition.z, avatarPosition.y), new QuaternionMsg(0, 0, 0, 1)));
             avatarInScene = true;
         }
 
