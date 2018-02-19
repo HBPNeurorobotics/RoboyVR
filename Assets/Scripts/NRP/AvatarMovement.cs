@@ -257,7 +257,6 @@ public class AvatarMovement : MonoBehaviour {
                     // Enter / Exit movement mode when any gesture was performed with sufficient strength (_thalmicMyo.emg[i] > 85) and the arm was pointing downwards and not backwards or sidewards (Mathf.Abs(relativeRoll) < 20)
                     if (_lastGestureTime + 0.5 < Time.time && _myoTransform.forward.y < _deflectionMin && Mathf.Abs(relativeRoll) < 20)
                     {
-                        Debug.Log(vivePosition.position.y + " " + _originalHeight);
                         // Iterate through all emg sensors, if one has a value larger than 80 a gesture was performed
                         for (int i = 0; i < _thalmicMyo.emg.Length; i++)
                         {

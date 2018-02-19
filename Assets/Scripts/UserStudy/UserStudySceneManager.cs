@@ -41,44 +41,65 @@ public class UserStudySceneManager : MonoBehaviour {
     /// </summary>
     public int currentStage = 1;
 
+    /// <summary>
+    /// Boolean indicating if the manager is part of the main menu or not.
+    /// </summary>
+    public bool mainMenu = false;
+
     #endregion
 
     // Use this for initialization
     void Start () {
-        
-        // Set desired avatar position
-        FindObjectOfType<NRPBackendManager>().avatarPosition = avatarPosition[currentStage];
 
-        // Initialize start time tracking area
-        GameObject startTracker = Instantiate(Resources.Load("UserStudy/TriggerArea") as GameObject, new Vector3(avatarPosition[currentStage].x, avatarPosition[currentStage].y, avatarPosition[currentStage].z), Quaternion.identity);
-        startTracker.GetComponent<TimeTrackingZone>().startTimeTracker = true;
-        // Initialize end time tracking area
-        GameObject endTracker = Instantiate(Resources.Load("UserStudy/TriggerArea") as GameObject, new Vector3(robotPosition[currentStage].x, robotPosition[currentStage].y, robotPosition[currentStage].z), Quaternion.identity);
-        endTracker.GetComponent<TimeTrackingZone>().startTimeTracker = false;
+        if (mainMenu)
+        {
 
+        }
+        else
+        {
+            // Set desired avatar position
+            FindObjectOfType<NRPBackendManager>().avatarPosition = avatarPosition[currentStage];
+
+            // Initialize start time tracking area
+            GameObject startTracker = Instantiate(Resources.Load("UserStudy/TriggerArea") as GameObject, new Vector3(avatarPosition[currentStage].x, avatarPosition[currentStage].y, avatarPosition[currentStage].z), Quaternion.identity);
+            startTracker.GetComponent<TimeTrackingZone>().startTimeTracker = true;
+            // Initialize end time tracking area
+            GameObject endTracker = Instantiate(Resources.Load("UserStudy/TriggerArea") as GameObject, new Vector3(robotPosition[currentStage].x, robotPosition[currentStage].y, robotPosition[currentStage].z), Quaternion.identity);
+            endTracker.GetComponent<TimeTrackingZone>().startTimeTracker = false;
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        // Add a  CapsuleCollider to the avatar
-        if (_avatarId != "" && _addCollider)
+        if (!mainMenu)
         {
-            if (_avatar != null)
+            // Add a  CapsuleCollider to the avatar
+            if (_avatarId != "" && _addCollider)
             {
-                CapsuleCollider coll = _avatar.AddComponent<CapsuleCollider>();
-                coll.center = new Vector3(0, 1, 0);
-                coll.radius = 0.2f;
-                _addCollider = false;
+                if (_avatar != null)
+                {
+                    CapsuleCollider coll = _avatar.AddComponent<CapsuleCollider>();
+                    coll.center = new Vector3(0, 1, 0);
+                    coll.radius = 0.2f;
+                    _addCollider = false;
+                }
+                else
+                {
+                    _avatar = GameObject.Find("user_avatar_" + _avatarId);
+                }
             }
             else
             {
-                _avatar = GameObject.Find("user_avatar_" + _avatarId);
+                _avatarId = GzBridgeManager.Instance.avatarId;
             }
         }
-        else
-        {
-            _avatarId = GzBridgeManager.Instance.avatarId;
-        }
+        
     }
+
+    public void StartNextSurvey()
+    {
+
+    }
+
 }
