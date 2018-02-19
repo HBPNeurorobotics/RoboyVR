@@ -88,6 +88,14 @@ public class VRMountToAvatarHeadset : MonoBehaviour {
                     }
 
                     this.gameObject.transform.position = _avatar.transform.position - _viveOffset;
+
+                    // Needed to fix the problem of wrongly assumed avatar height after resetting the avatar's position
+                    AvatarMovement av = FindObjectOfType<AvatarMovement>();
+                    if(av != null)
+                    {
+                        av.setViveHeight(this.gameObject.transform.position.y);
+                    }
+
                     _synchWithAvatarPosition = false;
                 }
                 if (_active)
