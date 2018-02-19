@@ -257,6 +257,7 @@ public class AvatarMovement : MonoBehaviour {
                     // Enter / Exit movement mode when any gesture was performed with sufficient strength (_thalmicMyo.emg[i] > 85) and the arm was pointing downwards and not backwards or sidewards (Mathf.Abs(relativeRoll) < 20)
                     if (_lastGestureTime + 0.5 < Time.time && _myoTransform.forward.y < _deflectionMin && Mathf.Abs(relativeRoll) < 20)
                     {
+                        Debug.Log(vivePosition.position.y + " " + _originalHeight);
                         // Iterate through all emg sensors, if one has a value larger than 80 a gesture was performed
                         for (int i = 0; i < _thalmicMyo.emg.Length; i++)
                         {
@@ -265,8 +266,8 @@ public class AvatarMovement : MonoBehaviour {
                                 //Debug.Log(_thalmicMyo.emg[0] + " " + _thalmicMyo.emg[1] + " " + _thalmicMyo.emg[2] + " " + _thalmicMyo.emg[3] + " " +
                                 //    _thalmicMyo.emg[4] + " " + _thalmicMyo.emg[5] + " " + _thalmicMyo.emg[6] + " " + _thalmicMyo.emg[7]);
 
-                                // Only change into active movement mode if the user isn't kneeling on the ground
-                                if (vivePosition.position.y > (_originalHeight - 0.1) || _movementModeActive)
+                                // Only change into active movement mode if the user isn't kneeling on the ground (75% of normal body height)
+                                if (vivePosition.position.y > (_originalHeight * 0.75) || _movementModeActive)
                                 {
                                     _movementModeActive = !_movementModeActive;
                                     _thalmicMyo.Vibrate(VibrationType.Medium);
@@ -329,7 +330,6 @@ public class AvatarMovement : MonoBehaviour {
                             if (_directionFactor > 0)
                             {
                                 // Move forward in the direction where the user is pointing with the Myo
-
                                 _speed = _myoTransform.forward.y * _myo_speedFunction_k + _myo_speedFunction_d;
                                 // Here the anti - roll and yaw rotations are applied to the myo Armband's forward direction to yield the correct orientation.
                                 publishMovementInDirection(_directionFactor * (_antiYaw * _antiRoll * new Vector3(_myoTransform.forward.x, 0, _myoTransform.forward.z)) * _speed);
