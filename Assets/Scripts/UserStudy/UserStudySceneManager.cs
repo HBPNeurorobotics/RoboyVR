@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UserStudySceneManager : MonoBehaviour {
 
@@ -22,9 +23,43 @@ public class UserStudySceneManager : MonoBehaviour {
     /// </summary>
     private bool _addCollider = true;
 
+    /// <summary>
+    /// Boolean used to distinguish between the first level and all other levels.
+    /// </summary>
+    private bool _firstSurvey = true;
+
+    /// <summary>
+    /// Integer representing the current level of the user study.
+    /// </summary>
+    private int _currentLevel = 0;
+
     #endregion
 
     #region PUBLIC_MEMBER_VARIABLES
+
+    public enum SceneType{ MainMenu, Survey, FinishMenu};
+
+    public SceneType currentScene = SceneType.Survey;
+
+    /// <summary>
+    /// This gameObjects encompasses the whole survey instruction which is only visible before the first level.
+    /// </summary>
+    public GameObject surveyInstruction;
+
+    /// <summary>
+    /// Reference to the surveyCount.
+    /// </summary>
+    public Text surveyCount;
+
+    /// <summary>
+    /// Reference to the text field which shows the next survey method.
+    /// </summary>
+    public Text nextSurveyMethod;
+
+    /// <summary>
+    /// Reference to the inputField which contains the user's identifier.
+    /// </summary>
+    public InputField identifier;
 
     /// <summary>
     /// This vector array contains the starting positions of the avatar for the respective stage.
@@ -41,22 +76,22 @@ public class UserStudySceneManager : MonoBehaviour {
     /// </summary>
     public int currentStage = 1;
 
-    /// <summary>
-    /// Boolean indicating if the manager is part of the main menu or not.
-    /// </summary>
-    public bool mainMenu = false;
+    public bool enableManuallySetStage = false;
 
     #endregion
 
     // Use this for initialization
     void Start () {
+        _currentLevel = UserStudyDataManager.getCurrentLevel();
 
-        if (mainMenu)
+        if(currentScene == SceneType.Survey)
         {
+            if (!enableManuallySetStage)
+            {
+                // Set current stage
+                currentStage = (int)(_currentLevel / 2);
+            }
 
-        }
-        else
-        {
             // Set desired avatar position
             FindObjectOfType<NRPBackendManager>().avatarPosition = avatarPosition[currentStage];
 
@@ -67,12 +102,42 @@ public class UserStudySceneManager : MonoBehaviour {
             GameObject endTracker = Instantiate(Resources.Load("UserStudy/TriggerArea") as GameObject, new Vector3(robotPosition[currentStage].x, robotPosition[currentStage].y, robotPosition[currentStage].z), Quaternion.identity);
             endTracker.GetComponent<TimeTrackingZone>().startTimeTracker = false;
         }
+        else
+        {
+            int maxLevelCount = UserStudyDataManager.getMaxLevelCount();
+            if (currentScene == SceneType.MainMenu)
+            {
+                // Determine which parts of the menu need to be shown depending on the current level
+                _firstSurvey = UserStudyDataManager.identifierNeeded();
+                if (_firstSurvey)
+                {
+                    surveyCount.gameObject.SetActive(false);
+                }
+                else
+                {
+                    surveyInstruction.SetActive(false);
+                    surveyCount.gameObject.SetActive(true);
+                    surveyCount.text = "Survey part " + _currentLevel + " / " + maxLevelCount;
+
+                }
+                nextSurveyMethod.text = "Next method: " + UserStudyDataManager.getCurrentControlMethod().ToString();
+            }
+            else if (currentScene == SceneType.FinishMenu)
+            {
+                surveyCount.text = "Completed survey part " + _currentLevel + " / " + maxLevelCount;
+                if (_currentLevel == maxLevelCount)
+                {
+                    surveyCount.text = surveyCount.text + "\n Thank you very much for participating in my survey! You really saved me. :)";
+                }
+            }
+        }
+        
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (!mainMenu)
+        if (currentScene == SceneType.Survey)
         {
             // Add a  CapsuleCollider to the avatar
             if (_avatarId != "" && _addCollider)
@@ -99,7 +164,8 @@ public class UserStudySceneManager : MonoBehaviour {
 
     public void StartNextSurvey()
     {
-
+        UserStudyDataManager.setIdentifier(identifier.text);
+        SceneManager.LoadScene("NRPClient");
     }
 
 }

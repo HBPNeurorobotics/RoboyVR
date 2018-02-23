@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public static class UserStudyDataManager {
 
@@ -69,11 +70,11 @@ public static class UserStudyDataManager {
         // Initialize the CSV parser
         _parser = new CSVParser("Saved_Data.csv");
         _parser.Start();
-
+        
         // Write header of the CSV file if file not already exists
-        _parser.writeHeader("Identifier,order,stage,method,time", 5);
+        _parser.writeHeader("identifier,order,stage,method,time", 5);
 
-        // Read information from PlayerPrefs if available
+        // Read information from PlayerPrefs if availabl
         if (PlayerPrefs.HasKey(_keyIdentifier))
         {
             // Set identifier
@@ -94,7 +95,8 @@ public static class UserStudyDataManager {
         else
         {
             // Determine starting control method
-            // TODO
+            _startingMethod = Random.Range(0, 2);
+            _currentMethod = _startingMethod;
         }
 
     }
@@ -117,6 +119,8 @@ public static class UserStudyDataManager {
         if (_identifier.Equals(""))
         {
             _identifier = userID;
+            PlayerPrefs.SetString(_keyIdentifier, _identifier);
+            PlayerPrefs.SetInt(_keyStartControl, (_startingMethod));
         }
     }
 
@@ -127,6 +131,24 @@ public static class UserStudyDataManager {
     public static int getCurrentControlMethod()
     {
         return _currentMethod;
+    }
+
+    /// <summary>
+    /// Returns the maximal number of levels.
+    /// </summary>
+    /// <returns></returns>
+    public static int getMaxLevelCount()
+    {
+        return _maxLevelCount;
+    }
+
+    /// <summary>
+    /// Returns the current level number.
+    /// </summary>
+    /// <returns></returns>
+    public static int getCurrentLevel()
+    {
+        return _currentLevel;
     }
 
     /// <summary>
@@ -141,18 +163,13 @@ public static class UserStudyDataManager {
         // Wrtie to PlayerPrefs
         if(_currentLevel < _maxLevelCount)
         {
-            if(_currentLevel == 0)
-            {
-                PlayerPrefs.SetString(_keyIdentifier, _identifier);
-                PlayerPrefs.SetInt(_keyStartControl, (_startingMethod));
-            }
             PlayerPrefs.SetInt(_keyCurrentLevel, (_currentLevel + 1));
         }
         else
         {
             PlayerPrefs.DeleteAll();
         }
-        
+        SceneManager.LoadScene("FinishMenu");
     }
 
     #region Time tracking

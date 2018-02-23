@@ -12,7 +12,7 @@ public class TimeTrackingZone : MonoBehaviour {
     /// <param name="other">Collider of the avatar.</param>
     void OnTriggerExit(Collider other)
     {
-        if (startTimeTracker)
+        if (startTimeTracker && other.gameObject.name.Contains("avatar"))
         {
             UserStudyDataManager.startTimeTracking();
         }
@@ -25,10 +25,10 @@ public class TimeTrackingZone : MonoBehaviour {
     /// <param name="other">Collider of the avatar.</param>
     void OnTriggerEnter(Collider other)
     {
-        if (!startTimeTracker)
+        if (!startTimeTracker && other.gameObject.name.Contains("avatar"))
         {
             UserStudyDataManager.endTimeTracking();
-            //UserStudyDataManager.endSurveyPart();
+            UserStudyDataManager.endSurveyPart();
         }
     }
 }
