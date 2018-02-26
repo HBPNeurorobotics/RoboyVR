@@ -158,7 +158,7 @@ public class AvatarMovement : MonoBehaviour {
     /// <summary>
     /// Enum representing the different control types of the avatar.
     /// </summary>
-    public enum ControlType { Joystick = 0, Gesture = 1 };
+    public enum ControlType { Controller = 0, Myo = 1 };
 
     /// <summary>
     /// Currently used control tpye for navigating the avatar.
@@ -215,7 +215,7 @@ public class AvatarMovement : MonoBehaviour {
             {
                 #region MOVEMENT_WITH_MYO
 
-                if(contrType == ControlType.Gesture)
+                if(contrType == ControlType.Myo)
                 {
 
                     #region MYO_SYNCHRONIZATION
@@ -369,7 +369,7 @@ public class AvatarMovement : MonoBehaviour {
 
 
                 #region MOVEMENT_WITH_JOYSTICK
-                if(contrType == ControlType.Joystick)
+                if(contrType == ControlType.Controller)
                 {
                     _movementDirection = Vector3.zero;
 

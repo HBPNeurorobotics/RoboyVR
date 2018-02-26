@@ -6,6 +6,15 @@ using UnityEngine.SceneManagement;
 public static class UserStudyDataManager {
 
     #region PRIVATE_MEMBER_VARIABLES
+    /// <summary>
+    /// Enum representing the names of the different stages used during the User Study.
+    /// </summary>
+    private enum StageName {OpenAre = 0, Pioneer = 1, Husky = 2};
+
+    /// <summary>
+    /// Enum representing the different control types of the avatar.
+    /// </summary>
+    private enum ControlMethod { Myo = 1, Controller = 0};
 
     /// <summary>
     /// Parser to store the survey data into a CSV
@@ -89,8 +98,9 @@ public static class UserStudyDataManager {
                 _currentLevel = PlayerPrefs.GetInt(_keyCurrentLevel);
             }
 
-            // Set the current control method according to: ((level % 2) + startMethod) % 2
-            _currentMethod = ((_currentLevel % 2) + _startingMethod) % 2;
+            // Set the current control method according to (((int)(level / 4) + startMethod) % 2
+            _currentMethod = (((int)(_currentLevel / 3)) + _startingMethod) % 2;
+            Debug.Log(_currentMethod);
         }
         else
         {
@@ -134,6 +144,15 @@ public static class UserStudyDataManager {
     }
 
     /// <summary>
+    /// Returns the control method of the actual level as a string.
+    /// </summary>
+    /// <returns></returns>
+    public static string getCurrentcontrolMethodAsString()
+    {
+        return (ControlMethod)(_currentMethod)+"";
+    }
+
+    /// <summary>
     /// Returns the maximal number of levels.
     /// </summary>
     /// <returns></returns>
@@ -158,7 +177,7 @@ public static class UserStudyDataManager {
     public static void endSurveyPart()
     {
         // Write to CSV
-        _parser.appendValues(_identifier + "," + _currentLevel + "," + (int)(_currentLevel / 2) + "," + _currentMethod + "," + (_endTime - _startTime), 5, true);
+        _parser.appendValues(_identifier + "," + _currentLevel + "," + (StageName)(_currentLevel % 3) + "," + getCurrentcontrolMethodAsString() + "," + (_endTime - _startTime), 5, true);
 
         // Wrtie to PlayerPrefs
         if(_currentLevel < _maxLevelCount)

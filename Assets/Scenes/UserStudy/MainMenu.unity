@@ -577,6 +577,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   currentStage: 1
+  enableManuallySetStage: 0
 --- !u!4 &564050032
 Transform:
   m_ObjectHideFlags: 0
@@ -1137,7 +1138,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: User Study For Comparing Gesture- and Controller-based Navigation in VR
+  m_Text: User Study to Compare Gesture- and Controller-based Navigation in VR
 --- !u!222 &1344078705
 CanvasRenderer:
   m_ObjectHideFlags: 0

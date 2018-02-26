@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public static class UserStudyEditor {
+public static class UserStudyEditor{
 
     /// <summary>
     /// This menu is used to delete all key-value pairs currently stored in the PlayerPrefs.
@@ -12,5 +12,12 @@ public static class UserStudyEditor {
     static void ResetPlayerPrefs()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    [MenuItem("UserStudy/Finish SurveyPart")]
+    static void FinishSurveyPart()
+    {
+        UserStudyDataManager.endTimeTracking();
+        UserStudyDataManager.endSurveyPart();
     }
 }

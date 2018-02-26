@@ -29,6 +29,11 @@ public class UserStudySceneManager : MonoBehaviour {
     private bool _firstSurvey = true;
 
     /// <summary>
+    /// Boolean indicating if the control method needs to be set or not.
+    /// </summary>
+    private bool _setControlMethod = true;
+
+    /// <summary>
     /// Integer representing the current level of the user study.
     /// </summary>
     private int _currentLevel = 0;
@@ -76,6 +81,9 @@ public class UserStudySceneManager : MonoBehaviour {
     /// </summary>
     public int currentStage = 1;
 
+    /// <summary>
+    /// Boolean indicating if the stage set in the inspector should be considered or not.
+    /// </summary>
     public bool enableManuallySetStage = false;
 
     #endregion
@@ -117,17 +125,17 @@ public class UserStudySceneManager : MonoBehaviour {
                 {
                     surveyInstruction.SetActive(false);
                     surveyCount.gameObject.SetActive(true);
-                    surveyCount.text = "Survey part " + _currentLevel + " / " + maxLevelCount;
+                    surveyCount.text = "Survey level " + (_currentLevel+1) + " / " + (maxLevelCount+1);
 
                 }
-                nextSurveyMethod.text = "Next method: " + UserStudyDataManager.getCurrentControlMethod().ToString();
+                nextSurveyMethod.text = "Current method: " + UserStudyDataManager.getCurrentcontrolMethodAsString();
             }
             else if (currentScene == SceneType.FinishMenu)
             {
-                surveyCount.text = "Completed survey part " + _currentLevel + " / " + maxLevelCount;
+                surveyCount.text = "Completed survey level " + (_currentLevel+1) + " / " + (maxLevelCount+1);
                 if (_currentLevel == maxLevelCount)
                 {
-                    surveyCount.text = surveyCount.text + "\n Thank you very much for participating in my survey! You really saved me. :)";
+                    surveyCount.text = surveyCount.text + "\n \n Thank you very much for participating in my survey! \n You really saved me. :)";
                 }
             }
         }
@@ -157,6 +165,17 @@ public class UserStudySceneManager : MonoBehaviour {
             else
             {
                 _avatarId = GzBridgeManager.Instance.avatarId;
+            }
+
+            // Sets the control method in the AvatarMovement sccript
+            if (_setControlMethod)
+            {
+                AvatarMovement movementObject = FindObjectOfType<AvatarMovement>();
+                if (movementObject != null)
+                {
+                    movementObject.contrType = (AvatarMovement.ControlType)(UserStudyDataManager.getCurrentControlMethod());
+                    _setControlMethod = false;
+                }
             }
         }
         
