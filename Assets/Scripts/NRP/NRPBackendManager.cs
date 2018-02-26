@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using ROSBridgeLib.geometry_msgs;
 using ROSBridgeLib.gazebo_msgs;
+using System.Net;
 
 public class NRPBackendManager : MonoBehaviour {
 
@@ -22,18 +23,25 @@ public class NRPBackendManager : MonoBehaviour {
 
     private GzBridgeManager GzBridgeManager;
     private ROSBridge ROSBridgeManager;
-    private string authToken = null;
+    //private string authToken = null;
     private string avatarId = null;
     private float resetTime = 0;
 
     // Use this for initialization
     void Start ()
     {
+        // Generate an avatarId
+        avatarId = Network.player.ipAddress.Replace('.', '_');
+
         if (!string.IsNullOrEmpty(this.NRPBackendIP))
         {
+            // set the avatar id for all avatar publisher and subscriber
+            ROSAvatarVelPublisher.setAvatarId(avatarId);
+            ROSAvatarRotPublisher.setAvatarId(avatarId);
+            ROSAvatarRotSubscriber.setAvatarId(avatarId);
+
             this.ConnectToGazeboBridge();
-            // the ROS connection was moved to the coroutine so that the token, which is used as part of the avatar's topic name has arrived before the topic is subscribed or published to
-            //this.ConnectToROSBridge();
+            this.ConnectToROSBridge();
         }
     }
 	
@@ -81,11 +89,18 @@ public class NRPBackendManager : MonoBehaviour {
         Dictionary<string, string> postHeader = new Dictionary<string, string>();
         postHeader.Add("Content-Type", "application/json");
 
-        // convert json string to byte
+        //convert json string to byte
         var postData = System.Text.Encoding.UTF8.GetBytes(authJSON);
 
         www = new WWW(authURL, postData, postHeader);
         StartCoroutine(this.WaitForAuthRequest(www));
+
+        GzBridgeManager.avatarPosition = avatarPosition;
+        GzBridgeManager.avatarId = avatarId;
+        GzBridgeManager.URL = NRPBackendIP + ":" + GzBridgePort.ToString() + "/gzbridge";
+        GzBridgeManager.GazeboScene = this.GazeboScene;
+        GzBridgeManager.ConnectToGzBridge();
+
     }
 
     private void ConnectToROSBridge()
@@ -101,6 +116,7 @@ public class NRPBackendManager : MonoBehaviour {
         ROSBridgeManager.Port = ROSBridgePort;
     }
 
+    // This code was previously used to acquire a token from the backend and work with this token as avatarId and authToken
     private IEnumerator WaitForAuthRequest(WWW data)
     {
         yield return data; // Wait until the download is done
@@ -108,26 +124,26 @@ public class NRPBackendManager : MonoBehaviour {
         {
             Debug.LogWarning("There was an error sending request: " + data.error);
         }
-        else
-        {
-            this.authToken = data.text;
-            //Debug.Log("auth token: " + this.authToken);
+        //else
+        //{
+        //    this.authToken = data.text;
+        //    Debug.Log("auth token: " + this.authToken);
 
-            // the authentication token needs to be adapted to be used as avatar id, as the topics doesn't allow '-' in their names
-            avatarId = this.authToken.Replace('-', '_');
+        //    // the authentication token needs to be adapted to be used as avatar id, as the topics doesn't allow ' - ' in their names
+        //    avatarId = this.authToken.Replace('-', '_');
 
-            // set the avatar id for all avatar publisher and subscriber
-            ROSAvatarVelPublisher.setAvatarId(avatarId);
-            ROSAvatarRotPublisher.setAvatarId(avatarId);
-            ROSAvatarRotSubscriber.setAvatarId(avatarId);
+        //    // set the avatar id for all avatar publisher and subscriber
+        //    ROSAvatarVelPublisher.setAvatarId(avatarId);
+        //    ROSAvatarRotPublisher.setAvatarId(avatarId);
+        //    ROSAvatarRotSubscriber.setAvatarId(avatarId);
 
-            GzBridgeManager.avatarPosition = avatarPosition;
-            GzBridgeManager.avatarId = avatarId;
-            GzBridgeManager.URL = NRPBackendIP + ":" + GzBridgePort.ToString() + "/gzbridge?token=" + this.authToken;
-            GzBridgeManager.GazeboScene = this.GazeboScene;
-            GzBridgeManager.ConnectToGzBridge();
+        //    GzBridgeManager.avatarPosition = avatarPosition;
+        //    GzBridgeManager.avatarId = avatarId;
+        //    GzBridgeManager.URL = NRPBackendIP + ":" + GzBridgePort.ToString() + "/gzbridge?token=" + this.authToken;
+        //    GzBridgeManager.GazeboScene = this.GazeboScene;
+        //    GzBridgeManager.ConnectToGzBridge();
 
-            this.ConnectToROSBridge();
-        }
+        //    this.ConnectToROSBridge();
+        //}
     }
 }

@@ -97,7 +97,7 @@ public class UserStudySceneManager : MonoBehaviour {
             if (!enableManuallySetStage)
             {
                 // Set current stage
-                currentStage = (int)(_currentLevel / 2);
+                currentStage = UserStudyDataManager.getCurrentStage();
             }
 
             // Set desired avatar position

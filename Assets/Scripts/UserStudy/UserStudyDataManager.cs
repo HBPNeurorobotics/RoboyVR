@@ -152,6 +152,16 @@ public static class UserStudyDataManager {
         return (ControlMethod)(_currentMethod)+"";
     }
 
+    public static int getCurrentStage()
+    {
+        return (int)(_currentLevel % 3);
+    }
+
+    public static string getCurrentStageAsString()
+    {
+        return (StageName)(_currentLevel % 3) + "";
+    }
+
     /// <summary>
     /// Returns the maximal number of levels.
     /// </summary>
@@ -177,7 +187,7 @@ public static class UserStudyDataManager {
     public static void endSurveyPart()
     {
         // Write to CSV
-        _parser.appendValues(_identifier + "," + _currentLevel + "," + (StageName)(_currentLevel % 3) + "," + getCurrentcontrolMethodAsString() + "," + (_endTime - _startTime), 5, true);
+        _parser.appendValues(_identifier + "," + _currentLevel + "," + getCurrentStageAsString() + "," + getCurrentcontrolMethodAsString() + "," + (_endTime - _startTime), 5, true);
 
         // Wrtie to PlayerPrefs
         if(_currentLevel < _maxLevelCount)

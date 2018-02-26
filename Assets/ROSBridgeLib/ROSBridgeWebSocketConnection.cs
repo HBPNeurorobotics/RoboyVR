@@ -171,10 +171,9 @@ namespace ROSBridgeLib {
 		}
 
 		private void Run() {
-			_ws = new WebSocket(_host + ":" + _port);
+			_ws = new WebSocket(_host + ":" + _port+"/rosbridge");
 			_ws.OnMessage += (sender, e) => this.OnMessage(e.Data);
 			_ws.Connect();
-
 			foreach(Type p in _subscribers) {
 				_ws.Send(ROSBridgeMsg.Subscribe (GetMessageTopic(p), GetMessageType (p)));
 				Debug.Log ("Sending " + ROSBridgeMsg.Subscribe (GetMessageTopic(p), GetMessageType (p)));

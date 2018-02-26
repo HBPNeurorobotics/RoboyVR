@@ -51,12 +51,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f309393e4ec33140b4d2c838d0b7b28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentScene: 1
+  surveyInstruction: {fileID: 0}
+  surveyCount: {fileID: 0}
+  nextSurveyMethod: {fileID: 0}
+  identifier: {fileID: 0}
   avatarPosition:
-  - {x: 0, y: 0, z: 0}
+  - {x: 17, y: 0, z: 2}
   - {x: -16, y: 0, z: 1.5}
   - {x: 2, y: 0, z: 5}
   robotPosition:
-  - {x: 0, y: 0, z: 0}
+  - {x: -3.4, y: 0.5, z: -8.8}
   - {x: -0.13, y: 0.5, z: 0.06}
   - {x: -0.4, y: 0.5, z: 0.15}
-  currentStage: 1
+  currentStage: 0
+  enableManuallySetStage: 0
