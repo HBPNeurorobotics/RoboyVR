@@ -187,4 +187,12 @@ public class UserStudySceneManager : MonoBehaviour {
         SceneManager.LoadScene("NRPClient");
     }
 
+    /// <summary>
+    /// Updates the text field which shows the name of the current control method.
+    /// </summary>
+    public void UpdateCurrentMethod()
+    {
+        nextSurveyMethod.text = "Current method: " + UserStudyDataManager.getCurrentcontrolMethodAsString();
+    }
+
 }

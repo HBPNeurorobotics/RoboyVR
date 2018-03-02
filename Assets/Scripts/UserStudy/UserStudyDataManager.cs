@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using ROSBridgeLib.geometry_msgs;
 
 public static class UserStudyDataManager {
 
@@ -144,6 +145,19 @@ public static class UserStudyDataManager {
     }
 
     /// <summary>
+    /// Sets the starting control method for the User Study if not already written to the CSV file
+    /// </summary>
+    /// <param name="i">1: Myo; 0: Controller</param>
+    public static void setStartingControlMethod(int i)
+    {
+        if (_identifier.Equals(""))
+        {
+            _startingMethod = i;
+            _currentMethod = _startingMethod;
+        }    
+    }
+
+    /// <summary>
     /// Returns the control method of the actual level as a string.
     /// </summary>
     /// <returns></returns>
@@ -198,6 +212,7 @@ public static class UserStudyDataManager {
         {
             PlayerPrefs.DeleteAll();
         }
+        ROSBridge.Instance.ROS.Publish(ROSAvatarVelPublisher.GetMessageTopic(), new Vector3Msg((double)0, (double)0, (double)0));
         SceneManager.LoadScene("FinishMenu");
     }
 
