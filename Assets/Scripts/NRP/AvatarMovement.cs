@@ -100,7 +100,7 @@ public class AvatarMovement : MonoBehaviour {
     /// <summary>
     /// As the Joystick always returns a value after it was moved ones, a threshold of 0.1 and -0.1 is used to differentiate between input and noise
     /// </summary>
-    private float _joystickThreshold = 0.1f;
+    private float _joystickThreshold = 0.15f;
 
     /// <summary>
     /// Factor to determine if we want to move forward (1) or backward (-1)

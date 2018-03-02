@@ -12,27 +12,40 @@ public static class UserStudyEditor{
 	[MenuItem("UserStudy/Reset PlayerPrefs")]
     static void ResetPlayerPrefs()
     {
-        PlayerPrefs.DeleteAll();
+        if (!Application.isPlaying)
+        {
+            PlayerPrefs.DeleteAll();
+            Debug.Log("Resetted teh PlayerPrefs!");
+        }
     }
 
     [MenuItem("UserStudy/Finish SurveyPart")]
     static void FinishSurveyPart()
     {
-        UserStudyDataManager.endTimeTracking();
-        UserStudyDataManager.endSurveyPart();
+        if (Application.isPlaying)
+        {
+            UserStudyDataManager.endTimeTracking();
+            UserStudyDataManager.endSurveyPart();
+        }
     }
 
     [MenuItem("UserStudy/Change Starting Method/Myo")]
     static void ChangeStartingMethodToMyo()
     {
-        UserStudyDataManager.setStartingControlMethod(1);
-        GameObject.FindObjectOfType<UserStudySceneManager>().UpdateCurrentMethod();
+        if (Application.isPlaying)
+        {
+            UserStudyDataManager.setStartingControlMethod(1);
+            GameObject.FindObjectOfType<UserStudySceneManager>().UpdateCurrentMethod();
+        }
     }
 
     [MenuItem("UserStudy/Change Starting Method/Controller")]
     static void ChangeStartingMethodToController()
     {
-        UserStudyDataManager.setStartingControlMethod(0);
-        GameObject.FindObjectOfType<UserStudySceneManager>().UpdateCurrentMethod();
+        if (Application.isPlaying)
+        {
+            UserStudyDataManager.setStartingControlMethod(0);
+            GameObject.FindObjectOfType<UserStudySceneManager>().UpdateCurrentMethod();
+        }
     }
 }
