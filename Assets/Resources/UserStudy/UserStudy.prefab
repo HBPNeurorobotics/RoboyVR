@@ -57,12 +57,12 @@ MonoBehaviour:
   nextSurveyMethod: {fileID: 0}
   identifier: {fileID: 0}
   avatarPosition:
-  - {x: 17, y: 0, z: 2}
+  - {x: -5.7, y: 0, z: -11.7}
   - {x: -16, y: 0, z: 1.5}
   - {x: 2, y: 0, z: 5}
   robotPosition:
-  - {x: -3.4, y: 0.5, z: -8.8}
+  - {x: 3.88, y: 0.5, z: 1.44}
   - {x: -0.13, y: 0.5, z: 0.06}
   - {x: -0.4, y: 0.5, z: 0.15}
-  currentStage: 0
+  currentStage: 1
   enableManuallySetStage: 0
