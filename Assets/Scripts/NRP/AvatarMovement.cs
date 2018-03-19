@@ -377,12 +377,10 @@ public class AvatarMovement : MonoBehaviour {
                     if (Input.GetAxis("LeftJoystickX") > _joystickThreshold || Input.GetAxis("LeftJoystickX") < -_joystickThreshold)
                     {
                         _movementDirection.x = Input.GetAxis("LeftJoystickX");
-                        Debug.Log(_movementDirection.x);
                     }
                     if (Input.GetAxis("LeftJoystickY") > _joystickThreshold || Input.GetAxis("LeftJoystickY") < -_joystickThreshold)
                     {
                         _movementDirection.z = Input.GetAxis("LeftJoystickY") * -1;
-                        Debug.Log(_movementDirection.y);
                     }
 
                     // Only publish the movement direction to the server, if it is not zero all the time
@@ -394,10 +392,10 @@ public class AvatarMovement : MonoBehaviour {
                         Vector3 rotMovement = _avatar.transform.rotation * _movementDirection;
                         // Determine the speed given through the deflections of the left joystick
                         float maxDirection = Mathf.Abs(_movementDirection.x) > Mathf.Abs(_movementDirection.z) ? Mathf.Abs(_movementDirection.x) : Mathf.Abs(_movementDirection.z);
-                        Debug.Log(maxDirection + " " + Mathf.Abs(_movementDirection.x)  + " " + Mathf.Abs(_movementDirection.z));
+                        //Debug.Log(maxDirection + " " + Mathf.Abs(_movementDirection.x)  + " " + Mathf.Abs(_movementDirection.z));
                         //Vector3 speedVector = new Vector3(Mathf.Abs(_movementDirection.x) * _joystick_speedFunction_k + _joystick_speedFunction_d, 0, Mathf.Abs(_movementDirection.z) * _joystick_speedFunction_k + _joystick_speedFunction_d);
                         Vector3 speedVector = new Vector3(maxDirection* _joystick_speedFunction_k + _joystick_speedFunction_d, 0, maxDirection * _joystick_speedFunction_k + _joystick_speedFunction_d);
-                        Debug.Log(speedVector + " " + _movementDirection.x + " " + _movementDirection.y);
+                        //Debug.Log(speedVector + " " + _movementDirection.x + " " + _movementDirection.y);
                         publishMovementInDirection(Vector3.Scale(rotMovement, speedVector));
 
                         if (_movementDirection == Vector3.zero)
