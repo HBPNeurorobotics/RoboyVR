@@ -513,7 +513,8 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
 
             Transform geometry_gameobject_transform = parent_transform.Find(mesh_name);
             geometry_gameobject = geometry_gameobject_transform == null ? this.CreateMeshFromJSON(json_geometry["mesh"], parent_transform, json_model_scale) : geometry_gameobject_transform.gameObject;
-            geometry_gameobject.transform.SetParent(parent_transform, false);
+
+
         }
 
         if (geometry_gameobject != null)

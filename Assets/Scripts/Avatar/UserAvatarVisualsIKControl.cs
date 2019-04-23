@@ -20,6 +20,10 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
 
     public Vector3 bodyTargetOffset = new Vector3(0, -0.75f, 0);
     public Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
+    [SerializeField]Vector3 footLeftOffset = new Vector3(0.08f, 0,0);
+    [SerializeField] Vector3 footRightOffset = new Vector3(-0.08f, 0, 0);
+    [SerializeField] Vector3 footLeftRotation = new Vector3(0, 90, 0);
+    [SerializeField] Vector3 footRightRotation = new Vector3(0, -90, 0);
 
 
     // Use this for initialization
@@ -79,16 +83,18 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
                 {
                     animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position);
-                    animator.SetIKRotation(AvatarIKGoal.RightFoot, rightFootTarget.rotation);
+                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position + footRightOffset);
+                    Quaternion rightQuaternion = Quaternion.Euler(rightFootTarget.eulerAngles + footRightRotation);
+                    animator.SetIKRotation(AvatarIKGoal.RightFoot, rightQuaternion);
                 }
                 
                 if (leftFootTarget != null)
                 {
                     animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position);
-                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftFootTarget.rotation);
+                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position + footLeftOffset);
+                    Quaternion leftQuaternion = Quaternion.Euler(leftFootTarget.eulerAngles + footLeftRotation);
+                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftQuaternion);
                 }
             }
         }
