@@ -10,13 +10,13 @@ public class VRLocomotionTrackers : Singleton<VRLocomotionTrackers>
     public Transform RightFootTracker { get { return _rightFootTracker; } }
     [SerializeField] Transform _hipTracker;
     public Transform HipTracker { get { return _hipTracker; } }
-    float distanceTrackersOnPlane;
+    Vector3 _trackingPlane;
+    public float DistanceTrackersOnPlane { get { return getDistanceBetweenTrackerOnPlane(_trackingPlane); }  }
 
     private void Update()
     {
-        Vector3 trackingPlane = createTrackingPlaneBetweenTrackers();
-        distanceTrackersOnPlane = getDistanceBetweenTrackerOnPlane(trackingPlane);
-
+        _trackingPlane = createTrackingPlaneBetweenTrackers();
+        Debug.DrawRay(Vector3.zero, _trackingPlane);
     }
 
     public float getDistanceBetweenTrackerOnPlane(Vector3 trackingPlane)

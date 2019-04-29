@@ -6,7 +6,12 @@
     {
         public void moveForward()
         {
-            SteamVRControllerInput.Instance.transform.Translate(Vector3.ProjectOnPlane(VRLocomotionTrackers.Instance.HipTracker.forward, Vector3.up) * 0.01f);
+            SteamVRControllerInput.Instance.transform.Translate(Vector3.ProjectOnPlane(VRLocomotionTrackers.Instance.HipTracker.forward, Vector3.up) * calculateMovement());
+        }
+        
+        public float calculateMovement()
+        {
+            return 0f * VRLocomotionTrackers.Instance.DistanceTrackersOnPlane;
         }
     }
 }
