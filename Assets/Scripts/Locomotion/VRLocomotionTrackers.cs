@@ -21,14 +21,14 @@ public class VRLocomotionTrackers : Singleton<VRLocomotionTrackers>
 
     public float getDistanceBetweenTrackerOnPlane(Vector3 trackingPlane)
     {
-        Vector3 left = Vector3.ProjectOnPlane(_leftFootTracker.position, trackingPlane);
-        Vector3 rigth = Vector3.ProjectOnPlane(_rightFootTracker.position, trackingPlane);
+        Vector3 left = Vector3.ProjectOnPlane(LeftFootTracker.position, trackingPlane);
+        Vector3 rigth = Vector3.ProjectOnPlane(RightFootTracker.position, trackingPlane);
         return Vector3.Distance(rigth, left);
     }
 
     public Vector3 createTrackingPlaneBetweenTrackers()
     {
-        Vector3 directionRightToLeft = _leftFootTracker.position - _rightFootTracker.position;
+        Vector3 directionRightToLeft = LeftFootTracker.position - RightFootTracker.position;
         return directionRightToLeft.normalized;
     }
 }

@@ -5,7 +5,7 @@
 
     public class LocomotionTracker : ILocomotionBehaviour
     {
-        float _movementSpeedInMperS;
+        float _movementSpeedInMperS = 1;
         readonly float _fixedUpdateRefreshRate = 60; 
         readonly float _epsilonForMovementRegistration = 0.015f;
         readonly float _maximalStepLength = 1;

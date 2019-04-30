@@ -14,10 +14,15 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
     Valve.VR.EVRButtonId _touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
     bool _touchpadPressLeft = false;
     bool _touchpadPressRight = false;
+    [SerializeField] bool _simulateMovePress = false;
 
     void Update ()
     {
-        DebugStuff();
+        if (_simulateMovePress)
+        {
+            return;
+        }
+        //DebugStuff();
         _rightController = SteamVR_Controller.Input((int)_rightControllerObject.index);
         _leftController = SteamVR_Controller.Input((int)_leftControllerObject.index);
 
@@ -31,6 +36,12 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
 
     private void FixedUpdate()
     {
+        if (_simulateMovePress)
+        {
+            Locomotion.LocomotionHandler.moveForward();
+            return;
+        }
+
         if (_rightController == null || _leftController == null)
         {
             Debug.LogError("At least one Controller not found");
