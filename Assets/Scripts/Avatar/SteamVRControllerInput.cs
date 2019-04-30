@@ -15,29 +15,46 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
     bool _touchpadPressLeft = false;
     bool _touchpadPressRight = false;
 
-    void Update () {
-
+    void Update ()
+    {
+        DebugStuff();
         _rightController = SteamVR_Controller.Input((int)_rightControllerObject.index);
         _leftController = SteamVR_Controller.Input((int)_leftControllerObject.index);
 
-        DebugStuff();
-        if(_rightController == null || _leftController == null)
+        if (_rightController == null || _leftController == null)
         {
-            Debug.LogError("No Controller found");
+            Debug.LogError("At least one Controller not found");
             return;
         }
+        spawnBot();
+    }
+
+    private void FixedUpdate()
+    {
+        if (_rightController == null || _leftController == null)
+        {
+            Debug.LogError("At least one Controller not found");
+            return;
+        }
+        movePlayer();
+    }
+
+    private void spawnBot()
+    {
         if (_leftController.GetPressDown(SteamVR_Controller.ButtonMask.Grip) || _rightController.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
             Debug.Log("Grip");
             UserAvatarService.Instance.SpawnYBot();
         }
+    }
 
+    private void movePlayer()
+    {
         _touchpadPressLeft = _leftController.GetPress(_touchpad);
         _touchpadPressRight = _rightController.GetPress(_touchpad);
+
         if (_touchpadPressLeft && _touchpadPressRight)
-        {
             Locomotion.LocomotionHandler.moveForward();
-        }
     }
 
     void DebugStuff()
