@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Locomotion;
 using UnityEngine;
 
 public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
@@ -16,12 +18,22 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
     bool _touchpadPressRight = false;
     [SerializeField] bool _simulateMovePress = false;
 
+    [SerializeField] bool _changeLocomotionBehaviour = false;
+    LocomotionBehaviour _locomotionBehaviour = LocomotionBehaviour.hover;
+
     void Update ()
     {
+        if (_changeLocomotionBehaviour)
+        {
+            _changeLocomotionBehaviour = false;
+            _locomotionBehaviour = (LocomotionBehaviour)(((int)_locomotionBehaviour + 1) % (int)LocomotionBehaviour.behaviourCount);
+            changeLocomotionBehaviour(_locomotionBehaviour);
+        }
         if (_simulateMovePress)
         {
             return;
         }
+
         //DebugStuff();
         _rightController = SteamVR_Controller.Input((int)_rightControllerObject.index);
         _leftController = SteamVR_Controller.Input((int)_leftControllerObject.index);
@@ -32,6 +44,24 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
             return;
         }
         spawnBot();
+    }
+
+    private void changeLocomotionBehaviour(LocomotionBehaviour locomotionBehaviour)
+    {
+        switch (locomotionBehaviour)
+        {
+            case LocomotionBehaviour.hover:
+                LocomotionHandler.changeLocomotionBehaviour(new LocomotionHover());
+                break;
+            case LocomotionBehaviour.tracker:
+                LocomotionHandler.changeLocomotionBehaviour(new LocomotionTracker());
+                break;
+            case LocomotionBehaviour.ghost:
+                LocomotionHandler.changeLocomotionBehaviour(new LocomotionGhost());
+                break;
+            default:
+                break;
+        }
     }
 
     private void FixedUpdate()

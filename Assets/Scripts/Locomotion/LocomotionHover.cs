@@ -22,13 +22,18 @@
             }
         }
 
-        public void moveForward()
+        public virtual void moveForward()
         {
             Utils.AudioManager.Instance.startHovering();
             Utils.ParticleManager.Instance.startJets();
+            translateForward();
+        }
+
+        protected void translateForward()
+        {
             SteamVRControllerInput.Instance.transform.Translate(clampForwardVectorsToXZPlane(
-                SteamVRControllerInput.Instance.RightControllerObject.transform.forward,
-                SteamVRControllerInput.Instance.LeftControllerObject.transform.forward) * 0.01f);
+                            SteamVRControllerInput.Instance.RightControllerObject.transform.forward,
+                            SteamVRControllerInput.Instance.LeftControllerObject.transform.forward) * 0.01f);
         }
 
         public Vector3 clampForwardVectorsToXZPlane(Vector3 forward, Vector3 otherForward)
@@ -38,7 +43,7 @@
             return (projectForward + projectOther).normalized;
         }
 
-        public void stopMoving()
+        public virtual void stopMoving()
         {
             Utils.AudioManager.Instance.stopHovering();
             Utils.ParticleManager.Instance.stopJets();

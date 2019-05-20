@@ -2,18 +2,31 @@
 
 namespace Locomotion
 {
+    public enum LocomotionBehaviour
+    {
+        hover,
+        tracker,
+        ghost,
+        behaviourCount
+    }
+
     public static class LocomotionHandler
     {
-        static ILocomotionBehaviour _locomotionBehaviour = new LocomotionTracker();
+        static ILocomotionBehaviour s_locomotionBehaviour = new LocomotionTracker();
 
         public static void moveForward()
         {
-            _locomotionBehaviour.moveForward();
+            s_locomotionBehaviour.moveForward();
         }
 
-        internal static void stopMoving()
+        public static void stopMoving()
         {
-            _locomotionBehaviour.stopMoving();
+            s_locomotionBehaviour.stopMoving();
+        }
+
+        public static void changeLocomotionBehaviour(ILocomotionBehaviour newLocomotionBehaviour)
+        {
+            s_locomotionBehaviour = newLocomotionBehaviour;
         }
     } 
 }
