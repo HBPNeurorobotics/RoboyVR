@@ -3,5 +3,6 @@
     public interface ILocomotionBehaviour
     {
         void moveForward();
+        void stopMoving();
     } 
 }

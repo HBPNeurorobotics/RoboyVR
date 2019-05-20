@@ -38,5 +38,10 @@
             else
                 return speed / _fixedUpdateRefreshRate; 
         }
+
+        public void stopMoving()
+        {
+            
+        }
     }
 }

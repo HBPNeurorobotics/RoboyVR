@@ -24,6 +24,8 @@
 
         public void moveForward()
         {
+            Utils.AudioManager.Instance.startHovering();
+            Utils.ParticleManager.Instance.startJets();
             SteamVRControllerInput.Instance.transform.Translate(clampForwardVectorsToXZPlane(
                 SteamVRControllerInput.Instance.RightControllerObject.transform.forward,
                 SteamVRControllerInput.Instance.LeftControllerObject.transform.forward) * 0.01f);
@@ -34,6 +36,12 @@
             Vector3 projectForward = Vector3.ProjectOnPlane(forward, Vector3.up);
             Vector3 projectOther = Vector3.ProjectOnPlane(otherForward, Vector3.up);
             return (projectForward + projectOther).normalized;
+        }
+
+        public void stopMoving()
+        {
+            Utils.AudioManager.Instance.stopHovering();
+            Utils.ParticleManager.Instance.stopJets();
         }
     }
 

@@ -1,4 +1,6 @@
-﻿namespace Locomotion
+﻿using System;
+
+namespace Locomotion
 {
     public static class LocomotionHandler
     {
@@ -7,6 +9,11 @@
         public static void moveForward()
         {
             _locomotionBehaviour.moveForward();
+        }
+
+        internal static void stopMoving()
+        {
+            _locomotionBehaviour.stopMoving();
         }
     } 
 }

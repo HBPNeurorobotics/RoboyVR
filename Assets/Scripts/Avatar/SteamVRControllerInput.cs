@@ -11,7 +11,7 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
     public SteamVR_TrackedObject LeftControllerObject { get { return _leftControllerObject; } }
     SteamVR_Controller.Device _leftController;
 
-    Valve.VR.EVRButtonId _touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger;
+    Valve.VR.EVRButtonId _touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
     bool _touchpadPressLeft = false;
     bool _touchpadPressRight = false;
     [SerializeField] bool _simulateMovePress = false;
@@ -61,11 +61,13 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
 
     private void movePlayer()
     {
-        _touchpadPressLeft = _leftController.GetPress(_touchpad);
-        _touchpadPressRight = _rightController.GetPress(_touchpad);
+        _touchpadPressLeft = _leftController.GetPressDown(_touchpad);
+        _touchpadPressRight = _rightController.GetPressDown(_touchpad);
 
         if (_touchpadPressLeft && _touchpadPressRight)
             Locomotion.LocomotionHandler.moveForward();
+        else
+            Locomotion.LocomotionHandler.stopMoving();
     }
 
     void DebugStuff()
