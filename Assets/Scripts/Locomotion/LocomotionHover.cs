@@ -4,6 +4,24 @@
 
     public class LocomotionHover : ILocomotionBehaviour
     {
+        GameObject[] hoverObjects;
+        public LocomotionHover()
+        {
+            hoverObjects = GameObject.FindGameObjectsWithTag("hover");
+            foreach (GameObject hoverObject in hoverObjects)
+            {
+                hoverObject.SetActive(true);
+            }
+        }
+
+        ~LocomotionHover()
+        {
+            foreach (GameObject hoverObject in hoverObjects)
+            {
+                hoverObject.SetActive(false);
+            }
+        }
+
         public void moveForward()
         {
             SteamVRControllerInput.Instance.transform.Translate(clampForwardVectorsToXZPlane(

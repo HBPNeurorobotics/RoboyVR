@@ -1,0 +1,177 @@
+fileFormatVersion: 2
+guid: 2bd5250567fab4b48be670e7fb0bcff3
+timeCreated: 1532806938
+licenseType: Store
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Frame
+    100004: Front Suspension
+    100006: Front Wheel
+    100008: Gun
+    100010: Left Elevator
+    100012: Left Flap
+    100014: Left Rudder
+    100016: Left Suspension
+    100018: Left Turbine
+    100020: Left Wheel
+    100022: Right Elevator
+    100024: Right Flap
+    100026: Right Rudder
+    100028: Right Suspension
+    100030: Right Turbine
+    100032: Right Wheel
+    100034: Weapon Mounts
+    400000: //RootNode
+    400002: Frame
+    400004: Front Suspension
+    400006: Front Wheel
+    400008: Gun
+    400010: Left Elevator
+    400012: Left Flap
+    400014: Left Rudder
+    400016: Left Suspension
+    400018: Left Turbine
+    400020: Left Wheel
+    400022: Right Elevator
+    400024: Right Flap
+    400026: Right Rudder
+    400028: Right Suspension
+    400030: Right Turbine
+    400032: Right Wheel
+    400034: Weapon Mounts
+    2300000: Frame
+    2300002: Front Suspension
+    2300004: Front Wheel
+    2300006: Gun
+    2300008: Left Elevator
+    2300010: Left Flap
+    2300012: Left Rudder
+    2300014: Left Suspension
+    2300016: Left Turbine
+    2300018: Left Wheel
+    2300020: Right Elevator
+    2300022: Right Flap
+    2300024: Right Rudder
+    2300026: Right Suspension
+    2300028: Right Turbine
+    2300030: Right Wheel
+    2300032: Weapon Mounts
+    3300000: Frame
+    3300002: Front Suspension
+    3300004: Front Wheel
+    3300006: Gun
+    3300008: Left Elevator
+    3300010: Left Flap
+    3300012: Left Rudder
+    3300014: Left Suspension
+    3300016: Left Turbine
+    3300018: Left Wheel
+    3300020: Right Elevator
+    3300022: Right Flap
+    3300024: Right Rudder
+    3300026: Right Suspension
+    3300028: Right Turbine
+    3300030: Right Wheel
+    3300032: Weapon Mounts
+    4300000: Gun
+    4300002: Left Turbine
+    4300004: Right Turbine
+    4300006: Left Suspension
+    4300008: Right Wheel
+    4300010: Left Wheel
+    4300012: Front Wheel
+    4300014: Left Rudder
+    4300016: Left Elevator
+    4300018: Left Flap
+    4300020: Right Flap
+    4300022: Right Rudder
+    4300024: Right Elevator
+    4300026: Frame
+    4300028: Weapon Mounts
+    4300030: Front Suspension
+    4300032: Right Suspension
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: No Name
+    second: {fileID: 2100000, guid: 1dbae842d6aef3f4b9f4518b5514bf84, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
