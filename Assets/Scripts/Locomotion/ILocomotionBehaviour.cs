@@ -4,5 +4,6 @@
     {
         void moveForward();
         void stopMoving();
+        void reset();
     } 
 }

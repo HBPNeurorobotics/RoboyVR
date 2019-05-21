@@ -12,7 +12,7 @@ namespace Locomotion
 
     public static class LocomotionHandler
     {
-        static ILocomotionBehaviour s_locomotionBehaviour = new LocomotionTracker();
+        static ILocomotionBehaviour s_locomotionBehaviour = new LocomotionHover();
 
         public static void moveForward()
         {
@@ -26,6 +26,7 @@ namespace Locomotion
 
         public static void changeLocomotionBehaviour(ILocomotionBehaviour newLocomotionBehaviour)
         {
+            s_locomotionBehaviour.reset();
             s_locomotionBehaviour = newLocomotionBehaviour;
         }
     } 

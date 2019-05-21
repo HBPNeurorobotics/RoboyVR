@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Locomotion;
+﻿using Locomotion;
 using UnityEngine;
 
 public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
@@ -68,7 +65,7 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
     {
         if (_simulateMovePress)
         {
-            Locomotion.LocomotionHandler.moveForward();
+            LocomotionHandler.moveForward();
             return;
         }
 
@@ -91,13 +88,13 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
 
     private void movePlayer()
     {
-        _touchpadPressLeft = _leftController.GetPressDown(_touchpad);
-        _touchpadPressRight = _rightController.GetPressDown(_touchpad);
+        _touchpadPressLeft = _leftController.GetPress(_touchpad);
+        _touchpadPressRight = _rightController.GetPress(_touchpad);
 
         if (_touchpadPressLeft && _touchpadPressRight)
-            Locomotion.LocomotionHandler.moveForward();
+            LocomotionHandler.moveForward();
         else
-            Locomotion.LocomotionHandler.stopMoving();
+            LocomotionHandler.stopMoving();
     }
 
     void DebugStuff()

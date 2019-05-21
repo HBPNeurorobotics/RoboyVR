@@ -6,18 +6,24 @@
 
     public class LocomotionGhost : LocomotionHover
     {
-        public LocomotionGhost() { }
+        protected override void initializeHover()
+        {
+        }
 
         ~LocomotionGhost() { }
 
         public override void moveForward()
         {
-            translateForward();
+            translateForwardController();
         }
 
         public override void stopMoving()
         {
             
+        }
+
+        public override void reset()
+        {
         }
     } 
 }
