@@ -179,7 +179,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1713846852843528
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,7 +499,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1962772318355372}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.1}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 4567100487589744}
@@ -858,7 +858,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rightControllerObject: {fileID: 114202583630239786}
   _leftControllerObject: {fileID: 114096786942696102}
-  _simulateMovePress: 1
+  _simulateMovePress: 0
+  _changeLocomotionBehaviour: 0
 --- !u!114 &114202583630239786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -954,7 +955,7 @@ MonoBehaviour:
   effectColor: {r: 0, g: 0, b: 0, a: 1}
   effectCoverage: 0.75
   effectFeather: 0.1
-  effectSkybox: {fileID: 0}
+  effectSkybox: {fileID: 8900000, guid: 814f7c32c471f9844ac9ac3b628fd10b, type: 3}
   applyColorToBackground: 0
   useAngularVelocity: 0
   angularVelocityStrength: 1
@@ -969,38 +970,38 @@ MonoBehaviour:
   useVelocity: 1
   velocityStrength: 1
   velocityMin: 0
-  velocityMax: 20
+  velocityMax: 180
   velocitySmoothing: 0.15
   motionEffectTarget: {fileID: 0}
   useCounterMotion: 0
-  counterRotationStrength: 1
+  counterRotationStrength: 0.5
   counterRotationPerAxis: {x: 0, y: 1, z: 0}
   useArtificialTilt: 0
-  tiltStrength: 0
-  tiltMaxAngles: {x: 5, y: 5}
+  tiltStrength: 2
+  tiltMaxAngles: {x: 0, y: 0}
   tiltSmoothTime: 0
   framerateDivision: 1
-  divideTranslation: 1
-  divideRotation: 1
+  divideTranslation: 0
+  divideRotation: 0
   backgroundMode: 0
   effectOverlay: 0
   _cageParent: {fileID: 0}
   cageDownsample: 0
   cageAntiAliasing: 0
   cageUpdateEveryFrame: 0
-  cageFogDensity: 0.01
+  cageFogDensity: 0.05
   cageFogPower: 2
   cageFogBlend: 1
   maskMode: 0
   blurDownsample: 3
   blurDistance: 3
   blurPasses: 3
-  blurSamples: 0
+  blurSamples: 2
   irisZRejection: 1
   counterVelocityMode: 0
-  counterVelocityResetDistance: 0
+  counterVelocityResetDistance: 2
   counterVelocityResetTime: 0
-  counterVelocityStrength: 1
+  counterVelocityStrength: 0.5
   counterVelocityPerAxis: {x: 1, y: 1, z: 1}
 --- !u!114 &114614294798022860
 MonoBehaviour:
