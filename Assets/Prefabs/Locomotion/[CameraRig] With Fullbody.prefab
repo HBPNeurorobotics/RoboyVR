@@ -117,7 +117,6 @@ GameObject:
   - component: {fileID: 20599843612578866}
   - component: {fileID: 114346497308911668}
   - component: {fileID: 92606588085487082}
-  - component: {fileID: 114442178583512272}
   m_Layer: 0
   m_Name: Camera (head)
   m_TagString: MainCamera
@@ -224,7 +223,8 @@ GameObject:
   - component: {fileID: 4702547276303122}
   - component: {fileID: 20358247280014568}
   - component: {fileID: 124760746164212362}
-  - component: {fileID: 114412438295106982}
+  - component: {fileID: 114970906889394646}
+  - component: {fileID: 114564612558208180}
   m_Layer: 0
   m_Name: Camera (eye)
   m_TagString: MainCamera
@@ -926,7 +926,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   origin: {fileID: 0}
---- !u!114 &114412438295106982
+--- !u!114 &114564612558208180
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -940,69 +940,6 @@ MonoBehaviour:
   _head: {fileID: 4310191325363198}
   _ears: {fileID: 4606131108346614}
   wireframe: 0
---- !u!114 &114442178583512272
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1586006945629000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ac20df6282234e419ee9915e0fd1676, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  motionTarget: {fileID: 4447312493349176}
-  effectColor: {r: 0, g: 0, b: 0, a: 1}
-  effectCoverage: 0.75
-  effectFeather: 0.1
-  effectSkybox: {fileID: 8900000, guid: 814f7c32c471f9844ac9ac3b628fd10b, type: 3}
-  applyColorToBackground: 0
-  useAngularVelocity: 0
-  angularVelocityStrength: 1
-  angularVelocityMin: 0
-  angularVelocityMax: 180
-  angularVelocitySmoothing: 0.15
-  useAcceleration: 0
-  accelerationStrength: 1
-  accelerationMin: 0
-  accelerationMax: 0
-  accelerationSmoothing: 0.15
-  useVelocity: 1
-  velocityStrength: 1
-  velocityMin: 0
-  velocityMax: 180
-  velocitySmoothing: 0.15
-  motionEffectTarget: {fileID: 0}
-  useCounterMotion: 0
-  counterRotationStrength: 0.5
-  counterRotationPerAxis: {x: 0, y: 1, z: 0}
-  useArtificialTilt: 0
-  tiltStrength: 2
-  tiltMaxAngles: {x: 0, y: 0}
-  tiltSmoothTime: 0
-  framerateDivision: 1
-  divideTranslation: 0
-  divideRotation: 0
-  backgroundMode: 0
-  effectOverlay: 0
-  _cageParent: {fileID: 0}
-  cageDownsample: 0
-  cageAntiAliasing: 0
-  cageUpdateEveryFrame: 0
-  cageFogDensity: 0.05
-  cageFogPower: 2
-  cageFogBlend: 1
-  maskMode: 0
-  blurDownsample: 3
-  blurDistance: 3
-  blurPasses: 3
-  blurSamples: 2
-  irisZRejection: 1
-  counterVelocityMode: 0
-  counterVelocityResetDistance: 2
-  counterVelocityResetTime: 0
-  counterVelocityStrength: 0.5
-  counterVelocityPerAxis: {x: 1, y: 1, z: 1}
 --- !u!114 &114614294798022860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1074,6 +1011,69 @@ MonoBehaviour:
   right: {fileID: 1296821048059006}
   objects: []
   assignAllBeforeIdentified: 0
+--- !u!114 &114970906889394646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1879351748026592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac20df6282234e419ee9915e0fd1676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  motionTarget: {fileID: 4447312493349176}
+  effectColor: {r: 0, g: 0, b: 0, a: 1}
+  effectCoverage: 0.75
+  effectFeather: 0.1
+  effectSkybox: {fileID: 8900000, guid: 814f7c32c471f9844ac9ac3b628fd10b, type: 3}
+  applyColorToBackground: 0
+  useAngularVelocity: 0
+  angularVelocityStrength: 1
+  angularVelocityMin: 0
+  angularVelocityMax: 180
+  angularVelocitySmoothing: 0.15
+  useAcceleration: 0
+  accelerationStrength: 1
+  accelerationMin: 0
+  accelerationMax: 0
+  accelerationSmoothing: 0.15
+  useVelocity: 1
+  velocityStrength: 1
+  velocityMin: 0
+  velocityMax: 10
+  velocitySmoothing: 0.15
+  motionEffectTarget: {fileID: 0}
+  useCounterMotion: 0
+  counterRotationStrength: 0.5
+  counterRotationPerAxis: {x: 0, y: 1, z: 0}
+  useArtificialTilt: 0
+  tiltStrength: 2
+  tiltMaxAngles: {x: 0, y: 0}
+  tiltSmoothTime: 0
+  framerateDivision: 1
+  divideTranslation: 0
+  divideRotation: 0
+  backgroundMode: 0
+  effectOverlay: 0
+  _cageParent: {fileID: 0}
+  cageDownsample: 0
+  cageAntiAliasing: 0
+  cageUpdateEveryFrame: 0
+  cageFogDensity: 0.05
+  cageFogPower: 2
+  cageFogBlend: 1
+  maskMode: 0
+  blurDownsample: 3
+  blurDistance: 3
+  blurPasses: 3
+  blurSamples: 2
+  irisZRejection: 1
+  counterVelocityMode: 0
+  counterVelocityResetDistance: 2
+  counterVelocityResetTime: 0
+  counterVelocityStrength: 0.5
+  counterVelocityPerAxis: {x: 1, y: 1, z: 1}
 --- !u!124 &124760746164212362
 Behaviour:
   m_ObjectHideFlags: 1
