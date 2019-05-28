@@ -8,6 +8,15 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
     SteamVR_Controller.Device _rightController;
     [SerializeField] SteamVR_TrackedObject _leftControllerObject;
     public SteamVR_TrackedObject LeftControllerObject { get { return _leftControllerObject; } }
+
+    public float Speed
+    {
+        get
+        {
+            return _speed;
+        }
+    }
+
     SteamVR_Controller.Device _leftController;
 
     Valve.VR.EVRButtonId _touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
@@ -17,6 +26,10 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
 
     [SerializeField] bool _changeLocomotionBehaviour = false;
     LocomotionBehaviour _locomotionBehaviour = LocomotionBehaviour.hover;
+
+    [SerializeField]
+    float _speed = 0.01f;
+    
 
     void Update ()
     {

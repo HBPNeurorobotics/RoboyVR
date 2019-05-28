@@ -6,7 +6,6 @@
     {
         System.Collections.Generic.List<GameObject> hoverObjects = new System.Collections.Generic.List<GameObject>();
 
-        float speed = 0.01f;
         public LocomotionHover()
         {
             initializeHover();
@@ -32,19 +31,19 @@
             Debug.Log("moveForward");
             Utils.AudioManager.Instance.startHovering();
             Utils.ParticleManager.Instance.startJets();
-            translateForwardHip(speed);
+            translateForwardHip();
         }
 
-        void translateForwardHip(float translationSpeed)
+        void translateForwardHip()
         {
-            SteamVRControllerInput.Instance.transform.Translate(Vector3.ProjectOnPlane(VRLocomotionTrackers.Instance.HipTracker.up, Vector3.up).normalized * speed);
+            SteamVRControllerInput.Instance.transform.Translate(Vector3.ProjectOnPlane(VRLocomotionTrackers.Instance.HipTracker.up, Vector3.up).normalized * SteamVRControllerInput.Instance.Speed);
         }
 
         protected void translateForwardController()
         {
             SteamVRControllerInput.Instance.transform.Translate(clampForwardVectorsToXZPlane(
                             SteamVRControllerInput.Instance.RightControllerObject.transform.forward,
-                            SteamVRControllerInput.Instance.LeftControllerObject.transform.forward) * 0.01f);
+                            SteamVRControllerInput.Instance.LeftControllerObject.transform.forward) * SteamVRControllerInput.Instance.Speed);
         }
 
         Vector3 clampForwardVectorsToXZPlane(Vector3 forward, Vector3 otherForward)
