@@ -1,42 +1,37 @@
 ﻿namespace Locomotion
 {
-    using System;
     using UnityEngine;
 
     public class LocomotionTracker : ILocomotionBehaviour
     {
-        float _movementSpeedInMperS = 1;
-        readonly float _fixedUpdateRefreshRate = 60; 
+        static float _movementSpeedInMPerS = 1;
+        static readonly float _fixedUpdateRefreshRate = 60; 
         readonly float _epsilonForMovementRegistration = 0.015f;
-        readonly float _maximalStepLength = 1;
-        private float _currentStepLength = 0;
-        public float currentStepLength { get { return _currentStepLength; } set { _currentStepLength = value; } }
+        readonly float _maximalStepLength = 0.5f;
+        private readonly float _movementSpeedPerFrame = _movementSpeedInMPerS / _fixedUpdateRefreshRate;
+        private float CurrentStepLength { get; set; }
 
         public void moveForward()
         {
-            SteamVRControllerInput.Instance.transform.Translate(getMoveDirection() * calculateMovement(_epsilonForMovementRegistration, _movementSpeedInMperS));
+            SteamVRControllerInput.Instance.transform.Translate(
+                getMoveDirection() * calculateMovementDistancePerFrame(_epsilonForMovementRegistration));
         }
 
         private static Vector3 getMoveDirection()
         {
-            return Vector3.ProjectOnPlane(VRLocomotionTrackers.Instance.HipTracker.forward, Vector3.up);
+            return Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.up, Vector3.up);
         }
 
-        private float calculateMovement(float epsilon, float speed)
+        private float calculateMovementDistancePerFrame(float epsilon)
         {
-            if (VRLocomotionTrackers.Instance.DistanceTrackersOnPlane >= epsilon)
-                return calculateMovementDistance(speed);
-            else
-                currentStepLength = 0;
-            return currentStepLength;
+            if (isValidMovement(epsilon))
+                return _movementSpeedPerFrame;
+            return CurrentStepLength = 0;
         }
 
-        private float calculateMovementDistance(float speed)
+        private bool isValidMovement(float epsilon)
         {
-            if (_currentStepLength >= _maximalStepLength)
-                return 0;
-            else
-                return speed / _fixedUpdateRefreshRate; 
+            return VrLocomotionTrackers.Instance.DistanceTrackersOnPlane >= epsilon && CurrentStepLength <= _maximalStepLength;
         }
 
         public void stopMoving()

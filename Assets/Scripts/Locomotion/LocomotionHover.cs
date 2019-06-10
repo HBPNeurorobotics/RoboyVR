@@ -13,14 +13,14 @@
 
         protected virtual void initializeHover()
         {
-            foreach (GameObject hoverObject in GameObject.FindGameObjectsWithTag("hover"))
+            foreach (var hoverObject in GameObject.FindGameObjectsWithTag("hover"))
             {
                 foreach (Transform child in hoverObject.transform)
                 {
                     hoverObjects.Add(child.gameObject);
                 }
             }
-            foreach (GameObject hoverObject in hoverObjects)
+            foreach (var hoverObject in hoverObjects)
             {
                 hoverObject.SetActive(true);
             }
@@ -36,7 +36,7 @@
 
         void translateForwardHip()
         {
-            SteamVRControllerInput.Instance.transform.Translate(Vector3.ProjectOnPlane(VRLocomotionTrackers.Instance.HipTracker.up, Vector3.up).normalized * SteamVRControllerInput.Instance.Speed);
+            SteamVRControllerInput.Instance.transform.Translate(Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.up, Vector3.up).normalized * SteamVRControllerInput.Instance.Speed);
         }
 
         protected void translateForwardController()

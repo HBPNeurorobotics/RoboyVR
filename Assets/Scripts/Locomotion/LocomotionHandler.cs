@@ -4,10 +4,9 @@ namespace Locomotion
 {
     public enum LocomotionBehaviour
     {
-        hover,
-        tracker,
-        ghost,
-        behaviourCount
+        Hover,
+        Tracker,
+        BehaviourCount
     }
 
     public static class LocomotionHandler

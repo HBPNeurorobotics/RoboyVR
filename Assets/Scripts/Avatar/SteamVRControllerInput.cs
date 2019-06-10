@@ -1,58 +1,64 @@
 ﻿using Locomotion;
 using UnityEngine;
+using Valve.VR;
 
-public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
+public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
+{
+    [SerializeField] private bool _changeLocomotionBehaviour;
 
-    [SerializeField] SteamVR_TrackedObject _rightControllerObject;
-    public SteamVR_TrackedObject RightControllerObject { get {return _rightControllerObject; }  }
-    SteamVR_Controller.Device _rightController;
-    [SerializeField] SteamVR_TrackedObject _leftControllerObject;
-    public SteamVR_TrackedObject LeftControllerObject { get { return _leftControllerObject; } }
+    private SteamVR_Controller.Device _leftController;
+    [SerializeField] private SteamVR_TrackedObject _leftControllerObject;
+    private LocomotionBehaviour _locomotionBehaviour = LocomotionBehaviour.Hover;
+    private SteamVR_Controller.Device _rightController;
+
+    [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
+    [SerializeField] private readonly bool _simulateMovePress = false;
+
+    [SerializeField] private readonly float _speed = 0.01f;
+
+    private readonly EVRButtonId _touchpad = EVRButtonId.k_EButton_SteamVR_Touchpad;
+    private bool _touchpadPressLeft;
+    private bool _touchpadPressRight;
+
+    public SteamVR_TrackedObject RightControllerObject
+    {
+        get { return _rightControllerObject; }
+    }
+
+    public SteamVR_TrackedObject LeftControllerObject
+    {
+        get { return _leftControllerObject; }
+    }
 
     public float Speed
     {
-        get
-        {
-            return _speed;
-        }
+        get { return _speed; }
     }
 
-    SteamVR_Controller.Device _leftController;
 
-    Valve.VR.EVRButtonId _touchpad = Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad;
-    bool _touchpadPressLeft = false;
-    bool _touchpadPressRight = false;
-    [SerializeField] bool _simulateMovePress = false;
-
-    [SerializeField] bool _changeLocomotionBehaviour = false;
-    LocomotionBehaviour _locomotionBehaviour = LocomotionBehaviour.hover;
-
-    [SerializeField]
-    float _speed = 0.01f;
-    
-
-    void Update ()
+    private void Update()
     {
         if (_changeLocomotionBehaviour)
         {
             _changeLocomotionBehaviour = false;
-            _locomotionBehaviour = (LocomotionBehaviour)(((int)_locomotionBehaviour + 1) % (int)LocomotionBehaviour.behaviourCount);
+            _locomotionBehaviour =
+                (LocomotionBehaviour) (((int) _locomotionBehaviour + 1) %
+                                       (int) LocomotionBehaviour.BehaviourCount);
             changeLocomotionBehaviour(_locomotionBehaviour);
         }
-        if (_simulateMovePress)
-        {
-            return;
-        }
+
+        if (_simulateMovePress) return;
 
         //DebugStuff();
-        _rightController = SteamVR_Controller.Input((int)_rightControllerObject.index);
-        _leftController = SteamVR_Controller.Input((int)_leftControllerObject.index);
+        _rightController = SteamVR_Controller.Input((int) _rightControllerObject.index);
+        _leftController = SteamVR_Controller.Input((int) _leftControllerObject.index);
 
         if (_rightController == null || _leftController == null)
         {
             Debug.LogError("At least one Controller not found");
             return;
         }
+
         spawnBot();
     }
 
@@ -60,16 +66,11 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
     {
         switch (locomotionBehaviour)
         {
-            case LocomotionBehaviour.hover:
+            case LocomotionBehaviour.Hover:
                 LocomotionHandler.changeLocomotionBehaviour(new LocomotionHover());
                 break;
-            case LocomotionBehaviour.tracker:
+            case LocomotionBehaviour.Tracker:
                 LocomotionHandler.changeLocomotionBehaviour(new LocomotionTracker());
-                break;
-            case LocomotionBehaviour.ghost:
-                LocomotionHandler.changeLocomotionBehaviour(new LocomotionGhost());
-                break;
-            default:
                 break;
         }
     }
@@ -87,12 +88,21 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
             Debug.LogError("At least one Controller not found");
             return;
         }
+
         movePlayer();
+        initializeTracker();
+    }
+
+    private void initializeTracker()
+    {
+        if(_leftController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || _rightController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+            VrLocomotionTrackers.Instance.initializeDefaultDistance();
     }
 
     private void spawnBot()
     {
-        if (_leftController.GetPressDown(SteamVR_Controller.ButtonMask.Grip) || _rightController.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
+        if (_leftController.GetPressDown(SteamVR_Controller.ButtonMask.Grip) ||
+            _rightController.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
             Debug.Log("Grip");
             UserAvatarService.Instance.SpawnYBot();
@@ -110,15 +120,12 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput> {
             LocomotionHandler.stopMoving();
     }
 
-    void DebugStuff()
+    private void DebugStuff()
     {
-        Debug.DrawRay(_rightControllerObject.transform.position, _rightControllerObject.transform.forward, Color.green);
-        Debug.DrawRay(_leftControllerObject.transform.position, _leftControllerObject.transform.forward, Color.green);
-        Debug.DrawRay(VRLocomotionTrackers.Instance.RightFootTracker.transform.position, VRLocomotionTrackers.Instance.RightFootTracker.transform.forward, Color.green);
-        Debug.DrawRay(VRLocomotionTrackers.Instance.LeftFootTracker.transform.position, VRLocomotionTrackers.Instance.LeftFootTracker.transform.forward, Color.green);
-        Debug.DrawRay(VRLocomotionTrackers.Instance.HipTracker.transform.position, VRLocomotionTrackers.Instance.HipTracker.transform.forward, Color.green);
-        Debug.DrawRay(VRLocomotionTrackers.Instance.RightFootTracker.transform.position, VRLocomotionTrackers.Instance.RightFootTracker.transform.up, Color.red);
-        Debug.DrawRay(VRLocomotionTrackers.Instance.LeftFootTracker.transform.position, VRLocomotionTrackers.Instance.LeftFootTracker.transform.up, Color.red);
-        Debug.DrawRay(VRLocomotionTrackers.Instance.HipTracker.transform.position, VRLocomotionTrackers.Instance.HipTracker.transform.up, Color.red);
+        Debug.DrawRay(_rightControllerObject.transform.position,
+            _rightControllerObject.transform.forward, Color.green);
+        Debug.DrawRay(_leftControllerObject.transform.position,
+            _leftControllerObject.transform.forward, Color.green);
+        VrLocomotionTrackers.showAxisForTrackers();
     }
 }
