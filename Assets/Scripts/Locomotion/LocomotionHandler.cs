@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Locomotion
+﻿namespace Locomotion
 {
     public enum LocomotionBehaviour
     {
@@ -11,7 +9,7 @@ namespace Locomotion
 
     public static class LocomotionHandler
     {
-        static ILocomotionBehaviour s_locomotionBehaviour = new LocomotionHover();
+        private static ILocomotionBehaviour s_locomotionBehaviour = new LocomotionHover();
 
         public static void moveForward()
         {
@@ -28,5 +26,5 @@ namespace Locomotion
             s_locomotionBehaviour.reset();
             s_locomotionBehaviour = newLocomotionBehaviour;
         }
-    } 
+    }
 }

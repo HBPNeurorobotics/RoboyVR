@@ -35,7 +35,8 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
 
     public void initializeDefaultDistance()
     {
-        defaultDistance = getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
+        defaultDistance =
+            getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
     }
 
     private void Update()
@@ -54,7 +55,8 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
     private Vector3 createTrackingPlaneNormalBetweenTrackers()
     {
         var directionRightToLeft = LeftFootTracker.position - RightFootTracker.position;
-        return directionRightToLeft.normalized;
+        var directionRightToLeftOnPlane = Vector3.ProjectOnPlane(directionRightToLeft, Vector3.up);
+        return directionRightToLeftOnPlane.normalized;
     }
 
     public static void showAxisForTrackers()

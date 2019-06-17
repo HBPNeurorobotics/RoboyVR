@@ -1,71 +1,73 @@
 ﻿namespace Locomotion
 {
+    using System.Collections.Generic;
     using UnityEngine;
+    using Utils;
 
     public class LocomotionHover : ILocomotionBehaviour
     {
-        System.Collections.Generic.List<GameObject> hoverObjects = new System.Collections.Generic.List<GameObject>();
+        private readonly List<GameObject> hoverObjects = new List<GameObject>();
 
         public LocomotionHover()
         {
             initializeHover();
         }
 
-        protected virtual void initializeHover()
-        {
-            foreach (var hoverObject in GameObject.FindGameObjectsWithTag("hover"))
-            {
-                foreach (Transform child in hoverObject.transform)
-                {
-                    hoverObjects.Add(child.gameObject);
-                }
-            }
-            foreach (var hoverObject in hoverObjects)
-            {
-                hoverObject.SetActive(true);
-            }
-        }
-
         public virtual void moveForward()
         {
             Debug.Log("moveForward");
-            Utils.AudioManager.Instance.startHovering();
-            Utils.ParticleManager.Instance.startJets();
+            AudioManager.Instance.startHovering();
+            ParticleManager.Instance.startJets();
             translateForwardHip();
-        }
-
-        void translateForwardHip()
-        {
-            SteamVRControllerInput.Instance.transform.Translate(Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.up, Vector3.up).normalized * SteamVRControllerInput.Instance.Speed);
-        }
-
-        protected void translateForwardController()
-        {
-            SteamVRControllerInput.Instance.transform.Translate(clampForwardVectorsToXZPlane(
-                            SteamVRControllerInput.Instance.RightControllerObject.transform.forward,
-                            SteamVRControllerInput.Instance.LeftControllerObject.transform.forward) * SteamVRControllerInput.Instance.Speed);
-        }
-
-        Vector3 clampForwardVectorsToXZPlane(Vector3 forward, Vector3 otherForward)
-        {
-            Vector3 projectForward = Vector3.ProjectOnPlane(forward, Vector3.up);
-            Vector3 projectOther = Vector3.ProjectOnPlane(otherForward, Vector3.up);
-            return (projectForward + projectOther).normalized;
         }
 
         public virtual void stopMoving()
         {
-            Utils.AudioManager.Instance.stopHovering();
-            Utils.ParticleManager.Instance.stopJets();
+            AudioManager.Instance.stopHovering();
+            ParticleManager.Instance.stopJets();
         }
 
-        public virtual void reset()
+        public void reset()
         {
-            foreach (GameObject hoverObject in hoverObjects)
-            {
-                hoverObject.SetActive(false);
-            }
+            foreach (var hoverObject in hoverObjects) hoverObject.SetActive(false);
+        }
+
+        private void initializeHover()
+        {
+            foreach (var hoverObject in GameObject.FindGameObjectsWithTag("hover"))
+            foreach (Transform child in hoverObject.transform)
+                hoverObjects.Add(child.gameObject);
+            foreach (var hoverObject in hoverObjects) hoverObject.SetActive(true);
+        }
+
+        private void translateForwardHip()
+        {
+            SteamVRControllerInput.Instance.transform.Translate(
+                Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.up, Vector3.up)
+                    .normalized * SteamVRControllerInput.Instance.Speed);
+        }
+
+        private void translateForwardController()
+        {
+            var areaToMove = SteamVRControllerInput.Instance.transform;
+            var rightControllerForward = SteamVRControllerInput.Instance
+                .RightControllerObject
+                .transform.forward;
+            var leftControllerForward = SteamVRControllerInput.Instance
+                .LeftControllerObject
+                .transform.forward;
+            areaToMove.Translate(clampForwardVectorsToXZPlane(
+                                     rightControllerForward,
+                                     leftControllerForward) *
+                                 SteamVRControllerInput.Instance
+                                     .Speed);
+        }
+
+        private Vector3 clampForwardVectorsToXZPlane(Vector3 forward, Vector3 otherForward)
+        {
+            var projectForward = Vector3.ProjectOnPlane(forward, Vector3.up);
+            var projectOther = Vector3.ProjectOnPlane(otherForward, Vector3.up);
+            return (projectForward + projectOther).normalized;
         }
     }
-
 }
