@@ -5,6 +5,7 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
     [SerializeField] private Transform _hipTracker;
     [SerializeField] private Transform _leftFootTracker;
     [SerializeField] private Transform _rightFootTracker;
+    [SerializeField] bool _shouldShowAxis = false;
     private Vector3 _trackingPlane;
     private float defaultDistance;
 
@@ -33,16 +34,34 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
         initializeDefaultDistance();
     }
 
-    public void initializeDefaultDistance()
+    private void initializeDefaultDistance()
     {
         defaultDistance =
             getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
+    }
+
+    private void initializeTrackerRotation(Transform tracker)
+    {
+        Vector3 upVectorTracker = Vector3.ProjectOnPlane(tracker.up, tracker.forward).normalized;
+        Vector3 upVectorGeneral = Vector3.ProjectOnPlane(Vector3.up, tracker.forward).normalized;
+        float degreesToRotate = Vector3.Angle(upVectorTracker, upVectorGeneral);
+        tracker.Rotate(tracker.forward, degreesToRotate);
+    }
+
+    public void initializeTracking()
+    {
+        initializeDefaultDistance();
+        initializeTrackerRotation(_leftFootTracker);
+        initializeTrackerRotation(_rightFootTracker);
+        initializeTrackerRotation(_hipTracker);
     }
 
     private void Update()
     {
         _trackingPlane = createTrackingPlaneNormalBetweenTrackers();
         Debug.DrawRay(Vector3.zero, _trackingPlane);
+        if(_shouldShowAxis)
+            showAxisForTrackers();
     }
 
     private float getDistanceBetweenTrackerOnPlane(Vector3 trackingPlaneNormal)

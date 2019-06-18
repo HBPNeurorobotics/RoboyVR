@@ -43,8 +43,13 @@
         private void translateForwardHip()
         {
             SteamVRControllerInput.Instance.transform.Translate(
-                Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.up, Vector3.up)
-                    .normalized * SteamVRControllerInput.Instance.Speed);
+                getMoveDirection() * SteamVRControllerInput.Instance.Speed);
+        }
+
+        private static Vector3 getMoveDirection()
+        {
+            return Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.up, Vector3.up)
+                                .normalized;
         }
 
         private void translateForwardController()
@@ -57,10 +62,8 @@
                 .LeftControllerObject
                 .transform.forward;
             areaToMove.Translate(clampForwardVectorsToXZPlane(
-                                     rightControllerForward,
-                                     leftControllerForward) *
-                                 SteamVRControllerInput.Instance
-                                     .Speed);
+                rightControllerForward, leftControllerForward) *
+                SteamVRControllerInput.Instance.Speed);
         }
 
         private Vector3 clampForwardVectorsToXZPlane(Vector3 forward, Vector3 otherForward)
