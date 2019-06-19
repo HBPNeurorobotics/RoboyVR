@@ -4,13 +4,13 @@
 
     public class LocomotionTracker : ILocomotionBehaviour
     {
-        static readonly float _maxMovementSpeedInMPerS = 7;
-        static readonly float _fixedUpdateRefreshRate = 60; 
-        readonly float _epsilonForMovementRegistration = 0.015f;
-        readonly float _maximalStepLength = 0.5f;
-        static readonly float _maxMovementSpeedPerFrame = _maxMovementSpeedInMPerS / _fixedUpdateRefreshRate;
+        private const float _maxMovementSpeedInMPerS = 7;
+        private const float _fixedUpdateRefreshRate = 60;
+        private const float _epsilonForMovementRegistration = 0.015f;
+        private const float _maximalStepLength = 0.5f;
+        private const float _maxMovementSpeedPerFrame = _maxMovementSpeedInMPerS / _fixedUpdateRefreshRate;
         private float _currentMovementSpeedPerFrame = _maxMovementSpeedPerFrame;
-        private float _sawSlowingOfMovementPerFrame = 0.01f;
+        private const float _sawSlowingOfMovementPerFrame = 0.01f;
         private float CurrentStepLength { get; set; }
 
         public void moveForward()
