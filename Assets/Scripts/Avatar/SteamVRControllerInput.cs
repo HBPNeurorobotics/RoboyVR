@@ -96,7 +96,8 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
     private void initializeTracker()
     {
         if(_leftController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || _rightController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
-            VrLocomotionTrackers.Instance.initializeDefaultDistance();
+            VrLocomotionTrackers.Instance.initializeTracking();
+
     }
 
     private void spawnBot()
