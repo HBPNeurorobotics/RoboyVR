@@ -22,6 +22,7 @@ public class GzBridgeService : Singleton<GzBridgeService> {
     public delegate void CallbackModelInfoMsg(GzModelInfoMsg msg);
     public delegate void CallbackPoseInfoMsg(GzPoseInfoMsg msg);
     public delegate void CallbackSceneMsg(GzSceneMsg msg);
+    public delegate void CallbackRequestMsg(GzRequestMsg msg);
 
     #endregion //PUBLIC_MEMBER_VARIABLES
 
@@ -36,6 +37,7 @@ public class GzBridgeService : Singleton<GzBridgeService> {
     private List<CallbackModelInfoMsg> callbacks_model_info_msg = new List<CallbackModelInfoMsg>();
     private List<CallbackPoseInfoMsg> callbacks_pose_info_msg = new List<CallbackPoseInfoMsg>();
     private List<CallbackSceneMsg> callbacks_scene_msg = new List<CallbackSceneMsg>();
+    private List<CallbackRequestMsg> callbacks_request_msg = new List<CallbackRequestMsg>();
 
     #endregion //PRIVATE_MEMBER_VARIABLES
 
@@ -95,6 +97,11 @@ public class GzBridgeService : Singleton<GzBridgeService> {
         this.callbacks_scene_msg.Add(callback);
     }
 
+    public void AddCallbackRequestMsg(CallbackRequestMsg callback)
+    {
+        this.callbacks_request_msg.Add(callback);
+    }
+
     /// <summary>
     /// Main function to receive scene messages from GzBridge.
     /// </summary>
@@ -147,6 +154,15 @@ public class GzBridgeService : Singleton<GzBridgeService> {
         }
     }
 
+    public void ReceiveMessage(GzRequestMsg msg)
+    {
+        //Debug.Log("ReceiveMessage(GzRequestMsg msg)");
+        foreach (CallbackRequestMsg callback in callbacks_request_msg)
+        {
+            callback(msg);
+        }
+    }
+
     public void ConnectToGzBridge(string url)
     {
         if (string.IsNullOrEmpty(url))
@@ -165,6 +181,7 @@ public class GzBridgeService : Singleton<GzBridgeService> {
             m_GzBridge.AddSubscriber(typeof(GzPoseInfoSubscriber));
             m_GzBridge.AddSubscriber(typeof(GzModelInfoSubscriber));
             m_GzBridge.AddSubscriber(typeof(GzMaterialSubscriber));
+            m_GzBridge.AddSubscriber(typeof(GzRequestSubscriber));
             m_GzBridge.Connect();
             m_Initialized = true;
 

@@ -115,7 +115,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     {
         JSONNode json_model_info = model_info_msg.MsgJSON;
         string model_name = json_model_info["name"];
-        if (model_name.Contains(this.avatar_name))
+        if (this.avatar_name != null && model_name.Contains(this.avatar_name))
         {
             StartCoroutine(this.WaitForAvatarCreation());
         }
@@ -258,8 +258,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
             string topic = "/" + this.avatar_name + "/avatar_ybot/" + child.name + "/set_pid_params";
             
-            // default is (100f, 50f, 10f)
-            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(100f, 10f, 1f));
+            // default was (100f, 50f, 10f)
+            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(10f, 0f, 50f));
         }
     }
 

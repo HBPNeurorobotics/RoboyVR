@@ -46,7 +46,7 @@ public class GzModelInfoMsg : ROSBridgeMsg
 
     public override string ToString()
     {
-        return "gazebo.msgs.Model [name =";
+        return "gazebo.msgs.Model [name =" + this.msg_json_["name"].ToString() + "]";
     }
 
     public override string ToYAMLString()
