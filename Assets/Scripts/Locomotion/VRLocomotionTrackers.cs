@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
 {
     [SerializeField] private Transform _hipTracker;
     [SerializeField] private Transform _leftFootTracker;
     [SerializeField] private Transform _rightFootTracker;
-    [SerializeField] bool _shouldShowAxis = false;
+    [SerializeField] private bool _shouldShowAxis;
     private Vector3 _trackingPlane;
     private float defaultDistance;
 
@@ -34,7 +35,7 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
         initializeDefaultDistance();
     }
 
-    private void initializeDefaultDistance()
+    public void initializeDefaultDistance()
     {
         defaultDistance =
             getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
@@ -42,15 +43,16 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
 
     private void initializeTrackerRotation(Transform tracker)
     {
-        Vector3 upVectorTracker = Vector3.ProjectOnPlane(tracker.up, tracker.forward).normalized;
-        Vector3 upVectorGeneral = Vector3.ProjectOnPlane(Vector3.up, tracker.forward).normalized;
-        float degreesToRotate = Vector3.Angle(upVectorTracker, upVectorGeneral);
-        tracker.Rotate(tracker.forward, degreesToRotate);
+        var upVectorTracker = Vector3.ProjectOnPlane(tracker.up, tracker.forward).normalized;
+        var upVectorGeneral = Vector3.ProjectOnPlane(Vector3.up, tracker.forward).normalized;
+        var degreesTotal = Vector3.SignedAngle(upVectorTracker, upVectorGeneral, tracker.forward);
+        var directionToRotate = degreesTotal / Math.Abs(degreesTotal);
+        if (degreesTotal >= 2f || degreesTotal <= -2f) ;
+        tracker.Rotate(tracker.forward, directionToRotate, Space.World);
     }
 
     public void initializeTracking()
     {
-        initializeDefaultDistance();
         initializeTrackerRotation(_leftFootTracker);
         initializeTrackerRotation(_rightFootTracker);
         initializeTrackerRotation(_hipTracker);
@@ -60,7 +62,7 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
     {
         _trackingPlane = createTrackingPlaneNormalBetweenTrackers();
         Debug.DrawRay(Vector3.zero, _trackingPlane);
-        if(_shouldShowAxis)
+        if (_shouldShowAxis)
             showAxisForTrackers();
     }
 

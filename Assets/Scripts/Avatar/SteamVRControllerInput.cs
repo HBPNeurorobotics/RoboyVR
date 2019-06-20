@@ -4,6 +4,11 @@ using Valve.VR;
 
 public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 {
+    [SerializeField] private readonly bool _simulateMovePress = false;
+
+    [SerializeField] private readonly float _speed = 0.01f;
+
+    private readonly EVRButtonId _touchpad = EVRButtonId.k_EButton_SteamVR_Touchpad;
     [SerializeField] private bool _changeLocomotionBehaviour;
 
     private SteamVR_Controller.Device _leftController;
@@ -12,11 +17,6 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
     private SteamVR_Controller.Device _rightController;
 
     [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
-    [SerializeField] private readonly bool _simulateMovePress = false;
-
-    [SerializeField] private readonly float _speed = 0.01f;
-
-    private readonly EVRButtonId _touchpad = EVRButtonId.k_EButton_SteamVR_Touchpad;
     private bool _touchpadPressLeft;
     private bool _touchpadPressRight;
 
@@ -90,14 +90,15 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         }
 
         movePlayer();
-        initializeTracker();
+        initializeTrackerWithControllers();
     }
 
-    private void initializeTracker()
+    private void initializeTrackerWithControllers()
     {
-        if(_leftController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu) || _rightController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+        if (_leftController.GetPress(EVRButtonId.k_EButton_ApplicationMenu))
             VrLocomotionTrackers.Instance.initializeTracking();
-
+        if (_rightController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+            VrLocomotionTrackers.Instance.initializeDefaultDistance();
     }
 
     private void spawnBot()
