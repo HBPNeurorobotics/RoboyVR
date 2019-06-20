@@ -19,7 +19,7 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
     public Transform lookAtObj = null;
 
     public Vector3 bodyTargetOffset = new Vector3(0, -0.75f, 0);
-    public Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
+    public Vector3 headToBodyOffset = new Vector3(0, -1.0f, 0);
 
 
     // Use this for initialization
@@ -47,9 +47,28 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
                     this.transform.position = bodyTarget.position + bodyTargetOffset;
                     this.transform.rotation = bodyTarget.rotation;
                 }
+                // no body target, but head and feet targets
+                else if (headTarget != null && rightFootTarget != null && leftFootTarget != null)
+                {
+                    Vector3 feetCenter = 0.33f * (rightFootTarget.position + leftFootTarget.position + headTarget.position);
+                    this.transform.position = new Vector3(feetCenter.x, headTarget.position.y + headToBodyOffset.y, feetCenter.z);
+
+                    Vector3 forward;
+                    if (rightHandTarget != null && leftHandTarget != null)
+                    {
+                        Vector3 vec_controllers = rightHandTarget.position - leftHandTarget.position;
+                        forward = Vector3.ProjectOnPlane(headTarget.forward, vec_controllers);
+                    }
+                    else
+                    {
+                        forward = headTarget.forward;
+                    }
+                    this.transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(forward, Vector3.up), Vector3.up);
+                }
+                // no body target, but head
                 else if (headTarget != null)
                 {
-                    this.transform.position = headTarget.position + bodyHeadOffset;
+                    this.transform.position = headTarget.position + headToBodyOffset; // + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
 
                     Vector3 forward;
                     if (rightHandTarget != null && leftHandTarget != null)
@@ -88,6 +107,7 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
                 
                 if (rightFootTarget != null)
                 {
+                    //rightFootTarget.up = Vector3.up;
                     animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
                     animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position);
@@ -96,6 +116,7 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
                 
                 if (leftFootTarget != null)
                 {
+                    //leftFootTarget.up = Vector3.up;
                     animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
                     animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position);
