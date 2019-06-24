@@ -17,8 +17,7 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
     public Transform rightFootTarget = null;
 
     public Transform lookAtObj = null;
-
-    public Vector3 bodyTargetOffset = new Vector3(0, -0.75f, 0);
+    
     public Vector3 headToBodyOffset = new Vector3(0, -1.0f, 0);
 
 
@@ -44,14 +43,18 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
                 // position body
                 if (bodyTarget != null)
                 {
-                    this.transform.position = bodyTarget.position + bodyTargetOffset;
+                    this.transform.position = bodyTarget.position;
                     this.transform.rotation = bodyTarget.rotation;
                 }
                 // no body target, but head and feet targets
                 else if (headTarget != null && rightFootTarget != null && leftFootTarget != null)
                 {
-                    Vector3 feetCenter = 0.33f * (rightFootTarget.position + leftFootTarget.position + headTarget.position);
-                    this.transform.position = new Vector3(feetCenter.x, headTarget.position.y + headToBodyOffset.y, feetCenter.z);
+                    //Vector3 feetCenter = 0.33f * (rightFootTarget.position + leftFootTarget.position + headTarget.position);
+                    //this.transform.position = new Vector3(feetCenter.x, headTarget.position.y + headToBodyOffset.y, feetCenter.z);
+                    this.transform.position = headTarget.position + 
+                        headToBodyOffset.x * headTarget.right + 
+                        headToBodyOffset.y * Vector3.up + 
+                        headToBodyOffset.z * Vector3.ProjectOnPlane(headTarget.forward, Vector3.up).normalized;
 
                     Vector3 forward;
                     if (rightHandTarget != null && leftHandTarget != null)
