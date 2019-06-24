@@ -41,21 +41,22 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
             getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
     }
 
-    private void initializeTrackerRotation(Transform tracker)
+    private void initializeTrackerRotation(Transform tracker, Vector3 axis)
     {
-        var upVectorTracker = Vector3.ProjectOnPlane(tracker.up, tracker.forward).normalized;
-        var upVectorGeneral = Vector3.ProjectOnPlane(Vector3.up, tracker.forward).normalized;
-        var degreesTotal = Vector3.SignedAngle(upVectorTracker, upVectorGeneral, tracker.forward);
+        var upVectorTracker = Vector3.ProjectOnPlane(tracker.up, axis).normalized;
+        var upVectorGeneral = Vector3.ProjectOnPlane(Vector3.up, axis).normalized;
+        var degreesTotal = Vector3.SignedAngle(upVectorTracker, upVectorGeneral, axis);
         var directionToRotate = degreesTotal / Math.Abs(degreesTotal);
-        if (degreesTotal >= 2f || degreesTotal <= -2f) ;
+        if (degreesTotal >= 4f || degreesTotal <= -4f) ;
         tracker.Rotate(tracker.forward, directionToRotate, Space.World);
     }
 
     public void initializeTracking()
     {
-        initializeTrackerRotation(_leftFootTracker);
-        initializeTrackerRotation(_rightFootTracker);
-        initializeTrackerRotation(_hipTracker);
+        initializeTrackerRotation(_leftFootTracker, _leftFootTracker.forward);
+        initializeTrackerRotation(_rightFootTracker, _rightFootTracker.forward);
+        initializeTrackerRotation(_hipTracker, _hipTracker.forward);
+        initializeTrackerRotation(_hipTracker, Vector3.right);
     }
 
     private void Update()
