@@ -55,7 +55,7 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
                 else if (headTarget != null && rightFootTarget != null && leftFootTarget != null)
                 {
                     Vector3 feetCenter = 0.33f * (rightFootTarget.position + leftFootTarget.position + headTarget.position);
-                    this.transform.position = new Vector3(feetCenter.x, headTarget.position.y + headToBodyOffset.y, feetCenter.z);
+                    this.transform.position = new Vector3(feetCenter.x, headTarget.position.y + bodyHeadOffset.y, feetCenter.z);
 
                     Vector3 forward;
                     if (rightHandTarget != null && leftHandTarget != null)
@@ -72,7 +72,7 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
                 // no body target, but head
                 else if (headTarget != null)
                 {
-                    this.transform.position = headTarget.position + headToBodyOffset; // + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
+                    this.transform.position = headTarget.position + bodyHeadOffset; // + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
 
                     Vector3 forward;
                     if (rightHandTarget != null && leftHandTarget != null)
