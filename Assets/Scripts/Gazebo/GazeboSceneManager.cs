@@ -34,6 +34,7 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
         GzBridgeService.Instance.AddCallbackModelInfoMsg(this.OnModelInfoMsg);
         GzBridgeService.Instance.AddCallbackPoseInfoMsg(this.OnPoseInfoMsg);
         GzBridgeService.Instance.AddCallbackSceneMsg(this.OnSceneMsg);
+        GzBridgeService.Instance.AddCallbackRequestMsg(this.OnRequestMsg);
     }
 
     // Use this for initialization
@@ -138,7 +139,7 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
 
     public void OnModelInfoMsg(GzModelInfoMsg model_info_msg)
     {
-        //Debug.Log("model info: " + json_model_info.ToString());
+        //Debug.Log("GazeboSceneManager.OnModelInfoMsg: " + model_info_msg.ToString());
 
         JSONNode json_model_info = model_info_msg.MsgJSON;
         this.SetModelFromJSON(json_model_info, this.models_parent.transform);
@@ -147,6 +148,17 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
     public void OnMaterialMsg(GzMaterialMsg json_material)
     {
         //Debug.Log("material msg: " + json_material.ToString());
+    }
+
+    public void OnRequestMsg(GzRequestMsg request_msg)
+    {
+        Debug.Log("GazeboSceneManager.OnRequestMsg: " + request_msg.ToString());
+
+        if (request_msg.GetRequest() == "entity_delete")
+        {
+            //TODO: implement
+            Debug.Log("deleting ... " + request_msg.GetData());
+        }
     }
 
     #endregion //ON_MESSAGE_FUNCTIONS

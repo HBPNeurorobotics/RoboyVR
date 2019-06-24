@@ -68,7 +68,7 @@ public class ROSBridgeService : Singleton<ROSBridgeService>
 
     void ConnectToROSBridge()
     {
-        m_Ros = new ROSBridgeWebSocketConnection("ws://" + BackendConfigService.Instance.IP, BackendConfigService.Instance.ROSBridgePort);
+        m_Ros = new ROSBridgeWebSocketConnection("ws://" + BackendConfigService.Instance.IP, BackendConfigService.Instance.ROSBridgePort, BackendConfigService.Instance.ROSBridgeSuffix);
         if (m_Ros != null)
         {
             m_Ros.Connect();

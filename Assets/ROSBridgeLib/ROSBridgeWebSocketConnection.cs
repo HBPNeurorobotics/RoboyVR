@@ -54,6 +54,7 @@ namespace ROSBridgeLib {
 		};
 		private string _host;
 		private int _port;
+        private string _suffix;
 		private WebSocket _ws;
 		private System.Threading.Thread _myThread;
 		private List<Type> _subscribers; // our subscribers
@@ -112,13 +113,15 @@ namespace ROSBridgeLib {
 		 * Make a connection to a host/port. 
 		 * This does not actually start the connection, use Connect to do that.
 		 */
-		public ROSBridgeWebSocketConnection(string host, int port) {
-			_host = host;
+		public ROSBridgeWebSocketConnection(string host, int port, string suffix = "")
+        {
+            _host = host;
 			_port = port;
+            _suffix = suffix;
 			_myThread = null;
 			_subscribers = new List<Type> ();
 			_publishers = new List<Type> ();
-		}
+        }
 
 		/**
 		 * Add a service response callback to this connection.
@@ -171,7 +174,10 @@ namespace ROSBridgeLib {
 		}
 
 		private void Run() {
-			_ws = new WebSocket(_host + ":" + _port);
+            string url = _host + ":" + _port;
+            if (_suffix.Length > 0) url += _suffix;
+
+            _ws = new WebSocket(url);
 			_ws.OnMessage += (sender, e) => this.OnMessage(e.Data);
 			_ws.Connect();
 

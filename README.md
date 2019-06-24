@@ -8,3 +8,5 @@ Once this repository is cloned
 ```
 python ./copy_flat_hierarchy.py <path_to_models_repository>
 ```
+
+For the user avatar model, make sure to set scale factor for all geometry (visuals and collision) in Unity to 0.01 and disable "use file scale".
