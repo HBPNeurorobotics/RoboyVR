@@ -41,10 +41,12 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private Dictionary<string, Vector3> joint_pid_position_targets_ = new Dictionary<string, Vector3>();
     private Dictionary<string, Vector3> joint_pid_position_targets_last_published_ = new Dictionary<string, Vector3>();
     
-    public float model_position_publish_threshold = 0.1f;
-    public float model_rotation_publish_threshold = 0.1f;
+    public float model_position_publish_threshold = 0.01f;
+    public float model_rotation_publish_threshold = 0.01f;
     private Vector3 model_position_last_published_ = new Vector3();
     private Quaternion model_rotation_last_published_ = new Quaternion();
+
+    public Vector3 pid_params_global = new Vector3(5f, 0f, 10f);
 
     void Awake()
     {
@@ -258,8 +260,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
             string topic = "/" + this.avatar_name + "/avatar_ybot/" + child.name + "/set_pid_params";
 
-            // latest workable: (10f, 0f, 50f)
-            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(10f, 10f, 50f));
+            // latest workable: (5f, 0f, 20f)
+            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(pid_params_global.x, pid_params_global.y, pid_params_global.z));
         }
     }
 
