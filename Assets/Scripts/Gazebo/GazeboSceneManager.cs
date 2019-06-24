@@ -156,8 +156,12 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
 
         if (request_msg.GetRequest() == "entity_delete")
         {
-            //TODO: implement
-            Debug.Log("deleting ... " + request_msg.GetData());
+            //Debug.Log("deleting ... " + request_msg.GetData());
+            GameObject model_gameobject = GameObject.Find(request_msg.GetData());
+            if (model_gameobject)
+            {
+                GameObject.Destroy(model_gameobject);
+            }
         }
     }
 
