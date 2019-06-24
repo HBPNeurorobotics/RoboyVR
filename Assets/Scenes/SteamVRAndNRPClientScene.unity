@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -277,6 +277,78 @@ Transform:
   m_Father: {fileID: 932343551}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &169969290
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 169969291}
+  - component: {fileID: 169969293}
+  - component: {fileID: 169969292}
+  m_Layer: 0
+  m_Name: IKTargetLookAt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &169969291
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 169969290}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 0.099999994, y: 0.099999994, z: 0.099999994}
+  m_Children: []
+  m_Father: {fileID: 2041765082}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &169969292
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 169969290}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: 58121ed224ea1454e9e0262d8ac8f16b, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &169969293
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 169969290}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &214405328
 Prefab:
   m_ObjectHideFlags: 0
@@ -381,6 +453,21 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114296049816502984, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36,
+        type: 2}
+      propertyPath: avatar_rig
+      value: 
+      objectReference: {fileID: 214405336}
+    - target: {fileID: 114296049816502984, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36,
+        type: 2}
+      propertyPath: publish_threshold_joints
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 114311596373678032, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36,
+        type: 2}
+      propertyPath: lookAtObj
+      value: 
+      objectReference: {fileID: 169969291}
     m_RemovedComponents:
     - {fileID: 114912610081645292, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36, type: 2}
@@ -418,6 +505,11 @@ ParticleSystem:
 --- !u!198 &214405335 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198509685717485118, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36,
+    type: 2}
+  m_PrefabInternal: {fileID: 214405328}
+--- !u!1 &214405336 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1651671614555714, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36,
     type: 2}
   m_PrefabInternal: {fileID: 214405328}
 --- !u!1 &367891536
@@ -864,6 +956,7 @@ MonoBehaviour:
   IP: 192.168.0.190
   GzBridgePort: 8080
   ROSBridgePort: 9090
+  ROSBridgeSuffix: /rosbridge
   ProxyPort: 9000
 --- !u!1 &690239668
 GameObject:
@@ -2998,7 +3091,7 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 33782169908045316, guid: 752d003e698b58344a1379ce50ef050d,
         type: 2}
       propertyPath: m_Mesh
