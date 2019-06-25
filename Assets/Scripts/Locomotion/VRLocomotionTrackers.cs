@@ -56,7 +56,7 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
         initializeTrackerRotation(_leftFootTracker, _leftFootTracker.forward);
         initializeTrackerRotation(_rightFootTracker, _rightFootTracker.forward);
         initializeTrackerRotation(_hipTracker, _hipTracker.forward);
-        initializeTrackerRotation(_hipTracker, Vector3.right);
+        //initializeTrackerRotation(_hipTracker, Vector3.right);
     }
 
     private void Update()
