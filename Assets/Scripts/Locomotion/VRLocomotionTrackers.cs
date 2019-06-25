@@ -50,15 +50,20 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
         var degreesTotal = Vector3.SignedAngle(upVectorTracker, upVectorGeneral, axis);
         var directionToRotate = degreesTotal / Math.Abs(degreesTotal);
         if (degreesTotal >= 4f || degreesTotal <= -4f) ;
-        tracker.Rotate(tracker.forward, directionToRotate, Space.World);
+        tracker.Rotate(axis, directionToRotate, Space.World);
     }
 
-    public void initializeTracking()
+    public void initializeTrackerOrientation()
     {
-        initializeTrackerRotation(_leftFootTracker, _leftFootTracker.forward);
-        initializeTrackerRotation(_rightFootTracker, _rightFootTracker.forward);
-        initializeTrackerRotation(_hipTracker, _hipTracker.forward);
+        initializeTrackerRotation(LeftFootTracker, LeftFootTracker.forward);
+        initializeTrackerRotation(RightFootTracker, RightFootTracker.forward);
+        initializeTrackerRotation(HipTracker, HipTracker.forward);
         //initializeTrackerRotation(_hipTracker, Vector3.right);
+    }
+
+    public void initializeTrackerHeading()
+    {
+        initializeTrackerRotation(HipTracker, HipTracker.right);
     }
 
     private void Update()

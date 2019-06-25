@@ -38,6 +38,9 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+            _changeLocomotionBehaviour = true;
+
         if (_changeLocomotionBehaviour)
         {
             _changeLocomotionBehaviour = false;
@@ -96,7 +99,7 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
     private void initializeTrackerWithControllers()
     {
         if (_leftController.GetPress(EVRButtonId.k_EButton_ApplicationMenu))
-            VrLocomotionTrackers.Instance.initializeTracking();
+            VrLocomotionTrackers.Instance.initializeTrackerOrientation();
         if (_rightController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
             VrLocomotionTrackers.Instance.initializeDefaultDistance();
     }

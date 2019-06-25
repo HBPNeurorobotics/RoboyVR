@@ -16,8 +16,11 @@ public class dummyController : MonoBehaviour
     private static void initializeTrackerFromKeyboard()
     {
         if (Input.GetKey(KeyCode.Alpha2))
-            VrLocomotionTrackers.Instance.initializeTracking();
+            VrLocomotionTrackers.Instance.initializeTrackerOrientation();
         if (Input.GetKey(KeyCode.Alpha1))
             VrLocomotionTrackers.Instance.initializeDefaultDistance();
+
+        if (Input.GetKey(KeyCode.Alpha3))
+            VrLocomotionTrackers.Instance.initializeTrackerHeading();
     }
 }
