@@ -46,7 +46,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private Vector3 model_position_last_published_ = new Vector3();
     private Quaternion model_rotation_last_published_ = new Quaternion();
 
-    public Vector3 pid_params_global = new Vector3(5f, 0f, 10f);
+    public Vector3 pid_params_global = new Vector3(3f, 1f, 20f);  // "good" solutions: (3f, 0f, 15f), (5f, 0f, 20f)
 
     void Awake()
     {
@@ -259,8 +259,6 @@ public class UserAvatarService : Singleton<UserAvatarService>
             if (child == joints_parent) continue;
 
             string topic = "/" + this.avatar_name + "/avatar_ybot/" + child.name + "/set_pid_params";
-
-            // latest workable: (5f, 0f, 20f)
             ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(pid_params_global.x, pid_params_global.y, pid_params_global.z));
         }
     }
