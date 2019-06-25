@@ -4,9 +4,9 @@
 
     public class LocomotionTracker : ILocomotionBehaviour
     {
-        private const float _maxMovementSpeedInMPerS = 7;
+        private const float _maxMovementSpeedInMPerS = 4;
         private const float _fixedUpdateRefreshRate = 60;
-        private const float _epsilonForMovementRegistration = 0.015f;
+        private const float _epsilonForMovementRegistration = 0.05f;
         private const float _maximalStepLength = 0.5f;
         private const float _maxMovementSpeedPerFrame = _maxMovementSpeedInMPerS / _fixedUpdateRefreshRate;
         private float _currentMovementSpeedPerFrame = _maxMovementSpeedPerFrame;
@@ -27,14 +27,21 @@
         private float calculateMovementDistancePerFrame(float epsilon)
         {
             if (isValidMovement(epsilon))
-                return _currentMovementSpeedPerFrame-= _sawSlowingOfMovementPerFrame;
-            _currentMovementSpeedPerFrame = _maxMovementSpeedPerFrame;
-            return CurrentStepLength = 0;
+            {
+                CurrentStepLength -= _currentMovementSpeedPerFrame;
+                return _currentMovementSpeedPerFrame -= _sawSlowingOfMovementPerFrame;
+            }
+            else if (VrLocomotionTrackers.Instance.DistanceTrackersOnPlane < epsilon)
+            {
+                CurrentStepLength = 0;
+                _currentMovementSpeedPerFrame = _maxMovementSpeedPerFrame; 
+            }
+            return 0;
         }
 
         private bool isValidMovement(float epsilon)
         {
-            return VrLocomotionTrackers.Instance.DistanceTrackersOnPlane >= epsilon && CurrentStepLength <= _maximalStepLength;
+            return VrLocomotionTrackers.Instance.DistanceTrackersOnPlane >= epsilon && CurrentStepLength <= _maximalStepLength && _currentMovementSpeedPerFrame >= 0;
         }
 
         public void stopMoving()
