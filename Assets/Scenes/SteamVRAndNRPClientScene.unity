@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.41226166, g: 0.48923343, b: 0.603276, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -871,12 +871,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   autoPopulateObjectReferences: 0
-  actualBoundaries: {fileID: 0}
-  actualHeadset: {fileID: 0}
-  actualLeftController: {fileID: 0}
-  actualRightController: {fileID: 0}
-  modelAliasLeftController: {fileID: 0}
-  modelAliasRightController: {fileID: 0}
+  actualBoundaries: {fileID: 2041765085}
+  actualHeadset: {fileID: 2041765087}
+  actualLeftController: {fileID: 2041765089}
+  actualRightController: {fileID: 2041765091}
+  modelAliasLeftController: {fileID: 2041765088}
+  modelAliasRightController: {fileID: 2041765090}
   cachedSystemSDKInfo:
     baseTypeName: VRTK.SDK_BaseSystem
     fallbackTypeName: VRTK.SDK_FallbackSystem
@@ -1328,9 +1328,9 @@ MonoBehaviour:
   autoManageVRSettings: 1
   autoLoadSetup: 1
   setups:
+  - {fileID: 643597681}
   - {fileID: 623955473}
   - {fileID: 1814307759}
-  - {fileID: 643597681}
   excludeTargetGroups: 1a0000001b000000
   persistOnLoad: 0
 --- !u!4 &932343551
@@ -3287,6 +3287,31 @@ MonoBehaviour:
   _leftFootTracker: {fileID: 2041765080}
   _rightFootTracker: {fileID: 2041765078}
   _shouldShowAxis: 0
+--- !u!1 &2041765087 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1879351748026592, guid: 752d003e698b58344a1379ce50ef050d,
+    type: 2}
+  m_PrefabInternal: {fileID: 2041765074}
+--- !u!1 &2041765088 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1998608196531220, guid: 752d003e698b58344a1379ce50ef050d,
+    type: 2}
+  m_PrefabInternal: {fileID: 2041765074}
+--- !u!1 &2041765089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1973045800583840, guid: 752d003e698b58344a1379ce50ef050d,
+    type: 2}
+  m_PrefabInternal: {fileID: 2041765074}
+--- !u!1 &2041765090 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1038386954618942, guid: 752d003e698b58344a1379ce50ef050d,
+    type: 2}
+  m_PrefabInternal: {fileID: 2041765074}
+--- !u!1 &2041765091 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1296821048059006, guid: 752d003e698b58344a1379ce50ef050d,
+    type: 2}
+  m_PrefabInternal: {fileID: 2041765074}
 --- !u!1 &2088065987
 GameObject:
   m_ObjectHideFlags: 0

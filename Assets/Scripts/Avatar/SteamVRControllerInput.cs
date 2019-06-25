@@ -4,9 +4,9 @@ using Valve.VR;
 
 public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 {
-    [SerializeField] private readonly bool _simulateMovePress = false;
+    [SerializeField] private bool _simulateMovePress = false;
 
-    [SerializeField] private readonly float _speed = 0.01f;
+    [SerializeField] private float _speed = 0.01f;
 
     private readonly EVRButtonId _touchpad = EVRButtonId.k_EButton_SteamVR_Touchpad;
     [SerializeField] private bool _changeLocomotionBehaviour;
