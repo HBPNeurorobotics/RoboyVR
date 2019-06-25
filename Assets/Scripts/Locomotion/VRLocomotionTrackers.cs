@@ -8,7 +8,6 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
     [SerializeField] private Transform _rightFootTracker;
     [SerializeField] private bool _shouldShowAxis;
     private Vector3 _trackingPlane;
-    private float defaultDistance;
 
     private Transform LeftFootTracker
     {
@@ -27,7 +26,7 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
 
     public float DistanceTrackersOnPlane
     {
-        get { return getDistanceBetweenTrackerOnPlane(_trackingPlane) + defaultDistance; }
+        get { return getDistanceBetweenTrackerOnPlane(_trackingPlane); }
     }
 
     private void Start()
@@ -37,8 +36,11 @@ public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
 
     public void initializeDefaultDistance()
     {
-        defaultDistance =
-            getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
+        float distanceBetweenFeet = getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
+        if (RightFootTracker.position.y >= LeftFootTracker.position.y)
+            RightFootTracker.position = new Vector3(RightFootTracker.position.x, RightFootTracker.position.y - distanceBetweenFeet, RightFootTracker.position.z);
+        else
+            LeftFootTracker.position = new Vector3(LeftFootTracker.position.x, LeftFootTracker.position.y - distanceBetweenFeet, LeftFootTracker.position.z);
     }
 
     private void initializeTrackerRotation(Transform tracker, Vector3 axis)

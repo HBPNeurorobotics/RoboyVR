@@ -16,7 +16,7 @@
         public void moveForward()
         {
             SteamVRControllerInput.Instance.transform.Translate(
-                getMoveDirection() * calculateMovementDistancePerFrame(_epsilonForMovementRegistration));
+                getMoveDirection() * calculateMovementDistancePerFrame());
         }
 
         private static Vector3 getMoveDirection()
@@ -24,14 +24,14 @@
             return Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.forward, Vector3.up).normalized;
         }
 
-        private float calculateMovementDistancePerFrame(float epsilon)
+        private float calculateMovementDistancePerFrame()
         {
-            if (isValidMovement(epsilon))
+            if (isValidMovement(_epsilonForMovementRegistration))
             {
                 CurrentStepLength -= _currentMovementSpeedPerFrame;
                 return _currentMovementSpeedPerFrame -= _sawSlowingOfMovementPerFrame;
             }
-            else if (VrLocomotionTrackers.Instance.DistanceTrackersOnPlane < epsilon)
+            else if (VrLocomotionTrackers.Instance.DistanceTrackersOnPlane < _epsilonForMovementRegistration)
             {
                 CurrentStepLength = 0;
                 _currentMovementSpeedPerFrame = _maxMovementSpeedPerFrame; 
