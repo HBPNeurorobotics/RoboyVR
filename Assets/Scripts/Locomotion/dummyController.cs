@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Locomotion;
+using UnityEngine;
 
 public class dummyController : MonoBehaviour
 {
