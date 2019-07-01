@@ -8,8 +8,11 @@
     {
         [SerializeField] AudioSource[] _hoverSounds;
 
+        [SerializeField] private AudioSource footStepSound;
+        
         [HideInInspector] public AudioSource _currentAudio;
 
+        
         void startAudio(AudioSource source)
         {
             if (source.isPlaying)
@@ -37,6 +40,11 @@
             {
                 audio.Stop();
             }
+        }
+
+        public void playFootStep()
+        {
+            footStepSound.Play();
         }
     } 
 }

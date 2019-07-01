@@ -9,6 +9,7 @@
         [SerializeField] private Transform _leftFootTracker;
         [SerializeField] private Transform _rightFootTracker;
         [SerializeField] private bool _shouldShowAxis;
+
         private Vector3 _trackingPlane;
 
         private Transform LeftFootTracker
