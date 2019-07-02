@@ -95,7 +95,7 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         movePlayer();
         if (_leftController.GetPress(EVRButtonId.k_EButton_ApplicationMenu))
             VrLocomotionTrackers.Instance.initializeTrackerOrientation();
-        if (_rightController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
+        if (_rightController.GetPress(EVRButtonId.k_EButton_ApplicationMenu))
             VrLocomotionTrackers.Instance.initializeTrackerHeading();
     }
 
