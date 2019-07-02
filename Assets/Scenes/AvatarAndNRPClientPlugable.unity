@@ -468,6 +468,11 @@ Prefab:
       propertyPath: lookAtObj
       value: 
       objectReference: {fileID: 169969291}
+    - target: {fileID: 82386721247499124, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36,
+        type: 2}
+      propertyPath: Loop
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114912610081645292, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: b0d07c36bf7a38e4fa6f33e35a7d6a36, type: 2}
@@ -530,7 +535,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -3351,6 +3356,11 @@ Prefab:
     - target: {fileID: 4567100487589744, guid: 752d003e698b58344a1379ce50ef050d, type: 2}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114161849028323656, guid: 752d003e698b58344a1379ce50ef050d,
+        type: 2}
+      propertyPath: _speed
+      value: 0.07
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114291840390498844, guid: 752d003e698b58344a1379ce50ef050d, type: 2}

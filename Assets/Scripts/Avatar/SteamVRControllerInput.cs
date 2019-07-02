@@ -6,7 +6,7 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 {
     [SerializeField] private bool _simulateMovePress = false;
 
-    [SerializeField] private float _speed = 0.01f;
+    [SerializeField] private float _speed = 0.1f;
 
     private readonly EVRButtonId _touchpad = EVRButtonId.k_EButton_SteamVR_Touchpad;
     [SerializeField] private bool _changeLocomotionBehaviour;
@@ -88,20 +88,15 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
         if (_rightController == null || _leftController == null)
         {
-            Debug.LogError("At least one Controller not found");
+            Debug.LogWarning("At least one Controller not found");
             return;
         }
 
         movePlayer();
-        initializeTrackerWithControllers();
-    }
-
-    private void initializeTrackerWithControllers()
-    {
         if (_leftController.GetPress(EVRButtonId.k_EButton_ApplicationMenu))
             VrLocomotionTrackers.Instance.initializeTrackerOrientation();
         if (_rightController.GetPressDown(EVRButtonId.k_EButton_ApplicationMenu))
-            VrLocomotionTrackers.Instance.initializeDefaultDistance();
+            VrLocomotionTrackers.Instance.initializeTrackerHeading();
     }
 
     private void spawnBot()

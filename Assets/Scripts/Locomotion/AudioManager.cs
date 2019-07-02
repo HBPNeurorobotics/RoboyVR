@@ -44,6 +44,8 @@
 
         public void playFootStep()
         {
+            if (footStepSound.isPlaying)
+                return;
             footStepSound.Play();
         }
     } 
