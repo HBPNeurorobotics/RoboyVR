@@ -4,12 +4,7 @@ using Valve.VR;
 
 public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 {
-    [SerializeField] private bool _simulateMovePress = false;
-
-    [SerializeField] private float _speed = 0.1f;
-
     private readonly EVRButtonId _touchpad = EVRButtonId.k_EButton_SteamVR_Touchpad;
-    [SerializeField] private bool _changeLocomotionBehaviour;
 
     private SteamVR_Controller.Device _leftController;
     [SerializeField] private SteamVR_TrackedObject _leftControllerObject;
@@ -17,8 +12,13 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
     private SteamVR_Controller.Device _rightController;
 
     [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
+    [SerializeField] private bool _simulateMovePress;
+
+    [SerializeField] private float _speed = 0.1f;
     private bool _touchpadPressLeft;
     private bool _touchpadPressRight;
+    private LocomotionBehaviour currentLocomotionBehaviour;
+    [SerializeField] private LocomotionBehaviour setLocomotionBehaviour;
 
     public SteamVR_TrackedObject RightControllerObject
     {
@@ -38,16 +38,10 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-            _changeLocomotionBehaviour = true;
-
-        if (_changeLocomotionBehaviour)
+        if (!setLocomotionBehaviour.Equals(currentLocomotionBehaviour))
         {
-            _changeLocomotionBehaviour = false;
-            _locomotionBehaviour =
-                (LocomotionBehaviour) (((int) _locomotionBehaviour + 1) %
-                                       (int) LocomotionBehaviour.BehaviourCount);
-            changeLocomotionBehaviour(_locomotionBehaviour);
+            currentLocomotionBehaviour = setLocomotionBehaviour;
+            changeLocomotionBehaviour(currentLocomotionBehaviour);
         }
 
         if (_simulateMovePress) return;
