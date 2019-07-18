@@ -1,6 +1,7 @@
 ﻿namespace Locomotion
 {
     using System;
+    using System.Collections;
     using UnityEngine;
 
     public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
@@ -90,6 +91,7 @@
             var directionRightToLeftOnPlane = Vector3.ProjectOnPlane(directionRightToLeft, Vector3.up);
             return directionRightToLeftOnPlane.normalized;
         }
+        
 
         public static void showAxisForTrackers()
         {

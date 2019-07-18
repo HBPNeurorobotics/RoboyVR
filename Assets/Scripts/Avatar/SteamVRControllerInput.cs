@@ -1,4 +1,6 @@
-﻿using Locomotion;
+﻿using System;
+using System.Collections;
+using Locomotion;
 using UnityEngine;
 using Valve.VR;
 
@@ -13,6 +15,7 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
     [SerializeField] private bool _simulateMovePress;
+    private bool stoppedMovement = true;
 
     [SerializeField] private float _speed = 0.1f;
     private bool _touchpadPressLeft;
@@ -107,11 +110,25 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
     {
         _touchpadPressLeft = _leftController.GetPress(_touchpad);
         _touchpadPressRight = _rightController.GetPress(_touchpad);
-
         if (_touchpadPressLeft && _touchpadPressRight)
+            stoppedMovement = false;
+
+        if (!stoppedMovement)
             LocomotionHandler.moveForward();
         else
             LocomotionHandler.stopMoving();
+    }
+
+    public void checkIfMovementStopped(float seconds, Func<float> calculateMovementDistancePerFrame)
+    {
+        StartCoroutine(stopMovementAfterSeconds(seconds, calculateMovementDistancePerFrame()));
+    }
+    
+    IEnumerator stopMovementAfterSeconds(float seconds, float movementDistance)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (Math.Abs(movementDistance) < 0.001)
+            stoppedMovement = true;
     }
 
     private void DebugStuff()
@@ -122,4 +139,5 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
             _leftControllerObject.transform.forward, Color.green);
         VrLocomotionTrackers.showAxisForTrackers();
     }
+    
 }

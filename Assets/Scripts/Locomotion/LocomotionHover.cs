@@ -13,15 +13,14 @@
             initializeHover();
         }
 
-        public virtual void moveForward()
+        public void moveForward()
         {
-            Debug.Log("moveForward");
             AudioManager.Instance.startHovering();
             ParticleManager.Instance.startJets();
             translateForwardHip();
         }
 
-        public virtual void stopMoving()
+        public void stopMoving()
         {
             AudioManager.Instance.stopHovering();
             ParticleManager.Instance.stopJets();

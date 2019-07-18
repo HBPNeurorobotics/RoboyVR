@@ -1,5 +1,6 @@
 ﻿namespace Locomotion
 {
+    using System;
     using UnityEngine;
     using Utils;
 
@@ -14,14 +15,18 @@
             _maxMovementSpeedInMPerS / _fixedUpdateRefreshRate;
 
         private const float _sawSlowingOfMovementPerFrame = 0.002f;
+        private const int noMovementDistance = 0;
         private float _currentMovementSpeedPerFrame = _maxMovementSpeedPerFrame;
+        private bool makingStep;
         private float CurrentStepLength { get; set; }
-        private bool makingStep = false;
 
         public void moveForward()
         {
             SteamVRControllerInput.Instance.transform.Translate(
                 getMoveDirection() * calculateMovementDistancePerFrame());
+            if (Math.Abs(calculateMovementDistancePerFrame() - noMovementDistance) < 0.01)
+                SteamVRControllerInput.Instance.checkIfMovementStopped(1,
+                    calculateMovementDistancePerFrame);
         }
 
         public void stopMoving()
@@ -53,7 +58,6 @@
 
         private float noMovementReset()
         {
-            const int noMovementDistance = 0;
             if (!(VrLocomotionTrackers.Instance.DistanceTrackersOnPlane <
                   _epsilonForMovementRegistration)) return noMovementDistance;
             CurrentStepLength = 0;
@@ -64,6 +68,7 @@
                 AudioManager.Instance.playFootStep();
                 makingStep = false;
             }
+
             return noMovementDistance;
         }
 
