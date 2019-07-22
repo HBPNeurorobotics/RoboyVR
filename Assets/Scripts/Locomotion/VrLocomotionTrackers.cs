@@ -1,50 +1,59 @@
 ﻿namespace Locomotion
 {
     using System;
-    using System.Collections;
     using UnityEngine;
 
     public class VrLocomotionTrackers : Singleton<VrLocomotionTrackers>
     {
-        [SerializeField] private Transform _hipTracker;
-        [SerializeField] private Transform _leftFootTracker;
-        [SerializeField] private Transform _rightFootTracker;
-        [SerializeField] private bool _shouldShowAxis;
+        private float distanceBetweenFeet;
+        [SerializeField] private Transform hipTracker;
+        [SerializeField] private Transform leftFootTracker;
+        [SerializeField] private Transform rightFootTracker;
+        [SerializeField] private bool shouldShowAxis;
 
-        private Vector3 _trackingPlane;
+        private Vector3 trackingPlane;
 
         private Transform LeftFootTracker
         {
-            get { return _leftFootTracker; }
+            get { return leftFootTracker; }
         }
 
         private Transform RightFootTracker
         {
-            get { return _rightFootTracker; }
+            get { return rightFootTracker; }
         }
 
         public Transform HipTracker
         {
-            get { return _hipTracker; }
+            get { return hipTracker; }
         }
 
         public float DistanceTrackersOnPlane
         {
-            get { return getDistanceBetweenTrackerOnPlane(_trackingPlane); }
+            get { return getDistanceBetweenTrackerOnPlane(trackingPlane); }
         }
 
         private void Start()
         {
-            initializeDefaultDistance();
+            initializeFeetDistance();
         }
 
-        public void initializeDefaultDistance()
+        public void initializeFeetDistance()
         {
-            float distanceBetweenFeet = getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
-            if (RightFootTracker.position.y >= LeftFootTracker.position.y)
-                RightFootTracker.position = new Vector3(RightFootTracker.position.x, RightFootTracker.position.y - distanceBetweenFeet, RightFootTracker.position.z);
+            distanceBetweenFeet =
+                getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
+            var rightFootPosition = RightFootTracker.position;
+            var leftFootPosition = LeftFootTracker.position;
+            if (rightFootPosition.y >= leftFootPosition.y)
+                RightFootTracker.position = moveDownFootTrackerFrom(rightFootPosition);
             else
-                LeftFootTracker.position = new Vector3(LeftFootTracker.position.x, LeftFootTracker.position.y - distanceBetweenFeet, LeftFootTracker.position.z);
+                LeftFootTracker.position = moveDownFootTrackerFrom(leftFootPosition);
+        }
+
+        private Vector3 moveDownFootTrackerFrom(Vector3 footPosition)
+        {
+            return new Vector3(footPosition.x, footPosition.y - distanceBetweenFeet,
+                footPosition.z);
         }
 
         private void initializeTrackerRotation(Transform tracker, Vector3 axis)
@@ -62,19 +71,19 @@
             initializeTrackerRotation(LeftFootTracker, LeftFootTracker.forward);
             initializeTrackerRotation(RightFootTracker, RightFootTracker.forward);
             initializeTrackerRotation(HipTracker, HipTracker.forward);
-            //initializeTrackerRotation(_hipTracker, Vector3.right);
         }
 
         public void initializeTrackerHeading()
         {
             initializeTrackerRotation(HipTracker, HipTracker.right);
+            initializeFeetDistance();
         }
 
         private void Update()
         {
-            _trackingPlane = createTrackingPlaneNormalBetweenTrackers();
-            Debug.DrawRay(Vector3.zero, _trackingPlane);
-            if (_shouldShowAxis)
+            trackingPlane = createTrackingPlaneNormalBetweenTrackers();
+            Debug.DrawRay(Vector3.zero, trackingPlane);
+            if (shouldShowAxis)
                 showAxisForTrackers();
         }
 
@@ -88,25 +97,30 @@
         private Vector3 createTrackingPlaneNormalBetweenTrackers()
         {
             var directionRightToLeft = LeftFootTracker.position - RightFootTracker.position;
-            var directionRightToLeftOnPlane = Vector3.ProjectOnPlane(directionRightToLeft, Vector3.up);
+            var directionRightToLeftOnPlane =
+                Vector3.ProjectOnPlane(directionRightToLeft, Vector3.up);
             return directionRightToLeftOnPlane.normalized;
         }
-        
+
 
         public static void showAxisForTrackers()
         {
-            Debug.DrawRay(Instance.RightFootTracker.transform.position,
-                Instance.RightFootTracker.transform.forward, Color.green);
-            Debug.DrawRay(Instance.LeftFootTracker.transform.position,
-                Instance.LeftFootTracker.transform.forward, Color.green);
-            Debug.DrawRay(Instance.HipTracker.transform.position,
-                Instance.HipTracker.transform.forward, Color.green);
-            Debug.DrawRay(Instance.RightFootTracker.transform.position,
-                Instance.RightFootTracker.transform.up, Color.red);
-            Debug.DrawRay(Instance.LeftFootTracker.transform.position,
-                Instance.LeftFootTracker.transform.up, Color.red);
-            Debug.DrawRay(Instance.HipTracker.transform.position,
-                Instance.HipTracker.transform.up, Color.red);
+            var rightFootTransform1 = Instance.RightFootTracker.transform;
+            var leftFootTransform = Instance.LeftFootTracker.transform;
+            var hipTransform = Instance.HipTracker.transform;
+
+            Debug.DrawRay(leftFootTransform.position,
+                leftFootTransform.forward, Color.green);
+            Debug.DrawRay(rightFootTransform1.position,
+                rightFootTransform1.forward, Color.green);
+            Debug.DrawRay(hipTransform.position,
+                hipTransform.forward, Color.green);
+            Debug.DrawRay(rightFootTransform1.position,
+                rightFootTransform1.up, Color.red);
+            Debug.DrawRay(leftFootTransform.position,
+                leftFootTransform.up, Color.red);
+            Debug.DrawRay(hipTransform.position,
+                hipTransform.up, Color.red);
         }
     }
 }
