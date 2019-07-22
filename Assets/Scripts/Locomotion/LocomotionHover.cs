@@ -6,10 +6,17 @@
 
     public class LocomotionHover : ILocomotionBehaviour
     {
+        private const float fixedUpdateRefreshRate = 60;
         private readonly List<GameObject> hoverObjects = new List<GameObject>();
+
+        private readonly float maxMovementSpeedInMPerS =
+            SteamVRControllerInput.Instance.SpeedInMPerS;
+
+        private readonly float maxMovementSpeedPerFrame;
 
         public LocomotionHover()
         {
+            maxMovementSpeedPerFrame = maxMovementSpeedInMPerS / fixedUpdateRefreshRate;
             initializeHover();
         }
 
@@ -42,13 +49,13 @@
         private void translateForwardHip()
         {
             SteamVRControllerInput.Instance.transform.Translate(
-                getMoveDirection() * SteamVRControllerInput.Instance.Speed);
+                getMoveDirection() * maxMovementSpeedPerFrame);
         }
 
         private static Vector3 getMoveDirection()
         {
             return Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.up, Vector3.up)
-                                .normalized;
+                .normalized;
         }
 
         private void translateForwardController()
@@ -61,8 +68,8 @@
                 .LeftControllerObject
                 .transform.forward;
             areaToMove.Translate(clampForwardVectorsToXZPlane(
-                rightControllerForward, leftControllerForward) *
-                SteamVRControllerInput.Instance.Speed);
+                                     rightControllerForward, leftControllerForward) *
+                                 SteamVRControllerInput.Instance.SpeedInMPerS);
         }
 
         private Vector3 clampForwardVectorsToXZPlane(Vector3 forward, Vector3 otherForward)

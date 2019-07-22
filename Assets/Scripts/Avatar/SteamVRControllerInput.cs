@@ -13,12 +13,12 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
     [SerializeField] private bool _simulateMovePress;
-
-    [SerializeField] private float _speed = 0.1f;
     private bool _touchpadPressLeft;
     private bool _touchpadPressRight;
     private LocomotionBehaviour currentLocomotionBehaviour;
     [SerializeField] private LocomotionBehaviour setLocomotionBehaviour;
+
+    [SerializeField] private float speedInMPerS = 0.1f;
     private bool stoppedMovement = true;
 
     public SteamVR_TrackedObject RightControllerObject
@@ -31,9 +31,9 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         get { return _leftControllerObject; }
     }
 
-    public float Speed
+    public float SpeedInMPerS
     {
-        get { return _speed; }
+        get { return speedInMPerS; }
     }
 
 
