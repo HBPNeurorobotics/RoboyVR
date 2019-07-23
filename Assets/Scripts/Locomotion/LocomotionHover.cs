@@ -9,7 +9,7 @@
         private const float fixedUpdateRefreshRate = 60;
         private readonly List<GameObject> hoverObjects = new List<GameObject>();
 
-        private readonly float maxMovementSpeedInMPerS =
+        private float maxMovementSpeedInMPerS =
             SteamVRControllerInput.Instance.SpeedInMPerS;
 
         private readonly float maxMovementSpeedPerFrame;
@@ -54,8 +54,7 @@
 
         private static Vector3 getMoveDirection()
         {
-            return Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.up, Vector3.up)
-                .normalized;
+            return Vector3.ProjectOnPlane(VrLocomotionTrackers.Instance.HipTracker.up, Vector3.up);
         }
 
         private void translateForwardController()

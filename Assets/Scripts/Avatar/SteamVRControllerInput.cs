@@ -4,20 +4,23 @@ using Valve.VR;
 
 public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 {
-    private readonly EVRButtonId _touchpad = EVRButtonId.k_EButton_SteamVR_Touchpad;
+    private const EVRButtonId initialzizeTrackerOrientationButton = EVRButtonId.k_EButton_ApplicationMenu;
+    private const EVRButtonId initializeTrackerHeadingButton = EVRButtonId.k_EButton_ApplicationMenu;
+    private const EVRButtonId movementButton = EVRButtonId.k_EButton_SteamVR_Touchpad;
 
     private SteamVR_Controller.Device _leftController;
     [SerializeField] private SteamVR_TrackedObject _leftControllerObject;
     private SteamVR_Controller.Device _rightController;
-
     [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
+
     [SerializeField] private bool _simulateMovePress;
-    private bool _touchpadPressLeft;
-    private bool _touchpadPressRight;
+
+    private bool movementButtonPressedRight;
+    private bool movementButtonPressedLeft;
     private LocomotionBehaviour currentLocomotionBehaviour;
     [SerializeField] private LocomotionBehaviour setLocomotionBehaviour;
 
-    [SerializeField] private float speedInMPerS = 0.1f;
+    [SerializeField] private float speedInMPerS = 7f;
     private bool stoppedMovement = true;
 
     public SteamVR_TrackedObject RightControllerObject
@@ -52,16 +55,37 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         if (_simulateMovePress) return;
 
         //DebugStuff();
-        _rightController = SteamVR_Controller.Input((int) _rightControllerObject.index);
-        _leftController = SteamVR_Controller.Input((int) _leftControllerObject.index);
+        _rightController = SteamVR_Controller.Input((int)_rightControllerObject.index);
+        _leftController = SteamVR_Controller.Input((int)_leftControllerObject.index);
 
         if (_rightController == null || _leftController == null)
         {
             Debug.LogError("At least one Controller not found");
             return;
         }
+        //Doesn't work in fixed Update
+        movementButtonPressed();
+
+        initializeTracking();
 
         spawnBot();
+    }
+
+    private void initializeTracking()
+    {
+        if (_leftController.GetPress(initialzizeTrackerOrientationButton))
+            VrLocomotionTrackers.Instance.initializeTrackerOrientation();
+        if (_rightController.GetPress(initializeTrackerHeadingButton))
+            VrLocomotionTrackers.Instance.initializeTrackerHeading();
+    }
+
+    private void movementButtonPressed()
+    {
+        if (_rightController.GetPressDown(movementButton) || _leftController.GetPressDown(movementButton))
+        {
+            stoppedMovement = !stoppedMovement;
+            Debug.Log("Toggel");
+        }
     }
 
     private void changeLocomotionBehaviour(LocomotionBehaviour locomotionBehaviour)
@@ -84,18 +108,8 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
             LocomotionHandler.moveForward();
             return;
         }
-
-        if (_rightController == null || _leftController == null)
-        {
-            Debug.LogWarning("At least one Controller not found");
-            return;
-        }
-
+        //Needs Fixed Update for speed calculation
         movePlayer();
-        if (_leftController.GetPress(EVRButtonId.k_EButton_ApplicationMenu))
-            VrLocomotionTrackers.Instance.initializeTrackerOrientation();
-        if (_rightController.GetPress(EVRButtonId.k_EButton_ApplicationMenu))
-            VrLocomotionTrackers.Instance.initializeTrackerHeading();
     }
 
     private void spawnBot()
@@ -110,11 +124,6 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private void movePlayer()
     {
-        _touchpadPressLeft = _leftController.GetPressDown(_touchpad);
-        _touchpadPressRight = _rightController.GetPressDown(_touchpad);
-        if (_touchpadPressLeft && _touchpadPressRight)
-            stoppedMovement = !stoppedMovement;
-
         if (!stoppedMovement)
             LocomotionHandler.moveForward();
         else

@@ -12,10 +12,10 @@
         private const float sawSlowingOfMovementPerFrame = 0.002f;
         private const int noMovementDistance = 0;
 
-        private readonly float maxMovementSpeedInMPerS =
+        private float maxMovementSpeedInMPerS =
             SteamVRControllerInput.Instance.SpeedInMPerS;
 
-        private readonly float maxMovementSpeedPerFrame;
+        private float maxMovementSpeedPerFrame;
         private float currentMovementSpeedPerFrame;
         private bool makingStep;
 
