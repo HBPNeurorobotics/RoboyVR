@@ -12,12 +12,13 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
     [SerializeField] private bool _simulateMovePress;
-
-    [SerializeField] private float _speed = 0.1f;
     private bool _touchpadPressLeft;
     private bool _touchpadPressRight;
     private LocomotionBehaviour currentLocomotionBehaviour;
     [SerializeField] private LocomotionBehaviour setLocomotionBehaviour;
+
+    [SerializeField] private float speedInMPerS = 0.1f;
+    private bool stoppedMovement = true;
 
     public SteamVR_TrackedObject RightControllerObject
     {
@@ -29,9 +30,9 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         get { return _leftControllerObject; }
     }
 
-    public float Speed
+    public float SpeedInMPerS
     {
-        get { return _speed; }
+        get { return speedInMPerS; }
     }
 
     private void Start()
@@ -109,10 +110,12 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private void movePlayer()
     {
-        _touchpadPressLeft = _leftController.GetPress(_touchpad);
-        _touchpadPressRight = _rightController.GetPress(_touchpad);
-
+        _touchpadPressLeft = _leftController.GetPressDown(_touchpad);
+        _touchpadPressRight = _rightController.GetPressDown(_touchpad);
         if (_touchpadPressLeft && _touchpadPressRight)
+            stoppedMovement = !stoppedMovement;
+
+        if (!stoppedMovement)
             LocomotionHandler.moveForward();
         else
             LocomotionHandler.stopMoving();

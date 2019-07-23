@@ -8,7 +8,7 @@
 
     public static class LocomotionHandler
     {
-        private static ILocomotionBehaviour s_locomotionBehaviour = new LocomotionTracker();
+        private static ILocomotionBehaviour s_locomotionBehaviour = new LocomotionHover();
 
         public static void moveForward()
         {
