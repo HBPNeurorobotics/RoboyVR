@@ -8,7 +8,6 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private SteamVR_Controller.Device _leftController;
     [SerializeField] private SteamVR_TrackedObject _leftControllerObject;
-    private LocomotionBehaviour _locomotionBehaviour = LocomotionBehaviour.Hover;
     private SteamVR_Controller.Device _rightController;
 
     [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
@@ -35,6 +34,11 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         get { return _speed; }
     }
 
+    private void Start()
+    {
+        currentLocomotionBehaviour = setLocomotionBehaviour;
+        changeLocomotionBehaviour(currentLocomotionBehaviour);
+    }
 
     private void Update()
     {
