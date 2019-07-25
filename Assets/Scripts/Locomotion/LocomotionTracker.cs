@@ -5,24 +5,18 @@
 
     public class LocomotionTracker : ILocomotionBehaviour
     {
-        private const float fixedUpdateRefreshRate = 60;
         private const float epsilonForMovementRegistration = 0.05f;
         private const float maximalStepLength = 2f;
 
         private const float sawSlowingOfMovementPerFrame = 0.002f;
         private const int noMovementDistance = 0;
 
-        private float maxMovementSpeedInMPerS =
-            SteamVRControllerInput.Instance.SpeedInMPerS;
-
-        private float maxMovementSpeedPerFrame;
         private float currentMovementSpeedPerFrame;
         private bool makingStep;
 
         public LocomotionTracker()
         {
-            maxMovementSpeedPerFrame = maxMovementSpeedInMPerS / fixedUpdateRefreshRate;
-            currentMovementSpeedPerFrame = maxMovementSpeedPerFrame;
+            currentMovementSpeedPerFrame = SteamVRControllerInput.Instance.SpeedPerFrame;
         }
 
         private float CurrentStepLength { get; set; }
@@ -63,7 +57,8 @@
             if (!(VrLocomotionTrackers.Instance.DistanceTrackersOnPlane <
                   epsilonForMovementRegistration)) return noMovementDistance;
             CurrentStepLength = 0;
-            currentMovementSpeedPerFrame = maxMovementSpeedPerFrame;
+            currentMovementSpeedPerFrame = SteamVRControllerInput.Instance.SpeedPerFrame;
+            ;
 
             if (makingStep)
             {

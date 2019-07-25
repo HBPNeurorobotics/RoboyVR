@@ -4,9 +4,15 @@ using Valve.VR;
 
 public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 {
-    private const EVRButtonId initialzizeTrackerOrientationButton = EVRButtonId.k_EButton_ApplicationMenu;
-    private const EVRButtonId initializeTrackerHeadingButton = EVRButtonId.k_EButton_ApplicationMenu;
+    private const EVRButtonId initialzizeTrackerOrientationButton =
+        EVRButtonId.k_EButton_ApplicationMenu;
+
+    private const EVRButtonId initializeTrackerHeadingButton =
+        EVRButtonId.k_EButton_ApplicationMenu;
+
     private const EVRButtonId movementButton = EVRButtonId.k_EButton_SteamVR_Touchpad;
+
+    private const float fixedUpdateRefreshRate = 60;
 
     private SteamVR_Controller.Device _leftController;
     [SerializeField] private SteamVR_TrackedObject _leftControllerObject;
@@ -14,12 +20,11 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
     [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
 
     [SerializeField] private bool _simulateMovePress;
+    private LocomotionBehaviour currentLocomotionBehaviour;
+    private bool movementButtonPressedLeft;
 
     private bool movementButtonPressedRight;
-    private bool movementButtonPressedLeft;
-    private LocomotionBehaviour currentLocomotionBehaviour;
     [SerializeField] private LocomotionBehaviour setLocomotionBehaviour;
-
     [SerializeField] private float speedInMPerS = 7f;
     private bool stoppedMovement = true;
 
@@ -33,9 +38,9 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         get { return _leftControllerObject; }
     }
 
-    public float SpeedInMPerS
+    public float SpeedPerFrame
     {
-        get { return speedInMPerS; }
+        get { return speedInMPerS / fixedUpdateRefreshRate; }
     }
 
     private void Start()
@@ -55,14 +60,15 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         if (_simulateMovePress) return;
 
         //DebugStuff();
-        _rightController = SteamVR_Controller.Input((int)_rightControllerObject.index);
-        _leftController = SteamVR_Controller.Input((int)_leftControllerObject.index);
+        _rightController = SteamVR_Controller.Input((int) _rightControllerObject.index);
+        _leftController = SteamVR_Controller.Input((int) _leftControllerObject.index);
 
         if (_rightController == null || _leftController == null)
         {
             Debug.LogError("At least one Controller not found");
             return;
         }
+
         //Doesn't work in fixed Update
         movementButtonPressed();
 
@@ -81,7 +87,8 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private void movementButtonPressed()
     {
-        if (_rightController.GetPressDown(movementButton) || _leftController.GetPressDown(movementButton))
+        if (_rightController.GetPressDown(movementButton) ||
+            _leftController.GetPressDown(movementButton))
         {
             stoppedMovement = !stoppedMovement;
             Debug.Log("Toggel");
@@ -108,6 +115,7 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
             LocomotionHandler.moveForward();
             return;
         }
+
         //Needs Fixed Update for speed calculation
         movePlayer();
     }
