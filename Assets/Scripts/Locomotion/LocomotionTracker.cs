@@ -58,7 +58,6 @@
                   epsilonForMovementRegistration)) return noMovementDistance;
             CurrentStepLength = 0;
             currentMovementSpeedPerFrame = SteamVRControllerInput.Instance.SpeedPerFrame;
-            ;
 
             if (makingStep)
             {

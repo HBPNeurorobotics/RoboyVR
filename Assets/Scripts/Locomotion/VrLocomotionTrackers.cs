@@ -30,7 +30,7 @@
 
         public float DistanceTrackersOnPlane
         {
-            get { return getDistanceBetweenTrackerOnPlane(trackingPlane); }
+            get { return getDistanceBetweenTrackerOn(trackingPlane); }
         }
 
         private void Start()
@@ -41,7 +41,7 @@
         public void initializeFeetDistance()
         {
             distanceBetweenFeet =
-                getDistanceBetweenTrackerOnPlane(createTrackingPlaneNormalBetweenTrackers());
+                getDistanceBetweenTrackerOn(createTrackingPlaneNormal());
             var rightFootPosition = RightFootTracker.position;
             var leftFootPosition = LeftFootTracker.position;
             if (rightFootPosition.y >= leftFootPosition.y)
@@ -81,20 +81,20 @@
 
         private void Update()
         {
-            trackingPlane = createTrackingPlaneNormalBetweenTrackers();
+            trackingPlane = createTrackingPlaneNormal();
             Debug.DrawRay(Vector3.zero, trackingPlane);
             if (shouldShowAxis)
                 showAxisForTrackers();
         }
 
-        private float getDistanceBetweenTrackerOnPlane(Vector3 trackingPlaneNormal)
+        private float getDistanceBetweenTrackerOn(Vector3 trackingPlaneNormal)
         {
             var left = Vector3.ProjectOnPlane(LeftFootTracker.position, trackingPlaneNormal);
             var right = Vector3.ProjectOnPlane(RightFootTracker.position, trackingPlaneNormal);
             return Vector3.Distance(right, left);
         }
 
-        private Vector3 createTrackingPlaneNormalBetweenTrackers()
+        private Vector3 createTrackingPlaneNormal()
         {
             var directionRightToLeft = LeftFootTracker.position - RightFootTracker.position;
             var directionRightToLeftOnPlane =
