@@ -62,8 +62,7 @@
             var upVectorGeneral = Vector3.ProjectOnPlane(Vector3.up, axis).normalized;
             var degreesTotal = Vector3.SignedAngle(upVectorTracker, upVectorGeneral, axis);
             var directionToRotate = degreesTotal / Math.Abs(degreesTotal);
-            if (degreesTotal >= 4f || degreesTotal <= -4f) ;
-            tracker.Rotate(axis, directionToRotate, Space.World);
+            if (degreesTotal >= 4f || degreesTotal <= -4f) tracker.Rotate(axis, directionToRotate, Space.World);
         }
 
         public void initializeTrackerOrientation()

@@ -3,7 +3,7 @@
     using UnityEngine;
     using Utils;
 
-    public class LocomotionTracker : ILocomotionBehaviour
+    public class LocomotionWalkInPlace : ILocomotionBehaviour
     {
         private const float epsilonForMovementRegistration = 0.05f;
         private const float maximalStepLength = 2f;
@@ -14,7 +14,7 @@
         private float currentMovementSpeedPerFrame;
         private bool makingStep;
 
-        public LocomotionTracker()
+        public LocomotionWalkInPlace()
         {
             currentMovementSpeedPerFrame = SteamVRControllerInput.Instance.SpeedPerFrame;
         }

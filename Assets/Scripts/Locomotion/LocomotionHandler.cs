@@ -3,7 +3,7 @@
     public enum LocomotionBehaviour
     {
         Hover,
-        Tracker
+        WalkInPlace
     }
 
     public static class LocomotionHandler

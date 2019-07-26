@@ -58,8 +58,7 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         }
 
         if (_simulateMovePress) return;
-
-        //DebugStuff();
+        
         _rightController = SteamVR_Controller.Input((int) _rightControllerObject.index);
         _leftController = SteamVR_Controller.Input((int) _leftControllerObject.index);
 
@@ -91,7 +90,7 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
             _leftController.GetPressDown(movementButton))
         {
             stoppedMovement = !stoppedMovement;
-            Debug.Log("Toggel");
+            Debug.Log("Toggle");
         }
     }
 
@@ -102,8 +101,8 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
             case LocomotionBehaviour.Hover:
                 LocomotionHandler.changeLocomotionBehaviour(new LocomotionHover());
                 break;
-            case LocomotionBehaviour.Tracker:
-                LocomotionHandler.changeLocomotionBehaviour(new LocomotionTracker());
+            case LocomotionBehaviour.WalkInPlace:
+                LocomotionHandler.changeLocomotionBehaviour(new LocomotionWalkInPlace());
                 break;
         }
     }
@@ -136,14 +135,5 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
             LocomotionHandler.moveForward();
         else
             LocomotionHandler.stopMoving();
-    }
-
-    private void DebugStuff()
-    {
-        Debug.DrawRay(_rightControllerObject.transform.position,
-            _rightControllerObject.transform.forward, Color.green);
-        Debug.DrawRay(_leftControllerObject.transform.position,
-            _leftControllerObject.transform.forward, Color.green);
-        VrLocomotionTrackers.showAxisForTrackers();
     }
 }
