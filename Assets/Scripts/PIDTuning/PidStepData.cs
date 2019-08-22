@@ -7,6 +7,11 @@ using UnityEngine.Assertions;
 
 namespace PIDTuning
 {
+    /// <summary>
+    /// A collection of discrete step-data entries for a
+    /// control loop. Provides helper functions to calculate
+    /// accumulate errors.
+    /// </summary>
     public class PidStepData
     {
         public readonly string Name;
@@ -120,39 +125,6 @@ namespace PIDTuning
 
                 default:
                     throw new InvalidOperationException();
-            }
-        }
-
-        /// <summary>
-        /// A single entry of step data
-        /// </summary>
-        public struct PidStepDataEntry
-        {
-            /// <summary>
-            /// aka SP (Set Point)
-            /// </summary>
-            public readonly float Desired;
-
-            /// <summary>
-            /// aka PV (Process Variable)
-            /// </summary>
-            public readonly float Measured;
-
-            public PidStepDataEntry(float desired, float measured)
-            {
-                Desired = desired;
-                Measured = measured;
-            }
-
-            public float SignedError
-            {
-                get { return Desired - Measured; }
-            }
-
-
-            public float AbsoluteError
-            {
-                get { return Mathf.Abs(SignedError); }
             }
         }
 
