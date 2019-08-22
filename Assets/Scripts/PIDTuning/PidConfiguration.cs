@@ -14,20 +14,27 @@ namespace PIDTuning
     {
         public readonly string Name;
 
-        public readonly DateTime CreatedTimestamp;
+        public readonly DateTime CreatedTimestampUtc;
 
         public readonly Dictionary<string, PidParameters> Parameters;
 
-        public PidConfiguration(string name)
+        public PidConfiguration(string name, DateTime createdTimestampUtc)
         {
+            // We take the timestamp as a parameter here instead of generating it
+            // ourselves. This allows the caller to re-use their timestamp for other
+            // data structures, making sure that they match exactly
+
+            // But let's just make sure they are smart enough to use universal time.
+            Assert.AreEqual(DateTimeKind.Utc, createdTimestampUtc.Kind);
+
             Name = name;
-            CreatedTimestamp = DateTime.Now.ToUniversalTime();
+            CreatedTimestampUtc = createdTimestampUtc;
             Parameters = new Dictionary<string, PidParameters>();
         }
 
         public void InitializePidParameters(IEnumerable<string> jointNames, PidParameters initializeValue)
         {
-            // We need to make sure that noone changes PidParameters from a struct to a class
+            // We need to make sure that no one changes PidParameters from a struct to a class
             // because the implicit copy-on-assign below will not work with classes
             Assert.IsTrue(typeof(PidParameters).IsValueType);
 

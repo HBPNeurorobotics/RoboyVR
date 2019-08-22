@@ -10,31 +10,31 @@ namespace PIDTuning
     /// </summary>
     public struct PidParameters
     {
-        public readonly double Kp, Ki, Kd;
+        public readonly float Kp, Ki, Kd;
 
-        public double Ti
+        public float Ti
         {
             get { return Kp / Ki; }
         }
 
-        public double Td
+        public float Td
         {
             get { return Kd / Kp; }
         }
 
-        private PidParameters(double kp, double ki, double kd)
+        private PidParameters(float kp, float ki, float kd)
         {
             Kp = kp;
             Ki = ki;
             Kd = kd;
         }
 
-        public static PidParameters FromParallelForm(double kp, double ki, double kd)
+        public static PidParameters FromParallelForm(float kp, float ki, float kd)
         {
             return new PidParameters(kp, ki, kd);
         }
 
-        public static PidParameters FromStandardForm(double kp, double ti, double td)
+        public static PidParameters FromStandardForm(float kp, float ti, float td)
         {
             return new PidParameters(
                 kp,
