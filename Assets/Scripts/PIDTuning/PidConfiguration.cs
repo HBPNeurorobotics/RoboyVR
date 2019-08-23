@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -16,7 +17,7 @@ namespace PIDTuning
 
         public readonly DateTime CreatedTimestampUtc;
 
-        public readonly Dictionary<string, PidParameters> Parameters;
+        public readonly Dictionary<string, PidParameters> Mapping;
 
         public PidConfiguration(string name, DateTime createdTimestampUtc)
         {
@@ -29,10 +30,10 @@ namespace PIDTuning
 
             Name = name;
             CreatedTimestampUtc = createdTimestampUtc;
-            Parameters = new Dictionary<string, PidParameters>();
+            Mapping = new Dictionary<string, PidParameters>();
         }
 
-        public void InitializePidParameters(IEnumerable<string> jointNames, PidParameters initializeValue)
+        public void InitializeMapping(IEnumerable<string> jointNames, PidParameters initializeValue)
         {
             // We need to make sure that no one changes PidParameters from a struct to a class
             // because the implicit copy-on-assign below will not work with classes
@@ -40,8 +41,27 @@ namespace PIDTuning
 
             foreach (var name in jointNames)
             {
-                Parameters[name] = initializeValue;
+                Mapping[name] = initializeValue;
             }
+        }
+
+        public JSONNode ToJson()
+        {
+            var json = new JSONNode();
+
+            json["name"] = Name;
+            json["createdTimestamp"] = CreatedTimestampUtc.ToFileTimeUtc().ToString();
+            
+            var mappingJson = new JSONNode();
+
+            foreach (var jointPidMapping in Mapping)
+            {
+                mappingJson[jointPidMapping.Key] = jointPidMapping.Value.ToJson();
+            }
+
+            json["mapping"] = mappingJson;
+
+            return json;
         }
     }
 }

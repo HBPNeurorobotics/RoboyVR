@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -62,6 +64,22 @@ namespace PIDTuning
                 });
 
             return ScaledError(errorScaling, start, end, aggregate);
+        }
+
+        public JSONNode ToJson()
+        {
+            var json = new JSONNode();
+            json["name"] = Name;
+            json["createdTimestamp"] = CreatedTimestampUtc.ToFileTimeUtc().ToString();
+
+            int i = 0;
+            foreach (var entry in Data)
+            {
+                json["data"][i++]["timestamp"] = entry.Key.ToFileTimeUtc().ToString();
+                json["data"][i++]["entry"] = entry.Value.ToJson();
+            }
+
+            return json;
         }
 
         /// <summary>

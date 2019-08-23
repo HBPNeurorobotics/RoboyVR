@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 
 namespace PIDTuning
@@ -41,6 +42,17 @@ namespace PIDTuning
                 kp / ti,
                 kp * td
             );
+        }
+
+        public JSONNode ToJson()
+        {
+            var json = new JSONNode();
+
+            json["kp"].AsFloat = Kp;
+            json["ki"].AsFloat = Ki;
+            json["kd"].AsFloat = Kd;
+
+            return json;
         }
     }
 }

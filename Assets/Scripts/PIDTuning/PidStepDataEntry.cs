@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using SimpleJSON;
 using UnityEngine;
 
 namespace PIDTuning
@@ -68,6 +69,23 @@ namespace PIDTuning
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// JSON representation has contains correlated data "flattened out"
+        /// </summary>
+        public JSONNode ToJson()
+        {
+            var json = new JSONNode();
+            json["desired"].AsFloat = Desired;
+            json["measured"].AsFloat = Desired;
+
+            foreach (var cd in _correlatedData)
+            {
+                json[cd.Key] = cd.Value;
+            }
+
+            return json;
         }
     }
 }
