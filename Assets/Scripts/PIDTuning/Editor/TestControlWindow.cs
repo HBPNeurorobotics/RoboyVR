@@ -45,16 +45,21 @@ namespace PIDTuning.Editor
 
             _testRunner = EditorGUILayout.ObjectField("PidTestRunner Scene Obj", _testRunner, typeof(TestRunner), true) as TestRunner;
 
-            // For now, we disable all controls until this class is finished
-            using (new EditorGUI.DisabledScope(_testRunner == null))
+            if (null == _testRunner)
+            {
+                GUILayout.Label("Please select a TestRunner component to use this window");
+
+                EditorGUILayout.EndHorizontal();
+            }
+            else
             {
                 GUILayout.Space(10f);
 
                 EditorGUIUtility.labelWidth = 65f;
-                EditorGUILayout.DelayedTextField("Test Label", string.Empty);
+                _testRunner.CurrentTestLabel = EditorGUILayout.DelayedTextField("Test Label", _testRunner.CurrentTestLabel);
                 EditorGUIUtility.labelWidth = 0f; // Reset label width
 
-                MultiPurposeButton();
+                DrawMultiPurposeButton();
 
                 EditorGUILayout.EndHorizontal();
 
@@ -71,51 +76,41 @@ namespace PIDTuning.Editor
             }
         }
 
-        private void MultiPurposeButton()
+        private void DrawMultiPurposeButton()
         {
-            if (null != _testRunner)
+            switch (_testRunner.State)
             {
-                switch (_testRunner.State)
-                {
-                    case TestRunner.TestRunnerState.NotReady:
-                        using (new EditorGUI.DisabledScope(true))
-                        {
-                            GUILayout.Button("Waiting for Connection...", GUILayout.Width(BUTTON_WIDTH));
-                        }
-                        break;
+                case TestRunner.TestRunnerState.NotReady:
+                    using (new EditorGUI.DisabledScope(true))
+                    {
+                        GUILayout.Button("Waiting for Connection...", GUILayout.Width(BUTTON_WIDTH));
+                    }
+                    break;
 
-                    case TestRunner.TestRunnerState.Ready:
+                case TestRunner.TestRunnerState.Ready:
 
-                        if (GUILayout.Button("Start Test", GUILayout.Width(BUTTON_WIDTH)))
-                        {
-                            _testRunner.StartCoroutine(_testRunner.RunTest());
-                        }
+                    if (GUILayout.Button("Start Test", GUILayout.Width(BUTTON_WIDTH)))
+                    {
+                        _testRunner.StartCoroutine(_testRunner.RunTest());
+                    }
 
-                        break;
+                    break;
 
-                    case TestRunner.TestRunnerState.RunningTest:
-                        using (new EditorGUI.DisabledScope(true))
-                        {
-                            GUILayout.Button("Test Running...", GUILayout.Width(BUTTON_WIDTH));
-                        }
-                        break;
+                case TestRunner.TestRunnerState.RunningTest:
+                    using (new EditorGUI.DisabledScope(true))
+                    {
+                        GUILayout.Button("Test Running...", GUILayout.Width(BUTTON_WIDTH));
+                    }
+                    break;
 
-                    case TestRunner.TestRunnerState.FinishedTest:
+                case TestRunner.TestRunnerState.FinishedTest:
 
-                        if (GUILayout.Button("Reset", GUILayout.Width(BUTTON_WIDTH)))
-                        {
-                            _testRunner.Reset();
-                        }
+                    if (GUILayout.Button("Reset", GUILayout.Width(BUTTON_WIDTH)))
+                    {
+                        _testRunner.ResetTestRunner();
+                    }
 
-                        break;
-                }
-            }
-            else
-            {
-                using (new EditorGUI.DisabledScope(true))
-                {
-                    GUILayout.Button("No TestRunner selected", GUILayout.Width(BUTTON_WIDTH));
-                }
+                    break;
             }
         }
     }

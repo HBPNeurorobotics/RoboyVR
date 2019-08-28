@@ -22,6 +22,8 @@ namespace PIDTuning
 
         public readonly SortedList<DateTime, PidStepDataEntry> Data;
 
+        public readonly Dictionary<string, string> AdditionalKeys;
+
         public PidStepData(string name, DateTime createdTimestampUtc)
         {
             // We take the timestamp as a parameter here instead of generating it
@@ -34,6 +36,8 @@ namespace PIDTuning
             Name = name;
             CreatedTimestampUtc = createdTimestampUtc;
             Data = new SortedList<DateTime, PidStepDataEntry>();
+
+            AdditionalKeys = new Dictionary<string, string>();
         }
 
         public float SignedError(ErrorScaling errorScaling, DateTime? start = null, DateTime? end = null)
@@ -71,6 +75,11 @@ namespace PIDTuning
             var json = new JSONNode();
             json["name"] = Name;
             json["createdTimestamp"] = CreatedTimestampUtc.ToFileTimeUtc().ToString();
+
+            foreach (var kvPair in AdditionalKeys)
+            {
+                json[kvPair.Key] = kvPair.Value;
+            }
 
             int i = 0;
             foreach (var entry in Data)

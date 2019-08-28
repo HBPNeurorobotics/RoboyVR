@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -12,7 +13,16 @@ namespace PIDTuning
         private Animator _animator = null;
         private UserAvatarVisualsIKControl _ikControl = null;
 
-        private void OnEnable()
+        public bool IsAnimationRunning
+        {
+            get { return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f; }
+        }
+
+        /// <summary>
+        /// This code runs in Awake (instead of Start/OnEnable) since it is a dependency
+        /// of multiple other components.
+        /// </summary>
+        private void Awake()
         {
             Assert.IsNotNull(_userAvatar);
 
@@ -23,30 +33,33 @@ namespace PIDTuning
             Assert.IsNotNull(_ikControl);
         }
 
-        public void PlayAnimation(string stateName)
+        public void ResetUserAvatar()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PlayAnimation(string state)
         {
             _ikControl.ikActive = false;
 
-            _animator.Play(stateName);
+            _animator.Play(state);
         }
 
-        public CustomYieldInstruction WaitForAnimationToEnd()
+        public IEnumerable<string> GetJointNames()
         {
-            return new PlayAnimationYieldInstruction(_animator);
+            throw new NotImplementedException();
         }
 
-        private class PlayAnimationYieldInstruction : CustomYieldInstruction
+        /// <summary>
+        /// Validates that all animation states exist given the current animator
+        /// </summary>
+        public void ValidateStateList(List<string> states)
         {
-            private readonly Animator _animator;
+            Assert.IsNotNull(_animator);
 
-            public override bool keepWaiting
+            foreach (var state in states)
             {
-                get { return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f; }
-            }
-
-            public PlayAnimationYieldInstruction(Animator animator)
-            {
-                Assert.IsNotNull(_animator = animator);
+                Assert.IsTrue(_animator.HasState(0, Animator.StringToHash(state)));
             }
         }
     }

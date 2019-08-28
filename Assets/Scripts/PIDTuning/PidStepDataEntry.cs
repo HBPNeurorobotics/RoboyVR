@@ -24,6 +24,10 @@ namespace PIDTuning
         /// <summary>
         /// Can be used to hold additional data that was collected during the
         /// timestep.
+        /// This is private because we want to do lazy initialization to save on
+        /// resources in case that this dictionary is not used at all.
+        /// If we ever update the version of .NET we are using, we can
+        /// use the Lazy class for that purpose
         /// </summary>
         private Dictionary<string, string> _correlatedData;
 
