@@ -9,7 +9,7 @@ namespace PIDTuning.Editor
         private const float CONTROL_GAP = 2f;
         private const float BUTTON_WIDTH = 175f;
 
-        private PreviewRenderUtility _graphRenderer;
+        private EditorGraphRenderer _graphRenderer;
 
         private Rect _graphRect;
 
@@ -22,7 +22,7 @@ namespace PIDTuning.Editor
 
         private void OnEnable()
         {
-            _graphRenderer = new PreviewRenderUtility();
+            _graphRenderer = new EditorGraphRenderer();
             _graphRect = new Rect(0f, 0f, 200f, GRAPH_HEIGHT);
             titleContent = new GUIContent("PID Test Ctrl");
             minSize = new Vector2(200f, 200f); // We define a non-zero minSize so the window cannot disappear
@@ -30,7 +30,7 @@ namespace PIDTuning.Editor
 
         private void OnDisable()
         {
-            _graphRenderer.Cleanup();
+            _graphRenderer.Dispose();
         }
 
         [MenuItem("Window/PID Test Control")]
@@ -66,9 +66,7 @@ namespace PIDTuning.Editor
                 _graphRect.y = GUILayoutUtility.GetLastRect().yMax + CONTROL_GAP;
                 _graphRect.width = position.width;
 
-                _graphRenderer.BeginPreview(_graphRect, GUIStyle.none);
-                _graphRenderer.camera.Render();
-                _graphRenderer.EndAndDrawPreview(_graphRect);
+                _graphRenderer.DrawPreviewRect(_graphRect);
 
                 GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
 
@@ -83,7 +81,7 @@ namespace PIDTuning.Editor
                 case TestRunner.TestRunnerState.NotReady:
                     using (new EditorGUI.DisabledScope(true))
                     {
-                        GUILayout.Button("Waiting for Connection...", GUILayout.Width(BUTTON_WIDTH));
+                        GUILayout.Button("Waiting for Avatar...", GUILayout.Width(BUTTON_WIDTH));
                     }
                     break;
 

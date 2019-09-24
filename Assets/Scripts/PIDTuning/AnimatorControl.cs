@@ -31,6 +31,9 @@ namespace PIDTuning
 
             Assert.IsNotNull(_animator);
             Assert.IsNotNull(_ikControl);
+
+            // Disable IK in test environment
+            _ikControl.ikActive = false;
         }
 
         public void ResetUserAvatar()
@@ -40,8 +43,6 @@ namespace PIDTuning
 
         public void PlayAnimation(string state)
         {
-            _ikControl.ikActive = false;
-
             _animator.Play(state);
         }
 

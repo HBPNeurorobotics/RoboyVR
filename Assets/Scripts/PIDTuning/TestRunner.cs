@@ -8,7 +8,7 @@ using WebSocketSharp;
 
 namespace PIDTuning
 {
-    [RequireComponent(typeof(TestEnvSetup), typeof(AnimatorControl))]
+    [RequireComponent(typeof(TestEnvSetup), typeof(AnimatorControl), typeof(PoseErrorTracker))]
     public class TestRunner : MonoBehaviour
     {
         private TestEnvSetup _testEnvSetup;
@@ -37,17 +37,45 @@ namespace PIDTuning
         [SerializeField]
         private string _testAnimationStateNames;
 
+        [SerializeField]
+        private UserAvatarService _avatarService;
+
+        /// <summary>
+        /// This is the cached backing field to _testAnimationStateNames
+        /// </summary>
         private List<string> _testAnimationStateList;
+
+        /// <summary>
+        /// Holds a mapping of animation name -> joint name -> step-data of the most recently performed test
+        /// </summary>
+        private Dictionary<string, Dictionary<string, PidStepData>> _latestAnimationToJointToStepData;
+
+        /// <summary>
+        /// Holds the PID config that was used in the most recently performed test
+        /// </summary>
+        private PidConfiguration _latestPidConfiguration;
 
         private void OnEnable()
         {
             State = TestRunnerState.NotReady;
 
-            Assert.IsNotNull(_testEnvSetup = GetComponent<TestEnvSetup>());
-            Assert.IsNotNull(_animatorControl = GetComponent<AnimatorControl>());
-            Assert.IsNotNull(_poseErrorTracker = GetComponent<PoseErrorTracker>());
+            Assert.IsNotNull(_avatarService);
+
+            _testEnvSetup = GetComponent<TestEnvSetup>();
+            _animatorControl = GetComponent<AnimatorControl>();
+            _poseErrorTracker = GetComponent<PoseErrorTracker>();
 
             _testAnimationStateList = ParseTestAnimationStatesInput();
+
+            _avatarService.OnJointDictionaryReady += ResetTestRunner;
+        }
+
+        private void OnDisable()
+        {
+            if (null != _avatarService)
+            {
+                _avatarService.OnJointDictionaryReady -= ResetTestRunner;
+            }
         }
 
         private List<string> ParseTestAnimationStatesInput()
@@ -74,6 +102,8 @@ namespace PIDTuning
         public IEnumerator RunTest()
         {
             Assert.AreEqual(State, TestRunnerState.Ready);
+            Assert.AreEqual(_latestPidConfiguration, null);
+            Assert.AreEqual(_latestAnimationToJointToStepData, null);
 
             State = TestRunnerState.RunningTest;
 
@@ -89,6 +119,8 @@ namespace PIDTuning
 
             // Run Simulation Loop and record data
             // -----------------------------------------------------------------------------------
+
+            var _tempAnimationToJointToStepData =  new Dictionary<string, Dictionary<string, PidStepData>>();
 
             foreach (var animation in _testAnimationStateList)
             {
@@ -138,14 +170,27 @@ namespace PIDTuning
                     // Wait for next frame 
                     yield return null;
                 }
+
+                _tempAnimationToJointToStepData[animation] = stepData;
             }
+
+            // Set member variables to allow access to the recorded data
+            // -----------------------------------------------------------------------------------
+
+            _latestAnimationToJointToStepData = _tempAnimationToJointToStepData;
+            _latestPidConfiguration = pidConfig;
 
             State = TestRunnerState.FinishedTest;
         }
 
-        public void ResetTestRunner()
+        // We need the parameter here to be able to subscribe to OnAvatarSpawned without
+        // having to write a wrapper function. No, we also wont use lambdas, as they 
+        // are a pain to unsubscribe
+        public void ResetTestRunner(UserAvatarService _ = null)
         {
             // TODO: Actually reset. Also test if the results have been saved. Actually, prefer to do that in the Editor UI
+            _latestAnimationToJointToStepData = null;
+            _latestPidConfiguration = null;
 
             State = TestRunnerState.Ready;
         }
