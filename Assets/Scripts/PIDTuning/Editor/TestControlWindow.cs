@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace PIDTuning.Editor
 {
@@ -14,12 +16,15 @@ namespace PIDTuning.Editor
 
         private Rect _graphRect;
 
-        private TestRunner _testRunner = null;
+        private TestRunner _testRunner;
 
-        private string[] _jointNames = new[]
-        {
-            "lhand", "rhand" // etc.
-        };
+        private PoseErrorTracker _poseErrorTracker;
+
+        private string[] _jointNames = { "No joints found" };
+
+        private int _selectedJointIndex = 0;
+
+        private bool _initialized = false;
 
         private void OnEnable()
         {
@@ -44,13 +49,17 @@ namespace PIDTuning.Editor
         {
             EditorGUILayout.BeginHorizontal();
 
+            EditorGUI.BeginDisabledGroup(!Application.isPlaying);
             _testRunner = EditorGUILayout.ObjectField("PidTestRunner Scene Obj", _testRunner, typeof(TestRunner), true) as TestRunner;
+            EditorGUI.EndDisabledGroup();
 
             if (null == _testRunner)
             {
-                GUILayout.Label("Please select a TestRunner component to use this window");
+                GUILayout.Label("Please enter PlayMode and drag PIDTuningService in here. Make sure it is enabled!");
 
                 EditorGUILayout.EndHorizontal();
+
+                _initialized = false;
             }
             else
             {
@@ -64,29 +73,58 @@ namespace PIDTuning.Editor
 
                 EditorGUILayout.EndHorizontal();
 
-                _graphRect.y = GUILayoutUtility.GetLastRect().yMax + CONTROL_GAP;
-                _graphRect.width = position.width;
-
-                _graphRenderer.DrawPreviewRect(_graphRect);
-
-                GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
-
-                EditorGUILayout.Popup(0, _jointNames);
-
-                // TEST stuff
-                try
+                if (_initialized)
                 {
-                    var tracker = _testRunner.gameObject.GetComponent<PoseErrorTracker>();
-                    var stepData = tracker.GetCurrentStepDataForJoint("mixamorig_LeftArm_x");
+                    _graphRect.y = GUILayoutUtility.GetLastRect().yMax + CONTROL_GAP;
+                    _graphRect.width = position.width;
 
-                    GUILayout.Label("mixamorig_LeftArm_x: " + stepData.TotalError);
-                }
-                catch (Exception e)
-                {
-                    GUILayout.Label("No step data available right now");
-                    Debug.LogException(e);
+                    _graphRenderer.DrawPreviewRect(_graphRect);
+
+                    GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
+
+                    var newSelectedJointIndex = EditorGUILayout.Popup(_selectedJointIndex, _jointNames, GUILayout.Width(300));
+
+                    if (newSelectedJointIndex != _selectedJointIndex)
+                    {
+                        _graphRenderer.StartNewLine(DateTime.Now);
+                        _selectedJointIndex = newSelectedJointIndex;
+                    }
                 }
             }
+        }
+
+        private void OnInspectorUpdate()
+        {
+            if (null != _testRunner && _testRunner.State != TestRunner.TestRunnerState.NotReady)
+            {
+                if (!_initialized)
+                {
+                    InitializeAfterTestRunnerReady();
+
+                    _graphRenderer.StartNewLine(DateTime.Now);
+
+                    _initialized = true;
+                }
+
+                if (_graphRenderer.IsAtLimit)
+                {
+                    _graphRenderer.StartNewLine(DateTime.Now);
+                }
+
+                _graphRenderer.AddSample(DateTime.Now, _poseErrorTracker.GetCurrentStepDataForJoint(_jointNames[_selectedJointIndex]).SignedError);
+
+                Repaint();
+            }
+        }
+
+        private void InitializeAfterTestRunnerReady()
+        {
+            _poseErrorTracker = _testRunner.GetComponent<PoseErrorTracker>();
+
+            Assert.IsNotNull(_poseErrorTracker);
+
+            _jointNames = _poseErrorTracker.GetJointNames().ToArray();
+            _selectedJointIndex = 0;
         }
 
         private void DrawMultiPurposeButton()

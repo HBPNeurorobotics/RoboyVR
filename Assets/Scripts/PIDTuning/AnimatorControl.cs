@@ -46,11 +46,6 @@ namespace PIDTuning
             _animator.Play(state);
         }
 
-        public IEnumerable<string> GetJointNames()
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Validates that all animation states exist given the current animator
         /// </summary>

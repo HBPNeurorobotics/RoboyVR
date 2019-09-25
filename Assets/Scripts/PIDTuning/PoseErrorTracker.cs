@@ -22,8 +22,6 @@ namespace PIDTuning
             var input = _localAngleTracker.GetJointToAngleMapping()[jointName];
             var output = _remoteAngleTracker.GetJointToAngleMapping()[jointName];
 
-            Debug.Log(input + " " + output);
-
             return new PidStepDataEntry(input, output);
         }
 
@@ -52,6 +50,11 @@ namespace PIDTuning
             // avatar. We do the same thing with the local avatar, so we
             // can just calculate the difference to get the pose error.
             _remoteAngleTracker = avatarService.avatar.AddComponent<RigAngleTracker>();
+        }
+
+        public IEnumerable<string> GetJointNames()
+        {
+            return _localAngleTracker.GetJointToAngleMapping().Keys;
         }
     }
 }

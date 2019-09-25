@@ -35,12 +35,15 @@ namespace PIDTuning
         /// </summary>
         public bool IsAtLimit { private set; get; }
 
-        public void Initialize()
+        public float LastSampleX { private set; get; }
+
+        public void Initialize(Color color, float widthMultiplier = 1f)
         {
             _lineRenderer = GetComponent<LineRenderer>();
             _lineRenderer.positionCount = 0;
-            _lineRenderer.startColor = _lineRenderer.endColor = Color.red;
-
+            LastSampleX = 0f;
+            _lineRenderer.material.color = color;
+            _lineRenderer.widthMultiplier = widthMultiplier;
             _firstSampleTimestamp = DateTime.UtcNow;
 
             MaxSampleValue = 0f;
@@ -51,22 +54,25 @@ namespace PIDTuning
         {
             _firstSampleTimestamp = firstSampleTimestamp;
             _lineRenderer.positionCount = 0;
+            LastSampleX = 0f;
         }
 
-        public void AddSample(DateTime timestamp, float sampleVal)
+        public void AddSample(DateTime timestamp, float sample)
         {
-            if (_lineRenderer.positionCount == MAX_SAMPLES)
+            if (_lineRenderer.positionCount >= MAX_SAMPLES)
             {
                 IsAtLimit = true;
                 return;
             }
 
-            MaxSampleValue = Mathf.Max(MaxSampleValue, Mathf.Abs(sampleVal));
+            MaxSampleValue = Mathf.Max(MaxSampleValue, Mathf.Abs(sample));
 
             var x = (float)(timestamp - _firstSampleTimestamp).TotalSeconds / _secondsPerGraphUnit;
 
             _lineRenderer.positionCount += 1;
-            _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, new Vector3(x, sampleVal));
+            _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, new Vector3(x, sample));
+
+            LastSampleX = x;
         }
     }
 }

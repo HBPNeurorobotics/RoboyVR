@@ -135,7 +135,7 @@ namespace PIDTuning
                 // -----------------------------------------------------------------------------------
 
                 var stepData = new Dictionary<string, PidStepData>();
-                foreach (var joint in _animatorControl.GetJointNames())
+                foreach (var joint in _poseErrorTracker.GetJointNames())
                 {
                     var sd = new PidStepData(animation + "-step-data", testRunTimeStamp);
                     sd.AdditionalKeys["animation"] = animation;
@@ -153,7 +153,7 @@ namespace PIDTuning
                     // entries receive a consistent timestamp
                     var frameTimestamp = DateTime.UtcNow;
 
-                    foreach (var joint in _animatorControl.GetJointNames())
+                    foreach (var joint in _poseErrorTracker.GetJointNames())
                     {
                         var entry = _poseErrorTracker.GetCurrentStepDataForJoint(joint);
 
