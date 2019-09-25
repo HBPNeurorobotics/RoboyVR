@@ -9,7 +9,7 @@ using ROSBridgeLib.gazebo_msgs;
 
 public class UserAvatarService : Singleton<UserAvatarService>
 {
-    //public event Action<UserAvatarService> OnJointDictionaryReady = _ => { };
+    public event Action<UserAvatarService> OnAvatarSpawned = _ => { };
 
     public GameObject avatar
     {
@@ -17,6 +17,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
     }
 
     public GameObject avatar_rig = null;
+
+    public RigAngleTracker RigAngleTracker;
 
     //public List<GameObject> published_links = null;
     //public bool publish_all_links = false;
@@ -75,8 +77,9 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
         if (this.avatar_ready)
         {
+            // These tasks are now accomplished by RigAngleTracker on the avatar
             //GetJointPIDPositionTargets();
-            GetJointPIDPositionTargetsJointStatesMsg();
+            //GetJointPIDPositionTargetsJointStatesMsg();
 
             if (Time.time - t_last_publish_joints >= publish_frequency_joints)
             {
@@ -163,6 +166,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
         this.PublishJointPIDParams();
 
         this.avatar_ready = true;
+
+        OnAvatarSpawned(this);
 
         //this.avatar_clone = Object.Instantiate(this.user_avatar);
         //this.avatar_clone.transform.SetParent(this.transform);  // make sure this is not different from the parent of user_avatar (the "Gazebo Scene" object)
@@ -462,8 +467,10 @@ public class UserAvatarService : Singleton<UserAvatarService>
         JointStatesMsg msg = new JointStatesMsg(names, positions, null, null, null, null, null, null);*/
 
         List<ROSBridgeLib.gazebo_msgs.JointStateMsg> states = new List<ROSBridgeLib.gazebo_msgs.JointStateMsg>();
-        foreach (KeyValuePair<string, Vector3> entry in JointPidPositionTargets)
+
+        foreach (var entry in RigAngleTracker.GetJointToAngleMapping())
         {
+            //Debug.Log(entry.Key);
             states.Add(new ROSBridgeLib.gazebo_msgs.JointStateMsg("avatar_ybot::" + entry.Key, entry.Value.x, 0.0f, 
                 new Vector3Msg(), new Vector3Msg(), new Vector3Msg(), new Vector3Msg(), new Vector3Msg()));
         }

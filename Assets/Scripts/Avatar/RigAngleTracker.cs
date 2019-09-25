@@ -15,7 +15,7 @@ public class RigAngleTracker : MonoBehaviour
 {
     private int _lastTrackedFrame = -1;
 
-    private Dictionary<string, Vector3> _jointToAngles;
+    private Dictionary<string, Vector3> _jointToAngles = new Dictionary<string, Vector3>();
 
     public Dictionary<string, Vector3> GetJointToAngleMapping()
     {

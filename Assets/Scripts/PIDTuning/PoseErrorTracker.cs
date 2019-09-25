@@ -11,14 +11,18 @@ namespace PIDTuning
         [SerializeField]
         private UserAvatarService _userAvatarService;
 
-        private Dictionary<string, >
+        private RigAngleTracker _localAngleTracker;
+        private RigAngleTracker _remoteAngleTracker;
 
         /// <summary>
         /// Returns the a pair [input, output] (in that order!) of a control loop
         /// </summary>
-        public KeyValuePair<float, float> GetCurrentStepDataForJoint(string jointName)
+        public PidStepDataEntry GetCurrentStepDataForJoint(string jointName)
         {
-            throw new NotImplementedException();
+            var input = _localAngleTracker.GetJointToAngleMapping()[jointName];
+            var output = _remoteAngleTracker.GetJointToAngleMapping()[jointName];
+
+            return new PidStepDataEntry(input, output);
         }
 
         private void OnEnable()
@@ -26,15 +30,26 @@ namespace PIDTuning
             Assert.IsNotNull(_userAvatarService);
             Assert.IsNotNull(_userAvatarService.avatar_rig);
 
-            _userAvatarService.OnJointDictionaryReady += AcquireJointMapping;
+            _localAngleTracker = _userAvatarService.avatar_rig.GetComponent<RigAngleTracker>();
+            Assert.IsNotNull(_localAngleTracker);
+
+            _userAvatarService.OnAvatarSpawned += AddTrackerToAvatar;
         }
 
         private void OnDisable()
         {
             if (null != _userAvatarService)
             {
-                _userAvatarService.OnJointDictionaryReady -= AcquireJointMapping;
+                _userAvatarService.OnAvatarSpawned -= AddTrackerToAvatar;
             }  
+        }
+
+        private void AddTrackerToAvatar(UserAvatarService avatarService)
+        {
+            // This thing allows us to track all joint angles on the remote
+            // avatar. We do the same thing with the local avatar, so we
+            // can just calculate the difference to get the pose error.
+            _remoteAngleTracker = avatarService.avatar.AddComponent<RigAngleTracker>();
         }
     }
 }

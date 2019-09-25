@@ -50,6 +50,7 @@ namespace PIDTuning
         public void StartNewLine(DateTime firstSampleTimestamp)
         {
             _firstSampleTimestamp = firstSampleTimestamp;
+            _lineRenderer.positionCount = 0;
         }
 
         public void AddSample(DateTime timestamp, float sampleVal)

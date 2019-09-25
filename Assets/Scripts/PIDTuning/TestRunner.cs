@@ -67,14 +67,14 @@ namespace PIDTuning
 
             _testAnimationStateList = ParseTestAnimationStatesInput();
 
-            _avatarService.OnJointDictionaryReady += ResetTestRunner;
+            _avatarService.OnAvatarSpawned += ResetTestRunner;
         }
 
         private void OnDisable()
         {
             if (null != _avatarService)
             {
-                _avatarService.OnJointDictionaryReady -= ResetTestRunner;
+                _avatarService.OnAvatarSpawned -= ResetTestRunner;
             }
         }
 
@@ -155,8 +155,7 @@ namespace PIDTuning
 
                     foreach (var joint in _animatorControl.GetJointNames())
                     {
-                        var io = _poseErrorTracker.GetCurrentStepDataForJoint(joint);
-                        var entry = new PidStepDataEntry(io.Key, io.Value);
+                        var entry = _poseErrorTracker.GetCurrentStepDataForJoint(joint);
 
                         // TODO: Add additional keys to the entry here if needed. A good example would be the
                         // total control loop RTT

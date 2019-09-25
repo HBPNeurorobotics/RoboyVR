@@ -14,12 +14,12 @@ namespace PIDTuning
         /// <summary>
         /// aka SP (Set Point)
         /// </summary>
-        public readonly float Desired;
+        public readonly Vector3 Desired;
 
         /// <summary>
         /// aka PV (Process Variable)
         /// </summary>
-        public readonly float Measured;
+        public readonly Vector3 Measured;
 
         /// <summary>
         /// Can be used to hold additional data that was collected during the
@@ -31,22 +31,29 @@ namespace PIDTuning
         /// </summary>
         private Dictionary<string, string> _correlatedData;
 
-        public PidStepDataEntry(float desired, float measured)
+        public PidStepDataEntry(Vector3 desired, Vector3 measured)
         {
             Desired = desired;
             Measured = measured;
             _correlatedData = null;
         }
 
-        public float SignedError
+        public Vector3 SignedError
         {
-            get { return Desired - Measured; }
+            get {
+                return new Vector3(
+                    Mathf.DeltaAngle(Measured.x, Desired.x),
+                    Mathf.DeltaAngle(Measured.y, Desired.y),
+                    Mathf.DeltaAngle(Measured.z, Desired.z));
+            }
         }
 
-
-        public float AbsoluteError
+        public float TotalError
         {
-            get { return Mathf.Abs(SignedError); }
+            get
+            {
+                return Vector3.Angle(Measured, Desired);
+            }
         }
 
         public void AddCorrelatedData(string key, string value)
@@ -81,8 +88,14 @@ namespace PIDTuning
         public JSONNode ToJson()
         {
             var json = new JSONNode();
-            json["desired"].AsFloat = Desired;
-            json["measured"].AsFloat = Desired;
+
+            json["desired"]["x"].AsFloat = Desired.x;
+            json["desired"]["y"].AsFloat = Desired.y;
+            json["desired"]["z"].AsFloat = Desired.z;
+
+            json["measured"]["x"].AsFloat = Measured.x;
+            json["measured"]["y"].AsFloat = Measured.y;
+            json["measured"]["z"].AsFloat = Measured.z;
 
             foreach (var cd in _correlatedData)
             {

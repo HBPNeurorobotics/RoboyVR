@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace PIDTuning.Editor
@@ -71,6 +72,20 @@ namespace PIDTuning.Editor
                 GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
 
                 EditorGUILayout.Popup(0, _jointNames);
+
+                // TEST stuff
+                try
+                {
+                    var tracker = _testRunner.gameObject.GetComponent<PoseErrorTracker>();
+                    var stepData = tracker.GetCurrentStepDataForJoint("mixamorig_LeftUpLeg");
+
+                    GUILayout.Label("mixamorig_LeftUpLeg: " + stepData.TotalError);
+                }
+                catch (Exception e)
+                {
+                    GUILayout.Label("No step data available right now");
+                    Debug.LogException(e);
+                }
             }
         }
 

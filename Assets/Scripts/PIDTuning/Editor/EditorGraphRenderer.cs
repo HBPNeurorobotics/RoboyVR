@@ -28,7 +28,20 @@ namespace PIDTuning.Editor
 
         public void Dispose()
         {
-            _preview.Cleanup();
+            if (null != _preview)
+            {
+                _preview.Cleanup();
+            }
+        }
+
+        public void StartNewLine(DateTime firstSampleTimestamp)
+        {
+            _glr.StartNewLine(firstSampleTimestamp);
+        }
+
+        public void AddSample(DateTime timestamp, float sampleVal)
+        {
+            _glr.AddSample(timestamp, sampleVal);
         }
 
         private void Initialize()
