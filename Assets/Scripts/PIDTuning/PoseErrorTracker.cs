@@ -22,6 +22,8 @@ namespace PIDTuning
             var input = _localAngleTracker.GetJointToAngleMapping()[jointName];
             var output = _remoteAngleTracker.GetJointToAngleMapping()[jointName];
 
+            Debug.Log(input + " " + output);
+
             return new PidStepDataEntry(input, output);
         }
 

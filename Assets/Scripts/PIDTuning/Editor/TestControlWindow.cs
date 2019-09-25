@@ -77,9 +77,9 @@ namespace PIDTuning.Editor
                 try
                 {
                     var tracker = _testRunner.gameObject.GetComponent<PoseErrorTracker>();
-                    var stepData = tracker.GetCurrentStepDataForJoint("mixamorig_LeftUpLeg");
+                    var stepData = tracker.GetCurrentStepDataForJoint("mixamorig_LeftArm_x");
 
-                    GUILayout.Label("mixamorig_LeftUpLeg: " + stepData.TotalError);
+                    GUILayout.Label("mixamorig_LeftArm_x: " + stepData.TotalError);
                 }
                 catch (Exception e)
                 {
