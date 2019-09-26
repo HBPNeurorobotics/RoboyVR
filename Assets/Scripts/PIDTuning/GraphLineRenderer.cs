@@ -9,7 +9,7 @@ namespace PIDTuning
     [RequireComponent(typeof(LineRenderer))]
     public class GraphLineRenderer : MonoBehaviour
     {
-        private const int MAX_SAMPLES = 5000;
+        private const int MAX_SAMPLES = 1000;
 
         /// <summary>
         /// Determines how far apart two samples are displayed. Play around with it.
@@ -37,16 +37,22 @@ namespace PIDTuning
 
         public float LastSampleX { private set; get; }
 
-        public void Initialize(Color color, float widthMultiplier = 1f)
+        public bool IsVisible
+        {
+            get { return _lineRenderer.enabled; }
+            set { _lineRenderer.enabled = value; }
+        }
+
+        public void Initialize(Color color, float widthMultiplier = 0.1f)
         {
             _lineRenderer = GetComponent<LineRenderer>();
             _lineRenderer.positionCount = 0;
-            LastSampleX = 0f;
             _lineRenderer.material.color = color;
             _lineRenderer.widthMultiplier = widthMultiplier;
             _firstSampleTimestamp = DateTime.UtcNow;
 
-            MaxSampleValue = 0f;
+            LastSampleX = 0f;
+            MaxSampleValue = 1f;
             IsAtLimit = false;
         }
 
@@ -54,7 +60,10 @@ namespace PIDTuning
         {
             _firstSampleTimestamp = firstSampleTimestamp;
             _lineRenderer.positionCount = 0;
+
             LastSampleX = 0f;
+            MaxSampleValue = 1f;
+            IsAtLimit = false;
         }
 
         public void AddSample(DateTime timestamp, float sample)

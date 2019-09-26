@@ -12,12 +12,12 @@ namespace PIDTuning
     public struct PidStepDataEntry
     {
         /// <summary>
-        /// aka SP (Set Point)
+        /// aka SP (Set Point) in Degrees
         /// </summary>
         public readonly Vector3 Desired;
 
         /// <summary>
-        /// aka PV (Process Variable)
+        /// aka PV (Process Variable) in Degrees
         /// </summary>
         public readonly Vector3 Measured;
 
@@ -31,11 +31,21 @@ namespace PIDTuning
         /// </summary>
         private Dictionary<string, string> _correlatedData;
 
-        public PidStepDataEntry(Vector3 desired, Vector3 measured)
+        private PidStepDataEntry(Vector3 desired, Vector3 measured)
         {
             Desired = desired;
             Measured = measured;
             _correlatedData = null;
+        }
+
+        public static PidStepDataEntry FromRadians(Vector3 desired, Vector3 measured)
+        {
+            return new PidStepDataEntry(desired * Mathf.Rad2Deg, measured * Mathf.Rad2Deg);
+        }
+
+        public static PidStepDataEntry FromDegrees(Vector3 desired, Vector3 measured)
+        {
+            return new PidStepDataEntry(desired, measured);
         }
 
         public Vector3 SignedError
@@ -45,14 +55,6 @@ namespace PIDTuning
                     Mathf.DeltaAngle(Measured.x, Desired.x),
                     Mathf.DeltaAngle(Measured.y, Desired.y),
                     Mathf.DeltaAngle(Measured.z, Desired.z));
-            }
-        }
-
-        public float TotalError
-        {
-            get
-            {
-                return Vector3.Angle(Measured, Desired);
             }
         }
 

@@ -8,13 +8,17 @@ namespace PIDTuning.Editor
 {
     public class TestControlWindow : EditorWindow
     {
+        private const float GRAPH_MARGIN_LEFT = 40f;
         private const float GRAPH_HEIGHT = 200f;
         private const float CONTROL_GAP = 2f;
         private const float BUTTON_WIDTH = 175f;
+        private const float LABEL_HEIGHT = 15f;
 
         private EditorGraphRenderer _graphRenderer;
 
         private Rect _graphRect;
+        private Rect _graphLabelTopRect;
+        private Rect _graphLabelBottomRect;
 
         private TestRunner _testRunner;
 
@@ -24,12 +28,17 @@ namespace PIDTuning.Editor
 
         private int _selectedJointIndex = 0;
 
+        private bool _drawX = true, _drawY = false, _drawZ = false;
+
         private bool _initialized = false;
 
         private void OnEnable()
         {
             _graphRenderer = new EditorGraphRenderer();
-            _graphRect = new Rect(0f, 0f, 200f, GRAPH_HEIGHT);
+            _graphRect = new Rect(GRAPH_MARGIN_LEFT, 0f, 200f, GRAPH_HEIGHT);
+            _graphLabelTopRect = new Rect(10f, 0f, GRAPH_MARGIN_LEFT, LABEL_HEIGHT);
+            _graphLabelBottomRect = new Rect(10f, 80f, GRAPH_MARGIN_LEFT, LABEL_HEIGHT);
+
             titleContent = new GUIContent("PID Test Ctrl");
             minSize = new Vector2(200f, 200f); // We define a non-zero minSize so the window cannot disappear
         }
@@ -75,14 +84,29 @@ namespace PIDTuning.Editor
 
                 if (_initialized)
                 {
+                    // Draw graph
                     _graphRect.y = GUILayoutUtility.GetLastRect().yMax + CONTROL_GAP;
-                    _graphRect.width = position.width;
+                    _graphRect.width = position.width - GRAPH_MARGIN_LEFT;
 
-                    _graphRenderer.DrawPreviewRect(_graphRect);
+                    _graphRenderer.DrawPreviewRect(_graphRect, _drawX, _drawY, _drawZ);
+
+                    // Draw graph axis labels
+                    var maxSampleLabel = Mathf.CeilToInt(_graphRenderer.MaxSampleValue);
+
+                    _graphLabelTopRect.y = _graphRect.y;
+                    _graphLabelBottomRect.y = _graphRect.y + GRAPH_HEIGHT - LABEL_HEIGHT;
+
+                    GUI.Label(_graphLabelTopRect, maxSampleLabel.ToString());
+                    GUI.Label(_graphLabelBottomRect, "-" + maxSampleLabel);
 
                     GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
 
-                    var newSelectedJointIndex = EditorGUILayout.Popup(_selectedJointIndex, _jointNames, GUILayout.Width(300));
+                    EditorGUILayout.BeginHorizontal();
+                    var newSelectedJointIndex = EditorGUILayout.Popup(_selectedJointIndex, _jointNames);
+                    _drawX = GUILayout.Toggle(_drawX, "X Axis");
+                    _drawY = GUILayout.Toggle(_drawY, "Y Axis");
+                    _drawZ = GUILayout.Toggle(_drawZ, "Z Axis");
+                    EditorGUILayout.EndHorizontal();
 
                     if (newSelectedJointIndex != _selectedJointIndex)
                     {

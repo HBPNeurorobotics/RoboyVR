@@ -157,7 +157,7 @@ namespace PIDTuning
                     {
                         var entry = _poseErrorTracker.GetCurrentStepDataForJoint(joint);
 
-                        // TODO: Add additional keys to the entry here if needed. A good example would be the
+                        // Maybe: Add additional keys to the entry here if needed. A good example would be the
                         // total control loop RTT
                         // entry.AddCorrelatedData(...)
 

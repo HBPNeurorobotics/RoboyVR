@@ -468,7 +468,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
         List<ROSBridgeLib.gazebo_msgs.JointStateMsg> states = new List<ROSBridgeLib.gazebo_msgs.JointStateMsg>();
 
-        foreach (var entry in RigAngleTracker.GetJointToAngleMapping())
+        foreach (var entry in RigAngleTracker.GetJointToRadianMapping())
         {
             //Debug.Log(entry.Key);
             states.Add(new ROSBridgeLib.gazebo_msgs.JointStateMsg("avatar_ybot::" + entry.Key, entry.Value.x, 0.0f, 

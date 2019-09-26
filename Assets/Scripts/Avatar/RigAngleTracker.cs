@@ -23,7 +23,7 @@ public class RigAngleTracker : MonoBehaviour
 
     private List<JointMapping> _jointMappings = new List<JointMapping>();
 
-    public Dictionary<string, Vector3> GetJointToAngleMapping()
+    public Dictionary<string, Vector3> GetJointToRadianMapping()
     {
         if (!_initialized)
         {

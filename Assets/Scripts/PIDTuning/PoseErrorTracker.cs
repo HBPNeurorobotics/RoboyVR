@@ -19,10 +19,10 @@ namespace PIDTuning
         /// </summary>
         public PidStepDataEntry GetCurrentStepDataForJoint(string jointName)
         {
-            var input = _localAngleTracker.GetJointToAngleMapping()[jointName];
-            var output = _remoteAngleTracker.GetJointToAngleMapping()[jointName];
+            var input = _localAngleTracker.GetJointToRadianMapping()[jointName];
+            var output = _remoteAngleTracker.GetJointToRadianMapping()[jointName];
 
-            return new PidStepDataEntry(input, output);
+            return PidStepDataEntry.FromRadians(input, output);
         }
 
         private void OnEnable()
@@ -54,7 +54,7 @@ namespace PIDTuning
 
         public IEnumerable<string> GetJointNames()
         {
-            return _localAngleTracker.GetJointToAngleMapping().Keys;
+            return _localAngleTracker.GetJointToRadianMapping().Keys;
         }
     }
 }
