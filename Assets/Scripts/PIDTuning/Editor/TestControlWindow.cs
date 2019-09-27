@@ -91,7 +91,7 @@ namespace PIDTuning.Editor
                     _graphRenderer.DrawPreviewRect(_graphRect, _drawX, _drawY, _drawZ);
 
                     // Draw graph axis labels
-                    var maxSampleLabel = Mathf.CeilToInt(_graphRenderer.MaxSampleValue);
+                    var maxSampleLabel = Mathf.CeilToInt(_graphRenderer.MaxSampleValueForDisplay);
 
                     _graphLabelTopRect.y = _graphRect.y;
                     _graphLabelBottomRect.y = _graphRect.y + GRAPH_HEIGHT - LABEL_HEIGHT;
@@ -101,7 +101,15 @@ namespace PIDTuning.Editor
 
                     GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
 
+                    // Draw 30 sec indicator
                     EditorGUILayout.BeginHorizontal();
+                    GUILayout.Space(GRAPH_MARGIN_LEFT - 3f + (GRAPH_HEIGHT / (2f * _graphRenderer.MaxSampleValueForDisplay)) * 30f);
+                    GUILayout.Label("| 30 sec");
+                    EditorGUILayout.EndHorizontal();
+
+                    // Draw graph controls
+                    EditorGUILayout.BeginHorizontal();
+                    GUILayout.Space(GRAPH_MARGIN_LEFT);
                     var newSelectedJointIndex = EditorGUILayout.Popup(_selectedJointIndex, _jointNames);
                     _drawX = GUILayout.Toggle(_drawX, "X Axis");
                     _drawY = GUILayout.Toggle(_drawY, "Y Axis");

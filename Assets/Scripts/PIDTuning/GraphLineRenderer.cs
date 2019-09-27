@@ -37,18 +37,23 @@ namespace PIDTuning
 
         public float LastSampleX { private set; get; }
 
+        public float LineWidthMultiplier
+        {
+            get { return _lineRenderer.widthMultiplier; }
+            set { _lineRenderer.widthMultiplier = value; }
+        }
+
         public bool IsVisible
         {
             get { return _lineRenderer.enabled; }
             set { _lineRenderer.enabled = value; }
         }
 
-        public void Initialize(Color color, float widthMultiplier = 0.1f)
+        public void Initialize(Color color)
         {
             _lineRenderer = GetComponent<LineRenderer>();
             _lineRenderer.positionCount = 0;
             _lineRenderer.material.color = color;
-            _lineRenderer.widthMultiplier = widthMultiplier;
             _firstSampleTimestamp = DateTime.UtcNow;
 
             LastSampleX = 0f;

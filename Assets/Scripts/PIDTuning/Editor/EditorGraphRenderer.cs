@@ -9,6 +9,9 @@ namespace PIDTuning.Editor
 {
     public class EditorGraphRenderer
     {
+        private const float BASELINE_WIDTH = 0.05f;
+        private const float SAMPLE_LINE_WIDTH = 0.1f;
+
         private PreviewRenderUtility _preview;
 
         private GraphLineRenderer _glrX, _glrY, _glrZ;
@@ -21,10 +24,15 @@ namespace PIDTuning.Editor
             get { return _glrX.IsAtLimit; }
         }
 
-        public float MaxSampleValue
+        /// <summary>
+        /// Will never return less than 5, even if the highest sample of all axis is below that!
+        /// </summary>
+        public float MaxSampleValueForDisplay
         {
-            get { return Mathf.Max(_glrX.MaxSampleValue, _glrY.MaxSampleValue, _glrZ.MaxSampleValue); }
+            get { return Mathf.Max(5f, _glrX.MaxSampleValue, _glrY.MaxSampleValue, _glrZ.MaxSampleValue); }
         }
+
+        //public float 
 
         public void DrawPreviewRect(Rect rect, bool drawX, bool drawY, bool drawZ)
         {
@@ -33,17 +41,30 @@ namespace PIDTuning.Editor
                 Initialize();
             }
 
-            // Adjust camera rect for highest sample value
-            float maxSampleVal = Mathf.Ceil(MaxSampleValue);
+            // Adjust camera rect for highest sample value, with a minumum of 5
+            var maxSampleVal = Mathf.Ceil(MaxSampleValueForDisplay);
             _preview.camera.orthographicSize = maxSampleVal;
 
+            var rectAspect = (rect.size.x / rect.size.y);
+            // Adjust camera so that 1 second of samples is always represented as the same width
+            // NOTE: While this sounds smart, i really screws with the line width due to the sometimes
+            // very extreme aspect ratio. For now, just learn to live with per-joint time scaling.
+            //_preview.camera.aspect = rectAspect / maxSampleVal;
+            //var camWorldHalfWidth = _preview.camera.aspect * _preview.camera.orthographicSize;
+
             // Move preview camera right to capture the latest sample
-            var camWorldHalfWidth = (rect.size.x / rect.size.y) * _preview.camera.orthographicSize;
+            var camWorldHalfWidth = rectAspect * _preview.camera.orthographicSize;
             var camX = Mathf.Max(_glrX.LastSampleX - camWorldHalfWidth, camWorldHalfWidth);
             _preview.camera.transform.position = new Vector3(camX, 0f, -1f);
 
             // Move the baseline along with the camera
             _baseLine.transform.position = new Vector3(_preview.camera.transform.position.x - camWorldHalfWidth, 0f, 1f);
+
+            // Adjust line width to account for viewport changes
+            _baseLine.LineWidthMultiplier = maxSampleVal * BASELINE_WIDTH;
+            _glrX.LineWidthMultiplier =
+                _glrY.LineWidthMultiplier =
+                    _glrZ.LineWidthMultiplier = maxSampleVal * SAMPLE_LINE_WIDTH;
 
             // Line visibility
             _glrX.IsVisible = drawX;
@@ -96,28 +117,27 @@ namespace PIDTuning.Editor
 
             _preview.camera.transform.position = new Vector3(0f, 0f, -1f);
             _preview.camera.orthographic = true;
-            _preview.camera.orthographicSize = 1;
             _preview.camera.nearClipPlane = 0.1f;
             _preview.camera.farClipPlane = 10f;
 
             // Cheesy way to draw a baseline: We just use the GraphLineRenderer prefab
             _baseLine = _preview.InstantiatePrefabInScene(lineRendererPrefab).GetComponent<GraphLineRenderer>();
-            _baseLine.Initialize(Color.gray, 0.09f);
+            _baseLine.Initialize(Color.gray);
             _baseLine.StartNewLine(DateTime.Now);
             _baseLine.AddSample(DateTime.Now, 0f);
             _baseLine.AddSample(DateTime.Now + TimeSpan.FromHours(1), 0f);
 
             _glrX = _preview.InstantiatePrefabInScene(lineRendererPrefab).GetComponent<GraphLineRenderer>();
             _glrX.transform.position = Vector3.zero;
-            _glrX.Initialize(Color.red, 0.15f);
+            _glrX.Initialize(Color.red);
 
             _glrY = _preview.InstantiatePrefabInScene(lineRendererPrefab).GetComponent<GraphLineRenderer>();
             _glrY.transform.position = Vector3.forward * 0.1f;
-            _glrY.Initialize(Color.green, 0.15f);
+            _glrY.Initialize(Color.green);
 
             _glrZ = _preview.InstantiatePrefabInScene(lineRendererPrefab).GetComponent<GraphLineRenderer>();
             _glrZ.transform.position = Vector3.forward * 0.2f;
-            _glrZ.Initialize(Color.blue, 0.15f);
+            _glrZ.Initialize(Color.blue);
         }
     }
 }
