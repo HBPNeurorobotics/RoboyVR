@@ -103,7 +103,7 @@ namespace PIDTuning.Editor
 
                     // Draw 30 sec indicator
                     EditorGUILayout.BeginHorizontal();
-                    GUILayout.Space(GRAPH_MARGIN_LEFT - 3f + (GRAPH_HEIGHT / (2f * _graphRenderer.MaxSampleValueForDisplay)) * 30f);
+                    GUILayout.Space(GRAPH_MARGIN_LEFT - 3f + (GRAPH_HEIGHT / (2f * _graphRenderer.MaxSampleValueForDisplay)) * 30f / GraphLineRenderer.SecondsPerGraphUnit);
                     GUILayout.Label("| 30 sec");
                     EditorGUILayout.EndHorizontal();
 

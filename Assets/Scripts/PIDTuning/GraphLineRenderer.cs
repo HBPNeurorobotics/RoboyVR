@@ -14,7 +14,7 @@ namespace PIDTuning
         /// <summary>
         /// Determines how far apart two samples are displayed. Play around with it.
         /// </summary>
-        private readonly float _secondsPerGraphUnit = 1f;
+        public const float SecondsPerGraphUnit = 0.2f;
 
         private LineRenderer _lineRenderer;
 
@@ -81,7 +81,7 @@ namespace PIDTuning
 
             MaxSampleValue = Mathf.Max(MaxSampleValue, Mathf.Abs(sample));
 
-            var x = (float)(timestamp - _firstSampleTimestamp).TotalSeconds / _secondsPerGraphUnit;
+            var x = (float)(timestamp - _firstSampleTimestamp).TotalSeconds / SecondsPerGraphUnit;
 
             _lineRenderer.positionCount += 1;
             _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, new Vector3(x, sample));
