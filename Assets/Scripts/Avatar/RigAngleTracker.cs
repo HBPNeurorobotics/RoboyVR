@@ -157,13 +157,13 @@ public class RigAngleTracker : MonoBehaviour
             parent: leftArm,
             child: leftForeArm,
             mappingUpdateFunc: euler_angles => UpdateForeArmMapping(L_FORE_ARM_NAME, euler_angles),
-            reverseForRemoteAvatar: true));
+            reverseForRemoteAvatar: false));
 
         _jointMappings.Add(new JointMapping(
             parent: rightArm,
             child: rightForeArm,
             mappingUpdateFunc: euler_angles => UpdateForeArmMapping(R_FORE_ARM_NAME, euler_angles),
-            reverseForRemoteAvatar: true));
+            reverseForRemoteAvatar: false));
 
         // Upper Legs
         _jointMappings.Add(new JointMapping(

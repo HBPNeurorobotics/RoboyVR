@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using SimpleJSON;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -13,13 +14,11 @@ namespace PIDTuning
     /// </summary>
     public class PidConfiguration
     {
-        public readonly string Name;
-
         public readonly DateTime CreatedTimestampUtc;
 
         public readonly Dictionary<string, PidParameters> Mapping;
 
-        public PidConfiguration(string name, DateTime createdTimestampUtc)
+        public PidConfiguration(DateTime createdTimestampUtc)
         {
             // We take the timestamp as a parameter here instead of generating it
             // ourselves. This allows the caller to re-use their timestamp for other
@@ -28,7 +27,6 @@ namespace PIDTuning
             // But let's just make sure they are smart enough to use universal time.
             Assert.AreEqual(DateTimeKind.Utc, createdTimestampUtc.Kind);
 
-            Name = name;
             CreatedTimestampUtc = createdTimestampUtc;
             Mapping = new Dictionary<string, PidParameters>();
         }
@@ -45,14 +43,13 @@ namespace PIDTuning
             }
         }
 
-        public JSONNode ToJson()
+        public JObject ToJson()
         {
-            var json = new JSONNode();
+            var json = new JObject();
 
-            json["name"] = Name;
             json["createdTimestamp"] = CreatedTimestampUtc.ToFileTimeUtc().ToString();
             
-            var mappingJson = new JSONNode();
+            var mappingJson = new JObject();
 
             foreach (var jointPidMapping in Mapping)
             {

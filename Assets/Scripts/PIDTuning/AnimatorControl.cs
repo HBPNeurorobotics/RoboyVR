@@ -10,12 +10,19 @@ namespace PIDTuning
     {
         [SerializeField] private GameObject _userAvatar;
 
+        [SerializeField] private float _timeStretchFactor = 1f;
+
         private Animator _animator = null;
         private UserAvatarVisualsIKControl _ikControl = null;
 
         public bool IsAnimationRunning
         {
-            get { return _animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f; }
+            get { return 1f > _animator.GetCurrentAnimatorStateInfo(0).normalizedTime; }
+        }
+
+        public float TimeStretchFactor
+        {
+            get { return _timeStretchFactor; }
         }
 
         /// <summary>
@@ -34,16 +41,21 @@ namespace PIDTuning
 
             // Disable IK in test environment
             _ikControl.ikActive = false;
+
+            // Apply time stretch to account for low simulations speeds
+            _animator.speed = 1f / _timeStretchFactor;
         }
 
         public void ResetUserAvatar()
         {
-            throw new NotImplementedException();
+            _animator.Play("idle");
         }
 
-        public void PlayAnimation(string state)
+        public IEnumerator StartPlayAnimation(string state)
         {
             _animator.Play(state);
+
+            yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).IsName(state));
         }
 
         /// <summary>

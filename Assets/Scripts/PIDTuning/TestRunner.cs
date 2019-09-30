@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using WebSocketSharp;
@@ -40,10 +42,14 @@ namespace PIDTuning
         [SerializeField]
         private UserAvatarService _avatarService;
 
+        [SerializeField] private float _minSampleIntervalSeconds = 1f/ 60f;
+
         /// <summary>
         /// This is the cached backing field to _testAnimationStateNames
         /// </summary>
         private List<string> _testAnimationStateList;
+
+        private DateTime? _latestTestTimestamp;
 
         /// <summary>
         /// Holds a mapping of animation name -> joint name -> step-data of the most recently performed test
@@ -105,6 +111,8 @@ namespace PIDTuning
             Assert.AreEqual(_latestPidConfiguration, null);
             Assert.AreEqual(_latestAnimationToJointToStepData, null);
 
+            Debug.Log("Running Test...");
+
             State = TestRunnerState.RunningTest;
 
             // Prepare Simulation and Data Structures
@@ -113,9 +121,10 @@ namespace PIDTuning
             var testRunTimeStamp = DateTime.UtcNow;
 
             // TODO: The PID config should come from the user, but for now we are just going to instantiate it here
-            var pidConfig = new PidConfiguration("pid-conf", testRunTimeStamp);
+            var pidConfig = new PidConfiguration(testRunTimeStamp);
+            pidConfig.InitializeMapping(_poseErrorTracker.GetJointNames(), PidParameters.FromParallelForm(200f, 2f, 20f));
 
-            yield return StartCoroutine(_testEnvSetup.TransmitPidConfiguration(pidConfig));
+           _testEnvSetup.TransmitPidConfiguration(pidConfig);
 
             // Run Simulation Loop and record data
             // -----------------------------------------------------------------------------------
@@ -137,15 +146,18 @@ namespace PIDTuning
                 var stepData = new Dictionary<string, PidStepData>();
                 foreach (var joint in _poseErrorTracker.GetJointNames())
                 {
-                    var sd = new PidStepData(animation + "-step-data", testRunTimeStamp);
+                    var sd = new PidStepData(testRunTimeStamp);
                     sd.AdditionalKeys["animation"] = animation;
                     sd.AdditionalKeys["joint"] = joint;
+                    sd.AdditionalKeys["simulationTimeStretchFactor"] = _animatorControl.TimeStretchFactor.ToString(CultureInfo.InvariantCulture);
+
+                    stepData[joint] = sd;
                 }   
 
                 // Play animation and record samples during playback
                 // -----------------------------------------------------------------------------------
 
-                _animatorControl.PlayAnimation(animation);
+                yield return _animatorControl.StartPlayAnimation(animation);
 
                 while (_animatorControl.IsAnimationRunning)
                 {
@@ -166,8 +178,8 @@ namespace PIDTuning
                             entry);
                     }
 
-                    // Wait for next frame 
-                    yield return null;
+                    // Wait for sample interval 
+                    yield return new WaitForSeconds(_minSampleIntervalSeconds);
                 }
 
                 _tempAnimationToJointToStepData[animation] = stepData;
@@ -176,10 +188,13 @@ namespace PIDTuning
             // Set member variables to allow access to the recorded data
             // -----------------------------------------------------------------------------------
 
+            _latestTestTimestamp = testRunTimeStamp;
             _latestAnimationToJointToStepData = _tempAnimationToJointToStepData;
             _latestPidConfiguration = pidConfig;
 
             State = TestRunnerState.FinishedTest;
+
+            Debug.Log("Test Finished");
         }
 
         // We need the parameter here to be able to subscribe to OnAvatarSpawned without
@@ -188,10 +203,35 @@ namespace PIDTuning
         public void ResetTestRunner(UserAvatarService _ = null)
         {
             // TODO: Actually reset. Also test if the results have been saved. Actually, prefer to do that in the Editor UI
+            _latestTestTimestamp = null;
             _latestAnimationToJointToStepData = null;
             _latestPidConfiguration = null;
 
             State = TestRunnerState.Ready;
+        }
+
+        public void SaveTestData()
+        {
+            Assert.AreEqual(State, TestRunnerState.FinishedTest);
+
+            var outputFolder = Path.Combine(Application.dataPath, "../PidStepData");
+            var testRunFolder = Path.Combine(outputFolder, CurrentTestLabel + "-" + _latestTestTimestamp.Value.ToFileTimeUtc());
+
+            Directory.CreateDirectory(outputFolder);
+            Directory.CreateDirectory(testRunFolder);
+
+            File.WriteAllText(Path.Combine(testRunFolder, "pid-config.json"), _latestPidConfiguration.ToJson().ToString());
+
+            foreach (var animation in _latestAnimationToJointToStepData)
+            {
+                var animationDirectory = Path.Combine(testRunFolder, animation.Key);
+                Directory.CreateDirectory(animationDirectory);
+
+                foreach (var joint in animation.Value)
+                {
+                    File.WriteAllText(Path.Combine(animationDirectory, joint.Key + ".json"), joint.Value.ToJson().ToString());
+                }
+            }
         }
     }
 }

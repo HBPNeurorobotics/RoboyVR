@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using SimpleJSON;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -16,15 +17,13 @@ namespace PIDTuning
     /// </summary>
     public class PidStepData
     {
-        public readonly string Name;
-
         public readonly DateTime CreatedTimestampUtc;
 
         public readonly SortedList<DateTime, PidStepDataEntry> Data;
 
         public readonly Dictionary<string, string> AdditionalKeys;
 
-        public PidStepData(string name, DateTime createdTimestampUtc)
+        public PidStepData(DateTime createdTimestampUtc)
         {
             // We take the timestamp as a parameter here instead of generating it
             // ourselves. This allows the caller to re-use their timestamp for other
@@ -33,17 +32,16 @@ namespace PIDTuning
             // But let's just make sure they are smart enough to use universal time.
             Assert.AreEqual(DateTimeKind.Utc, createdTimestampUtc.Kind);
 
-            Name = name;
             CreatedTimestampUtc = createdTimestampUtc;
             Data = new SortedList<DateTime, PidStepDataEntry>();
 
             AdditionalKeys = new Dictionary<string, string>();
         }
 
-        public JSONNode ToJson()
+        public JObject ToJson()
         {
-            var json = new JSONNode();
-            json["name"] = Name;
+            var json = new JObject();
+
             json["createdTimestamp"] = CreatedTimestampUtc.ToFileTimeUtc().ToString();
 
             foreach (var kvPair in AdditionalKeys)
@@ -51,12 +49,19 @@ namespace PIDTuning
                 json[kvPair.Key] = kvPair.Value;
             }
 
+            var dataArray = new JArray();
+
             int i = 0;
             foreach (var entry in Data)
             {
-                json["data"][i++]["timestamp"] = entry.Key.ToFileTimeUtc().ToString();
-                json["data"][i++]["entry"] = entry.Value.ToJson();
+                var node = new JObject();
+                node["timestamp"] = entry.Key.ToFileTimeUtc().ToString();
+                node["entry"] = entry.Value.ToJson();
+
+                dataArray.Add(node);
             }
+
+            json["data"] = dataArray;
 
             return json;
         }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using SimpleJSON;
 using UnityEngine;
 
@@ -44,13 +45,13 @@ namespace PIDTuning
             );
         }
 
-        public JSONNode ToJson()
+        public JObject ToJson()
         {
-            var json = new JSONNode();
+            var json = new JObject();
 
-            json["kp"].AsFloat = Kp;
-            json["ki"].AsFloat = Ki;
-            json["kd"].AsFloat = Kd;
+            json["kp"] = Kp;
+            json["ki"] = Ki;
+            json["kd"] = Kd;
 
             return json;
         }

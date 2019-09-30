@@ -32,8 +32,6 @@ namespace PIDTuning.Editor
             get { return Mathf.Max(5f, _glrX.MaxSampleValue, _glrY.MaxSampleValue, _glrZ.MaxSampleValue); }
         }
 
-        //public float 
-
         public void DrawPreviewRect(Rect rect, bool drawX, bool drawY, bool drawZ)
         {
             if (null == _preview)

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using SimpleJSON;
 using UnityEngine;
 
@@ -87,21 +88,28 @@ namespace PIDTuning
         /// <summary>
         /// JSON representation has contains correlated data "flattened out"
         /// </summary>
-        public JSONNode ToJson()
+        public JObject ToJson()
         {
-            var json = new JSONNode();
+            var json = new JObject();
 
-            json["desired"]["x"].AsFloat = Desired.x;
-            json["desired"]["y"].AsFloat = Desired.y;
-            json["desired"]["z"].AsFloat = Desired.z;
+            var desired = new JObject();
+            desired["x"] = Desired.x;
+            desired["y"] = Desired.y;
+            desired["z"] = Desired.z;
+            json["desired"] = desired;
 
-            json["measured"]["x"].AsFloat = Measured.x;
-            json["measured"]["y"].AsFloat = Measured.y;
-            json["measured"]["z"].AsFloat = Measured.z;
+            var measured = new JObject();
+            measured["x"] = Measured.x;
+            measured["y"] = Measured.y;
+            measured["z"] = Measured.z;
+            json["measured"] = measured;
 
-            foreach (var cd in _correlatedData)
+            if (null != _correlatedData)
             {
-                json[cd.Key] = cd.Value;
+                foreach (var cd in _correlatedData)
+                {
+                    json[cd.Key] = cd.Value;
+                }
             }
 
             return json;

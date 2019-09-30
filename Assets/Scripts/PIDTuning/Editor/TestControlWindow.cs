@@ -24,6 +24,8 @@ namespace PIDTuning.Editor
 
         private PoseErrorTracker _poseErrorTracker;
 
+        private AnimatorControl _animatorControl;
+
         private string[] _jointNames = { "No joints found" };
 
         private int _selectedJointIndex = 0;
@@ -80,6 +82,14 @@ namespace PIDTuning.Editor
 
                 DrawMultiPurposeButton();
 
+                if (_testRunner.State == TestRunner.TestRunnerState.FinishedTest)
+                {
+                    if (GUILayout.Button("Save Results"))
+                    {
+                        _testRunner.SaveTestData();
+                    }
+                }
+
                 EditorGUILayout.EndHorizontal();
 
                 if (_initialized)
@@ -101,10 +111,12 @@ namespace PIDTuning.Editor
 
                     GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
 
-                    // Draw 30 sec indicator
+                    // Draw x axis scale indicator
+                    const float SECONDS_INDICATOR_AT = 1f;
                     EditorGUILayout.BeginHorizontal();
-                    GUILayout.Space(GRAPH_MARGIN_LEFT - 3f + (GRAPH_HEIGHT / (2f * _graphRenderer.MaxSampleValueForDisplay)) * 30f / GraphLineRenderer.SecondsPerGraphUnit);
-                    GUILayout.Label("| 30 sec");
+                    GUILayout.Space(GRAPH_MARGIN_LEFT - 3f + // Position at left border of graph display
+                                    _animatorControl.TimeStretchFactor * (GRAPH_HEIGHT / (2f * _graphRenderer.MaxSampleValueForDisplay)) * SECONDS_INDICATOR_AT / GraphLineRenderer.SecondsPerGraphUnit); // Shift right by SECONDS_INDICATOR_VALUE graph units
+                    GUILayout.Label("| " + SECONDS_INDICATOR_AT + " sec");
                     EditorGUILayout.EndHorizontal();
 
                     // Draw graph controls
@@ -152,8 +164,10 @@ namespace PIDTuning.Editor
         private void InitializeAfterTestRunnerReady()
         {
             _poseErrorTracker = _testRunner.GetComponent<PoseErrorTracker>();
+            _animatorControl = _testRunner.GetComponent<AnimatorControl>();
 
             Assert.IsNotNull(_poseErrorTracker);
+            Assert.IsNotNull(_animatorControl);
 
             _jointNames = _poseErrorTracker.GetJointNames().ToArray();
             _selectedJointIndex = 0;

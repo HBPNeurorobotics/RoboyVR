@@ -24,7 +24,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     //public bool publish_all_links = false;
     //public bool scripted_publishing = false;
 
-    private string avatar_name = null;
+    public string avatar_name { private set; get; }
 
     private GameObject user_avatar = null;
     private GameObject avatar_clone = null;
@@ -267,7 +267,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
             string topic = "/" + this.avatar_name + "/avatar_ybot/" + child.name + "/set_pid_params";
             
             // default was (100f, 50f, 10f)
-            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(10f, 0f, 50f));
+            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(100f, 50f, 10f));
         }
     }
 
