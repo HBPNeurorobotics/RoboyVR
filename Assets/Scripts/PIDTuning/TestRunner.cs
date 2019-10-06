@@ -122,7 +122,7 @@ namespace PIDTuning
 
             // TODO: The PID config should come from the user, but for now we are just going to instantiate it here
             var pidConfig = new PidConfiguration(testRunTimeStamp);
-            pidConfig.InitializeMapping(_poseErrorTracker.GetJointNames(), PidParameters.FromParallelForm(20f, 0f, 0f));
+            pidConfig.InitializeMapping(_poseErrorTracker.GetJointNames(), PidParameters.FromParallelForm(1000f, 100f, 500f));
 
            _testEnvSetup.TransmitPidConfiguration(pidConfig);
 
