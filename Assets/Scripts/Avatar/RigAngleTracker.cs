@@ -15,6 +15,27 @@ using UnityEngine;
 /// </summary>
 public class RigAngleTracker : MonoBehaviour
 {
+    // Joint names that exist for both local and remote avatars
+    private const string HIPS_NAME = "mixamorig_Hips";
+
+    private const string L_SHOULDER_NAME = "mixamorig_LeftShoulder";
+    private const string R_SHOULDER_NAME = "mixamorig_RightShoulder";
+
+    private const string L_ARM_NAME = "mixamorig_LeftArm";
+    private const string R_ARM_NAME = "mixamorig_RightArm";
+
+    private const string L_FORE_ARM_NAME = "mixamorig_LeftForeArm";
+    private const string R_FORE_ARM_NAME = "mixamorig_RightForeArm";
+
+    private const string L_UP_LEG_NAME = "mixamorig_LeftUpLeg";
+    private const string R_UP_LEG_NAME = "mixamorig_RightUpLeg";
+
+    private const string L_LEG_NAME = "mixamorig_LeftLeg";
+    private const string R_LEG_NAME = "mixamorig_RightLeg";
+
+    private const string L_FOOT_NAME = "mixamorig_LeftFoot";
+    private const string R_FOOT_NAME = "mixamorig_RightFoot";
+
     private bool _initialized = false;
 
     private int _lastTrackedFrame = -1;
@@ -22,13 +43,6 @@ public class RigAngleTracker : MonoBehaviour
     private Dictionary<string, Vector3> _jointToAngles = new Dictionary<string, Vector3>();
 
     private List<JointMapping> _jointMappings = new List<JointMapping>();
-
-    /// <summary>
-    /// Despite my best efforts, I can't seem to be able to treat the local and remote avatar in exactly
-    /// the same way. This bool is set during initialized and indicates that we reverse the rotation
-    /// difference calculation for the remote avatar.
-    /// </summary>
-    private bool _isRemoteAvatar;
 
     public Dictionary<string, Vector3> GetJointToRadianMapping()
     {
@@ -51,9 +65,7 @@ public class RigAngleTracker : MonoBehaviour
     {
         foreach (var mapping in _jointMappings)
         {
-            Quaternion rot_diff = (_isRemoteAvatar && mapping.ReverseForRemoteAvatar)
-                ? Quaternion.Inverse(mapping.Child.rotation) * mapping.Parent.rotation
-                : Quaternion.Inverse(mapping.Parent.rotation) * mapping.Child.rotation;
+            Quaternion rot_diff = Quaternion.Inverse(mapping.Parent.rotation) * mapping.Child.rotation;
 
             Vector3 euler_angles = rot_diff.eulerAngles;
             euler_angles.x = euler_angles.x % 360;
@@ -76,8 +88,170 @@ public class RigAngleTracker : MonoBehaviour
     /// </summary>
     private void BuildJointMapping()
     {
-        _isRemoteAvatar = gameObject.name != "avatar_rig";
+        var isRemoteAvatar = gameObject.name != "avatar_rig";
 
+        if (isRemoteAvatar)
+        {
+            CreateMappingForRemoteAvatar();
+        }
+        else
+        {
+            CreateMappingForLocalAvatar();
+        }
+        
+    }
+
+    private void CreateMappingForRemoteAvatar()
+    {
+        // These joint links are unique to the remote avatar. The local avatar doesn't have them
+        const string L_ARM_JLINK1_NAME = "mixamorig_LeftArm_JointLink1";
+        const string L_ARM_JLINK2_NAME = "mixamorig_LeftArm_JointLink2";
+
+        const string R_ARM_JLINK1_NAME = "mixamorig_RightArm_JointLink1";
+        const string R_ARM_JLINK2_NAME = "mixamorig_RightArm_JointLink2";
+
+        Transform hips = FindChildTransformRecursive(transform, HIPS_NAME);
+
+        Transform leftShoulder = FindChildTransformRecursive(transform, L_SHOULDER_NAME);
+        Transform rightShoulder = FindChildTransformRecursive(transform, R_SHOULDER_NAME);
+
+        Transform leftArm = FindChildTransformRecursive(transform, L_ARM_NAME);
+        Transform leftArm_jlink1 = FindChildTransformRecursive(transform, L_ARM_JLINK1_NAME);
+        Transform leftArm_jlink2 = FindChildTransformRecursive(transform, L_ARM_JLINK2_NAME);
+
+        Transform rightArm = FindChildTransformRecursive(transform, R_ARM_NAME);
+        Transform rightArm_jlink1 = FindChildTransformRecursive(transform, R_ARM_JLINK1_NAME);
+        Transform rightArm_jlink2 = FindChildTransformRecursive(transform, R_ARM_JLINK2_NAME);
+
+        Transform leftForeArm = FindChildTransformRecursive(transform, L_FORE_ARM_NAME);
+        Transform rightForeArm = FindChildTransformRecursive(transform, R_FORE_ARM_NAME);
+
+        Transform leftUpLeg = FindChildTransformRecursive(transform, L_UP_LEG_NAME);
+        Transform rightUpLeg = FindChildTransformRecursive(transform, R_UP_LEG_NAME);
+
+        Transform leftLeg = FindChildTransformRecursive(transform, L_LEG_NAME);
+        Transform rightLeg = FindChildTransformRecursive(transform, R_LEG_NAME);
+
+        Transform leftFoot = FindChildTransformRecursive(transform, L_FOOT_NAME);
+        Transform rightFoot = FindChildTransformRecursive(transform, R_FOOT_NAME);
+
+        // Left Arm
+
+        _jointMappings.Add(new JointMapping(
+            parent: leftArm_jlink1,
+            child: leftShoulder,
+            mappingUpdateFunc: euler_angles =>
+            {
+                euler_angles *= Mathf.Deg2Rad;
+                _jointToAngles[L_ARM_NAME + "_z"] = new Vector3(-euler_angles.z, 0, 0);
+            }));
+
+        _jointMappings.Add(new JointMapping(
+            parent: leftArm_jlink2,
+            child: leftArm_jlink1,
+            mappingUpdateFunc: euler_angles =>
+            {
+                euler_angles *= Mathf.Deg2Rad;
+                _jointToAngles[L_ARM_NAME + "_x"] = new Vector3(euler_angles.x, 0, 0);
+            }));
+
+        _jointMappings.Add(new JointMapping(
+            parent: leftArm,
+            child: leftArm_jlink2,
+            mappingUpdateFunc: euler_angles =>
+            {
+                euler_angles *= Mathf.Deg2Rad;
+                _jointToAngles[L_ARM_NAME + "_y"] = new Vector3(euler_angles.y, 0, 0);
+            }));
+
+        // Right Arm
+
+        _jointMappings.Add(new JointMapping(
+            parent: rightArm_jlink1,
+            child: rightShoulder,
+            mappingUpdateFunc: euler_angles =>
+            {
+                euler_angles *= Mathf.Deg2Rad;
+                _jointToAngles[R_ARM_NAME + "_z"] = new Vector3(-euler_angles.z, 0, 0);
+            }));
+
+        _jointMappings.Add(new JointMapping(
+            parent: rightArm_jlink2,
+            child: rightArm_jlink1,
+            mappingUpdateFunc: euler_angles =>
+            {
+                euler_angles *= Mathf.Deg2Rad;
+                _jointToAngles[R_ARM_NAME + "_x"] = new Vector3(euler_angles.x, 0, 0);
+            }));
+
+        _jointMappings.Add(new JointMapping(
+            parent: rightArm,
+            child: rightArm_jlink2,
+            mappingUpdateFunc: euler_angles =>
+            {
+                euler_angles *= Mathf.Deg2Rad;
+                _jointToAngles[R_ARM_NAME + "_y"] = new Vector3(euler_angles.y, 0, 0);
+            }));
+
+        // ForeArms
+
+        _jointMappings.Add(new JointMapping(
+            parent: leftForeArm,
+            child: leftArm,
+            mappingUpdateFunc: euler_angles =>
+            {
+                euler_angles *= Mathf.Deg2Rad;
+                _jointToAngles[L_FORE_ARM_NAME] = new Vector3(-euler_angles.z, 0, 0);
+            }));
+
+        _jointMappings.Add(new JointMapping(
+            parent: rightForeArm,
+            child: rightArm,
+            mappingUpdateFunc: euler_angles => 
+            {
+                euler_angles *= Mathf.Deg2Rad;
+                _jointToAngles[R_FORE_ARM_NAME] = new Vector3(-euler_angles.z, 0, 0);
+            }));
+
+        // Upper Legs
+
+        _jointMappings.Add(new JointMapping(
+            parent: leftUpLeg,
+            child: hips,
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_UP_LEG_NAME, euler_angles)));
+
+        _jointMappings.Add(new JointMapping(
+            parent: rightUpLeg,
+            child: hips,
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_UP_LEG_NAME, euler_angles)));
+
+        // Lower Legs
+
+        _jointMappings.Add(new JointMapping(
+            parent: leftLeg,
+            child: leftUpLeg,
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_LEG_NAME, euler_angles)));
+
+        _jointMappings.Add(new JointMapping(
+            parent: rightLeg,
+            child: rightUpLeg,
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_LEG_NAME, euler_angles)));
+
+        // Feet
+
+        _jointMappings.Add(new JointMapping(
+            parent: leftFoot,
+            child: leftLeg,
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_FOOT_NAME, euler_angles)));
+
+        _jointMappings.Add(new JointMapping(
+            parent: rightFoot,
+            child: rightLeg,
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_FOOT_NAME, euler_angles)));
+    }
+
+    private void CreateMappingForLocalAvatar()
+    {
         // Note: With a bunch of clever string manipulation, it would be possible to get rid of all "left"/"right" distinctions here.
         // In all honesty, I just was too lazy to do it.
 
@@ -94,30 +268,8 @@ public class RigAngleTracker : MonoBehaviour
          *           - FORE_ARM
          */
 
-        const string HIPS_NAME = "mixamorig_Hips";
-        const string SPINE2_NAME = "mixamorig_Spine2";
-
-        const string L_SHOULDER_NAME = "mixamorig_LeftShoulder";
-        const string R_SHOULDER_NAME = "mixamorig_RightShoulder";
-
-        const string L_ARM_NAME = "mixamorig_LeftArm";
-        const string R_ARM_NAME = "mixamorig_RightArm";
-
-        const string L_FORE_ARM_NAME = "mixamorig_LeftForeArm";
-        const string R_FORE_ARM_NAME = "mixamorig_RightForeArm";
-
-        const string L_UP_LEG_NAME = "mixamorig_LeftUpLeg";
-        const string R_UP_LEG_NAME = "mixamorig_RightUpLeg";
-
-        const string L_LEG_NAME = "mixamorig_LeftLeg";
-        const string R_LEG_NAME = "mixamorig_RightLeg";
-
-        const string L_FOOT_NAME = "mixamorig_LeftFoot";
-        const string R_FOOT_NAME = "mixamorig_RightFoot";
-
         // Find all relevant transforms in the hierarchy
         Transform hips = FindChildTransformRecursive(transform, HIPS_NAME);
-        Transform spine2 = FindChildTransformRecursive(transform, SPINE2_NAME);
 
         Transform leftShoulder = FindChildTransformRecursive(transform, L_SHOULDER_NAME);
         Transform rightShoulder = FindChildTransformRecursive(transform, R_SHOULDER_NAME);
@@ -140,85 +292,71 @@ public class RigAngleTracker : MonoBehaviour
         // Update Functions. These were extracted from UserAvatarService "GetJointPIDPositionTargetsJointStatesMsg"
 
         // Arms
+
         _jointMappings.Add(new JointMapping(
             parent: leftShoulder,
             child: leftArm,
-            mappingUpdateFunc: euler_angles => UpdateArmMapping(L_ARM_NAME, euler_angles),
-            reverseForRemoteAvatar: false));
+            mappingUpdateFunc: euler_angles => UpdateArmMappingLocal(L_ARM_NAME, euler_angles)));
 
         _jointMappings.Add(new JointMapping(
             parent: rightShoulder,
             child: rightArm,
-            mappingUpdateFunc: euler_angles => UpdateArmMapping(R_ARM_NAME, euler_angles),
-            reverseForRemoteAvatar: false));
+            mappingUpdateFunc: euler_angles => UpdateArmMappingLocal(R_ARM_NAME, euler_angles)));
 
         // ForeArms
+
         _jointMappings.Add(new JointMapping(
             parent: leftArm,
             child: leftForeArm,
-            mappingUpdateFunc: euler_angles => UpdateForeArmMapping(L_FORE_ARM_NAME, euler_angles),
-            reverseForRemoteAvatar: false));
+            mappingUpdateFunc: euler_angles => UpdateForeArmMappingLocal(L_FORE_ARM_NAME, euler_angles)));
 
         _jointMappings.Add(new JointMapping(
             parent: rightArm,
             child: rightForeArm,
-            mappingUpdateFunc: euler_angles => UpdateForeArmMapping(R_FORE_ARM_NAME, euler_angles),
-            reverseForRemoteAvatar: false));
+            mappingUpdateFunc: euler_angles => UpdateForeArmMappingLocal(R_FORE_ARM_NAME, euler_angles)));
 
         // Upper Legs
+
         _jointMappings.Add(new JointMapping(
             parent: hips,
             child: leftUpLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_UP_LEG_NAME, euler_angles),
-            reverseForRemoteAvatar: true));
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_UP_LEG_NAME, euler_angles)));
 
         _jointMappings.Add(new JointMapping(
             parent: hips,
             child: rightUpLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_UP_LEG_NAME, euler_angles),
-            reverseForRemoteAvatar: true));
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_UP_LEG_NAME, euler_angles)));
 
         // Lower Legs
+
         _jointMappings.Add(new JointMapping(
             parent: leftUpLeg,
             child: leftLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_LEG_NAME, euler_angles),
-            reverseForRemoteAvatar: true));
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_LEG_NAME, euler_angles)));
 
         _jointMappings.Add(new JointMapping(
             parent: rightUpLeg,
             child: rightLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_LEG_NAME, euler_angles),
-            reverseForRemoteAvatar: true));
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_LEG_NAME, euler_angles)));
 
         // Feet
+
         _jointMappings.Add(new JointMapping(
             parent: leftLeg,
             child: leftFoot,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_FOOT_NAME, euler_angles),
-            reverseForRemoteAvatar: false));
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_FOOT_NAME, euler_angles)));
 
         _jointMappings.Add(new JointMapping(
             parent: rightLeg,
             child: rightFoot,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_FOOT_NAME, euler_angles),
-            reverseForRemoteAvatar: false));
-
-        // Shoulders
-        _jointMappings.Add(new JointMapping(
-            parent: spine2,
-            child: leftShoulder,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_SHOULDER_NAME, euler_angles),
-            reverseForRemoteAvatar: false));
-
-        _jointMappings.Add(new JointMapping(
-            parent: spine2,
-            child: rightShoulder,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_SHOULDER_NAME, euler_angles),
-            reverseForRemoteAvatar: false));
+            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_FOOT_NAME, euler_angles)));
     }
 
-    private void UpdateArmMapping(string armName, Vector3 euler_angles)
+    /// <summary>
+    /// This method only works for the local avatar since there is only one arm link for the shoulder.
+    /// On the remote avatar, there are 3 arm links per shoulder, so it needs to be handled differently.
+    /// </summary>
+    private void UpdateArmMappingLocal(string armName, Vector3 euler_angles)
     {
         string joint_x_axis = armName + "_x";
         string joint_y_axis = armName + "_y";
@@ -232,7 +370,10 @@ public class RigAngleTracker : MonoBehaviour
         _jointToAngles[joint_z_axis] = new Vector3(euler_angles.y, 0, 0);
     }
 
-    private void UpdateForeArmMapping(string foreArmName, Vector3 euler_angles)
+    /// <summary>
+    /// This version  also only works for a local avatar. Don't know why tbh.
+    /// </summary>
+    private void UpdateForeArmMappingLocal(string foreArmName, Vector3 euler_angles)
     {
         euler_angles = new Vector3(euler_angles.y, euler_angles.x, euler_angles.z);
         euler_angles = euler_angles * Mathf.Deg2Rad;
@@ -293,14 +434,12 @@ public class RigAngleTracker : MonoBehaviour
         public Transform Parent;
         public Transform Child;
         public Action<Vector3> MappingUpdateFunc;
-        public bool ReverseForRemoteAvatar;
 
-        public JointMapping(Transform parent, Transform child, Action<Vector3> mappingUpdateFunc, bool reverseForRemoteAvatar)
+        public JointMapping(Transform parent, Transform child, Action<Vector3> mappingUpdateFunc)
         {
             Parent = parent;
             Child = child;
             MappingUpdateFunc = mappingUpdateFunc;
-            ReverseForRemoteAvatar = reverseForRemoteAvatar;
         }
     }
 }
