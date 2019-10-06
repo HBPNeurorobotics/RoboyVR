@@ -111,7 +111,7 @@ namespace PIDTuning.Editor
 
                     GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
 
-                    // Draw x axis scale indicator
+                    // Draw x axis scale indicators
                     const float SECONDS_INDICATOR_AT = 1f;
                     EditorGUILayout.BeginHorizontal();
                     GUILayout.Space(GRAPH_MARGIN_LEFT - 3f + // Position at left border of graph display
