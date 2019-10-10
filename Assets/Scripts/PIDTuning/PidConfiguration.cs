@@ -37,6 +37,8 @@ namespace PIDTuning
             // because the implicit copy-on-assign below will not work with classes
             Assert.IsTrue(typeof(PidParameters).IsValueType);
 
+            Mapping.Clear();
+
             foreach (var name in jointNames)
             {
                 Mapping[name] = initializeValue;

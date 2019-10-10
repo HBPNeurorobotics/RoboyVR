@@ -61,6 +61,8 @@ namespace PIDTuning
         /// </summary>
         private PidConfiguration _latestPidConfiguration;
 
+        private bool _isRunningManualRecord = false;
+
         private void OnEnable()
         {
             State = TestRunnerState.NotReady;
@@ -108,6 +110,7 @@ namespace PIDTuning
         public IEnumerator RunTest()
         {
             Assert.AreEqual(State, TestRunnerState.Ready);
+            Assert.AreEqual(_latestTestTimestamp, null);
             Assert.AreEqual(_latestPidConfiguration, null);
             Assert.AreEqual(_latestAnimationToJointToStepData, null);
 
@@ -157,33 +160,15 @@ namespace PIDTuning
                 // Play animation and record samples during playback
                 // -----------------------------------------------------------------------------------
 
-                yield return _animatorControl.StartPlayAnimation(animation);
+                yield return _animatorControl.RunAnimationPlayback(animation);
 
-                while (_animatorControl.IsAnimationRunning)
-                {
-                    // We take the timestamp now to make sure that all step data
-                    // entries receive a consistent timestamp
-                    var frameTimestamp = DateTime.UtcNow;
-
-                    foreach (var joint in _poseErrorTracker.GetJointNames())
-                    {
-                        var entry = _poseErrorTracker.GetCurrentStepDataForJoint(joint);
-
-                        // Maybe: Add additional keys to the entry here if needed. A good example would be the
-                        // total control loop RTT
-                        // entry.AddCorrelatedData(...)
-
-                        stepData[joint].Data.Add(
-                            frameTimestamp, 
-                            entry);
-                    }
-
-                    // Wait for sample interval 
-                    yield return new WaitForSeconds(_minSampleIntervalSeconds);
-                }
+                yield return RecordMotion(() => _animatorControl.IsAnimationRunning, stepData);
 
                 _tempAnimationToJointToStepData[animation] = stepData;
             }
+
+            // Reset user avatar pose at the very end
+            _animatorControl.ResetUserAvatar();
 
             // Set member variables to allow access to the recorded data
             // -----------------------------------------------------------------------------------
@@ -195,6 +180,74 @@ namespace PIDTuning
             State = TestRunnerState.FinishedTest;
 
             Debug.Log("Test Finished");
+        }
+
+        private IEnumerator RecordMotion(Func<bool> shouldContinueRecording, Dictionary<string, PidStepData> jointToStepDataTarget)
+        {
+            while (shouldContinueRecording())
+            {
+                // We take the timestamp now to make sure that all step data
+                // entries receive a consistent timestamp
+                var frameTimestamp = DateTime.UtcNow;
+
+                foreach (var joint in _poseErrorTracker.GetJointNames())
+                {
+                    var entry = _poseErrorTracker.GetCurrentStepDataForJoint(joint);
+
+                    // Maybe: Add additional keys to the entry here if needed. A good example would be the
+                    // total control loop RTT
+                    // entry.AddCorrelatedData(...)
+
+                    jointToStepDataTarget[joint].Data.Add(
+                        frameTimestamp,
+                        entry);
+                }
+
+                // Wait for sample interval 
+                yield return new WaitForSeconds(_minSampleIntervalSeconds);
+            }
+        }
+
+        public void StartManualRecord()
+        {
+            Assert.AreEqual(State, TestRunnerState.Ready);
+            Assert.AreEqual(_latestTestTimestamp, null);
+            Assert.AreEqual(_latestPidConfiguration, null);
+            Assert.AreEqual(_latestAnimationToJointToStepData, null);
+
+            State = TestRunnerState.RunningTest;
+            _isRunningManualRecord = true;
+
+            _latestTestTimestamp = DateTime.UtcNow;
+
+            // TODO: The PID config should come from the user, but for now we are just going to instantiate it here
+            _latestPidConfiguration = new PidConfiguration(_latestTestTimestamp.Value);
+            _latestPidConfiguration.InitializeMapping(_poseErrorTracker.GetJointNames(), PidParameters.FromParallelForm(1000f, 100f, 500f));
+
+            // Prepare step data target dictionary
+
+            _latestAnimationToJointToStepData = new Dictionary<string, Dictionary<string, PidStepData>>();
+            _latestAnimationToJointToStepData["recording"] = new Dictionary<string, PidStepData>();
+
+            foreach (var joint in _poseErrorTracker.GetJointNames())
+            {
+                var sd = new PidStepData(_latestTestTimestamp.Value);
+                sd.AdditionalKeys["animation"] = "recording";
+                sd.AdditionalKeys["joint"] = joint;
+
+                _latestAnimationToJointToStepData["recording"][joint] = sd;
+            }
+
+            StartCoroutine(RecordMotion(() => _isRunningManualRecord, _latestAnimationToJointToStepData["recording"]));
+        }
+
+        public void StopManualRecord()
+        {
+            Assert.IsTrue(_isRunningManualRecord);
+            Assert.AreEqual(State, TestRunnerState.RunningTest);
+
+            State = TestRunnerState.FinishedTest;
+            _isRunningManualRecord = false;
         }
 
         // We need the parameter here to be able to subscribe to OnAvatarSpawned without

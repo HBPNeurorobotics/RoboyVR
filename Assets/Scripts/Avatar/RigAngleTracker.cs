@@ -40,11 +40,11 @@ public class RigAngleTracker : MonoBehaviour
 
     private int _lastTrackedFrame = -1;
 
-    private Dictionary<string, Vector3> _jointToAngles = new Dictionary<string, Vector3>();
+    private Dictionary<string, float> _jointToAngles = new Dictionary<string, float>();
 
     private List<JointMapping> _jointMappings = new List<JointMapping>();
 
-    public Dictionary<string, Vector3> GetJointToRadianMapping()
+    public Dictionary<string, float> GetJointToRadianMapping()
     {
         if (!_initialized)
         {
@@ -143,7 +143,7 @@ public class RigAngleTracker : MonoBehaviour
             mappingUpdateFunc: euler_angles =>
             {
                 euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[L_ARM_NAME + "_z"] = new Vector3(-euler_angles.z, 0, 0);
+                _jointToAngles[L_ARM_NAME + "_z"] = -euler_angles.z;
             }));
 
         _jointMappings.Add(new JointMapping(
@@ -152,7 +152,7 @@ public class RigAngleTracker : MonoBehaviour
             mappingUpdateFunc: euler_angles =>
             {
                 euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[L_ARM_NAME + "_x"] = new Vector3(euler_angles.x, 0, 0);
+                _jointToAngles[L_ARM_NAME + "_x"] = euler_angles.x;
             }));
 
         _jointMappings.Add(new JointMapping(
@@ -161,7 +161,7 @@ public class RigAngleTracker : MonoBehaviour
             mappingUpdateFunc: euler_angles =>
             {
                 euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[L_ARM_NAME + "_y"] = new Vector3(euler_angles.y, 0, 0);
+                _jointToAngles[L_ARM_NAME + "_y"] = euler_angles.y;
             }));
 
         // Right Arm
@@ -172,7 +172,7 @@ public class RigAngleTracker : MonoBehaviour
             mappingUpdateFunc: euler_angles =>
             {
                 euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[R_ARM_NAME + "_z"] = new Vector3(-euler_angles.z, 0, 0);
+                _jointToAngles[R_ARM_NAME + "_z"] = -euler_angles.z;
             }));
 
         _jointMappings.Add(new JointMapping(
@@ -181,7 +181,7 @@ public class RigAngleTracker : MonoBehaviour
             mappingUpdateFunc: euler_angles =>
             {
                 euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[R_ARM_NAME + "_x"] = new Vector3(euler_angles.x, 0, 0);
+                _jointToAngles[R_ARM_NAME + "_x"] = euler_angles.x;
             }));
 
         _jointMappings.Add(new JointMapping(
@@ -190,7 +190,7 @@ public class RigAngleTracker : MonoBehaviour
             mappingUpdateFunc: euler_angles =>
             {
                 euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[R_ARM_NAME + "_y"] = new Vector3(euler_angles.y, 0, 0);
+                _jointToAngles[R_ARM_NAME + "_y"] = euler_angles.y;
             }));
 
         // ForeArms
@@ -201,7 +201,7 @@ public class RigAngleTracker : MonoBehaviour
             mappingUpdateFunc: euler_angles =>
             {
                 euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[L_FORE_ARM_NAME] = new Vector3(-euler_angles.z, 0, 0);
+                _jointToAngles[L_FORE_ARM_NAME] = -euler_angles.z;
             }));
 
         _jointMappings.Add(new JointMapping(
@@ -210,7 +210,7 @@ public class RigAngleTracker : MonoBehaviour
             mappingUpdateFunc: euler_angles => 
             {
                 euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[R_FORE_ARM_NAME] = new Vector3(-euler_angles.z, 0, 0);
+                _jointToAngles[R_FORE_ARM_NAME] = -euler_angles.z;
             }));
 
         // Upper Legs
@@ -364,10 +364,10 @@ public class RigAngleTracker : MonoBehaviour
 
         euler_angles = euler_angles * Mathf.Deg2Rad;
 
-        _jointToAngles[joint_x_axis] = new Vector3(euler_angles.x, 0, 0);
+        _jointToAngles[joint_x_axis] = euler_angles.x;
 
-        _jointToAngles[joint_y_axis] = new Vector3(-euler_angles.z, 0, 0);
-        _jointToAngles[joint_z_axis] = new Vector3(euler_angles.y, 0, 0);
+        _jointToAngles[joint_y_axis] = -euler_angles.z;
+        _jointToAngles[joint_z_axis] = euler_angles.y;
     }
 
     /// <summary>
@@ -378,14 +378,14 @@ public class RigAngleTracker : MonoBehaviour
         euler_angles = new Vector3(euler_angles.y, euler_angles.x, euler_angles.z);
         euler_angles = euler_angles * Mathf.Deg2Rad;
 
-        _jointToAngles[foreArmName] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+        _jointToAngles[foreArmName] = euler_angles.x;
     }
 
     private void UpdateOtherMapping(string jointName, Vector3 euler_angles)
     {
         euler_angles = euler_angles * Mathf.Deg2Rad;
 
-        _jointToAngles[jointName] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+        _jointToAngles[jointName] = euler_angles.x;
     }
 
     /// <summary>

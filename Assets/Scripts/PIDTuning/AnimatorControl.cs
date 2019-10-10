@@ -39,20 +39,18 @@ namespace PIDTuning
             Assert.IsNotNull(_animator);
             Assert.IsNotNull(_ikControl);
 
-            // Disable IK in test environment
-            _ikControl.ikActive = false;
-
-            // Apply time stretch to account for low simulations speeds
-            _animator.speed = 1f / _timeStretchFactor;
+            PrepareRigForPlayback();
         }
 
         public void ResetUserAvatar()
         {
+            PrepareRigForPlayback();
             _animator.Play("idle");
         }
 
-        public IEnumerator StartPlayAnimation(string state)
+        public IEnumerator RunAnimationPlayback(string state)
         {
+            PrepareRigForPlayback();
             _animator.Play(state);
 
             yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).IsName(state));
@@ -69,6 +67,17 @@ namespace PIDTuning
             {
                 Assert.IsTrue(_animator.HasState(0, Animator.StringToHash(state)));
             }
+        }
+
+        private void PrepareRigForPlayback()
+        {
+            _animator.enabled = true;
+
+            // Disable IK in test environment
+            _ikControl.ikActive = false;
+
+            // Apply time stretch to account for low simulations speeds
+            _animator.speed = 1f / _timeStretchFactor;
         }
     }
 }

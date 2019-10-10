@@ -21,7 +21,7 @@ namespace PIDTuning
         {
             // TODO: Reset Gazebo sim and wait for confirmation
             // For now, let's actually just wait a few seconds until the avatar has settled
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(3f);
         }
 
         public void TransmitPidConfiguration(PidConfiguration config)

@@ -14,14 +14,14 @@ namespace PIDTuning.Editor
 
         private PreviewRenderUtility _preview;
 
-        private GraphLineRenderer _glrX, _glrY, _glrZ;
+        private GraphLineRenderer _errorLine;
 
         private GraphLineRenderer _baseLine;
 
         public bool IsAtLimit
         {
             // Only need to care about x because all axis get the same amount of samples
-            get { return _glrX.IsAtLimit; }
+            get { return _errorLine.IsAtLimit; }
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace PIDTuning.Editor
         /// </summary>
         public float MaxSampleValueForDisplay
         {
-            get { return Mathf.Max(5f, _glrX.MaxSampleValue, _glrY.MaxSampleValue, _glrZ.MaxSampleValue); }
+            get { return Mathf.Max(5f, _errorLine.MaxSampleValue); }
         }
 
         public void DrawPreviewRect(Rect rect, bool drawX, bool drawY, bool drawZ)
@@ -52,7 +52,7 @@ namespace PIDTuning.Editor
 
             // Move preview camera right to capture the latest sample
             var camWorldHalfWidth = rectAspect * _preview.camera.orthographicSize;
-            var camX = Mathf.Max(_glrX.LastSampleX - camWorldHalfWidth, camWorldHalfWidth);
+            var camX = Mathf.Max(_errorLine.LastSampleX - camWorldHalfWidth, camWorldHalfWidth);
             _preview.camera.transform.position = new Vector3(camX, 0f, -1f);
 
             // Move the baseline along with the camera
@@ -60,14 +60,10 @@ namespace PIDTuning.Editor
 
             // Adjust line width to account for viewport changes
             _baseLine.LineWidthMultiplier = maxSampleVal * BASELINE_WIDTH;
-            _glrX.LineWidthMultiplier =
-                _glrY.LineWidthMultiplier =
-                    _glrZ.LineWidthMultiplier = maxSampleVal * SAMPLE_LINE_WIDTH;
+            _errorLine.LineWidthMultiplier = maxSampleVal * SAMPLE_LINE_WIDTH;
 
             // Line visibility
-            _glrX.IsVisible = drawX;
-            _glrY.IsVisible = drawY;
-            _glrZ.IsVisible = drawZ;
+            _errorLine.IsVisible = drawX;
 
             _preview.BeginPreview(rect, GUIStyle.none);
             _preview.camera.Render();
@@ -89,21 +85,17 @@ namespace PIDTuning.Editor
                 Initialize();
             }
 
-            _glrX.StartNewLine(firstSampleTimestamp);
-            _glrY.StartNewLine(firstSampleTimestamp);
-            _glrZ.StartNewLine(firstSampleTimestamp);
+            _errorLine.StartNewLine(firstSampleTimestamp);
         }
 
-        public void AddSample(DateTime timestamp, Vector3 sample)
+        public void AddSample(DateTime timestamp, float sample)
         {
             if (null == _preview)
             {
                 Initialize();
             }
 
-            _glrX.AddSample(timestamp, sample.x);
-            _glrY.AddSample(timestamp, sample.y);
-            _glrZ.AddSample(timestamp, sample.z);
+            _errorLine.AddSample(timestamp, sample);
         }
 
         private void Initialize()
@@ -125,17 +117,9 @@ namespace PIDTuning.Editor
             _baseLine.AddSample(DateTime.Now, 0f);
             _baseLine.AddSample(DateTime.Now + TimeSpan.FromHours(1), 0f);
 
-            _glrX = _preview.InstantiatePrefabInScene(lineRendererPrefab).GetComponent<GraphLineRenderer>();
-            _glrX.transform.position = Vector3.zero;
-            _glrX.Initialize(Color.red);
-
-            _glrY = _preview.InstantiatePrefabInScene(lineRendererPrefab).GetComponent<GraphLineRenderer>();
-            _glrY.transform.position = Vector3.forward * 0.1f;
-            _glrY.Initialize(Color.green);
-
-            _glrZ = _preview.InstantiatePrefabInScene(lineRendererPrefab).GetComponent<GraphLineRenderer>();
-            _glrZ.transform.position = Vector3.forward * 0.2f;
-            _glrZ.Initialize(Color.blue);
+            _errorLine = _preview.InstantiatePrefabInScene(lineRendererPrefab).GetComponent<GraphLineRenderer>();
+            _errorLine.transform.position = Vector3.zero;
+            _errorLine.Initialize(Color.red);
         }
     }
 }

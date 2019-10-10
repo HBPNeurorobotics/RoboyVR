@@ -146,7 +146,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
         this.avatar_name = "user_avatar_" + AuthenticationService.Instance.token.Replace("-", "_");
         Debug.Log("SpawnAvatar - auth token: " + AuthenticationService.Instance.token);
         Debug.Log("SpawnAvatar - avatar_name: " + this.avatar_name);
-        Vector3 spawn_pos = GazeboSceneManager.Unity2GzVec3(new Vector3(avatar_rig.transform.position.x, avatar_rig.transform.position.y - 1.0f, avatar_rig.transform.position.z));
+        Vector3 spawn_pos = GazeboSceneManager.Unity2GzVec3(new Vector3(avatar_rig.transform.position.x, avatar_rig.transform.position.y, avatar_rig.transform.position.z));
         Quaternion spawn_rot = new Quaternion();
 
         GzFactoryMsg msg = new GzFactoryMsg(this.avatar_name, avatar_model_name, new PointMsg(spawn_pos.x, spawn_pos.y, spawn_pos.z), new QuaternionMsg(spawn_rot.x, spawn_rot.y, spawn_rot.z, spawn_rot.w));
@@ -481,7 +481,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
         foreach (var entry in RigAngleTracker.GetJointToRadianMapping())
         {
             //Debug.Log(entry.Key);
-            states.Add(new ROSBridgeLib.gazebo_msgs.JointStateMsg("avatar_ybot::" + entry.Key, entry.Value.x, 0.0f, 
+            states.Add(new ROSBridgeLib.gazebo_msgs.JointStateMsg("avatar_ybot::" + entry.Key, entry.Value, 0.0f, 
                 new Vector3Msg(), new Vector3Msg(), new Vector3Msg(), new Vector3Msg(), new Vector3Msg()));
         }
 

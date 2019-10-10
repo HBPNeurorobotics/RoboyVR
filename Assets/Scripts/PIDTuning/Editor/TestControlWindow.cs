@@ -80,7 +80,8 @@ namespace PIDTuning.Editor
                 _testRunner.CurrentTestLabel = EditorGUILayout.DelayedTextField("Test Label", _testRunner.CurrentTestLabel);
                 EditorGUIUtility.labelWidth = 0f; // Reset label width
 
-                DrawMultiPurposeButton();
+                DrawTestControlButton();
+                DrawRecordingControlButton();
 
                 if (_testRunner.State == TestRunner.TestRunnerState.FinishedTest)
                 {
@@ -94,47 +95,59 @@ namespace PIDTuning.Editor
 
                 if (_initialized)
                 {
-                    // Draw graph
-                    _graphRect.y = GUILayoutUtility.GetLastRect().yMax + CONTROL_GAP;
-                    _graphRect.width = position.width - GRAPH_MARGIN_LEFT;
-
-                    _graphRenderer.DrawPreviewRect(_graphRect, _drawX, _drawY, _drawZ);
-
-                    // Draw graph axis labels
-                    var maxSampleLabel = Mathf.CeilToInt(_graphRenderer.MaxSampleValueForDisplay);
-
-                    _graphLabelTopRect.y = _graphRect.y;
-                    _graphLabelBottomRect.y = _graphRect.y + GRAPH_HEIGHT - LABEL_HEIGHT;
-
-                    GUI.Label(_graphLabelTopRect, maxSampleLabel.ToString());
-                    GUI.Label(_graphLabelBottomRect, "-" + maxSampleLabel);
-
-                    GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
-
-                    // Draw x axis scale indicators
-                    const float SECONDS_INDICATOR_AT = 1f;
-                    EditorGUILayout.BeginHorizontal();
-                    GUILayout.Space(GRAPH_MARGIN_LEFT - 3f + // Position at left border of graph display
-                                    _animatorControl.TimeStretchFactor * (GRAPH_HEIGHT / (2f * _graphRenderer.MaxSampleValueForDisplay)) * SECONDS_INDICATOR_AT / GraphLineRenderer.SecondsPerGraphUnit); // Shift right by SECONDS_INDICATOR_VALUE graph units
-                    GUILayout.Label("| " + SECONDS_INDICATOR_AT + " sec");
-                    EditorGUILayout.EndHorizontal();
-
-                    // Draw graph controls
-                    EditorGUILayout.BeginHorizontal();
-                    GUILayout.Space(GRAPH_MARGIN_LEFT);
-                    var newSelectedJointIndex = EditorGUILayout.Popup(_selectedJointIndex, _jointNames);
-                    _drawX = GUILayout.Toggle(_drawX, "X Axis");
-                    _drawY = GUILayout.Toggle(_drawY, "Y Axis");
-                    _drawZ = GUILayout.Toggle(_drawZ, "Z Axis");
-                    EditorGUILayout.EndHorizontal();
-
-                    if (newSelectedJointIndex != _selectedJointIndex)
-                    {
-                        _graphRenderer.StartNewLine(DateTime.Now);
-                        _selectedJointIndex = newSelectedJointIndex;
-                    }
+                    DrawGraph();
+                    DrawGraphControls();
                 }
             }
+        }
+
+        // Lower-level drawing functions
+        // #########################################################################################
+
+        private void DrawGraphControls()
+        {
+            // Draw graph controls
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(GRAPH_MARGIN_LEFT);
+            var newSelectedJointIndex = EditorGUILayout.Popup(_selectedJointIndex, _jointNames);
+            _drawX = GUILayout.Toggle(_drawX, "X Axis");
+            _drawY = GUILayout.Toggle(_drawY, "Y Axis");
+            _drawZ = GUILayout.Toggle(_drawZ, "Z Axis");
+            EditorGUILayout.EndHorizontal();
+
+            if (newSelectedJointIndex != _selectedJointIndex)
+            {
+                _graphRenderer.StartNewLine(DateTime.Now);
+                _selectedJointIndex = newSelectedJointIndex;
+            }
+        }
+
+        private void DrawGraph()
+        {
+            // Draw graph
+            _graphRect.y = GUILayoutUtility.GetLastRect().yMax + CONTROL_GAP;
+            _graphRect.width = position.width - GRAPH_MARGIN_LEFT;
+
+            _graphRenderer.DrawPreviewRect(_graphRect, _drawX, _drawY, _drawZ);
+
+            // Draw graph axis labels
+            var maxSampleLabel = Mathf.CeilToInt(_graphRenderer.MaxSampleValueForDisplay);
+
+            _graphLabelTopRect.y = _graphRect.y;
+            _graphLabelBottomRect.y = _graphRect.y + GRAPH_HEIGHT - LABEL_HEIGHT;
+
+            GUI.Label(_graphLabelTopRect, maxSampleLabel.ToString());
+            GUI.Label(_graphLabelBottomRect, "-" + maxSampleLabel);
+
+            GUILayout.Space(GRAPH_HEIGHT + CONTROL_GAP);
+
+            // Draw x axis scale indicators
+            const float SECONDS_INDICATOR_AT = 1f;
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(GRAPH_MARGIN_LEFT - 3f + // Position at left border of graph display
+                            _animatorControl.TimeStretchFactor * (GRAPH_HEIGHT / (2f * _graphRenderer.MaxSampleValueForDisplay)) * SECONDS_INDICATOR_AT / GraphLineRenderer.SecondsPerGraphUnit); // Shift right by SECONDS_INDICATOR_VALUE graph units
+            GUILayout.Label("| " + SECONDS_INDICATOR_AT + " sec");
+            EditorGUILayout.EndHorizontal();
         }
 
         private void OnInspectorUpdate()
@@ -173,7 +186,7 @@ namespace PIDTuning.Editor
             _selectedJointIndex = 0;
         }
 
-        private void DrawMultiPurposeButton()
+        private void DrawTestControlButton()
         {
             switch (_testRunner.State)
             {
@@ -205,6 +218,30 @@ namespace PIDTuning.Editor
                     if (GUILayout.Button("Reset", GUILayout.Width(BUTTON_WIDTH)))
                     {
                         _testRunner.ResetTestRunner();
+                    }
+
+                    break;
+            }
+        }
+
+        private void DrawRecordingControlButton()
+        {
+            switch (_testRunner.State)
+            {
+                case TestRunner.TestRunnerState.Ready:
+
+                    if (GUILayout.Button("Start Recording", GUILayout.Width(BUTTON_WIDTH)))
+                    {
+                        _testRunner.StartManualRecord();
+                    }
+
+                    break;
+
+                case TestRunner.TestRunnerState.RunningTest:
+
+                    if (GUILayout.Button("Stop Recording", GUILayout.Width(BUTTON_WIDTH)))
+                    {
+                        _testRunner.StopManualRecord();
                     }
 
                     break;

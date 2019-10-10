@@ -15,12 +15,12 @@ namespace PIDTuning
         /// <summary>
         /// aka SP (Set Point) in Degrees
         /// </summary>
-        public readonly Vector3 Desired;
+        public readonly float Desired;
 
         /// <summary>
         /// aka PV (Process Variable) in Degrees
         /// </summary>
-        public readonly Vector3 Measured;
+        public readonly float Measured;
 
         /// <summary>
         /// Can be used to hold additional data that was collected during the
@@ -32,30 +32,27 @@ namespace PIDTuning
         /// </summary>
         private Dictionary<string, string> _correlatedData;
 
-        private PidStepDataEntry(Vector3 desired, Vector3 measured)
+        private PidStepDataEntry(float desired, float measured)
         {
             Desired = desired;
             Measured = measured;
             _correlatedData = null;
         }
 
-        public static PidStepDataEntry FromRadians(Vector3 desired, Vector3 measured)
+        public static PidStepDataEntry FromRadians(float desired, float measured)
         {
             return new PidStepDataEntry(desired * Mathf.Rad2Deg, measured * Mathf.Rad2Deg);
         }
 
-        public static PidStepDataEntry FromDegrees(Vector3 desired, Vector3 measured)
+        public static PidStepDataEntry FromDegrees(float desired, float measured)
         {
             return new PidStepDataEntry(desired, measured);
         }
 
-        public Vector3 SignedError
+        public float SignedError
         {
             get {
-                return new Vector3(
-                    Mathf.DeltaAngle(Measured.x, Desired.x),
-                    Mathf.DeltaAngle(Measured.y, Desired.y),
-                    Mathf.DeltaAngle(Measured.z, Desired.z));
+                return Mathf.DeltaAngle(Measured, Desired);
             }
         }
 
@@ -92,17 +89,8 @@ namespace PIDTuning
         {
             var json = new JObject();
 
-            var desired = new JObject();
-            desired["x"] = Desired.x;
-            desired["y"] = Desired.y;
-            desired["z"] = Desired.z;
-            json["desired"] = desired;
-
-            var measured = new JObject();
-            measured["x"] = Measured.x;
-            measured["y"] = Measured.y;
-            measured["z"] = Measured.z;
-            json["measured"] = measured;
+            json["desired"] = Desired;
+            json["measured"] = Measured;
 
             if (null != _correlatedData)
             {
