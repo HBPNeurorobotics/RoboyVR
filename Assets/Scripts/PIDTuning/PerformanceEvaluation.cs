@@ -2,14 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace PIDTuning
 {
     public class PerformanceEvaluation
     {
-        public readonly String Title;
-
         public readonly DateTime TimeStamp;
 
         /// <summary>
@@ -71,9 +71,8 @@ namespace PIDTuning
         /// </summary>
         public readonly float? AvgCompleteResponseTime;
 
-        public PerformanceEvaluation(string title, DateTime timeStamp, float avgAbsoluteError, float avgSignedError, float maxAbsoluteError, float? maxOvershoot, float? avgSettlingTime10Percent, float? avgSettlingTime5Percent, float? avgSettlingTime2Percent, float? avg10PercentResponseTime, float? avg50PercentResponseTime, float? avgCompleteResponseTime)
+        public PerformanceEvaluation(DateTime timeStamp, float avgAbsoluteError, float avgSignedError, float maxAbsoluteError, float? maxOvershoot, float? avgSettlingTime10Percent, float? avgSettlingTime5Percent, float? avgSettlingTime2Percent, float? avg10PercentResponseTime, float? avg50PercentResponseTime, float? avgCompleteResponseTime)
         {
-            Title = title;
             TimeStamp = timeStamp;
             AvgAbsoluteError = avgAbsoluteError;
             AvgSignedError = avgSignedError;
@@ -87,11 +86,14 @@ namespace PIDTuning
             AvgCompleteResponseTime = avgCompleteResponseTime;
         }
 
-        public static PerformanceEvaluation FromStepData(string title, DateTime timestamp, PidStepData stepData)
+        public static PerformanceEvaluation FromStepData(DateTime timestamp, PidStepData stepData)
         {
-            float avgAbsoluteError = 0f;
-            float avgSignedError = 0f;
-            float maxAbsoluteError = 0f;
+            // Can only create evaluation if we have at least one sample
+            Assert.IsTrue(stepData.Data.Count > 0);
+
+            float avgAbsoluteError;
+            float avgSignedError;
+            float maxAbsoluteError;
 
             CalculateSimpleMetrics(
                 stepData: stepData,
@@ -99,15 +101,15 @@ namespace PIDTuning
                 avgSignedError: out avgSignedError,
                 maxAbsoluteError: out maxAbsoluteError);
 
-            float? maxOvershoot = 0f;
+            float? maxOvershoot;
 
-            float? avgSettlingTime10Percent = 0f;
-            float? avgSettlingTime5Percent = 0f;
-            float? avgSettlingTime2Percent = 0f;
+            float? avgSettlingTime10Percent;
+            float? avgSettlingTime5Percent;
+            float? avgSettlingTime2Percent;
 
-            float? avg10PercentResponseTime = 0f;
-            float? avg50PercentResponseTime = 0f;
-            float? avgCompleteResponseTime = 0f;
+            float? avg10PercentResponseTime;
+            float? avg50PercentResponseTime;
+            float? avgCompleteResponseTime;
 
             CalculateResponseMetrics(
                 stepData: stepData,
@@ -119,7 +121,7 @@ namespace PIDTuning
                 avg50PercentResponseTime: out avg50PercentResponseTime,
                 avgCompleteResponseTime: out avgCompleteResponseTime);
 
-            return new PerformanceEvaluation(title, timestamp,
+            return new PerformanceEvaluation(timestamp,
                 avgAbsoluteError: avgAbsoluteError, avgSignedError: avgSignedError, maxAbsoluteError: maxAbsoluteError,
                 maxOvershoot: maxOvershoot,
                 avgSettlingTime10Percent: avgSettlingTime10Percent, avgSettlingTime5Percent: avgSettlingTime5Percent, avgSettlingTime2Percent: avgSettlingTime2Percent,
@@ -135,6 +137,8 @@ namespace PIDTuning
             avgSignedError = 0f;
             maxAbsoluteError = 0f;
 
+            var count = 0;
+
             foreach (var entry in stepData.Data.Values)
             {
                 float absError = Mathf.Abs(entry.SignedError);
@@ -142,7 +146,12 @@ namespace PIDTuning
                 avgAbsoluteError += absError;
                 avgSignedError += entry.SignedError;
                 maxAbsoluteError = Mathf.Max(absError, maxAbsoluteError);
+
+                count++;
             }
+
+            avgAbsoluteError /= (float) count;
+            avgSignedError /= (float) count;
         }
 
         /// <summary>
@@ -269,6 +278,167 @@ namespace PIDTuning
             ref float? avg10PercentResponseTime, ref float? avg50PercentResponseTime, ref float? avgCompleteResponseTime)
         {
             //throw new NotImplementedException();
+        }
+
+        public JObject ToJson()
+        {
+            var json = new JObject();
+
+            json["createdTimestamp"] = TimeStamp.ToFileTimeUtc().ToString();
+            json["avgAbsoluteError"] = AvgAbsoluteError;
+            json["avgSignedError"] = AvgSignedError;
+            json["maxAbsoluteError"] = MaxAbsoluteError;
+
+            if (MaxOvershoot.HasValue)
+            {
+                json["maxOvershoot"] = MaxOvershoot.Value;
+            }
+
+            if (AvgSettlingTime10Percent.HasValue)
+            {
+                json["avgSettlingTime10Percent"] = AvgSettlingTime10Percent.Value;
+            }
+
+            if (AvgSettlingTime5Percent.HasValue)
+            {
+                json["avgSettlingTime5Percent"] = AvgSettlingTime5Percent.Value;
+            }
+
+            if (AvgSettlingTime2Percent.HasValue)
+            {
+                json["avgSettlingTime2Percent"] = AvgSettlingTime2Percent.Value;
+            }
+
+            if (Avg10PercentResponseTime.HasValue)
+            {
+                json["avg10PercentResponseTime"] = Avg10PercentResponseTime.Value;
+            }
+
+            if (Avg50PercentResponseTime.HasValue)
+            {
+                json["avg50PercentResponseTime"] = Avg50PercentResponseTime.Value;
+            }
+
+            if (AvgCompleteResponseTime.HasValue)
+            {
+                json["avgCompleteResponseTime"] = AvgCompleteResponseTime.Value;
+            }
+
+            return json;
+        }
+
+        /// <summary>
+        /// Creates a cumulative evaluation from any number of minor evaluations (equally weighted).
+        /// The returned evaluation will take its timestamp from the first of the passed evaluations.
+        /// </summary>
+        public static PerformanceEvaluation FromCumulative(IEnumerable<PerformanceEvaluation> evaluations)
+        {
+            // Make sure we have at least 1 evaluation
+            Assert.IsTrue(evaluations.Any());
+
+            // Setup accumulator values
+            int count = 0;
+
+            float avgAbsoluteError = 0f;
+            float avgSignedError = 0f;
+            float maxAbsoluteError = 0f;
+
+            float? maxOvershoot = null;
+
+            AvgAccumulator avgSettlingTime10Percent = new AvgAccumulator();
+            AvgAccumulator avgSettlingTime5Percent = new AvgAccumulator();
+            AvgAccumulator avgSettlingTime2Percent = new AvgAccumulator();
+
+            AvgAccumulator avg10PercentResponseTime = new AvgAccumulator();
+            AvgAccumulator avg50PercentResponseTime = new AvgAccumulator();
+            AvgAccumulator avgCompleteResponseTime = new AvgAccumulator();
+
+            // Fill accumulator values
+            foreach (var eval in evaluations)
+            {
+                avgAbsoluteError += eval.AvgAbsoluteError;
+                avgSignedError += eval.AvgSignedError;
+                maxAbsoluteError = Mathf.Max(maxAbsoluteError, eval.MaxAbsoluteError);
+
+                if (eval.MaxOvershoot.HasValue)
+                {
+                    if (maxOvershoot.HasValue)
+                    {
+                        maxOvershoot = Mathf.Max(maxOvershoot.Value, eval.MaxOvershoot.Value);
+                    }
+                    else
+                    {
+                        maxOvershoot = eval.MaxOvershoot;
+                    }
+                }
+
+                UpdateAvgAccumulator(avgSettlingTime10Percent, eval.AvgSettlingTime10Percent);
+                UpdateAvgAccumulator(avgSettlingTime5Percent, eval.AvgSettlingTime5Percent);
+                UpdateAvgAccumulator(avgSettlingTime2Percent, eval.AvgSettlingTime2Percent);
+
+                UpdateAvgAccumulator(avg10PercentResponseTime, eval.Avg10PercentResponseTime);
+                UpdateAvgAccumulator(avg50PercentResponseTime, eval.Avg50PercentResponseTime);
+                UpdateAvgAccumulator(avgCompleteResponseTime, eval.AvgCompleteResponseTime);
+
+                count++;
+            }
+
+            // Reduce averages
+            avgAbsoluteError /= (float) count;
+            avgSignedError /= (float) count;
+
+            return new PerformanceEvaluation(evaluations.First().TimeStamp,
+                avgAbsoluteError: avgAbsoluteError,
+                avgSignedError: avgSignedError,
+                maxAbsoluteError: maxAbsoluteError,
+                maxOvershoot: maxOvershoot,
+                avgSettlingTime10Percent: avgSettlingTime10Percent.ToAverage(),
+                avgSettlingTime5Percent: avgSettlingTime5Percent.ToAverage(),
+                avgSettlingTime2Percent: avgSettlingTime2Percent.ToAverage(),
+                avg10PercentResponseTime: avg10PercentResponseTime.ToAverage(),
+                avg50PercentResponseTime: avg50PercentResponseTime.ToAverage(),
+                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage());
+        }
+
+        private static void UpdateAvgAccumulator(AvgAccumulator accumulator, float? nextSample)
+        {
+            if (nextSample.HasValue)
+            {
+                if (accumulator.Value.HasValue)
+                {
+                    accumulator.Value += nextSample.Value;
+                }
+                else
+                {
+                    accumulator.Value = nextSample.Value;
+                }
+
+                accumulator.Count++;
+            }
+        }
+
+        private class AvgAccumulator
+        {
+            public float? Value;
+            public int Count;
+
+            public AvgAccumulator()
+            {
+                Value = null;
+                Count = 0;
+            }
+
+            public float? ToAverage()
+            {
+                if (Value.HasValue)
+                {
+                    return Value.Value / (float)Count;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
     }
 }

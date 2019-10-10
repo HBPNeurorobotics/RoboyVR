@@ -49,17 +49,35 @@ namespace PIDTuning
         /// </summary>
         private List<string> _testAnimationStateList;
 
+        /// <summary>
+        /// Timestamp of the most recently performed recording
+        /// </summary>
         private DateTime? _latestTestTimestamp;
 
         /// <summary>
-        /// Holds a mapping of animation name -> joint name -> step-data of the most recently performed test
+        /// Holds a mapping of animation name -> joint name -> step-data of the most recently performed recording
         /// </summary>
         private Dictionary<string, Dictionary<string, PidStepData>> _latestAnimationToJointToStepData;
 
         /// <summary>
-        /// Holds the PID config that was used in the most recently performed test
+        /// Holds the PID config that was used in the most recently performed recording
         /// </summary>
         private PidConfiguration _latestPidConfiguration;
+
+        /// <summary>
+        /// Holds a mapping of animation name -> joint name -> evaluation of the most recently performed recording
+        /// </summary>
+        public Dictionary<string, Dictionary<string, PerformanceEvaluation>> LatestAnimationToJointToEvaluation;
+
+        /// <summary>
+        /// Holds a mapping of the cumulative performance evaluation of all joints for a given animation in the last test run
+        /// </summary>
+        public Dictionary<string, PerformanceEvaluation> LatestAnimationToEvaluation;
+
+        /// <summary>
+        /// Holds a cumulative performance evaluation for all animation combined in the latest test run
+        /// </summary>
+        public PerformanceEvaluation LatestEvaluation;
 
         private bool _isRunningManualRecord = false;
 
@@ -109,10 +127,7 @@ namespace PIDTuning
 
         public IEnumerator RunTest()
         {
-            Assert.AreEqual(State, TestRunnerState.Ready);
-            Assert.AreEqual(_latestTestTimestamp, null);
-            Assert.AreEqual(_latestPidConfiguration, null);
-            Assert.AreEqual(_latestAnimationToJointToStepData, null);
+            AssertReadyForTest();
 
             Debug.Log("Running Test...");
 
@@ -127,12 +142,12 @@ namespace PIDTuning
             var pidConfig = new PidConfiguration(testRunTimeStamp);
             pidConfig.InitializeMapping(_poseErrorTracker.GetJointNames(), PidParameters.FromParallelForm(1000f, 100f, 500f));
 
-           _testEnvSetup.TransmitPidConfiguration(pidConfig);
+            _testEnvSetup.TransmitPidConfiguration(pidConfig);
 
             // Run Simulation Loop and record data
             // -----------------------------------------------------------------------------------
 
-            var _tempAnimationToJointToStepData =  new Dictionary<string, Dictionary<string, PidStepData>>();
+            var _tempAnimationToJointToStepData = new Dictionary<string, Dictionary<string, PidStepData>>();
 
             foreach (var animation in _testAnimationStateList)
             {
@@ -155,7 +170,7 @@ namespace PIDTuning
                     sd.AdditionalKeys["simulationTimeStretchFactor"] = _animatorControl.TimeStretchFactor.ToString(CultureInfo.InvariantCulture);
 
                     stepData[joint] = sd;
-                }   
+                }
 
                 // Play animation and record samples during playback
                 // -----------------------------------------------------------------------------------
@@ -176,10 +191,43 @@ namespace PIDTuning
             _latestTestTimestamp = testRunTimeStamp;
             _latestAnimationToJointToStepData = _tempAnimationToJointToStepData;
             _latestPidConfiguration = pidConfig;
+            CalculatePerformanceEvaluation(testRunTimeStamp);
 
             State = TestRunnerState.FinishedTest;
 
             Debug.Log("Test Finished");
+        }
+
+        private void AssertReadyForTest()
+        {
+            Assert.AreEqual(State, TestRunnerState.Ready);
+            Assert.AreEqual(_latestTestTimestamp, null);
+            Assert.AreEqual(_latestPidConfiguration, null);
+            Assert.AreEqual(_latestAnimationToJointToStepData, null);
+            Assert.AreEqual(LatestAnimationToJointToEvaluation, null);
+            Assert.AreEqual(LatestAnimationToEvaluation, null);
+            Assert.AreEqual(LatestEvaluation, null);
+        }
+
+        /// <summary>
+        /// Calculates performance metrics for each PidStepData that we collected in the last test/recording
+        /// </summary>
+        private void CalculatePerformanceEvaluation(DateTime testRunTimeStamp)
+        {
+            // If you cannot read this code, I don't blame you. It's much nicer in .NET 4+.
+            // In case you really, really hate it, you can rewrite it using nested foreach loops
+
+            LatestAnimationToJointToEvaluation = _latestAnimationToJointToStepData
+                .Select(animToJoints => new KeyValuePair<string, Dictionary<string, PerformanceEvaluation>>(animToJoints.Key, animToJoints.Value
+                    .Select(jointToStepData => new KeyValuePair<string, PerformanceEvaluation>(jointToStepData.Key, PerformanceEvaluation.FromStepData(testRunTimeStamp, jointToStepData.Value)))
+                    .ToDictionary(jointToEvaluation => jointToEvaluation.Key, jointToEvaluation => jointToEvaluation.Value)))
+                .ToDictionary(animToJoints => animToJoints.Key, animToJoints => animToJoints.Value);
+
+            LatestAnimationToEvaluation = LatestAnimationToJointToEvaluation
+                .Select(animToJoints => new KeyValuePair<string, PerformanceEvaluation>(animToJoints.Key, PerformanceEvaluation.FromCumulative(animToJoints.Value.Select(pair => pair.Value))))
+                .ToDictionary(animToJoints => animToJoints.Key, animToJoints => animToJoints.Value);
+
+            LatestEvaluation = PerformanceEvaluation.FromCumulative(LatestAnimationToEvaluation.Select(pair => pair.Value));
         }
 
         private IEnumerator RecordMotion(Func<bool> shouldContinueRecording, Dictionary<string, PidStepData> jointToStepDataTarget)
@@ -210,10 +258,7 @@ namespace PIDTuning
 
         public void StartManualRecord()
         {
-            Assert.AreEqual(State, TestRunnerState.Ready);
-            Assert.AreEqual(_latestTestTimestamp, null);
-            Assert.AreEqual(_latestPidConfiguration, null);
-            Assert.AreEqual(_latestAnimationToJointToStepData, null);
+            AssertReadyForTest();
 
             State = TestRunnerState.RunningTest;
             _isRunningManualRecord = true;
@@ -246,6 +291,8 @@ namespace PIDTuning
             Assert.IsTrue(_isRunningManualRecord);
             Assert.AreEqual(State, TestRunnerState.RunningTest);
 
+            CalculatePerformanceEvaluation(_latestTestTimestamp.Value);
+
             State = TestRunnerState.FinishedTest;
             _isRunningManualRecord = false;
         }
@@ -259,6 +306,9 @@ namespace PIDTuning
             _latestTestTimestamp = null;
             _latestAnimationToJointToStepData = null;
             _latestPidConfiguration = null;
+            LatestAnimationToJointToEvaluation = null;
+            LatestAnimationToEvaluation = null;
+            LatestEvaluation = null;
 
             State = TestRunnerState.Ready;
         }
@@ -274,6 +324,7 @@ namespace PIDTuning
             Directory.CreateDirectory(testRunFolder);
 
             File.WriteAllText(Path.Combine(testRunFolder, "pid-config.json"), _latestPidConfiguration.ToJson().ToString());
+            File.WriteAllText(Path.Combine(testRunFolder, "eval.json"), LatestEvaluation.ToJson().ToString());
 
             foreach (var animation in _latestAnimationToJointToStepData)
             {
@@ -283,7 +334,10 @@ namespace PIDTuning
                 foreach (var joint in animation.Value)
                 {
                     File.WriteAllText(Path.Combine(animationDirectory, joint.Key + ".json"), joint.Value.ToJson().ToString());
+                    File.WriteAllText(Path.Combine(animationDirectory, joint.Key + "-eval.json"), LatestAnimationToJointToEvaluation[animation.Key][joint.Key].ToJson().ToString());
                 }
+
+                File.WriteAllText(Path.Combine(animationDirectory, "eval.json"), LatestAnimationToEvaluation[animation.Key].ToJson().ToString());
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -97,6 +98,11 @@ namespace PIDTuning.Editor
                 {
                     DrawGraph();
                     DrawGraphControls();
+
+                    if (_testRunner.State == TestRunner.TestRunnerState.FinishedTest)
+                    {
+                        DrawAllEvaluations();
+                    }
                 }
             }
         }
@@ -245,6 +251,54 @@ namespace PIDTuning.Editor
                     }
 
                     break;
+            }
+        }
+
+        private void DrawAllEvaluations()
+        {
+            var sb = new StringBuilder();
+
+            foreach (var animToJointToEval in _testRunner.LatestAnimationToJointToEvaluation)
+            {
+                var eval = animToJointToEval.Value[_jointNames[_selectedJointIndex]];
+                GUILayout.Label(GetSingleEvaluationString(sb, string.Format("{0} ({1})", _jointNames[_selectedJointIndex], animToJointToEval.Key), eval));
+            }
+
+            GUILayout.Label(GetSingleEvaluationString(sb, "All Joints & Recordings", _testRunner.LatestEvaluation));
+        }
+
+        private string GetSingleEvaluationString(StringBuilder sb, string title, PerformanceEvaluation evaluation)
+        {
+            // Clear the SB
+            sb.Length = 0;
+
+            sb.Append("<b>Evaluation: ");
+            sb.Append(title);
+            sb.AppendLine("</b>");
+
+            sb.AppendFormat("Avg Absolute Error: {0}\n", evaluation.AvgAbsoluteError);
+            sb.AppendFormat("Avg Signed Error: {0}\n", evaluation.AvgSignedError);
+            sb.AppendFormat("Max Absolute Error: {0}\n", evaluation.MaxAbsoluteError);
+
+            AppendMetricIfNotNull(sb, "Max Overshoot", evaluation.MaxOvershoot);
+
+            AppendMetricIfNotNull(sb, "Avg Settling Time (10%)", evaluation.AvgSettlingTime10Percent);
+            AppendMetricIfNotNull(sb, "Avg Settling Time (5%)", evaluation.AvgSettlingTime5Percent);
+            AppendMetricIfNotNull(sb, "Avg Settling Time (2%)", evaluation.AvgSettlingTime2Percent);
+
+            AppendMetricIfNotNull(sb, "Avg Response Time (10%)", evaluation.Avg10PercentResponseTime);
+            AppendMetricIfNotNull(sb, "Avg Response Time (50%)", evaluation.Avg50PercentResponseTime);
+            AppendMetricIfNotNull(sb, "Avg Response Time (Complete)", evaluation.AvgCompleteResponseTime);
+
+            return sb.ToString();
+        }
+
+        private void AppendMetricIfNotNull(StringBuilder sb, string metricName, float? metric)
+        {
+            if (metric.HasValue)
+            {
+                sb.Append(metricName);
+                sb.AppendFormat(": {0}\n", metric.Value);
             }
         }
     }
