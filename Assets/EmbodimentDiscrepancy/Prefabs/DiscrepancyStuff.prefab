@@ -1,0 +1,273 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1532938323012370}
+  m_IsPrefabAsset: 1
+--- !u!1 &1532938323012370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4083384070869056}
+  - component: {fileID: 114849323811691562}
+  - component: {fileID: 114685663001576196}
+  - component: {fileID: 114745131364326022}
+  - component: {fileID: 114714794701735920}
+  - component: {fileID: 114290883029553302}
+  - component: {fileID: 114044443808462562}
+  - component: {fileID: 114189237125418326}
+  - component: {fileID: 114484889335576528}
+  - component: {fileID: 114769077413451680}
+  - component: {fileID: 114791900309768642}
+  m_Layer: 0
+  m_Name: DiscrepancyStuff
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4083384070869056
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114044443808462562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59330be95e544c81a32902daec00b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundComesFrom: 1
+  geigerClickClipsSingle:
+  - {fileID: 8300000, guid: ac52554a8ba664d3c95e47b1f64e8bdd, type: 3}
+  - {fileID: 8300000, guid: 10076f2e2644042a8b110542e53559fe, type: 3}
+  - {fileID: 8300000, guid: cb65a57f0fda94e94b2d836da4af81ac, type: 3}
+  - {fileID: 8300000, guid: f35300a12fc504a5c9190ed8a0b51bac, type: 3}
+  - {fileID: 8300000, guid: 92e482b22b0894683bb7c8e9c8dd62a7, type: 3}
+  - {fileID: 8300000, guid: 6d3a8c710ee3048b58d6b9370e75acd3, type: 3}
+  - {fileID: 8300000, guid: 01aec54af1b16486da66acc405a8fe74, type: 3}
+  geigerClickClipsMulti:
+  - {fileID: 8300000, guid: c939a8379cb1a46ad88a8e39b163fcea, type: 3}
+  - {fileID: 8300000, guid: 208097ba7513d486f9f84d7793ef7165, type: 3}
+  - {fileID: 8300000, guid: 9f90538105d0e4a0ab2d6909497f87f6, type: 3}
+  - {fileID: 8300000, guid: 88002e816eb8447cd86e39d4b8b2aa86, type: 3}
+  geigerAudioSourcePrefab: {fileID: 82331096165506654, guid: dd49137f88ef94651a161b5c2a5fe28f,
+    type: 2}
+  geigerUseMultiClicks: 1
+  geigerDistanceToMaxIntensity: 1
+  geigerMaxClicksPerMinute: 600
+  geigerVariance: 0.5
+  noiseClipInspector: {fileID: 8300000, guid: 69da226f0e17740ba8fa7c996320f1d3, type: 3}
+  noiseAudioSourcePrefab: {fileID: 82922678399478566, guid: 5d84d8afbf5dc4abbb497e1bd00ad17d,
+    type: 2}
+  noiseDistanceToMaxVolume: 1
+--- !u!114 &114189237125418326
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1345efce8f6d43b5a1ced31d6b961c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointsAt: 1
+  discrepancyIndicatorPrefab: {fileID: 114875802185532956, guid: 026aeb12a643a4cf88c5bfb073c36f65,
+    type: 2}
+  discrepancyIndicatorCanvasPrefab: {fileID: 223526190350274204, guid: 622f7f0b9e7a14f2386db4ea063a806c,
+    type: 2}
+  mainCamera: {fileID: 0}
+  hideIndicatorsWhenTargetInView: 1
+  inViewportOffset: 0.2
+--- !u!114 &114290883029553302
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ff7d37cec5d429483f2e40467341f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxRumblesPerSecond: 10
+  maxRumblesTime: 5
+  maxRumblePulseDuration: 0.03
+  maxRumblePulseDistance: 1
+  pulseStrength: 0.25
+  handLeftTrackedObject: {fileID: 0}
+  handRightTrackedObject: {fileID: 0}
+  footLeftTrackedObject: {fileID: 0}
+  footRightTrackedObject: {fileID: 0}
+--- !u!114 &114484889335576528
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426f93138faa1460aaa87df3d89db76f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  postProcessResources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4,
+    type: 2}
+  postProcessProfileAsset: {fileID: 0}
+  postProcessVolumePrefab: {fileID: 114965472024242000, guid: f504c77bd88a74f8daf313b8718297ae,
+    type: 2}
+  mainCam: {fileID: 0}
+  postProcessLayerName: PostProcessing
+  distToFullColorShift: 2
+  maxShiftDegrees: 300
+  distToFullDesaturation: 1
+  maxDesaturation: -100
+  smoothingTime: 1
+--- !u!114 &114685663001576196
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea47fe214f884b38924af4366d93e2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  discrepancyLineHandler: {fileID: 0}
+  discrepancyHeadEffects: {fileID: 0}
+  discrepancyHapticHandler: {fileID: 0}
+  discrepancySoundHandler: {fileID: 0}
+  discrepancyIndicatorHandler: {fileID: 0}
+  discrepancyPostProcessingEffects: {fileID: 0}
+  lineEffectHands: 1
+  lineEffectFeet: 1
+  hapticEffectHands: 1
+  hapticEffectFeet: 1
+  geigerSoundEffectHands: 1
+  geigerSoundEffectFeet: 1
+  noiseSoundEffectHands: 1
+  noiseSoundEffectFeet: 1
+  discrepancyIndicatorEffectHands: 1
+  discrepancyIndicatorEffectFeet: 1
+  colorShiftEffectHands: 1
+  colorShiftEffectFeet: 1
+  colorShiftEffectHead: 1
+  desaturationEffectHands: 1
+  desaturationEffectFeet: 1
+  desaturationEffectHead: 1
+  blurEffect: 1
+  fadeToBlackEffect: 1
+  toleranceTimeHands: 1
+  toleranceTimeFeet: 1
+  toleranceTimeHead: 0.5
+--- !u!114 &114714794701735920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd08cc51597a04b9aaf2cc6bf8ebe2e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  steamvrCam: {fileID: 0}
+  maxDistToBlack: 0.3
+  maxDistToFullBlur: 0.3
+  superBlurIterations: 5
+  superBlurKernelsize: 2
+  superBlurPostEffectMaterial: {fileID: 2100000, guid: 778a944b382f54ae79e5cb0dc9bd33cd,
+    type: 2}
+  superBlurUIMaterial: {fileID: 2100000, guid: bf55a4ceb811c49cbbf4b9385db69598, type: 2}
+--- !u!114 &114745131364326022
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f275408c26504469c92ac58e28dc72bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DiscrepancyLinePrefab: {fileID: 114832101135904686, guid: e1922ea57bce64334a5e14be0fce2024,
+    type: 2}
+  thicknessMultiplier: 1
+--- !u!114 &114769077413451680
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674faa5e5e14e4cc4b67a0fee9425524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gazeboSceneManager: {fileID: 0}
+  modelsParent: {fileID: 0}
+  ignoredModelSubstrings:
+  - user_avatar
+  interiorMaterial: {fileID: 2100000, guid: b5e6a1605b7ed43178287a8cb2a36a08, type: 2}
+--- !u!114 &114791900309768642
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc3c7b422b7f49bb9f2a7d4015b12bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gazeboSceneManager: {fileID: 0}
+  remoteUserAvatarSubstring: user_avatar
+  mat_setStencil: {fileID: 2100000, guid: 5b5b8e502f52e444da472a3b1228fc4b, type: 2}
+  mat_silhouette: {fileID: 2100000, guid: 74c3bea518fd44e0f91de5ccaceb3349, type: 2}
+  localUserAvatarMeshRenderers:
+  - {fileID: 0}
+  - {fileID: 0}
+  silhouetteColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &114849323811691562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1532938323012370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a571687ab9f555e45902658af51ce7e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localHeadPos: {fileID: 0}
+  localHandPosLeft: {fileID: 0}
+  localHandPosRight: {fileID: 0}
+  localFootPosLeft: {fileID: 0}
+  localFootPosRight: {fileID: 0}
+  userAvatarService: {fileID: 0}
+  discrepancyHandler: {fileID: 114685663001576196}
+  toleranceDistanceGlobal: 0.1
