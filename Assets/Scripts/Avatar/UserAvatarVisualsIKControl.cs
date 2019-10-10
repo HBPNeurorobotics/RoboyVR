@@ -20,6 +20,10 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
 
     public Vector3 bodyTargetOffset = new Vector3(0, -0.75f, 0);
     public Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
+    [SerializeField]Vector3 footLeftOffset = new Vector3(0.08f, 0,0);
+    [SerializeField] Vector3 footRightOffset = new Vector3(-0.08f, 0, 0);
+    [SerializeField] Vector3 footLeftRotation = new Vector3(0, 90, 0);
+    [SerializeField] Vector3 footRightRotation = new Vector3(0, -90, 0);
 
 
     // Use this for initialization
@@ -47,9 +51,28 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
                     this.transform.position = bodyTarget.position + bodyTargetOffset;
                     this.transform.rotation = bodyTarget.rotation;
                 }
+                // no body target, but head and feet targets
+                else if (headTarget != null && rightFootTarget != null && leftFootTarget != null)
+                {
+                    Vector3 feetCenter = 0.33f * (rightFootTarget.position + leftFootTarget.position + headTarget.position);
+                    this.transform.position = new Vector3(feetCenter.x, headTarget.position.y + bodyHeadOffset.y, feetCenter.z);
+
+                    Vector3 forward;
+                    if (rightHandTarget != null && leftHandTarget != null)
+                    {
+                        Vector3 vec_controllers = rightHandTarget.position - leftHandTarget.position;
+                        forward = Vector3.ProjectOnPlane(headTarget.forward, vec_controllers);
+                    }
+                    else
+                    {
+                        forward = headTarget.forward;
+                    }
+                    this.transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(forward, Vector3.up), Vector3.up);
+                }
+                // no body target, but head
                 else if (headTarget != null)
                 {
-                    this.transform.position = headTarget.position + bodyHeadOffset;
+                    this.transform.position = headTarget.position + bodyHeadOffset; // + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
 
                     Vector3 forward;
                     if (rightHandTarget != null && leftHandTarget != null)
@@ -88,18 +111,22 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
                 
                 if (rightFootTarget != null)
                 {
+                    //rightFootTarget.up = Vector3.up;
                     animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position);
-                    animator.SetIKRotation(AvatarIKGoal.RightFoot, rightFootTarget.rotation);
+                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position + footRightOffset);
+                    Quaternion rightQuaternion = Quaternion.Euler(rightFootTarget.eulerAngles + footRightRotation);
+                    animator.SetIKRotation(AvatarIKGoal.RightFoot, rightQuaternion);
                 }
                 
                 if (leftFootTarget != null)
                 {
+                    //leftFootTarget.up = Vector3.up;
                     animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position);
-                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftFootTarget.rotation);
+                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position + footLeftOffset);
+                    Quaternion leftQuaternion = Quaternion.Euler(leftFootTarget.eulerAngles + footLeftRotation);
+                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftQuaternion);
                 }
             }
         }
