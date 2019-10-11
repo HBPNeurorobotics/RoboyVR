@@ -271,9 +271,9 @@ namespace PIDTuning.Editor
 
             AppendMetricIfNotNull(sb, "Max Overshoot", evaluation.MaxOvershoot);
 
-            AppendMetricIfNotNull(sb, "Avg Settling Time (20%)", evaluation.AvgSettlingTime20Percent);
             AppendMetricIfNotNull(sb, "Avg Settling Time (10%)", evaluation.AvgSettlingTime10Percent);
             AppendMetricIfNotNull(sb, "Avg Settling Time (5%)", evaluation.AvgSettlingTime5Percent);
+            AppendMetricIfNotNull(sb, "Avg Settling Time (2%)", evaluation.AvgSettlingTime2Percent);
 
             AppendMetricIfNotNull(sb, "Avg Response Time (10%)", evaluation.Avg10PercentResponseTime);
             AppendMetricIfNotNull(sb, "Avg Response Time (50%)", evaluation.Avg50PercentResponseTime);

@@ -69,7 +69,9 @@ public class UserAvatarService : Singleton<UserAvatarService>
             SkinnedMeshRenderer rig_mesh_renderer = this.avatar_rig.GetComponentInChildren<SkinnedMeshRenderer>();
             //Debug.Log("rig center = " + rig_mesh_renderer.bounds.center);
             this.gazebo_model_pos_offset = new Vector3(0f, -rig_mesh_renderer.bounds.extents.y, 0f);
-            this.gazebo_model_pos_offset.y -= 0.25f;  // center of mesh is not the center of the model ?
+
+            // Markus: This line causeed issues for me. Avatar was too far down an coudln't extend his legs.
+            // this.gazebo_model_pos_offset.y -= 0.25f;  // center of mesh is not the center of the model ?
         }
     }
     
