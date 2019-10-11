@@ -31,8 +31,6 @@ namespace PIDTuning.Editor
 
         private int _selectedJointIndex = 0;
 
-        private bool _drawX = true, _drawY = false, _drawZ = false;
-
         private bool _initialized = false;
 
         private void OnEnable()
@@ -112,14 +110,7 @@ namespace PIDTuning.Editor
 
         private void DrawGraphControls()
         {
-            // Draw graph controls
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Space(GRAPH_MARGIN_LEFT);
             var newSelectedJointIndex = EditorGUILayout.Popup(_selectedJointIndex, _jointNames);
-            _drawX = GUILayout.Toggle(_drawX, "X Axis");
-            _drawY = GUILayout.Toggle(_drawY, "Y Axis");
-            _drawZ = GUILayout.Toggle(_drawZ, "Z Axis");
-            EditorGUILayout.EndHorizontal();
 
             if (newSelectedJointIndex != _selectedJointIndex)
             {
@@ -130,11 +121,10 @@ namespace PIDTuning.Editor
 
         private void DrawGraph()
         {
-            // Draw graph
             _graphRect.y = GUILayoutUtility.GetLastRect().yMax + CONTROL_GAP;
             _graphRect.width = position.width - GRAPH_MARGIN_LEFT;
 
-            _graphRenderer.DrawPreviewRect(_graphRect, _drawX, _drawY, _drawZ);
+            _graphRenderer.DrawPreviewRect(_graphRect);
 
             // Draw graph axis labels
             var maxSampleLabel = Mathf.CeilToInt(_graphRenderer.MaxSampleValueForDisplay);
@@ -272,9 +262,8 @@ namespace PIDTuning.Editor
             // Clear the SB
             sb.Length = 0;
 
-            sb.Append("<b>Evaluation: ");
-            sb.Append(title);
-            sb.AppendLine("</b>");
+            sb.Append("Evaluation: ");
+            sb.AppendLine(title);
 
             sb.AppendFormat("Avg Absolute Error: {0}\n", evaluation.AvgAbsoluteError);
             sb.AppendFormat("Avg Signed Error: {0}\n", evaluation.AvgSignedError);
@@ -282,9 +271,9 @@ namespace PIDTuning.Editor
 
             AppendMetricIfNotNull(sb, "Max Overshoot", evaluation.MaxOvershoot);
 
+            AppendMetricIfNotNull(sb, "Avg Settling Time (20%)", evaluation.AvgSettlingTime20Percent);
             AppendMetricIfNotNull(sb, "Avg Settling Time (10%)", evaluation.AvgSettlingTime10Percent);
             AppendMetricIfNotNull(sb, "Avg Settling Time (5%)", evaluation.AvgSettlingTime5Percent);
-            AppendMetricIfNotNull(sb, "Avg Settling Time (2%)", evaluation.AvgSettlingTime2Percent);
 
             AppendMetricIfNotNull(sb, "Avg Response Time (10%)", evaluation.Avg10PercentResponseTime);
             AppendMetricIfNotNull(sb, "Avg Response Time (50%)", evaluation.Avg50PercentResponseTime);

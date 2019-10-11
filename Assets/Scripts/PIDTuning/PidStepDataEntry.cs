@@ -51,9 +51,12 @@ namespace PIDTuning
 
         public float SignedError
         {
-            get {
-                return Mathf.DeltaAngle(Measured, Desired);
-            }
+            get { return Mathf.DeltaAngle(Measured, Desired); }
+        }
+
+        public float AbsoluteError
+        {
+            get { return Mathf.Abs(SignedError); }
         }
 
         public void AddCorrelatedData(string key, string value)

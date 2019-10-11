@@ -42,6 +42,11 @@ namespace PIDTuning
         // more than 10 percent of the distance between the old set-point and the current set-point.
 
         /// <summary>
+        /// How fast does PV settle within 20% of a new set-point after a change?
+        /// </summary>
+        public readonly float? AvgSettlingTime20Percent;
+
+        /// <summary>
         /// How fast does PV settle within 10% of a new set-point after a change?
         /// </summary>
         public readonly float? AvgSettlingTime10Percent;
@@ -50,11 +55,6 @@ namespace PIDTuning
         /// How fast does PV settle within 5% of a new set-point after a change?
         /// </summary>
         public readonly float? AvgSettlingTime5Percent;
-
-        /// <summary>
-        /// How fast does PV settle within 2% of a new set-point after a change?
-        /// </summary>
-        public readonly float? AvgSettlingTime2Percent;
 
         /// <summary>
         /// How fast does the PV reach 10% of the way toward a new set-point after a change?
@@ -71,16 +71,16 @@ namespace PIDTuning
         /// </summary>
         public readonly float? AvgCompleteResponseTime;
 
-        public PerformanceEvaluation(DateTime timeStamp, float avgAbsoluteError, float avgSignedError, float maxAbsoluteError, float? maxOvershoot, float? avgSettlingTime10Percent, float? avgSettlingTime5Percent, float? avgSettlingTime2Percent, float? avg10PercentResponseTime, float? avg50PercentResponseTime, float? avgCompleteResponseTime)
+        public PerformanceEvaluation(DateTime timeStamp, float avgAbsoluteError, float avgSignedError, float maxAbsoluteError, float? maxOvershoot, float? avgSettlingTime20Percent, float? avgSettlingTime10Percent, float? avgSettlingTime5Percent, float? avg10PercentResponseTime, float? avg50PercentResponseTime, float? avgCompleteResponseTime)
         {
             TimeStamp = timeStamp;
             AvgAbsoluteError = avgAbsoluteError;
             AvgSignedError = avgSignedError;
             MaxAbsoluteError = maxAbsoluteError;
             MaxOvershoot = maxOvershoot;
+            AvgSettlingTime20Percent = avgSettlingTime20Percent;
             AvgSettlingTime10Percent = avgSettlingTime10Percent;
             AvgSettlingTime5Percent = avgSettlingTime5Percent;
-            AvgSettlingTime2Percent = avgSettlingTime2Percent;
             Avg10PercentResponseTime = avg10PercentResponseTime;
             Avg50PercentResponseTime = avg50PercentResponseTime;
             AvgCompleteResponseTime = avgCompleteResponseTime;
@@ -103,29 +103,33 @@ namespace PIDTuning
 
             float? maxOvershoot;
 
-            float? avgSettlingTime10Percent;
-            float? avgSettlingTime5Percent;
-            float? avgSettlingTime2Percent;
+            AvgAccumulator avgSettlingTime20Percent = new AvgAccumulator();
+            AvgAccumulator avgSettlingTime10Percent = new AvgAccumulator();
+            AvgAccumulator avgSettlingTime5Percent = new AvgAccumulator();
 
-            float? avg10PercentResponseTime;
-            float? avg50PercentResponseTime;
-            float? avgCompleteResponseTime;
+            AvgAccumulator avg10PercentResponseTime = new AvgAccumulator();
+            AvgAccumulator avg50PercentResponseTime = new AvgAccumulator();
+            AvgAccumulator avgCompleteResponseTime = new AvgAccumulator();
 
             CalculateResponseMetrics(
                 stepData: stepData,
                 maxOvershoot: out maxOvershoot,
-                avgSettlingTime10Percent: out avgSettlingTime10Percent,
-                avgSettlingTime5Percent: out avgSettlingTime5Percent,
-                avgSettlingTime2Percent: out avgSettlingTime2Percent,
-                avg10PercentResponseTime: out avg10PercentResponseTime,
-                avg50PercentResponseTime: out avg50PercentResponseTime,
-                avgCompleteResponseTime: out avgCompleteResponseTime);
+                avgSettlingTime20Percent: avgSettlingTime20Percent,
+                avgSettlingTime10Percent: avgSettlingTime10Percent,
+                avgSettlingTime5Percent: avgSettlingTime5Percent,
+                avg10PercentResponseTime: avg10PercentResponseTime,
+                avg50PercentResponseTime: avg50PercentResponseTime,
+                avgCompleteResponseTime: avgCompleteResponseTime);
 
             return new PerformanceEvaluation(timestamp,
                 avgAbsoluteError: avgAbsoluteError, avgSignedError: avgSignedError, maxAbsoluteError: maxAbsoluteError,
                 maxOvershoot: maxOvershoot,
-                avgSettlingTime10Percent: avgSettlingTime10Percent, avgSettlingTime5Percent: avgSettlingTime5Percent, avgSettlingTime2Percent: avgSettlingTime2Percent,
-                avg10PercentResponseTime: avg10PercentResponseTime, avg50PercentResponseTime: avg50PercentResponseTime, avgCompleteResponseTime: avgCompleteResponseTime);
+                avgSettlingTime20Percent: avgSettlingTime20Percent.ToAverage(), 
+                avgSettlingTime10Percent: avgSettlingTime10Percent.ToAverage(), 
+                avgSettlingTime5Percent: avgSettlingTime5Percent.ToAverage(),
+                avg10PercentResponseTime: avg10PercentResponseTime.ToAverage(), 
+                avg50PercentResponseTime: avg50PercentResponseTime.ToAverage(), 
+                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage());
         }
 
         /// <summary>
@@ -141,11 +145,9 @@ namespace PIDTuning
 
             foreach (var entry in stepData.Data.Values)
             {
-                float absError = Mathf.Abs(entry.SignedError);
-
-                avgAbsoluteError += absError;
+                avgAbsoluteError += entry.AbsoluteError;
                 avgSignedError += entry.SignedError;
-                maxAbsoluteError = Mathf.Max(absError, maxAbsoluteError);
+                maxAbsoluteError = Mathf.Max(entry.AbsoluteError, maxAbsoluteError);
 
                 count++;
             }
@@ -159,28 +161,24 @@ namespace PIDTuning
         /// </summary>
         private static void CalculateResponseMetrics(PidStepData stepData, 
             out float? maxOvershoot,
-            out float? avgSettlingTime10Percent, out float? avgSettlingTime5Percent, out float? avgSettlingTime2Percent,
-            out float? avg10PercentResponseTime, out float? avg50PercentResponseTime, out float? avgCompleteResponseTime)
+            AvgAccumulator avgSettlingTime20Percent, AvgAccumulator avgSettlingTime10Percent, AvgAccumulator avgSettlingTime5Percent,
+            AvgAccumulator avg10PercentResponseTime, AvgAccumulator avg50PercentResponseTime, AvgAccumulator avgCompleteResponseTime)
         {
             maxOvershoot = null;
-            avgSettlingTime10Percent = null;
-            avgSettlingTime5Percent = null;
-            avgSettlingTime2Percent = null;
-            avg10PercentResponseTime = null;
-            avg50PercentResponseTime = null;
-            avgCompleteResponseTime = null;
 
             KeyValuePair<DateTime, PidStepDataEntry>? oldSetpoint = null;
 
             // Hold a streak of entries where the step-data is constant
             var currentStreak = new List<KeyValuePair<DateTime, PidStepDataEntry>>();
 
+            // Hold the distance between the old set-point and the new set-point (at which the streak is)
+            var currentSetPointDistance = 0f;
+
             foreach (var datedEntry in stepData.Data)
             {
                 if (null == oldSetpoint)
                 {
                     // We don't have any initial old set-point
-
                     oldSetpoint = datedEntry;
 
                     continue;
@@ -190,21 +188,26 @@ namespace PIDTuning
                 {
                     // We have a new set-point that is different from the current set-point
 
-                    oldSetpoint = datedEntry;
-
                     if (currentStreak.Count >= 2)
                     {
-                        // Evaluate the current streak, if it is actually a streak (meaning more than 2 elements)
+                        // Evaluate the current streak, if it is actually a streak (meaning more than 1 element)
                         CalculateMaxOvershoot(currentStreak, ref maxOvershoot);
-                        CalculateSettlingTime(currentStreak, ref avgSettlingTime10Percent, ref avgSettlingTime5Percent,
-                            ref avgSettlingTime2Percent);
-                        CalculateResponseTime(currentStreak, ref avg10PercentResponseTime, ref avg50PercentResponseTime,
-                            ref avgCompleteResponseTime);
+
+                        CalculateSettlingTime(currentStreak, currentSetPointDistance,
+                            avgSettlingTime20Percent, avgSettlingTime10Percent, avgSettlingTime5Percent);
+
+                        CalculateResponseTime(currentStreak, currentSetPointDistance,
+                            avg10PercentResponseTime, avg50PercentResponseTime, avgCompleteResponseTime);
                     }
 
                     // Start a new streak, beginning with the first entry that has the new set-point
                     currentStreak.Clear();
                     currentStreak.Add(datedEntry);
+
+                    // Set the set-point distance between the old streak (or non-streak) and the new streak
+                    currentSetPointDistance = Mathf.Abs(datedEntry.Value.Desired - oldSetpoint.Value.Value.Desired);
+
+                    oldSetpoint = datedEntry;
 
                     continue;
                 }
@@ -220,10 +223,10 @@ namespace PIDTuning
             {
                 // Evaluate the current streak, if it is actually a streak (meaning more than 2 elements)
                 CalculateMaxOvershoot(currentStreak, ref maxOvershoot);
-                CalculateSettlingTime(currentStreak, ref avgSettlingTime10Percent, ref avgSettlingTime5Percent,
-                    ref avgSettlingTime2Percent);
-                CalculateResponseTime(currentStreak, ref avg10PercentResponseTime, ref avg50PercentResponseTime,
-                    ref avgCompleteResponseTime);
+                CalculateSettlingTime(currentStreak, currentSetPointDistance,
+                    avgSettlingTime20Percent, avgSettlingTime10Percent, avgSettlingTime5Percent);
+                CalculateResponseTime(currentStreak, currentSetPointDistance,
+                    avg10PercentResponseTime, avg50PercentResponseTime, avgCompleteResponseTime);
             }
         }
 
@@ -268,14 +271,104 @@ namespace PIDTuning
             }
         }
 
-        private static void CalculateSettlingTime(List<KeyValuePair<DateTime, PidStepDataEntry>> currentStreak, 
-            ref float? avgSettlingTime10Percent, ref float? avgSettlingTime5Percent, ref float? avgSettlingTime2Percent)
+        private static void CalculateSettlingTime(List<KeyValuePair<DateTime, PidStepDataEntry>> currentStreak, float setPointDistance,
+            AvgAccumulator avgSettlingTime20Percent, AvgAccumulator avgSettlingTime10Percent, AvgAccumulator avgSettlingTime5Percent)
         {
-            //throw new NotImplementedException();
+            // The general notion here is: We identify all peaks and assert they the have decreasing magnitude.
+            // Otherwise the process is unstable or disturbed somehow and finding a settling time doesn't make sense.
+
+            // Then we pick the first peak that is under 10%/5%/2% respectively and backtrack until we find the
+            // exact point that PV first entered the 10%/5%/2% band around SP.
+
+            // 1. Find all the peak indices.
+
+            float? lastMeasured = null;
+            float lastSign = 0f;
+            List<int> peakIndices = new List<int>();
+
+            for (int i = 0; i < currentStreak.Count; i++)
+            {
+                var datedEntry = currentStreak[i];
+
+                if (null != lastMeasured)
+                {
+                    var newSign = Mathf.Sign(datedEntry.Value.Measured - lastMeasured.Value);
+
+                    if (lastSign != newSign)
+                    {
+                        // Sign of d Measured / d t changed, so we have a peak here
+                        peakIndices.Add(i);
+                    }
+
+                    lastSign = newSign;
+                }
+
+                lastMeasured = datedEntry.Value.Measured;
+            }
+
+            // If we have no peaks, we abort. While it is technically possible that we could
+            // have 0 overshoot (and thus no peaks), this is only the case for PID controllers
+            // with Ki=0, which are hopefully pretty rare.
+            if (!peakIndices.Any())
+            {
+                return;
+            }
+
+            // 2. Assert the peaks are of decreasing magnitude within reasonable limits
+            // Reasonable limits means we don't look at peaks below 5% of the set-point distance
+
+            float lastPeakAbsError = currentStreak[peakIndices.First()].Value.AbsoluteError;
+
+            foreach (var peak in peakIndices)
+            {
+                var peakEntry = currentStreak[peak];
+
+                if (peakEntry.Value.AbsoluteError > lastPeakAbsError &&
+                    peakEntry.Value.AbsoluteError > 0.05f * setPointDistance)
+                {
+                    // If the peak magnitude increased and the peak was significant (over 2% of set-point distance)
+                    // then we abort
+                    return;
+                }
+
+                lastPeakAbsError = peakEntry.Value.AbsoluteError;
+            }
+
+            // 3. Find the first peaks that fall into the 10%/5%/2% bands and backtrack to find the settling times
+
+            // Helper function: Takes a width around SP (bandWidth, in percent) and updates the settling time average if possible
+            Action<AvgAccumulator, float> updateSettlingTime = (acc, bandWidth) =>
+            {
+                try
+                {
+                    var firstPeakBelowIndex =
+                        peakIndices.First(i => currentStreak[i].Value.AbsoluteError <= bandWidth * setPointDistance);
+
+                    // Find the index of the latest value that is outside of the settling band
+                    int lastOutsiderIndex;
+                    for (lastOutsiderIndex = firstPeakBelowIndex - 1; lastOutsiderIndex <= 0; lastOutsiderIndex--)
+                    {
+                        if (currentStreak[lastOutsiderIndex].Value.AbsoluteError > bandWidth * setPointDistance)
+                        {
+                            break;
+                        }
+                    }
+
+                    acc.Update((float)(currentStreak[lastOutsiderIndex].Key - currentStreak.First().Key).TotalSeconds);
+                }
+                catch (Exception e)
+                {
+                    // No peak was small enough, so we can't update the metric
+                }
+            };
+
+            updateSettlingTime(avgSettlingTime20Percent, 0.2f);
+            updateSettlingTime(avgSettlingTime10Percent, 0.1f);
+            updateSettlingTime(avgSettlingTime5Percent, 0.05f);
         }
 
-        private static void CalculateResponseTime(List<KeyValuePair<DateTime, PidStepDataEntry>> currentStreak, 
-            ref float? avg10PercentResponseTime, ref float? avg50PercentResponseTime, ref float? avgCompleteResponseTime)
+        private static void CalculateResponseTime(List<KeyValuePair<DateTime, PidStepDataEntry>> currentStreak, float setPointDistance,
+            AvgAccumulator avg10PercentResponseTime, AvgAccumulator avg50PercentResponseTime, AvgAccumulator avgCompleteResponseTime)
         {
             //throw new NotImplementedException();
         }
@@ -294,6 +387,11 @@ namespace PIDTuning
                 json["maxOvershoot"] = MaxOvershoot.Value;
             }
 
+            if (AvgSettlingTime20Percent.HasValue)
+            {
+                json["avgSettlingTime20Percent"] = AvgSettlingTime20Percent.Value;
+            }
+
             if (AvgSettlingTime10Percent.HasValue)
             {
                 json["avgSettlingTime10Percent"] = AvgSettlingTime10Percent.Value;
@@ -302,11 +400,6 @@ namespace PIDTuning
             if (AvgSettlingTime5Percent.HasValue)
             {
                 json["avgSettlingTime5Percent"] = AvgSettlingTime5Percent.Value;
-            }
-
-            if (AvgSettlingTime2Percent.HasValue)
-            {
-                json["avgSettlingTime2Percent"] = AvgSettlingTime2Percent.Value;
             }
 
             if (Avg10PercentResponseTime.HasValue)
@@ -345,9 +438,9 @@ namespace PIDTuning
 
             float? maxOvershoot = null;
 
+            AvgAccumulator avgSettlingTime20Percent = new AvgAccumulator();
             AvgAccumulator avgSettlingTime10Percent = new AvgAccumulator();
             AvgAccumulator avgSettlingTime5Percent = new AvgAccumulator();
-            AvgAccumulator avgSettlingTime2Percent = new AvgAccumulator();
 
             AvgAccumulator avg10PercentResponseTime = new AvgAccumulator();
             AvgAccumulator avg50PercentResponseTime = new AvgAccumulator();
@@ -372,13 +465,13 @@ namespace PIDTuning
                     }
                 }
 
-                UpdateAvgAccumulator(avgSettlingTime10Percent, eval.AvgSettlingTime10Percent);
-                UpdateAvgAccumulator(avgSettlingTime5Percent, eval.AvgSettlingTime5Percent);
-                UpdateAvgAccumulator(avgSettlingTime2Percent, eval.AvgSettlingTime2Percent);
+                avgSettlingTime20Percent.Update(eval.AvgSettlingTime20Percent);
+                avgSettlingTime10Percent.Update(eval.AvgSettlingTime10Percent);
+                avgSettlingTime5Percent.Update(eval.AvgSettlingTime5Percent);
 
-                UpdateAvgAccumulator(avg10PercentResponseTime, eval.Avg10PercentResponseTime);
-                UpdateAvgAccumulator(avg50PercentResponseTime, eval.Avg50PercentResponseTime);
-                UpdateAvgAccumulator(avgCompleteResponseTime, eval.AvgCompleteResponseTime);
+                avg10PercentResponseTime.Update(eval.Avg10PercentResponseTime);
+                avg50PercentResponseTime.Update(eval.Avg50PercentResponseTime);
+                avgCompleteResponseTime.Update(eval.AvgCompleteResponseTime);
 
                 count++;
             }
@@ -392,31 +485,17 @@ namespace PIDTuning
                 avgSignedError: avgSignedError,
                 maxAbsoluteError: maxAbsoluteError,
                 maxOvershoot: maxOvershoot,
+                avgSettlingTime20Percent: avgSettlingTime20Percent.ToAverage(),
                 avgSettlingTime10Percent: avgSettlingTime10Percent.ToAverage(),
                 avgSettlingTime5Percent: avgSettlingTime5Percent.ToAverage(),
-                avgSettlingTime2Percent: avgSettlingTime2Percent.ToAverage(),
                 avg10PercentResponseTime: avg10PercentResponseTime.ToAverage(),
                 avg50PercentResponseTime: avg50PercentResponseTime.ToAverage(),
                 avgCompleteResponseTime: avgCompleteResponseTime.ToAverage());
         }
 
-        private static void UpdateAvgAccumulator(AvgAccumulator accumulator, float? nextSample)
-        {
-            if (nextSample.HasValue)
-            {
-                if (accumulator.Value.HasValue)
-                {
-                    accumulator.Value += nextSample.Value;
-                }
-                else
-                {
-                    accumulator.Value = nextSample.Value;
-                }
-
-                accumulator.Count++;
-            }
-        }
-
+        /// <summary>
+        /// Can store a float average of an arbitrary sample size.
+        /// </summary>
         private class AvgAccumulator
         {
             public float? Value;
@@ -437,6 +516,23 @@ namespace PIDTuning
                 else
                 {
                     return null;
+                }
+            }
+
+            public void Update(float? nextSample)
+            {
+                if (nextSample.HasValue)
+                {
+                    if (this.Value.HasValue)
+                    {
+                        this.Value += nextSample.Value;
+                    }
+                    else
+                    {
+                        this.Value = nextSample.Value;
+                    }
+
+                    this.Count++;
                 }
             }
         }

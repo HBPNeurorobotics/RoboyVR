@@ -51,6 +51,11 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private Vector3 model_position_last_published_ = new Vector3();
     private Quaternion model_rotation_last_published_ = new Quaternion();
 
+    [Header("Initial PID Parameters")]
+    public float InitialP = 1000f;
+    public float InitialI = 100f;
+    public float InitialD = 500f;
+
     void Awake()
     {
         GzBridgeService.Instance.AddCallbackModelInfoMsg(this.OnModelInfoMsg);
@@ -277,7 +282,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
             string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
 
             // default was (100f, 50f, 10f)
-            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(1000f, 100f, 500f));
+            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(InitialP, InitialI, InitialD));
         }
     }
 

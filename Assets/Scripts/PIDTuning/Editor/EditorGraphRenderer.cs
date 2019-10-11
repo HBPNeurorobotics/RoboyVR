@@ -32,7 +32,7 @@ namespace PIDTuning.Editor
             get { return Mathf.Max(5f, _errorLine.MaxSampleValue); }
         }
 
-        public void DrawPreviewRect(Rect rect, bool drawX, bool drawY, bool drawZ)
+        public void DrawPreviewRect(Rect rect)
         {
             if (null == _preview)
             {
@@ -61,9 +61,6 @@ namespace PIDTuning.Editor
             // Adjust line width to account for viewport changes
             _baseLine.LineWidthMultiplier = maxSampleVal * BASELINE_WIDTH;
             _errorLine.LineWidthMultiplier = maxSampleVal * SAMPLE_LINE_WIDTH;
-
-            // Line visibility
-            _errorLine.IsVisible = drawX;
 
             _preview.BeginPreview(rect, GUIStyle.none);
             _preview.camera.Render();
