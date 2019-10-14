@@ -62,5 +62,25 @@ namespace PIDTuning
 
             return json;
         }
+
+        public static PidConfiguration FromJson(string jsonText)
+        {
+            var json = JObject.Parse(jsonText);
+
+            var config = new PidConfiguration(json["createdTimestamp"].Value<DateTime>());
+
+            foreach (var jointToken in json["mapping"])
+            {
+                if (jointToken.Type == JTokenType.Property)
+                {
+                    config.Mapping.Add(jointToken.Value<string>(), PidParameters.FromParallelForm(
+                        kp: jointToken["kp"].Value<float>(),
+                        ki: jointToken["ki"].Value<float>(),
+                        kd: jointToken["kd"].Value<float>()));
+                }
+            }
+
+            return config;
+        }
     }
 }

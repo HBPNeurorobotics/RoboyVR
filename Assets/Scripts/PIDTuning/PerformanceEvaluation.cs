@@ -317,22 +317,30 @@ namespace PIDTuning
             // 2. Assert the peaks are of decreasing magnitude within reasonable limits
             // Reasonable limits means we don't look at peaks below 5% of the set-point distance
 
-            float lastPeakAbsError = currentStreak[peakIndices.First()].Value.AbsoluteError;
+            // M: In retrospect, this condition seems a bit strict. 5% of the set-point distance
+            // can be a very small amount - so small, in fact, that floating point errors are
+            // sometimes dominant. I changed it to an absolute error of +/- 2 degrees for now.
 
-            foreach (var peak in peakIndices)
-            {
-                var peakEntry = currentStreak[peak];
+            // M: Again, in retrospect, this didn't work either. I suspect that disturbances
+            // caused by other joint can cause small peaks which violate this condition.
+            // I completely disabled it for now.
 
-                if (peakEntry.Value.AbsoluteError > lastPeakAbsError &&
-                    peakEntry.Value.AbsoluteError > 0.05f * setPointDistance)
-                {
-                    // If the peak magnitude increased and the peak was significant (over 2% of set-point distance)
-                    // then we abort
-                    return;
-                }
+            //float lastPeakAbsError = currentStreak[peakIndices.First()].Value.AbsoluteError;
 
-                lastPeakAbsError = peakEntry.Value.AbsoluteError;
-            }
+            //foreach (var peak in peakIndices)
+            //{
+            //    var peakEntry = currentStreak[peak];
+
+            //    if (peakEntry.Value.AbsoluteError > lastPeakAbsError &&
+            //        peakEntry.Value.AbsoluteError > 2.0f) // was: peakEntry.Value.AbsoluteError > 0.05f * setPointDistance
+            //    {
+            //        // If the peak magnitude increased significantly and the peak was significant, we abort
+            //        Debug.Log("Was aborted due to: " + peakEntry.Value.AbsoluteError + " > " + lastPeakAbsError);
+            //        return;
+            //    }
+
+            //    lastPeakAbsError = peakEntry.Value.AbsoluteError;
+            //}
 
             // 3. Find the first peaks that fall into the 10%/5%/2% bands and backtrack to find the settling times
 
@@ -370,7 +378,40 @@ namespace PIDTuning
         private static void CalculateResponseTime(List<KeyValuePair<DateTime, PidStepDataEntry>> currentStreak, float setPointDistance,
             AvgAccumulator avg10PercentResponseTime, AvgAccumulator avg50PercentResponseTime, AvgAccumulator avgCompleteResponseTime)
         {
-            //throw new NotImplementedException();
+            var threshold10Percent = .9f * setPointDistance;
+            var threshold50Percent = .5f * setPointDistance;
+            var initialErrorSign = Mathf.Sign(currentStreak[0].Value.SignedError);
+
+            var crossed10Percent = false;
+            var crossed50Percent = false;
+
+            foreach (var datedEntry in currentStreak)
+            {
+                var respTime = (float)(datedEntry.Key - currentStreak[0].Key).TotalSeconds;
+
+                if (!crossed10Percent && datedEntry.Value.AbsoluteError <= threshold10Percent)
+                {
+                    crossed10Percent = true;
+                    avg10PercentResponseTime.Update(respTime);
+                }
+
+                if (!crossed50Percent && datedEntry.Value.AbsoluteError <= threshold50Percent)
+                {
+                    crossed50Percent = true;
+                    avg50PercentResponseTime.Update(respTime);
+                }
+
+                if (Mathf.Sign(datedEntry.Value.SignedError) != initialErrorSign)
+                {
+                    // If the sign of the signed error flips, we have crossed the set-point,
+                    // meaning that we have a complete response
+                    avgCompleteResponseTime.Update(respTime);
+
+                    // Since having a 100% response also means we MUST have had a 10% and 50%
+                    // response, we can short-circuit here
+                    return;
+                }
+            }
         }
 
         public JObject ToJson()

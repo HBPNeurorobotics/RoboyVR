@@ -142,7 +142,7 @@ namespace PIDTuning.Editor
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(GRAPH_MARGIN_LEFT - 3f + // Position at left border of graph display
                             _animatorControl.TimeStretchFactor * (GRAPH_HEIGHT / (2f * _graphRenderer.MaxSampleValueForDisplay)) * SECONDS_INDICATOR_AT / GraphLineRenderer.SecondsPerGraphUnit); // Shift right by SECONDS_INDICATOR_VALUE graph units
-            GUILayout.Label("| " + SECONDS_INDICATOR_AT + " sec");
+            GUILayout.Label("| " + SECONDS_INDICATOR_AT + " sec (Animation time)");
             EditorGUILayout.EndHorizontal();
         }
 
