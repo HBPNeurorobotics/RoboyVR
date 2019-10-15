@@ -8,7 +8,7 @@ namespace PIDTuning
 {
     public class AnimatorControl : MonoBehaviour
     {
-        [SerializeField] private GameObject _userAvatar;
+        [SerializeField] private GameObject _localAvatar;
 
         [SerializeField] private float _timeStretchFactor = 1f;
 
@@ -31,10 +31,10 @@ namespace PIDTuning
         /// </summary>
         private void Awake()
         {
-            Assert.IsNotNull(_userAvatar);
+            Assert.IsNotNull(_localAvatar);
 
-            _animator = _userAvatar.GetComponent<Animator>();
-            _ikControl = _userAvatar.GetComponent<UserAvatarVisualsIKControl>();
+            _animator = _localAvatar.GetComponent<Animator>();
+            _ikControl = _localAvatar.GetComponent<UserAvatarVisualsIKControl>();
 
             Assert.IsNotNull(_animator);
             Assert.IsNotNull(_ikControl);

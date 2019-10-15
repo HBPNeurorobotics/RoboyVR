@@ -17,35 +17,53 @@ namespace PIDTuning
     ///
     /// TODO: This class could utilize symmetries (like left arm/right arm) to save some time.
     /// </summary>
+    [RequireComponent(typeof(TestRunner), typeof(PidConfigurationStorage))]
     public class AutoTuningService : MonoBehaviour
     {
         [SerializeField]
+        private GameObject _localAvatar;
+
         private TestRunner _testRunner;
 
-        [SerializeField]
         private PidConfigurationStorage _pidConfigStorage;
 
-        [SerializeField]
-        private Animator _localAvatar;
+        private Animator _localAvatarAnimator;
+
+        private RigAngleTracker _localAvatarRig;
 
         private bool _tuningInProgress;
 
         private void Start()
         {
-            Assert.IsNotNull(_testRunner);
-            Assert.IsNotNull(_pidConfigStorage);
+            Assert.IsNotNull(_testRunner = GetComponent<TestRunner>());
+            Assert.IsNotNull(_pidConfigStorage = GetComponent<PidConfigurationStorage>());
+
             Assert.IsNotNull(_localAvatar);
+            Assert.IsNotNull(_localAvatarAnimator = _localAvatar.GetComponent<Animator>());
+            Assert.IsNotNull(_localAvatarRig = _localAvatar.GetComponent<RigAngleTracker>());
+
+            // DEBUG
+            StartCoroutine(TuneAllJoints());
         }
 
         public IEnumerator TuneAllJoints()
         {
-            throw new NotImplementedException();
-
             Assert.IsFalse(_tuningInProgress);
-
             _tuningInProgress = true;
-            
+
+            _localAvatarAnimator.enabled = false;
+
             // TODO: Tune!
+
+            // DEBUG
+            float targetAngle = 30f;
+
+            while (true)
+            {
+                _localAvatarRig.SetJointEulerAngle("mixamorig_LeftArm_y", targetAngle *= -1f);
+
+                yield return new WaitForSeconds(3f);
+            }
 
             _tuningInProgress = false;
         }

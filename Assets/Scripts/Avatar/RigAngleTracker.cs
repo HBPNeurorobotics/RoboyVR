@@ -69,6 +69,28 @@ public class RigAngleTracker : MonoBehaviour
         }
     }
 
+    public void SetJointEulerAngle(string joint, float angle)
+    {
+        if (!_initialized)
+        {
+            BuildJointMapping();
+            _initialized = true;
+        }
+
+        _jointMappings[joint].SetJointEulerAngle(angle);
+    }
+
+    public void SetJointRadians(string joint, float rad)
+    {
+        if (!_initialized)
+        {
+            BuildJointMapping();
+            _initialized = true;
+        }
+
+        _jointMappings[joint].SetJointRadians(rad);
+    }
+
     /// <summary>
     /// Builds a mapping of joint relations so we don't have to do that again every frame.
     /// This is a very expensive operation, but it is only executed once, when an avatar is spawned.
