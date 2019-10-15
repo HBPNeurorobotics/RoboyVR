@@ -40,9 +40,9 @@ public class RigAngleTracker : MonoBehaviour
 
     private int _lastTrackedFrame = -1;
 
-    private Dictionary<string, float> _jointToAngles = new Dictionary<string, float>();
+    private Dictionary<string, float> _jointToRadians = new Dictionary<string, float>();
 
-    private List<JointMapping> _jointMappings = new List<JointMapping>();
+    private Dictionary<string, JointMapping> _jointMappings = new Dictionary<string, JointMapping>();
 
     public Dictionary<string, float> GetJointToRadianMapping()
     {
@@ -54,29 +54,18 @@ public class RigAngleTracker : MonoBehaviour
 
         if (_lastTrackedFrame != Time.frameCount)
         {
-            UpdateJointAngles();
+            UpdateJointToRadians();
             _lastTrackedFrame = Time.frameCount;
         }
 
-        return _jointToAngles;
+        return _jointToRadians;
     }
 
-    private void UpdateJointAngles()
+    private void UpdateJointToRadians()
     {
         foreach (var mapping in _jointMappings)
         {
-            Quaternion rot_diff = Quaternion.Inverse(mapping.Parent.rotation) * mapping.Child.rotation;
-
-            Vector3 euler_angles = rot_diff.eulerAngles;
-            euler_angles.x = euler_angles.x % 360;
-            euler_angles.y = euler_angles.y % 360;
-            euler_angles.z = euler_angles.z % 360;
-
-            euler_angles.x = euler_angles.x > 180 ? euler_angles.x - 360 : euler_angles.x;
-            euler_angles.y = euler_angles.y > 180 ? euler_angles.y - 360 : euler_angles.y;
-            euler_angles.z = euler_angles.z > 180 ? euler_angles.z - 360 : euler_angles.z;
-
-            mapping.MappingUpdateFunc(euler_angles);
+            _jointToRadians[mapping.Key] = mapping.Value.GetJointRadians();
         }
     }
 
@@ -103,7 +92,8 @@ public class RigAngleTracker : MonoBehaviour
 
     private void CreateMappingForRemoteAvatar()
     {
-        // These joint links are unique to the remote avatar. The local avatar doesn't have them
+        // These four joint links are unique to the remote avatar. The local avatar doesn't have them
+
         const string L_ARM_JLINK1_NAME = "mixamorig_LeftArm_JointLink1";
         const string L_ARM_JLINK2_NAME = "mixamorig_LeftArm_JointLink2";
 
@@ -137,126 +127,60 @@ public class RigAngleTracker : MonoBehaviour
 
         // Left Arm
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftArm_jlink1,
-            child: leftShoulder,
-            mappingUpdateFunc: euler_angles =>
-            {
-                euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[L_ARM_NAME + "_z"] = -euler_angles.z;
-            }));
+        _jointMappings[L_ARM_NAME + "_x"] =
+            new JointMapping(leftArm_jlink1, leftArm_jlink2, true, MappedEulerAngle.X);
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftArm_jlink2,
-            child: leftArm_jlink1,
-            mappingUpdateFunc: euler_angles =>
-            {
-                euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[L_ARM_NAME + "_x"] = euler_angles.x;
-            }));
+        _jointMappings[L_ARM_NAME + "_y"] =
+            new JointMapping(leftArm_jlink2, leftArm, true, MappedEulerAngle.Y);
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftArm,
-            child: leftArm_jlink2,
-            mappingUpdateFunc: euler_angles =>
-            {
-                euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[L_ARM_NAME + "_y"] = euler_angles.y;
-            }));
+        _jointMappings[L_ARM_NAME + "_z"] =
+            new JointMapping(leftShoulder, leftArm_jlink1, true, MappedEulerAngle.InvertedZ);
 
         // Right Arm
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightArm_jlink1,
-            child: rightShoulder,
-            mappingUpdateFunc: euler_angles =>
-            {
-                euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[R_ARM_NAME + "_z"] = -euler_angles.z;
-            }));
+        _jointMappings[R_ARM_NAME + "_x"] =
+            new JointMapping(rightArm_jlink1, rightArm_jlink2, true, MappedEulerAngle.X);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightArm_jlink2,
-            child: rightArm_jlink1,
-            mappingUpdateFunc: euler_angles =>
-            {
-                euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[R_ARM_NAME + "_x"] = euler_angles.x;
-            }));
+        _jointMappings[R_ARM_NAME + "_y"] =
+            new JointMapping(rightArm_jlink2, rightArm, true, MappedEulerAngle.Y);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightArm,
-            child: rightArm_jlink2,
-            mappingUpdateFunc: euler_angles =>
-            {
-                euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[R_ARM_NAME + "_y"] = euler_angles.y;
-            }));
+        _jointMappings[R_ARM_NAME + "_z"] =
+            new JointMapping(rightShoulder, rightArm_jlink1, true, MappedEulerAngle.InvertedZ);
 
         // ForeArms
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftForeArm,
-            child: leftArm,
-            mappingUpdateFunc: euler_angles =>
-            {
-                euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[L_FORE_ARM_NAME] = -euler_angles.z;
-            }));
+        _jointMappings[L_FORE_ARM_NAME] = 
+            new JointMapping(leftArm, leftForeArm, true, MappedEulerAngle.InvertedZ);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightForeArm,
-            child: rightArm,
-            mappingUpdateFunc: euler_angles => 
-            {
-                euler_angles *= Mathf.Deg2Rad;
-                _jointToAngles[R_FORE_ARM_NAME] = -euler_angles.z;
-            }));
+        _jointMappings[R_FORE_ARM_NAME] = 
+            new JointMapping(rightArm, rightForeArm, true, MappedEulerAngle.InvertedZ);
 
         // Upper Legs
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftUpLeg,
-            child: hips,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_UP_LEG_NAME, euler_angles)));
+        _jointMappings[L_UP_LEG_NAME] = new JointMapping(hips, leftUpLeg, true, MappedEulerAngle.X);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightUpLeg,
-            child: hips,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_UP_LEG_NAME, euler_angles)));
+        _jointMappings[R_UP_LEG_NAME] = new JointMapping(hips, rightUpLeg, true, MappedEulerAngle.X);
 
         // Lower Legs
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftLeg,
-            child: leftUpLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_LEG_NAME, euler_angles)));
+        _jointMappings[L_LEG_NAME] = new JointMapping(leftUpLeg, leftLeg, true, MappedEulerAngle.X);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightLeg,
-            child: rightUpLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_LEG_NAME, euler_angles)));
+        _jointMappings[R_LEG_NAME] = new JointMapping(rightUpLeg, rightLeg, true, MappedEulerAngle.X);
 
         // Feet
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftFoot,
-            child: leftLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_FOOT_NAME, euler_angles)));
+        _jointMappings[L_FOOT_NAME] = new JointMapping(leftLeg, leftFoot, true, MappedEulerAngle.X);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightFoot,
-            child: rightLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_FOOT_NAME, euler_angles)));
+        _jointMappings[R_FOOT_NAME] = new JointMapping(rightLeg, rightFoot, true, MappedEulerAngle.X);
     }
 
     private void CreateMappingForLocalAvatar()
     {
         // Note: With a bunch of clever string manipulation, it would be possible to get rid of all "left"/"right" distinctions here.
-        // In all honesty, I just was too lazy to do it.
+        // In all honesty, I  was just too lazy to do it.
 
         /*
-         * Hierachy (symmetry):
+         * Hierarchy (symmetry):
          * - HIPS
          *   - UP_LEG
          *     - LEG
@@ -291,101 +215,51 @@ public class RigAngleTracker : MonoBehaviour
 
         // Update Functions. These were extracted from UserAvatarService "GetJointPIDPositionTargetsJointStatesMsg"
 
-        // Arms
+        // Left Arm
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftShoulder,
-            child: leftArm,
-            mappingUpdateFunc: euler_angles => UpdateArmMappingLocal(L_ARM_NAME, euler_angles)));
+        _jointMappings[L_ARM_NAME + "_x"] =
+            new JointMapping(leftShoulder, leftArm, false, MappedEulerAngle.X);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightShoulder,
-            child: rightArm,
-            mappingUpdateFunc: euler_angles => UpdateArmMappingLocal(R_ARM_NAME, euler_angles)));
+        _jointMappings[L_ARM_NAME + "_y"] =
+            new JointMapping(leftShoulder, leftArm, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_ARM_NAME + "_z"] =
+            new JointMapping(leftShoulder, leftArm, false, MappedEulerAngle.Y);
+
+        // Right Arm
+
+        _jointMappings[R_ARM_NAME + "_x"] =
+            new JointMapping(rightShoulder, rightArm, false, MappedEulerAngle.X);
+
+        _jointMappings[R_ARM_NAME + "_y"] =
+            new JointMapping(rightShoulder, rightArm, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_ARM_NAME + "_z"] =
+            new JointMapping(rightShoulder, rightArm, false, MappedEulerAngle.Y);
 
         // ForeArms
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftArm,
-            child: leftForeArm,
-            mappingUpdateFunc: euler_angles => UpdateForeArmMappingLocal(L_FORE_ARM_NAME, euler_angles)));
+        _jointMappings[L_FORE_ARM_NAME] = new JointMapping(leftArm, leftForeArm, false, MappedEulerAngle.Y);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightArm,
-            child: rightForeArm,
-            mappingUpdateFunc: euler_angles => UpdateForeArmMappingLocal(R_FORE_ARM_NAME, euler_angles)));
+        _jointMappings[R_FORE_ARM_NAME] = new JointMapping(rightArm, rightForeArm, false, MappedEulerAngle.Y);
 
         // Upper Legs
 
-        _jointMappings.Add(new JointMapping(
-            parent: hips,
-            child: leftUpLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_UP_LEG_NAME, euler_angles)));
+        _jointMappings[L_UP_LEG_NAME] = new JointMapping(hips, leftUpLeg, false, MappedEulerAngle.X);
 
-        _jointMappings.Add(new JointMapping(
-            parent: hips,
-            child: rightUpLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_UP_LEG_NAME, euler_angles)));
+        _jointMappings[R_UP_LEG_NAME] = new JointMapping(hips, rightUpLeg, false, MappedEulerAngle.X);
 
         // Lower Legs
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftUpLeg,
-            child: leftLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_LEG_NAME, euler_angles)));
+        _jointMappings[L_LEG_NAME] = new JointMapping(leftUpLeg, leftLeg, false, MappedEulerAngle.X);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightUpLeg,
-            child: rightLeg,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_LEG_NAME, euler_angles)));
+        _jointMappings[R_LEG_NAME] = new JointMapping(rightUpLeg, rightLeg, false, MappedEulerAngle.X);
 
         // Feet
 
-        _jointMappings.Add(new JointMapping(
-            parent: leftLeg,
-            child: leftFoot,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(L_FOOT_NAME, euler_angles)));
+        _jointMappings[L_FOOT_NAME] = new JointMapping(leftLeg, leftFoot, false, MappedEulerAngle.X);
 
-        _jointMappings.Add(new JointMapping(
-            parent: rightLeg,
-            child: rightFoot,
-            mappingUpdateFunc: euler_angles => UpdateOtherMapping(R_FOOT_NAME, euler_angles)));
-    }
-
-    /// <summary>
-    /// This method only works for the local avatar since there is only one arm link for the shoulder.
-    /// On the remote avatar, there are 3 arm links per shoulder, so it needs to be handled differently.
-    /// </summary>
-    private void UpdateArmMappingLocal(string armName, Vector3 euler_angles)
-    {
-        string joint_x_axis = armName + "_x";
-        string joint_y_axis = armName + "_y";
-        string joint_z_axis = armName + "_z";
-
-        euler_angles = euler_angles * Mathf.Deg2Rad;
-
-        _jointToAngles[joint_x_axis] = euler_angles.x;
-
-        _jointToAngles[joint_y_axis] = -euler_angles.z;
-        _jointToAngles[joint_z_axis] = euler_angles.y;
-    }
-
-    /// <summary>
-    /// This version  also only works for a local avatar. Don't know why tbh.
-    /// </summary>
-    private void UpdateForeArmMappingLocal(string foreArmName, Vector3 euler_angles)
-    {
-        euler_angles = new Vector3(euler_angles.y, euler_angles.x, euler_angles.z);
-        euler_angles = euler_angles * Mathf.Deg2Rad;
-
-        _jointToAngles[foreArmName] = euler_angles.x;
-    }
-
-    private void UpdateOtherMapping(string jointName, Vector3 euler_angles)
-    {
-        euler_angles = euler_angles * Mathf.Deg2Rad;
-
-        _jointToAngles[jointName] = euler_angles.x;
+        _jointMappings[R_FOOT_NAME] = new JointMapping(rightLeg, rightFoot, false, MappedEulerAngle.X);
     }
 
     /// <summary>
@@ -429,17 +303,114 @@ public class RigAngleTracker : MonoBehaviour
         return null;
     }
 
+    private enum MappedEulerAngle
+    {
+        X,
+        Y,
+        InvertedZ
+    }
+
+    /// <summary>
+    /// Describes the relation between
+    /// - The rotational difference between two Unity transforms
+    /// - And a single 1-DoF Joint in Gazebo
+    ///
+    /// Basically, this allows you to talk to Unity transforms as if they were
+    /// Gazebo joints; Most notably, you can get and set the current joint angle.
+    /// </summary>
     private struct JointMapping
     {
-        public Transform Parent;
-        public Transform Child;
-        public Action<Vector3> MappingUpdateFunc;
+        public readonly Transform Parent;
+        public readonly Transform Child;
 
-        public JointMapping(Transform parent, Transform child, Action<Vector3> mappingUpdateFunc)
+        /// <summary>
+        /// Whether the rotation from the getter should be inverted. Typically,
+        /// this is false for local avatars, and true for remote avatars.
+        /// The reason for this is a coordinate-system discrepancy between Unity and Gazebo.
+        /// This setting does NOT affect the setter (as you should not be modifying
+        /// the remote avatar's joints anyway - Let Gazebo do that).
+        /// </summary>
+        public readonly bool InvertRotation;
+        
+        public readonly MappedEulerAngle MappedEulerAngle;
+
+        public JointMapping(Transform parent, Transform child, bool invertRotation, MappedEulerAngle mappedEulerAngle)
         {
             Parent = parent;
             Child = child;
-            MappingUpdateFunc = mappingUpdateFunc;
+            InvertRotation = invertRotation;
+            MappedEulerAngle = mappedEulerAngle;
+        }
+
+        public float GetJointRadians()
+        {
+            Quaternion rot_diff = InvertRotation ?
+                Quaternion.Inverse(Child.rotation) * Parent.rotation :
+                Quaternion.Inverse(Parent.rotation) * Child.rotation;
+
+            Vector3 euler_angles = rot_diff.eulerAngles;
+            euler_angles.x = euler_angles.x % 360;
+            euler_angles.y = euler_angles.y % 360;
+            euler_angles.z = euler_angles.z % 360;
+
+            euler_angles.x = euler_angles.x > 180 ? euler_angles.x - 360 : euler_angles.x;
+            euler_angles.y = euler_angles.y > 180 ? euler_angles.y - 360 : euler_angles.y;
+            euler_angles.z = euler_angles.z > 180 ? euler_angles.z - 360 : euler_angles.z;
+
+            euler_angles *= Mathf.Deg2Rad;
+
+            switch (MappedEulerAngle)
+            {
+                case MappedEulerAngle.X:
+                    return euler_angles.x;
+
+                case MappedEulerAngle.Y:
+                    return euler_angles.y;
+
+                case MappedEulerAngle.InvertedZ:
+                    return -euler_angles.z;
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
+        public void SetJointRadians(float rad)
+        {
+            SetJointEulerAngle(rad * Mathf.Rad2Deg);
+        }
+
+        public void SetJointEulerAngle(float angle)
+        {
+            if (InvertRotation)
+            {
+                throw new InvalidOperationException("Cannot set joint angle on a joint with \"InvertRotation=true\". " +
+                                                    "Are you attempting to manipulate the remote avatar instead of the local one?");
+            }
+
+            switch (MappedEulerAngle)
+            {
+                case MappedEulerAngle.X:
+                    Child.transform.eulerAngles = new Vector3(
+                        angle, 
+                        Child.transform.eulerAngles.y, 
+                        Child.transform.eulerAngles.z);
+                    break;
+
+                case MappedEulerAngle.Y:
+                    Child.transform.eulerAngles = new Vector3(
+                        Child.transform.eulerAngles.x,
+                        angle,
+                        Child.transform.eulerAngles.z);
+                    break;
+
+                case MappedEulerAngle.InvertedZ:
+                    Child.transform.eulerAngles = new Vector3(
+                        Child.transform.eulerAngles.x,
+                        Child.transform.eulerAngles.y,
+                        -angle);
+                    break;
+            }
         }
     }
 }
