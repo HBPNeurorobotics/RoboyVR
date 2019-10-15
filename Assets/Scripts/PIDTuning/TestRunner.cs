@@ -16,6 +16,7 @@ namespace PIDTuning
         private TestEnvSetup _testEnvSetup;
         private AnimatorControl _animatorControl;
         private PoseErrorTracker _poseErrorTracker;
+        private PidConfigurationStorage _pidConfigurationStorage;
 
         public enum TestRunnerState
         {
@@ -87,9 +88,10 @@ namespace PIDTuning
 
             Assert.IsNotNull(_avatarService);
 
-            _testEnvSetup = GetComponent<TestEnvSetup>();
-            _animatorControl = GetComponent<AnimatorControl>();
-            _poseErrorTracker = GetComponent<PoseErrorTracker>();
+            Assert.IsNotNull(_testEnvSetup = GetComponent<TestEnvSetup>());
+            Assert.IsNotNull(_animatorControl = GetComponent<AnimatorControl>());
+            Assert.IsNotNull(_poseErrorTracker = GetComponent<PoseErrorTracker>());
+            Assert.IsNotNull(_pidConfigurationStorage = GetComponent<PidConfigurationStorage>());
 
             _testAnimationStateList = ParseTestAnimationStatesInput();
 
@@ -138,11 +140,10 @@ namespace PIDTuning
 
             var testRunTimeStamp = DateTime.UtcNow;
 
-            // TODO: The PID config should come from the user, but for now we are just going to instantiate it here
-            var pidConfig = new PidConfiguration(testRunTimeStamp);
-            pidConfig.InitializeMapping(_poseErrorTracker.GetJointNames(), PidParameters.FromParallelForm(1000f, 100f, 500f));
-
-            _testEnvSetup.TransmitPidConfiguration(pidConfig);
+            // We copy the current PID configuration here so that the user cannot accidentally modify it during the test.
+            // (They still can do that if they transmit a new configuration, but in that case that's their own fault.)
+            var testRunPidConfig = new PidConfiguration(_pidConfigurationStorage.Configuration);
+            _pidConfigurationStorage.TransmitPidConfiguration(testRunPidConfig);
 
             // Run Simulation Loop and record data
             // -----------------------------------------------------------------------------------
@@ -190,7 +191,7 @@ namespace PIDTuning
 
             _latestTestTimestamp = testRunTimeStamp;
             _latestAnimationToJointToStepData = _tempAnimationToJointToStepData;
-            _latestPidConfiguration = pidConfig;
+            _latestPidConfiguration = testRunPidConfig;
             CalculatePerformanceEvaluation(testRunTimeStamp);
 
             State = TestRunnerState.FinishedTest;

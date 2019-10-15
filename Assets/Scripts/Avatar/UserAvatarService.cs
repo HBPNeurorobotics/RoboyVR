@@ -16,6 +16,11 @@ public class UserAvatarService : Singleton<UserAvatarService>
         get { return this.user_avatar; }
     }
 
+    public bool IsRemoteAvatarPresent
+    {
+        get { return user_avatar != null; }
+    }
+
     public GameObject avatar_rig = null;
 
     public RigAngleTracker RigAngleTracker;

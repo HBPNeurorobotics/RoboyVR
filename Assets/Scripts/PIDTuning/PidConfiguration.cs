@@ -31,17 +31,22 @@ namespace PIDTuning
             Mapping = new Dictionary<string, PidParameters>();
         }
 
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        public PidConfiguration(PidConfiguration copySource)
+        {
+            CreatedTimestampUtc = copySource.CreatedTimestampUtc;
+            Mapping = new Dictionary<string, PidParameters>(copySource.Mapping);
+        }
+
         public void InitializeMapping(IEnumerable<string> jointNames, PidParameters initializeValue)
         {
-            // We need to make sure that no one changes PidParameters from a struct to a class
-            // because the implicit copy-on-assign below will not work with classes
-            Assert.IsTrue(typeof(PidParameters).IsValueType);
-
             Mapping.Clear();
 
             foreach (var name in jointNames)
             {
-                Mapping[name] = initializeValue;
+                Mapping[name] = new PidParameters(initializeValue);
             }
         }
 

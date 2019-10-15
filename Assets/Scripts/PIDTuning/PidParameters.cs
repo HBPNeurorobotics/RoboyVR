@@ -10,9 +10,9 @@ namespace PIDTuning
     /// Gain parameters for a PID controller
     /// Available in both standard and parallel form
     /// </summary>
-    public struct PidParameters
+    public class PidParameters
     {
-        public readonly float Kp, Ki, Kd;
+        public float Kp, Ki, Kd;
 
         public float Ti
         {
@@ -29,6 +29,16 @@ namespace PIDTuning
             Kp = kp;
             Ki = ki;
             Kd = kd;
+        }
+
+        /// <summary>
+        /// Copy constructor
+        /// </summary>
+        public PidParameters(PidParameters copySource)
+        {
+            Kp = copySource.Kp;
+            Ki = copySource.Ki;
+            Kd = copySource.Kd;
         }
 
         public static PidParameters FromParallelForm(float kp, float ki, float kd)

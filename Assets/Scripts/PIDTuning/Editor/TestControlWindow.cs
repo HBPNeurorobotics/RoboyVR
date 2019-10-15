@@ -76,7 +76,7 @@ namespace PIDTuning.Editor
                 GUILayout.Space(10f);
 
                 EditorGUIUtility.labelWidth = 65f;
-                _testRunner.CurrentTestLabel = EditorGUILayout.DelayedTextField("Test Label", _testRunner.CurrentTestLabel);
+                _testRunner.CurrentTestLabel = EditorGUILayout.TextField("Test Label", _testRunner.CurrentTestLabel);
                 EditorGUIUtility.labelWidth = 0f; // Reset label width
 
                 DrawTestControlButton();
