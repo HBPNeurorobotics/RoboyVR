@@ -54,12 +54,12 @@ namespace PIDTuning.Editor
                 }
             }
 
-            DrawResetGui(configStorage.Configuration);
+            DrawResetGui(configStorage);
 
             DrawJointPidMapping(configStorage.Configuration);
         }
 
-        private void DrawResetGui(PidConfiguration config)
+        private void DrawResetGui(PidConfigurationStorage configStorage)
         {
             GUILayout.Label("The following values can be used to reset\na PID configuration. They don't serve any\nother purpose.");
 
@@ -69,11 +69,7 @@ namespace PIDTuning.Editor
 
             if (GUILayout.Button("Reset to base values"))
             {
-                // We need to enumerate the key collection here since lazy evaluation would fail during the call to
-                // InitializeMapping, since it modifies the underlying collection
-                var joinNames = config.Mapping.Keys.ToArray();
-
-                config.InitializeMapping(joinNames, PidParameters.FromParallelForm(_baseKp, _baseKi, _baseKd));
+                configStorage.ResetConfiguration(_baseKp, _baseKi, _baseKd);
             }
         }
 

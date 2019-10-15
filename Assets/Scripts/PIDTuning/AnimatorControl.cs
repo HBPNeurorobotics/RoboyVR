@@ -40,6 +40,8 @@ namespace PIDTuning
             Assert.IsNotNull(_ikControl);
 
             PrepareRigForPlayback();
+
+            Debug.LogWarning("The PIDTuningService GameObject is enabled. This will disable tracking and IK functionality.");
         }
 
         public void ResetUserAvatar()

@@ -69,5 +69,14 @@ namespace PIDTuning
 
             Configuration = newConfig;
         }
+
+        public void ResetConfiguration(float kp, float ki, float kd)
+        {
+            // We need to enumerate the key collection here since lazy evaluation would fail during the call to
+            // InitializeMapping, since it modifies the underlying collection
+            var joinNames = Configuration.Mapping.Keys.ToArray();
+
+            Configuration.InitializeMapping(joinNames, PidParameters.FromParallelForm(kp, ki, kd));
+        }
     }
 }
