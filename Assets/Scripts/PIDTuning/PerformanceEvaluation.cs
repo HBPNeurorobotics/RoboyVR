@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -71,7 +72,13 @@ namespace PIDTuning
         /// </summary>
         public readonly float? AvgCompleteResponseTime;
 
-        public PerformanceEvaluation(DateTime timeStamp, float avgAbsoluteError, float avgSignedError, float maxAbsoluteError, float? maxOvershoot, float? avgSettlingTime10Percent, float? avgSettlingTime5Percent, float? avgSettlingTime2Percent, float? avg10PercentResponseTime, float? avg50PercentResponseTime, float? avgCompleteResponseTime)
+        /// <summary>
+        /// This metric is only available if the step-data contains exactly 1 set-point change.
+        /// In that case, this collection contains all peaks of PV around SP AFTER the change.
+        /// </summary>
+        public readonly ReadOnlyCollection<KeyValuePair<DateTime, PidStepDataEntry>> MeasuredPeaksAfterStepChange;
+
+        public PerformanceEvaluation(DateTime timeStamp, float avgAbsoluteError, float avgSignedError, float maxAbsoluteError, float? maxOvershoot, float? avgSettlingTime10Percent, float? avgSettlingTime5Percent, float? avgSettlingTime2Percent, float? avg10PercentResponseTime, float? avg50PercentResponseTime, float? avgCompleteResponseTime, ReadOnlyCollection<KeyValuePair<DateTime, PidStepDataEntry>> measuredPeaksAfterStepChange)
         {
             TimeStamp = timeStamp;
             AvgAbsoluteError = avgAbsoluteError;
@@ -84,6 +91,7 @@ namespace PIDTuning
             Avg10PercentResponseTime = avg10PercentResponseTime;
             Avg50PercentResponseTime = avg50PercentResponseTime;
             AvgCompleteResponseTime = avgCompleteResponseTime;
+            MeasuredPeaksAfterStepChange = measuredPeaksAfterStepChange;
         }
 
         public static PerformanceEvaluation FromStepData(DateTime timestamp, PidStepData stepData)
@@ -121,6 +129,8 @@ namespace PIDTuning
                 avg50PercentResponseTime: avg50PercentResponseTime,
                 avgCompleteResponseTime: avgCompleteResponseTime);
 
+            var peaks = CalculatePeaksIfDataIsStepChange(stepData);
+
             return new PerformanceEvaluation(timestamp,
                 avgAbsoluteError: avgAbsoluteError, avgSignedError: avgSignedError, maxAbsoluteError: maxAbsoluteError,
                 maxOvershoot: maxOvershoot,
@@ -129,7 +139,80 @@ namespace PIDTuning
                 avgSettlingTime2Percent: avgSettlingTime2Percent.ToAverage(),
                 avg10PercentResponseTime: avg10PercentResponseTime.ToAverage(), 
                 avg50PercentResponseTime: avg50PercentResponseTime.ToAverage(), 
-                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage());
+                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage(),
+                measuredPeaksAfterStepChange: peaks == null ? null : peaks.AsReadOnly());
+        }
+
+        private static List<KeyValuePair<DateTime, PidStepDataEntry>> CalculatePeaksIfDataIsStepChange(PidStepData stepData)
+        {
+            // First, make sure we actually have step-change step-data, meaning there is exactly
+            // in change in the set-point in the whole data-set
+
+            int spChanges = 0;
+            int lastSpChangeIndex = 0;
+            float lastSp = stepData.Data.First().Value.Desired;
+
+            for (int i = 0; i < stepData.Data.Count; i++)
+            {
+                if (!Mathf.Approximately(stepData.Data.Values[i].Desired, lastSp))
+                {
+                    spChanges++;
+                    lastSpChangeIndex = i;
+                    lastSp = stepData.Data.Values[i].Desired;
+                }
+
+                if (spChanges > 1)
+                {
+                    return null;
+                }
+            }
+
+            if (spChanges != 1)
+            {
+                return null;
+            }
+
+            // Then we find all peaks that come after the change of SP
+            var dataAfterStepChange = stepData.Data.Skip(lastSpChangeIndex).ToList(); // PERF: This ToList() is slow...
+
+            var peakIndices = FindPeakIndices(dataAfterStepChange);
+
+            return peakIndices.Select(peakIndex => dataAfterStepChange[peakIndex]).ToList();
+        }
+
+        private static List<int> FindPeakIndices(IList<KeyValuePair<DateTime, PidStepDataEntry>> data)
+        {
+            // I have found that the input data is very slightly noisy. I decided to go for a more thorough,
+            // but slightly slower peak detection algorithms
+
+            // Basically, we slide a 5-sample-wide window over the input data: [a][b][c][d][e]
+            // c is a peak iff:
+            // - either a <= b <= c >= d >= e && c > avg(a,b,d,e)
+            // - or a >= b >= c <= d <= e && c < avg(a,b,d,e)
+            // - AND the last peak was at least 1 full degree different
+
+            List<int> peakIndices = new List<int>();
+
+            float? lastPeak = null;
+
+            for (int potentialPeakIdx = 2; potentialPeakIdx < data.Count - 2; potentialPeakIdx++)
+            {
+                var a = data[potentialPeakIdx - 2].Value.Measured;
+                var b = data[potentialPeakIdx - 1].Value.Measured;
+                var c = data[potentialPeakIdx].Value.Measured;
+                var d = data[potentialPeakIdx + 1].Value.Measured;
+                var e = data[potentialPeakIdx + 2].Value.Measured;
+
+                if (((a <= b && b <= c && c >= d && d >= e && c > (a + b + d + e) / 4f) || // positive peaks
+                    (a >= b && b >= c && c <= d && d <= e && c < (a + b + d + e) / 4f)) && // negative peaks
+                    (lastPeak == null || Mathf.Abs(c - lastPeak.Value) >= 1f)) // no duplicate peaks (difference smaller than 1)
+                {
+                    peakIndices.Add(potentialPeakIdx);
+                    lastPeak = c;
+                }
+            }
+
+            return peakIndices;
         }
 
         /// <summary>
@@ -166,7 +249,7 @@ namespace PIDTuning
         {
             maxOvershoot = null;
 
-            KeyValuePair<DateTime, PidStepDataEntry>? oldSetpoint = null;
+            KeyValuePair<DateTime, PidStepDataEntry>? oldSetPoint = null;
 
             // Hold a streak of entries where the step-data is constant
             var currentStreak = new List<KeyValuePair<DateTime, PidStepDataEntry>>();
@@ -176,15 +259,15 @@ namespace PIDTuning
 
             foreach (var datedEntry in stepData.Data)
             {
-                if (null == oldSetpoint)
+                if (null == oldSetPoint)
                 {
                     // We don't have any initial old set-point
-                    oldSetpoint = datedEntry;
+                    oldSetPoint = datedEntry;
 
                     continue;
                 }
 
-                if (datedEntry.Value.Desired != oldSetpoint.Value.Value.Desired)
+                if (!Mathf.Approximately(datedEntry.Value.Desired, oldSetPoint.Value.Value.Desired)) // was (datedEntry.Value.Desired != oldSetPoint.Value.Value.Desired)
                 {
                     // We have a new set-point that is different from the current set-point
 
@@ -205,9 +288,9 @@ namespace PIDTuning
                     currentStreak.Add(datedEntry);
 
                     // Set the set-point distance between the old streak (or non-streak) and the new streak
-                    currentSetPointDistance = Mathf.Abs(datedEntry.Value.Desired - oldSetpoint.Value.Value.Desired);
+                    currentSetPointDistance = Mathf.Abs(datedEntry.Value.Desired - oldSetPoint.Value.Value.Desired);
 
-                    oldSetpoint = datedEntry;
+                    oldSetPoint = datedEntry;
 
                     continue;
                 }
@@ -218,6 +301,8 @@ namespace PIDTuning
                     currentStreak.Add(datedEntry);
                 }
             }
+
+            // We might not have dealt with the final streak. This code should fix that:
 
             if (currentStreak.Count >= 2)
             {
@@ -241,7 +326,7 @@ namespace PIDTuning
 
             // We can't figure out overshoot if we start with PV == SP, since any possible
             // overshoot in that case can only come from prior SP changes and should thus be ignored
-            if (first.Measured == first.Desired)
+            if (Mathf.Approximately(first.Measured, first.Desired)) // was (first.Measured == first.Desired)
             {
                 return;
             }
@@ -282,29 +367,7 @@ namespace PIDTuning
 
             // 1. Find all the peak indices.
 
-            float? lastMeasured = null;
-            float lastSign = 0f;
-            List<int> peakIndices = new List<int>();
-
-            for (int i = 0; i < currentStreak.Count; i++)
-            {
-                var datedEntry = currentStreak[i];
-
-                if (null != lastMeasured)
-                {
-                    var newSign = Mathf.Sign(datedEntry.Value.Measured - lastMeasured.Value);
-
-                    if (lastSign != newSign)
-                    {
-                        // Sign of d Measured / d t changed, so we have a peak here
-                        peakIndices.Add(i);
-                    }
-
-                    lastSign = newSign;
-                }
-
-                lastMeasured = datedEntry.Value.Measured;
-            }
+            var peakIndices = FindPeakIndices(currentStreak);
 
             // If we have no peaks, we abort. While it is technically possible that we could
             // have 0 overshoot (and thus no peaks), this is only the case for PID controllers
@@ -317,15 +380,15 @@ namespace PIDTuning
             // 2. Assert the peaks are of decreasing magnitude within reasonable limits
             // Reasonable limits means we don't look at peaks below 5% of the set-point distance
 
-            // M: In retrospect, this condition seems a bit strict. 5% of the set-point distance
-            // can be a very small amount - so small, in fact, that floating point errors are
-            // sometimes dominant. I changed it to an absolute error of +/- 2 degrees for now.
+            //// M: In retrospect, this condition seems a bit strict. 5% of the set-point distance
+            //// can be a very small amount - so small, in fact, that floating point errors are
+            //// sometimes dominant. I changed it to an absolute error of +/- 2 degrees for now.
 
             // M: Again, in retrospect, this didn't work either. I suspect that disturbances
             // caused by other joint can cause small peaks which violate this condition.
             // I completely disabled it for now.
 
-            //float lastPeakAbsError = currentStreak[peakIndices.First()].Value.AbsoluteError;
+            //float lastPeakAbsError = currentStreak[peakIndices[0]].Value.AbsoluteError;
 
             //foreach (var peak in peakIndices)
             //{
@@ -335,7 +398,6 @@ namespace PIDTuning
             //        peakEntry.Value.AbsoluteError > 2.0f) // was: peakEntry.Value.AbsoluteError > 0.05f * setPointDistance
             //    {
             //        // If the peak magnitude increased significantly and the peak was significant, we abort
-            //        Debug.Log("Was aborted due to: " + peakEntry.Value.AbsoluteError + " > " + lastPeakAbsError);
             //        return;
             //    }
 
@@ -364,7 +426,7 @@ namespace PIDTuning
 
                     acc.Update((float)(currentStreak[lastOutsiderIndex].Key - currentStreak.First().Key).TotalSeconds);
                 }
-                catch (Exception e)
+                catch
                 {
                     // No peak was small enough, so we can't update the metric
                 }
@@ -458,6 +520,22 @@ namespace PIDTuning
                 json["avgCompleteResponseTime"] = AvgCompleteResponseTime.Value;
             }
 
+            if (null != MeasuredPeaksAfterStepChange)
+            {
+                var array = new JArray();
+
+                foreach (var peak in MeasuredPeaksAfterStepChange)
+                {
+                    var peakJson = new JObject();
+                    peakJson["timestamp"] = peak.Key.ToFileTimeUtc().ToString();
+                    peakJson["peak"] = peak.Value.ToJson();
+
+                    array.Add(peakJson);
+                }
+
+                json["measuredPeaksAfterStepChange"] = array;
+            }
+
             return json;
         }
 
@@ -531,7 +609,8 @@ namespace PIDTuning
                 avgSettlingTime2Percent: avgSettlingTime2Percent.ToAverage(),
                 avg10PercentResponseTime: avg10PercentResponseTime.ToAverage(),
                 avg50PercentResponseTime: avg50PercentResponseTime.ToAverage(),
-                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage());
+                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage(),
+                measuredPeaksAfterStepChange: null); // Peaks don't accumulate well, so we forget about them here
         }
 
         /// <summary>
