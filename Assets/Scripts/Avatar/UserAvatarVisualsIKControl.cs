@@ -33,7 +33,7 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        OnAnimatorIK();
 	}
 
     //a callback for calculating IK
