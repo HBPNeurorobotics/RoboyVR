@@ -6,8 +6,6 @@ public class PDController : MonoBehaviour
 {
     public float proportionalGain;
     public float derivativeGain;
-    public float frequency = 0.9f;
-    public float damping = 0.3f;
 
     Vector3 positionOfDestination;
     Quaternion orientationOfDestination;
@@ -18,9 +16,6 @@ public class PDController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        proportionalGain = 8f;
-        derivativeGain = 1f;
-
     }
 
     // Update is called once per frame
@@ -37,8 +32,8 @@ public class PDController : MonoBehaviour
         float kdg = (derivativeGain + proportionalGain * dt) * g;
         Vector3 Pt0 = transform.position;
         Vector3 Vt0 = rigidbody.velocity;
-        Vector3 F = (Pdes - Pt0) * proportionalGain + (Vdes - Vt0) * derivativeGain;
-        rigidbody.AddForce(F);
+        Vector3 F = (Pdes - Pt0) * ksg + (Vdes - Vt0) * kdg;
+        rigidbody.AddForce(F, ForceMode.Force);
     }
 
 
@@ -57,8 +52,8 @@ public class PDController : MonoBehaviour
         pidv = Quaternion.Inverse(rotInertia2World) * pidv;
         pidv.Scale(rigidbody.inertiaTensor);
         pidv = rotInertia2World * pidv;
-        
-        rigidbody.AddTorque(pidv);
+        //TODO: check for NaN values
+        rigidbody.AddTorque(pidv, ForceMode.Force);
     }
 
     public void SetDestination(Transform Pdes, Vector3 Vdes)

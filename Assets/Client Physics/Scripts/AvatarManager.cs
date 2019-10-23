@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class AvatarManager : MonoBehaviour {
 
+    public bool usePIDController = true;
+    public float PDKp = 1;
+    public float PDKd = 1;
+    public float Kp = 8;
+    public float Ki = 0;
+    public float Kd = .05f;
+
     Animator animatorAvatar;
     Animator animatorTarget;
 
@@ -20,6 +27,11 @@ public class AvatarManager : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
         UpdatePDControllers();
+        //UpdateVacuumBreatherPIDControllers();
+        //UpdateJoints();
+        //UpdateMerchVRPIDControllers();
+
+
 	}
     /// <summary>
     ///     Maps all HumanBodyBones (assigned in the Avatar) to their GameObjects in the scene in order to get access to all components.
@@ -42,7 +54,10 @@ public class AvatarManager : MonoBehaviour {
                     gameObjectPerBoneTarget.Add(bone, boneTransformTarget.gameObject);
 
                     AssignRigidbodys(bone);
-                    AssignPDControllers(bone);
+                    //SetupJoints();
+                    //AssignVacuumBreatherPIDController(bone);
+                    AssignPDController(bone);
+                    //AssignMerchVRPIDController(bone);
                 }
             }
         }
@@ -81,18 +96,57 @@ public class AvatarManager : MonoBehaviour {
 
         gameObjectPerBoneTarget[bone].AddComponent<Rigidbody>();
         gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().useGravity = false;
-    }       
+    }
 
-    void AssignPDControllers(HumanBodyBones bone)
+    void AssignMerchVRPIDController(HumanBodyBones bone)
+    {
+        gameObjectPerBoneAvatar[bone].AddComponent<PIDControllerCombined>();
+        gameObjectPerBoneAvatar[bone].GetComponent<PIDControllerCombined>().pidPosition = new PIDControllerPos(gameObjectPerBoneAvatar[bone], gameObjectPerBoneAvatar[bone], 38, 5, 8, new Vector3(0, 1, 0));
+        gameObjectPerBoneAvatar[bone].GetComponent<PIDControllerCombined>().pidRotation = new PIDControllerRot(gameObjectPerBoneAvatar[bone], 50, 5 ,10);
+        gameObjectPerBoneAvatar[bone].GetComponent<PIDControllerCombined>().pidVelocity = new PIDControllerVel(gameObjectPerBoneAvatar[bone], 35, 0, 0.6f, new Vector3(1, 0, 1), 100);
+    }
+
+    void AssignPDController(HumanBodyBones bone)
     {
         gameObjectPerBoneAvatar[bone].AddComponent<PDController>();
         gameObjectPerBoneAvatar[bone].GetComponent<PDController>().rigidbody = gameObjectPerBoneAvatar[bone].GetComponent<Rigidbody>();
+        gameObjectPerBoneAvatar[bone].GetComponent<PDController>().proportionalGain = PDKp;
+        gameObjectPerBoneAvatar[bone].GetComponent<PDController>().derivativeGain = PDKd;
+    }    
+    void AssignVacuumBreatherPIDController(HumanBodyBones bone)
+    {
+        gameObjectPerBoneAvatar[bone].AddComponent<VacuumBreather.ControlledObject>();
+        gameObjectPerBoneAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Kp = Kp;
+        gameObjectPerBoneAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Ki = Ki;
+        gameObjectPerBoneAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Kd = Kd;
     }
-   
 
-    void AssignJoints() 
+
+    void AssignJoint(HumanBodyBones bone)
     {
         //Assumption: all joints can be modeled by configurable joints (ball joints, except for knees and elbows)
+        gameObjectPerBoneAvatar[bone].AddComponent<ConfigurableJoint>();
+    }
+
+    void SetupJoints()
+    {
+        foreach(HumanBodyBones bone in gameObjectPerBoneAvatar.Keys)
+        {
+            AssignJoint(bone);
+            switch (bone)
+            {
+                case HumanBodyBones.LeftUpperArm:
+                    gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectPerBoneAvatar[HumanBodyBones.LeftShoulder].GetComponent<Rigidbody>();
+                    break;
+                case HumanBodyBones.LeftLowerArm:
+                    gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectPerBoneAvatar[HumanBodyBones.LeftUpperArm].GetComponent<Rigidbody>();
+                    break;                
+                case HumanBodyBones.LeftHand:
+                    gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectPerBoneAvatar[HumanBodyBones.LeftLowerArm].GetComponent<Rigidbody>();
+                    break;
+                default: break;
+            }
+        }
     }
 
     void UpdatePDControllers()
@@ -105,8 +159,41 @@ public class AvatarManager : MonoBehaviour {
                 gameObjectPerBoneAvatar[bone].GetComponent<PDController>().SetDestination(gameObjectPerBoneTarget[bone].transform, targetRb.velocity);
             }
         }
+    }    
+    
+    void UpdateVacuumBreatherPIDControllers()
+    {
+        foreach (HumanBodyBones bone in gameObjectPerBoneAvatar.Keys)
+        {
+            gameObjectPerBoneAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().DesiredOrientation = gameObjectPerBoneTarget[bone].transform.rotation;
+        }
     }
 
+    void UpdateMerchVRPIDControllers()
+    {
+        foreach (HumanBodyBones bone in gameObjectPerBoneAvatar.Keys)
+        {
+            gameObjectPerBoneAvatar[bone].GetComponent<PIDControllerCombined>().pidPosition.UpdateTarget(gameObjectPerBoneTarget[bone].transform.position);
+            gameObjectPerBoneAvatar[bone].GetComponent<PIDControllerCombined>().pidRotation.UpdateTarget(gameObjectPerBoneTarget[bone].transform.rotation);
+            gameObjectPerBoneAvatar[bone].GetComponent<PIDControllerCombined>().pidVelocity.UpdateTarget(gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().velocity, 1);
+        }
+    }
+
+    void UpdateJoints()
+    {
+        foreach (HumanBodyBones bone in gameObjectPerBoneAvatar.Keys)
+        {
+            GameObject tmp;
+            if(gameObjectPerBoneAvatar.TryGetValue(bone, out tmp))
+            {
+                if(gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>() != null)
+                {
+                    gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().targetPosition = gameObjectPerBoneTarget[bone].transform.position;
+                    gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().targetRotation = gameObjectPerBoneTarget[bone].transform.rotation;
+                }
+            }
+        }
+    }
     public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneAvatarDictionary()
     {
         return gameObjectPerBoneAvatar;
