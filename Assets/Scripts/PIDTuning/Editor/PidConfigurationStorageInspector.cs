@@ -34,14 +34,12 @@ namespace PIDTuning.Editor
 
             if (GUILayout.Button("Transmit to Simulation"))
             {
-                if (configStorage.GetComponent<TestRunner>().State != TestRunner.TestRunnerState.RunningTest)
+                if (configStorage.GetComponent<TestRunner>().State == TestRunner.TestRunnerState.RunningTest)
                 {
-                    configStorage.TransmitPidConfiguration();
+                    Debug.LogWarning("Cannot transmit PID configuration while test is running");
                 }
-                else
-                {
-                    Debug.LogError("Cannot transmit PID configuration while test is running");
-                }
+
+                configStorage.TransmitPidConfiguration();
             }
 
             if (GUILayout.Button("Fill from JSON"))

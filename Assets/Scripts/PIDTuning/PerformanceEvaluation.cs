@@ -72,13 +72,7 @@ namespace PIDTuning
         /// </summary>
         public readonly float? AvgCompleteResponseTime;
 
-        /// <summary>
-        /// This metric is only available if the step-data contains exactly 1 set-point change.
-        /// In that case, this collection contains all peaks of PV around SP AFTER the change.
-        /// </summary>
-        public readonly ReadOnlyCollection<KeyValuePair<DateTime, PidStepDataEntry>> MeasuredPeaksAfterStepChange;
-
-        public PerformanceEvaluation(DateTime timeStamp, float avgAbsoluteError, float avgSignedError, float maxAbsoluteError, float? maxOvershoot, float? avgSettlingTime10Percent, float? avgSettlingTime5Percent, float? avgSettlingTime2Percent, float? avg10PercentResponseTime, float? avg50PercentResponseTime, float? avgCompleteResponseTime, ReadOnlyCollection<KeyValuePair<DateTime, PidStepDataEntry>> measuredPeaksAfterStepChange)
+        public PerformanceEvaluation(DateTime timeStamp, float avgAbsoluteError, float avgSignedError, float maxAbsoluteError, float? maxOvershoot, float? avgSettlingTime10Percent, float? avgSettlingTime5Percent, float? avgSettlingTime2Percent, float? avg10PercentResponseTime, float? avg50PercentResponseTime, float? avgCompleteResponseTime)
         {
             TimeStamp = timeStamp;
             AvgAbsoluteError = avgAbsoluteError;
@@ -91,7 +85,6 @@ namespace PIDTuning
             Avg10PercentResponseTime = avg10PercentResponseTime;
             Avg50PercentResponseTime = avg50PercentResponseTime;
             AvgCompleteResponseTime = avgCompleteResponseTime;
-            MeasuredPeaksAfterStepChange = measuredPeaksAfterStepChange;
         }
 
         public static PerformanceEvaluation FromStepData(DateTime timestamp, PidStepData stepData)
@@ -129,8 +122,6 @@ namespace PIDTuning
                 avg50PercentResponseTime: avg50PercentResponseTime,
                 avgCompleteResponseTime: avgCompleteResponseTime);
 
-            var peaks = CalculatePeaksIfDataIsStepChange(stepData);
-
             return new PerformanceEvaluation(timestamp,
                 avgAbsoluteError: avgAbsoluteError, avgSignedError: avgSignedError, maxAbsoluteError: maxAbsoluteError,
                 maxOvershoot: maxOvershoot,
@@ -139,80 +130,7 @@ namespace PIDTuning
                 avgSettlingTime2Percent: avgSettlingTime2Percent.ToAverage(),
                 avg10PercentResponseTime: avg10PercentResponseTime.ToAverage(), 
                 avg50PercentResponseTime: avg50PercentResponseTime.ToAverage(), 
-                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage(),
-                measuredPeaksAfterStepChange: peaks == null ? null : peaks.AsReadOnly());
-        }
-
-        private static List<KeyValuePair<DateTime, PidStepDataEntry>> CalculatePeaksIfDataIsStepChange(PidStepData stepData)
-        {
-            // First, make sure we actually have step-change step-data, meaning there is exactly
-            // in change in the set-point in the whole data-set
-
-            int spChanges = 0;
-            int lastSpChangeIndex = 0;
-            float lastSp = stepData.Data.First().Value.Desired;
-
-            for (int i = 0; i < stepData.Data.Count; i++)
-            {
-                if (!Mathf.Approximately(stepData.Data.Values[i].Desired, lastSp))
-                {
-                    spChanges++;
-                    lastSpChangeIndex = i;
-                    lastSp = stepData.Data.Values[i].Desired;
-                }
-
-                if (spChanges > 1)
-                {
-                    return null;
-                }
-            }
-
-            if (spChanges != 1)
-            {
-                return null;
-            }
-
-            // Then we find all peaks that come after the change of SP
-            var dataAfterStepChange = stepData.Data.Skip(lastSpChangeIndex).ToList(); // PERF: This ToList() is slow...
-
-            var peakIndices = FindPeakIndices(dataAfterStepChange);
-
-            return peakIndices.Select(peakIndex => dataAfterStepChange[peakIndex]).ToList();
-        }
-
-        private static List<int> FindPeakIndices(IList<KeyValuePair<DateTime, PidStepDataEntry>> data)
-        {
-            // I have found that the input data is very slightly noisy. I decided to go for a more thorough,
-            // but slightly slower peak detection algorithms
-
-            // Basically, we slide a 5-sample-wide window over the input data: [a][b][c][d][e]
-            // c is a peak iff:
-            // - either a <= b <= c >= d >= e && c > avg(a,b,d,e)
-            // - or a >= b >= c <= d <= e && c < avg(a,b,d,e)
-            // - AND the last peak was at least 1 full degree different
-
-            List<int> peakIndices = new List<int>();
-
-            float? lastPeak = null;
-
-            for (int potentialPeakIdx = 2; potentialPeakIdx < data.Count - 2; potentialPeakIdx++)
-            {
-                var a = data[potentialPeakIdx - 2].Value.Measured;
-                var b = data[potentialPeakIdx - 1].Value.Measured;
-                var c = data[potentialPeakIdx].Value.Measured;
-                var d = data[potentialPeakIdx + 1].Value.Measured;
-                var e = data[potentialPeakIdx + 2].Value.Measured;
-
-                if (((a <= b && b <= c && c >= d && d >= e && c > (a + b + d + e) / 4f) || // positive peaks
-                    (a >= b && b >= c && c <= d && d <= e && c < (a + b + d + e) / 4f)) && // negative peaks
-                    (lastPeak == null || Mathf.Abs(c - lastPeak.Value) >= 1f)) // no duplicate peaks (difference smaller than 1)
-                {
-                    peakIndices.Add(potentialPeakIdx);
-                    lastPeak = c;
-                }
-            }
-
-            return peakIndices;
+                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage());
         }
 
         /// <summary>
@@ -367,7 +285,7 @@ namespace PIDTuning
 
             // 1. Find all the peak indices.
 
-            var peakIndices = FindPeakIndices(currentStreak);
+            var peakIndices = PeakAnalysis.FindPeakIndices(currentStreak);
 
             // If we have no peaks, we abort. While it is technically possible that we could
             // have 0 overshoot (and thus no peaks), this is only the case for PID controllers
@@ -520,22 +438,6 @@ namespace PIDTuning
                 json["avgCompleteResponseTime"] = AvgCompleteResponseTime.Value;
             }
 
-            if (null != MeasuredPeaksAfterStepChange)
-            {
-                var array = new JArray();
-
-                foreach (var peak in MeasuredPeaksAfterStepChange)
-                {
-                    var peakJson = new JObject();
-                    peakJson["timestamp"] = peak.Key.ToFileTimeUtc().ToString();
-                    peakJson["peak"] = peak.Value.ToJson();
-
-                    array.Add(peakJson);
-                }
-
-                json["measuredPeaksAfterStepChange"] = array;
-            }
-
             return json;
         }
 
@@ -609,8 +511,7 @@ namespace PIDTuning
                 avgSettlingTime2Percent: avgSettlingTime2Percent.ToAverage(),
                 avg10PercentResponseTime: avg10PercentResponseTime.ToAverage(),
                 avg50PercentResponseTime: avg50PercentResponseTime.ToAverage(),
-                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage(),
-                measuredPeaksAfterStepChange: null); // Peaks don't accumulate well, so we forget about them here
+                avgCompleteResponseTime: avgCompleteResponseTime.ToAverage());
         }
 
         /// <summary>

@@ -201,6 +201,9 @@ namespace PIDTuning
 
         private void AssertReadyForTest()
         {
+            // Important:
+            // If anything in here fails: Did you forget to call ResetTestRunner() after a simulation?
+
             Assert.AreEqual(State, TestRunnerState.Ready);
             Assert.AreEqual(_latestTestTimestamp, null);
             Assert.AreEqual(_latestPidConfiguration, null);
@@ -287,7 +290,10 @@ namespace PIDTuning
             StartCoroutine(RecordMotion(() => _isRunningManualRecord, _latestAnimationToJointToStepData["recording"]));
         }
 
-        public void StopManualRecord()
+        /// <summary>
+        /// Convenience Feature: Returns the evaluations of all joints for the recording.
+        /// </summary>
+        public Dictionary<string, PerformanceEvaluation> StopManualRecord()
         {
             Assert.IsTrue(_isRunningManualRecord);
             Assert.AreEqual(State, TestRunnerState.RunningTest);
@@ -296,6 +302,8 @@ namespace PIDTuning
 
             State = TestRunnerState.FinishedTest;
             _isRunningManualRecord = false;
+
+            return LatestAnimationToJointToEvaluation["recording"];
         }
 
         // We need the parameter here to be able to subscribe to OnAvatarSpawned without
@@ -303,7 +311,6 @@ namespace PIDTuning
         // are a pain to unsubscribe
         public void ResetTestRunner(UserAvatarService _ = null)
         {
-            // TODO: Actually reset. Also test if the results have been saved. Actually, prefer to do that in the Editor UI
             _latestTestTimestamp = null;
             _latestAnimationToJointToStepData = null;
             _latestPidConfiguration = null;

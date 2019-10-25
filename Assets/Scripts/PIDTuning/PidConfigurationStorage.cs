@@ -23,7 +23,7 @@ namespace PIDTuning
         [SerializeField]
         private UserAvatarService _userAvatarService;
 
-        private void Start()
+        private void Awake()
         {
             Assert.IsNotNull(_userAvatar);
             Assert.IsNotNull(_userAvatarService);
