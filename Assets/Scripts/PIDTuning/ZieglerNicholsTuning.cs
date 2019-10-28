@@ -10,14 +10,17 @@ namespace PIDTuning
         Classic,
         PessenIntegralRule,
         SomeOvershoot,
-        NoOvershoot
+        NoOvershoot,
+        PControl,
+        PIControl,
+        PDControl
     }
 
     public static class ZieglerNicholsTuning
     {
-        public static PidParameters FromBangBangAnalysis(ZieglerNicholsVariant variant, OscillationAnalysisResult analysis, float relayConstantForce, float simTimeStretchFactor)
+        public static PidParameters FromBangBangAnalysis(ZieglerNicholsVariant variant, OscillationAnalysisResult analysis, float relayConstantForce)
         {
-            float tu = analysis.UltimatePeriod * simTimeStretchFactor;
+            float tu = analysis.UltimatePeriod;
             float ku = (4f * relayConstantForce) / (Mathf.PI * (analysis.Amplitude * Mathf.Deg2Rad));
 
             switch (variant)
@@ -45,6 +48,15 @@ namespace PIDTuning
                         ku / 5f,
                         ((2f / 5f) * ku) / tu,
                         (ku * tu) / 15f);
+
+                case ZieglerNicholsVariant.PControl:
+                    return PidParameters.FromParallelForm(0.5f * ku, 0f, 0f);
+
+                case ZieglerNicholsVariant.PIControl:
+                    return PidParameters.FromParallelForm(0.45f * ku, 0.54f * (ku / tu), 0f);
+
+                case ZieglerNicholsVariant.PDControl:
+                    return PidParameters.FromParallelForm(0.8f * ku, 0f, (ku * tu) / 10f);
 
                 default:
                     throw new NotImplementedException();

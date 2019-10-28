@@ -14,10 +14,12 @@ namespace PIDTuning
     /// </summary>
     public class TestEnvSetup : MonoBehaviour
     {
+        public float PoseResetTimeEstimate = 8f;
+
         public IEnumerator RunSimulationReset()
         {
             // For now, let's actually just wait a few seconds until the avatar has settled
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(PoseResetTimeEstimate);
         }
     }
 }

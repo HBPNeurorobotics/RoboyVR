@@ -55,9 +55,9 @@ namespace PIDTuning
 
         private RigAngleTracker _localAvatarRig;
 
-        private AnimatorControl _animatorControl;
-
         private bool _tuningInProgress;
+
+        public TuningResult LastTuningData { private set; get; }
 
         //[Header("Initial PID tuning values")]
         //public float InitialP = 300f;
@@ -74,7 +74,6 @@ namespace PIDTuning
             _pidConfigStorage = GetComponent<PidConfigurationStorage>();
             _poseErrorTracker = GetComponent<PoseErrorTracker>();
            _testEnvSetup = GetComponent<TestEnvSetup>();
-            _animatorControl = GetComponent<AnimatorControl>();
 
             Assert.IsNotNull(_localAvatar);
             Assert.IsNotNull(_localAvatarAnimator = _localAvatar.GetComponent<Animator>());
@@ -116,10 +115,11 @@ namespace PIDTuning
             yield return RunBangBangEvaluation(joint, bangBangStepData);
 
             // Evaluate the oscillation data
-            var evaluation = PeakAnalysis.AnalyzeOscillation(bangBangStepData.Value);
+            var oscillation = PeakAnalysis.AnalyzeOscillation(bangBangStepData.Value);
             try
             {
-                Assert.IsTrue(evaluation.HasValue, "It seems the Bang-Bang control did not create a suitable oscillation pattern. Please modify some parameters and try again.");
+                Assert.IsTrue(oscillation.HasValue, "It seems the Bang-Bang control did not create a suitable oscillation pattern. Please modify some parameters and try again.");
+                LastTuningData = TuningResult.GenerateFromOscullation(joint, oscillation.Value, RelayConstantForce);
             }
             finally
             {
@@ -127,7 +127,7 @@ namespace PIDTuning
             }
 
             // Acquire the final tuned parameters
-            var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningVariant, evaluation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
+            var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningVariant, oscillation.Value, RelayConstantForce);
 
             // Apply the tuning and transmit it to the simulation
             _pidConfigStorage.Configuration.Mapping[joint] = tunedPid;
@@ -223,6 +223,27 @@ namespace PIDTuning
             {
                 Value = value;
             }
+        }
+    }
+
+    public class TuningResult
+    {
+        public readonly string Joint;
+        public readonly Dictionary<ZieglerNicholsVariant, PidParameters> Tunings;
+
+        private TuningResult(string joint, Dictionary<ZieglerNicholsVariant, PidParameters> tunings)
+        {
+            Joint = joint;
+            Tunings = tunings;
+        }
+
+        public static TuningResult GenerateFromOscullation(string joint, OscillationAnalysisResult oscillation, float relayConstantForce)
+        {
+            var tunings = Enum.GetValues(typeof(ZieglerNicholsVariant))
+                .Cast<ZieglerNicholsVariant>()
+                .ToDictionary(variant => variant, variant => ZieglerNicholsTuning.FromBangBangAnalysis(variant, oscillation, relayConstantForce));
+
+            return new TuningResult(joint, tunings);
         }
     }
 }

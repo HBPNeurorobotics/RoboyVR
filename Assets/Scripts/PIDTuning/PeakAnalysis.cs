@@ -92,17 +92,6 @@ namespace PIDTuning
                     .Select((datedEntry, i) => new KeyValuePair<DateTime, DateTime>(datedEntry.Key, posPeaks[i].Key))
                     .Average(nextLastPairs => (nextLastPairs.Key - nextLastPairs.Value).TotalSeconds);
 
-                StringBuilder sb = new StringBuilder();
-                var firstSampleTime = posPeaks.First().Key;
-                foreach (var pk in posPeaks)
-                {
-                    sb.AppendFormat("{0}: {1}\n", (pk.Key - firstSampleTime).TotalSeconds, pk.Value.Measured);
-                }
-
-                Debug.Log("Peaks: " + sb);
-                Debug.Log("Amp: " + avgAmplitude);
-                Debug.Log("Tu: " + avgInterval);
-
                 return new OscillationAnalysisResult(avgInterval, avgAmplitude);
             }
         }

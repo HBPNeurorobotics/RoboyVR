@@ -55,6 +55,8 @@ namespace PIDTuning.Editor
             DrawResetGui(configStorage);
 
             DrawJointPidMapping(configStorage.Configuration);
+
+            Repaint();
         }
 
         private void DrawResetGui(PidConfigurationStorage configStorage)
