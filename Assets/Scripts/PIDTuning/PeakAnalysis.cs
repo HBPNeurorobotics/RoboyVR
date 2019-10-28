@@ -6,7 +6,26 @@ using UnityEngine;
 
 namespace PIDTuning
 {
-    public class PeakAnalysis
+    public struct OscillationAnalysisResult
+    {
+        /// <summary>
+        /// Average Same-Sign Peak interval in seconds
+        /// </summary>
+        public readonly float UltimatePeriod;
+
+        /// <summary>
+        /// Zero-to-Peak Amplitude average of all peaks
+        /// </summary>
+        public readonly float Amplitude;
+
+        public OscillationAnalysisResult(float ultimatePeriod, float amplitude)
+        {
+            UltimatePeriod = ultimatePeriod;
+            Amplitude = amplitude;
+        }
+    }
+
+    public static class PeakAnalysis
     {
         public static List<int> FindPeakIndices(IList<KeyValuePair<DateTime, PidStepDataEntry>> data)
         {
@@ -42,5 +61,31 @@ namespace PIDTuning
 
             return peakIndices;
         }
+
+        public static OscillationAnalysisResult? AnalyzeOscillation(PidStepData stepData)
+        {
+            const int MIN_PEAKS_FOR_OSCILLATION = 6;
+
+            var stepDataAsList = stepData.Data.ToList();
+            var peaks = FindPeakIndices(stepDataAsList).Select(peak => stepDataAsList[peak]).ToList();
+
+            if (peaks.Count < MIN_PEAKS_FOR_OSCILLATION)
+            {
+                return null;
+            }
+            else
+            {
+                float avgAmplitude = peaks.Average(datedEntry => datedEntry.Value.AbsoluteError);
+
+                var posPeaks = peaks.Where(datedEntry => datedEntry.Value.SignedError >= 0f).ToList();
+
+                var avgInterval = (float)posPeaks
+                    .Skip(1)
+                    .Select((datedEntry, i) => new KeyValuePair<DateTime, DateTime>(datedEntry.Key, posPeaks[i].Key))
+                    .Average(nextLastPairs => (nextLastPairs.Key - nextLastPairs.Value).TotalSeconds);
+
+                return new OscillationAnalysisResult(avgInterval, avgAmplitude);
+            }
+        }
     }
-}
+}       

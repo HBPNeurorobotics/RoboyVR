@@ -293,7 +293,7 @@ namespace PIDTuning
         /// <summary>
         /// Convenience Feature: Returns the evaluations of all joints for the recording.
         /// </summary>
-        public Dictionary<string, PerformanceEvaluation> StopManualRecord()
+        public Dictionary<string, PidStepData> StopManualRecord()
         {
             Assert.IsTrue(_isRunningManualRecord);
             Assert.AreEqual(State, TestRunnerState.RunningTest);
@@ -303,7 +303,7 @@ namespace PIDTuning
             State = TestRunnerState.FinishedTest;
             _isRunningManualRecord = false;
 
-            return LatestAnimationToJointToEvaluation["recording"];
+            return _latestAnimationToJointToStepData["recording"];
         }
 
         // We need the parameter here to be able to subscribe to OnAvatarSpawned without
