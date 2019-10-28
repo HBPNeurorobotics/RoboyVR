@@ -33,6 +33,10 @@ public class PDController : MonoBehaviour
         Vector3 Pt0 = transform.position;
         Vector3 Vt0 = rigidbody.velocity;
         Vector3 F = (Pdes - Pt0) * ksg + (Vdes - Vt0) * kdg;
+        if (float.IsNaN(F.x) || float.IsNaN(F.y) || float.IsNaN(F.z))
+        {
+            return;
+        }
         rigidbody.AddForce(F, ForceMode.Force);
     }
 
@@ -52,7 +56,10 @@ public class PDController : MonoBehaviour
         pidv = Quaternion.Inverse(rotInertia2World) * pidv;
         pidv.Scale(rigidbody.inertiaTensor);
         pidv = rotInertia2World * pidv;
-        //TODO: check for NaN values
+
+        if (float.IsNaN(pidv.x) || float.IsNaN(pidv.y) || float.IsNaN(pidv.z)){
+            return;
+        }
         rigidbody.AddTorque(pidv, ForceMode.Force);
     }
 
