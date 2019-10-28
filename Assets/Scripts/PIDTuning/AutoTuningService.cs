@@ -20,7 +20,7 @@ namespace PIDTuning
     /// TODO: This class could utilize symmetries (like left arm/right arm) to save some time.
     /// </summary>
     [RequireComponent(typeof(TestRunner), typeof(PidConfigurationStorage), typeof(PoseErrorTracker))]
-    [RequireComponent(typeof(TestEnvSetup))]
+    [RequireComponent(typeof(TestEnvSetup), typeof(AnimatorControl))]
     public class AutoTuningService : MonoBehaviour
     {
         [SerializeField]
@@ -55,6 +55,8 @@ namespace PIDTuning
 
         private RigAngleTracker _localAvatarRig;
 
+        private AnimatorControl _animatorControl;
+
         private bool _tuningInProgress;
 
         //[Header("Initial PID tuning values")]
@@ -72,6 +74,7 @@ namespace PIDTuning
             _pidConfigStorage = GetComponent<PidConfigurationStorage>();
             _poseErrorTracker = GetComponent<PoseErrorTracker>();
            _testEnvSetup = GetComponent<TestEnvSetup>();
+            _animatorControl = GetComponent<AnimatorControl>();
 
             Assert.IsNotNull(_localAvatar);
             Assert.IsNotNull(_localAvatarAnimator = _localAvatar.GetComponent<Animator>());
@@ -124,7 +127,7 @@ namespace PIDTuning
             }
 
             // Acquire the final tuned parameters
-            var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningVariant, evaluation.Value, RelayConstantForce);
+            var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningVariant, evaluation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
 
             // Apply the tuning and transmit it to the simulation
             _pidConfigStorage.Configuration.Mapping[joint] = tunedPid;

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace PIDTuning
@@ -14,7 +15,7 @@ namespace PIDTuning
         public readonly float UltimatePeriod;
 
         /// <summary>
-        /// Zero-to-Peak Amplitude average of all peaks
+        /// Zero-to-Peak Amplitude average of all peaks (in degrees)
         /// </summary>
         public readonly float Amplitude;
 
@@ -27,35 +28,42 @@ namespace PIDTuning
 
     public static class PeakAnalysis
     {
+        private const float MIN_PEAK_ERROR_DISTANCE = 1f;
+        private const int PEAK_DETECTION_SAMPLE_DIST = 10;
+
+        private enum PeakType
+        {
+            Min,
+            Max
+        }
+
         public static List<int> FindPeakIndices(IList<KeyValuePair<DateTime, PidStepDataEntry>> data)
         {
             // I have found that the input data is very slightly noisy. I decided to go for a more thorough,
-            // but slightly slower peak detection algorithms
+            // but slightly slower peak detection algorithm.
 
-            // Basically, we slide a 5-sample-wide window over the input data: [a][b][c][d][e]
-            // c is a peak iff:
-            // - either a <= b <= c >= d >= e && c > avg(a,b,d,e)
-            // - or a >= b >= c <= d <= e && c < avg(a,b,d,e)
-            // - AND the last peak was at least 1 full degree different
+            var peakIndices = new List<int>();
 
-            List<int> peakIndices = new List<int>();
+            PeakType? lastPeakType = null;
+            KeyValuePair<DateTime, PidStepDataEntry>? lastPeak = null;
 
-            float? lastPeak = null;
-
-            for (int potentialPeakIdx = 2; potentialPeakIdx < data.Count - 2; potentialPeakIdx++)
+            for (int potentialPeakIdx = 2 * PEAK_DETECTION_SAMPLE_DIST; potentialPeakIdx < data.Count - 2 * PEAK_DETECTION_SAMPLE_DIST; potentialPeakIdx++)
             {
-                var a = data[potentialPeakIdx - 2].Value.Measured;
-                var b = data[potentialPeakIdx - 1].Value.Measured;
-                var c = data[potentialPeakIdx].Value.Measured;
-                var d = data[potentialPeakIdx + 1].Value.Measured;
-                var e = data[potentialPeakIdx + 2].Value.Measured;
+                var xmm = data[potentialPeakIdx - 2 * PEAK_DETECTION_SAMPLE_DIST].Value.Measured;
+                var xm = data[potentialPeakIdx - PEAK_DETECTION_SAMPLE_DIST].Value.Measured;
+                var x = data[potentialPeakIdx].Value.Measured;
+                var xp = data[potentialPeakIdx + PEAK_DETECTION_SAMPLE_DIST].Value.Measured;
+                var xpp = data[potentialPeakIdx + 2 * PEAK_DETECTION_SAMPLE_DIST].Value.Measured;
 
-                if (((a <= b && b <= c && c >= d && d >= e && c > (a + b + d + e) / 4f) || // positive peaks
-                    (a >= b && b >= c && c <= d && d <= e && c < (a + b + d + e) / 4f)) && // negative peaks
-                    (lastPeak == null || Mathf.Abs(c - lastPeak.Value) >= 1f)) // no duplicate peaks (difference smaller than 1)
+                var isLocalMax = xmm <= xm && xm <= x && x >= xp && xp >= xpp;
+                var isLocalMin = xmm >= xm && xm >= x && x <= xp && xp <= xpp;
+
+                if (isLocalMin || isLocalMax)
                 {
-                    peakIndices.Add(potentialPeakIdx);
-                    lastPeak = c;
+                    if (!peakIndices.Any() || !data[peakIndices.Last()].Value.IsSimilarTo(data[potentialPeakIdx].Value, MIN_PEAK_ERROR_DISTANCE))
+                    {
+                        peakIndices.Add(potentialPeakIdx);
+                    }
                 }
             }
 
@@ -77,12 +85,23 @@ namespace PIDTuning
             {
                 float avgAmplitude = peaks.Average(datedEntry => datedEntry.Value.AbsoluteError);
 
-                var posPeaks = peaks.Where(datedEntry => datedEntry.Value.SignedError >= 0f).ToList();
+                var posPeaks = peaks.Where(datedEntry => datedEntry.Value.SignedError < 0f).ToList();
 
                 var avgInterval = (float)posPeaks
                     .Skip(1)
                     .Select((datedEntry, i) => new KeyValuePair<DateTime, DateTime>(datedEntry.Key, posPeaks[i].Key))
                     .Average(nextLastPairs => (nextLastPairs.Key - nextLastPairs.Value).TotalSeconds);
+
+                StringBuilder sb = new StringBuilder();
+                var firstSampleTime = posPeaks.First().Key;
+                foreach (var pk in posPeaks)
+                {
+                    sb.AppendFormat("{0}: {1}\n", (pk.Key - firstSampleTime).TotalSeconds, pk.Value.Measured);
+                }
+
+                Debug.Log("Peaks: " + sb);
+                Debug.Log("Amp: " + avgAmplitude);
+                Debug.Log("Tu: " + avgInterval);
 
                 return new OscillationAnalysisResult(avgInterval, avgAmplitude);
             }

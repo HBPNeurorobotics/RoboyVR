@@ -105,5 +105,10 @@ namespace PIDTuning
 
             return json;
         }
+
+        public bool IsSimilarTo(PidStepDataEntry other, float epsilon)
+        {
+            return Mathf.Abs(this.Measured - other.Measured) < epsilon && Mathf.Abs(this.Desired - other.Desired) < epsilon;
+        }
     }
 }

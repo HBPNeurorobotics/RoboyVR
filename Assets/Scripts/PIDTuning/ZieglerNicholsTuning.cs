@@ -15,10 +15,10 @@ namespace PIDTuning
 
     public static class ZieglerNicholsTuning
     {
-        public static PidParameters FromBangBangAnalysis(ZieglerNicholsVariant variant, OscillationAnalysisResult analysis, float relayConstantForce)
+        public static PidParameters FromBangBangAnalysis(ZieglerNicholsVariant variant, OscillationAnalysisResult analysis, float relayConstantForce, float simTimeStretchFactor)
         {
-            float tu = analysis.UltimatePeriod;
-            float ku = (4f * relayConstantForce) / (Mathf.PI * analysis.Amplitude);
+            float tu = analysis.UltimatePeriod * simTimeStretchFactor;
+            float ku = (4f * relayConstantForce) / (Mathf.PI * (analysis.Amplitude * Mathf.Deg2Rad));
 
             switch (variant)
             {
