@@ -10,8 +10,16 @@ public class PDController : MonoBehaviour
     Vector3 positionOfDestination;
     Quaternion orientationOfDestination;
     Vector3 velocityOfDestination;
+    public Vector3 oldVelocity;
+    Vector3 integral = Vector3.zero;
+    Vector3 oldError = Vector3.zero;
 
     public Rigidbody rigidbody;
+
+    public float kp = 1;
+    public float ki = 1;
+    public float kd = 1;
+
 
     // Start is called before the first frame update
     void Start()
@@ -24,15 +32,26 @@ public class PDController : MonoBehaviour
 
     }
 
-    void ForceBackwardsPDController(Vector3 Pdes, Vector3 Vdes)
+    Vector3 CalculatePIDError(Vector3 error)
+    {
+        float dt = Time.fixedDeltaTime;
+        Vector3 derivative = (error - oldError) / dt;
+        integral += error * dt;
+        oldError = error;
+        return kp * error + ki * integral + kd * derivative;
+    }
+
+
+    void ForceBackwardsPDController(Vector3 targetPosition, Vector3 targetVelocity)
     {
         float dt = Time.fixedDeltaTime;
         float g = 1 / (1 + derivativeGain * dt + proportionalGain * dt * dt);
         float ksg = proportionalGain * g;
         float kdg = (derivativeGain + proportionalGain * dt) * g;
-        Vector3 Pt0 = transform.position;
-        Vector3 Vt0 = rigidbody.velocity;
-        Vector3 F = (Pdes - Pt0) * ksg + (Vdes - Vt0) * kdg;
+        Vector3 currentPosition = transform.position;
+        Vector3 currentVelocity = rigidbody.velocity;
+        //Euler Step
+        Vector3 F = (targetPosition - currentPosition) * ksg + (targetVelocity - currentVelocity) * kdg;
         if (float.IsNaN(F.x) || float.IsNaN(F.y) || float.IsNaN(F.z))
         {
             return;

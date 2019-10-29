@@ -96,11 +96,11 @@ public class UserAvatarService : Singleton<UserAvatarService>
             if (Time.time - t_last_publish_joints >= publish_frequency_joints)
             {
                 //PublishModelPose();  //TODO: move to physical movement
-                PublishModelPoseTarget();
+                //PublishModelPoseTarget();
                 //this.PublishModelRotationTarget();
 
                 //PublishJointPIDPositionTargets();
-                PublishJointPIDPositionTargetsJointStatesTopic();
+                //PublishJointPIDPositionTargetsJointStatesTopic();
 
                 //this.PublishJointSetPosition();
                 t_last_publish_joints = Time.time;
@@ -175,7 +175,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
         );
         Debug.Log("Found avatar model: " + this.user_avatar);
 
-        this.PublishJointPIDParams();
+        //this.PublishJointPIDParams();
 
         this.avatar_ready = true;
 
