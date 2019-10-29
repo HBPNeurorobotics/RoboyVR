@@ -13,8 +13,9 @@ public class AvatarManager : MonoBehaviour {
 
     Animator animatorAvatar;
     Animator animatorTarget;
-
+    [SerializeField]
     Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneAvatar = new Dictionary<HumanBodyBones, GameObject>();
+    [SerializeField]
     Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneTarget = new Dictionary<HumanBodyBones, GameObject>();
 
     // Use this for initialization
@@ -25,12 +26,15 @@ public class AvatarManager : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
-        //UpdatePDControllers();
+	void LateUpdate () {
+        UpdatePDControllers();
         //UpdateVacuumBreatherPIDControllers();
         //UpdateJoints();
         //UpdateMerchVRPIDControllers();
-
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            gameObjectPerBoneAvatar[HumanBodyBones.LeftLowerArm].GetComponent<Rigidbody>().AddTorque(Vector3.forward  * 10, ForceMode.Force);
+        }
 
 	}
     /// <summary>
@@ -54,14 +58,15 @@ public class AvatarManager : MonoBehaviour {
                     gameObjectPerBoneTarget.Add(bone, boneTransformTarget.gameObject);
 
                     AssignRigidbodys(bone);
-                    SetupJoints();
+                    //SetupJoints();
                     //AssignVacuumBreatherPIDController(bone);
                     AssignPDController(bone);
-                    //BodyMass bm = new BodyMass(73, this);
                     //AssignMerchVRPIDController(bone);
                 }
             }
         }
+        //ConfigJointManager configJointManager = new ConfigJointManager();
+        //configJointManager.SetupJoints(gameObjectPerBoneAvatar);
     }
     /// <summary>
     ///     A method to return the Rigidbody of the GameObject that corresponds to a certain bodypart. 
