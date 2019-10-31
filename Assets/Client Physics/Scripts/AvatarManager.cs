@@ -1,21 +1,31 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AvatarManager : MonoBehaviour {
 
-    public bool usePIDController = true;
+    public bool useJoints = true;
     public float PDKp = 1;
     public float PDKd = 1;
     public float Kp = 8;
     public float Ki = 0;
     public float Kd = .05f;
 
+    ConfigJointManager configJointManager;
+
+    public JointDrive xDrive = new JointDrive();
+    public JointDrive yDrive= new JointDrive();
+    public JointDrive zDrive = new JointDrive();
+
+    public JointDrive angularXDrive = new JointDrive();
+    public JointDrive angularYZDrive = new JointDrive();
+
+
     Animator animatorAvatar;
     Animator animatorTarget;
-    [SerializeField]
+
     Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneAvatar = new Dictionary<HumanBodyBones, GameObject>();
-    [SerializeField]
     Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneTarget = new Dictionary<HumanBodyBones, GameObject>();
 
     // Use this for initialization
@@ -27,7 +37,14 @@ public class AvatarManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-        UpdatePDControllers();
+        if (!useJoints)
+        {
+            UpdatePDControllers();
+        }
+        else
+        {
+            UpdateJoints();
+        }
         //UpdateVacuumBreatherPIDControllers();
         //UpdateJoints();
         //UpdateMerchVRPIDControllers();
@@ -58,15 +75,28 @@ public class AvatarManager : MonoBehaviour {
                     gameObjectPerBoneTarget.Add(bone, boneTransformTarget.gameObject);
 
                     AssignRigidbodys(bone);
-                    //SetupJoints();
-                    //AssignVacuumBreatherPIDController(bone);
                     AssignPDController(bone);
+
+                    //AssignVacuumBreatherPIDController(bone);
                     //AssignMerchVRPIDController(bone);
                 }
             }
         }
-        //ConfigJointManager configJointManager = new ConfigJointManager();
-        //configJointManager.SetupJoints(gameObjectPerBoneAvatar);
+        if (useJoints)
+        {
+            xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
+            xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 300;
+            xDrive.maximumForce = yDrive.maximumForce = zDrive.maximumForce = 10000;           
+            
+            angularXDrive.positionSpring = angularYZDrive.positionSpring = 2500;
+            angularXDrive.positionDamper = angularYZDrive.positionDamper = 300;
+            angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
+
+
+            configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive);
+            configJointManager.SetupJoints(gameObjectPerBoneAvatar);
+        }
+        
     }
     /// <summary>
     ///     A method to return the Rigidbody of the GameObject that corresponds to a certain bodypart. 
@@ -202,10 +232,10 @@ public class AvatarManager : MonoBehaviour {
             GameObject tmp;
             if(gameObjectPerBoneAvatar.TryGetValue(bone, out tmp))
             {
-                if(gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>() != null)
+                Rigidbody targetRb = GetRigidbodyFromBone(false, bone);
+                if (targetRb != null)
                 {
-                    gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().targetPosition = gameObjectPerBoneTarget[bone].transform.position;
-                    gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().targetRotation = gameObjectPerBoneTarget[bone].transform.rotation;
+                    configJointManager.SetTagetTransform(gameObjectPerBoneAvatar[bone], gameObjectPerBoneTarget[bone].transform, targetRb.velocity, targetRb.angularVelocity);
                 }
             }
         }

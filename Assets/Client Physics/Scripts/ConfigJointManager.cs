@@ -1,37 +1,56 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConfigJointManager : MonoBehaviour {
+public class ConfigJointManager {
 
-    List<HumanBodyBones> noJoint = new List<HumanBodyBones>();
+    List<HumanBodyBones> noJoints = new List<HumanBodyBones>();
     SoftJointLimit jointLimit = new SoftJointLimit();
 
-    // Use this for initialization
-    void Start () {
-        noJoint.Add(HumanBodyBones.Hips);
-        noJoint.Add(HumanBodyBones.Spine);
-        noJoint.Add(HumanBodyBones.UpperChest);
-        noJoint.Add(HumanBodyBones.LeftShoulder);
-        noJoint.Add(HumanBodyBones.RightShoulder);
+    [Header("Position Drives")]
+    public JointDrive xDrive;
+    public JointDrive yDrive;
+    public JointDrive zDrive;
+
+    [Header("Angular Drives")]
+    public JointDrive angularXDrive;
+    public JointDrive angularYZDrive;
+
+
+    public float test;
+
+    public ConfigJointManager(JointDrive x, JointDrive y, JointDrive z, JointDrive angX, JointDrive angYZ)
+    {
+        noJoints.Add(HumanBodyBones.Hips);
+        noJoints.Add(HumanBodyBones.Spine);
+        noJoints.Add(HumanBodyBones.UpperChest);
+
+        xDrive = x;
+        yDrive = y;
+        zDrive = z;
+
+        angularXDrive = angX;
+        angularYZDrive = angYZ;
     }
+
+       
+
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     void AssignJoint(HumanBodyBones bone, Dictionary<HumanBodyBones, GameObject> dict)
     {
+        if (dict[bone].GetComponent<ConfigurableJoint>() == null)
+        {
             dict[bone].AddComponent<ConfigurableJoint>();
-            
+        }
     }
 
     public void SetupJoints(Dictionary<HumanBodyBones, GameObject> dict)
     {      
         foreach (HumanBodyBones bone in dict.Keys)
         {
-            if (!noJoint.Contains(bone))
+            if (!noJoints.Contains(bone))
             {
                 AssignJoint(bone, dict);
                 SetJoint(bone, dict);
@@ -41,7 +60,7 @@ public class ConfigJointManager : MonoBehaviour {
 
     void SetJoint(HumanBodyBones bone, Dictionary<HumanBodyBones, GameObject> dict)
     {
-        if (!noJoint.Contains(bone))
+        if (!noJoints.Contains(bone))
         {
             dict[bone].GetComponent<ConfigurableJoint>().xMotion = ConfigurableJointMotion.Locked;
             dict[bone].GetComponent<ConfigurableJoint>().yMotion = ConfigurableJointMotion.Locked;
@@ -50,6 +69,9 @@ public class ConfigJointManager : MonoBehaviour {
             dict[bone].GetComponent<ConfigurableJoint>().angularXMotion = ConfigurableJointMotion.Limited;
             dict[bone].GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Limited;
             dict[bone].GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Limited;
+
+            //dict[bone].GetComponent<ConfigurableJoint>().enableCollision = true;
+            //dict[bone].GetComponent<ConfigurableJoint>().enablePreprocessing = false;
 
             switch (bone)
             {
@@ -126,7 +148,6 @@ public class ConfigJointManager : MonoBehaviour {
 
                 case HumanBodyBones.RightUpperArm:
                     ConfigureJoint(bone, dict, dict[HumanBodyBones.RightShoulder].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0), -45, 90, 85, 25);
-
                     break;
                 case HumanBodyBones.RightLowerArm:
                     ConfigureJoint(bone, dict, dict[HumanBodyBones.RightUpperArm].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 1), 0, 177, 15, 15);
@@ -197,10 +218,10 @@ public class ConfigJointManager : MonoBehaviour {
                 #region Torso
 
                 case HumanBodyBones.LeftShoulder:
-                    dict[bone].GetComponent<ConfigurableJoint>().connectedBody = dict[HumanBodyBones.UpperChest].GetComponent<Rigidbody>();
+                    ConfigureJoint(bone, dict, dict[HumanBodyBones.UpperChest].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), 0, 62, 13, 14);
                     break;
                 case HumanBodyBones.RightShoulder:
-                    dict[bone].GetComponent<ConfigurableJoint>().connectedBody = dict[HumanBodyBones.UpperChest].GetComponent<Rigidbody>();
+                    ConfigureJoint(bone, dict, dict[HumanBodyBones.UpperChest].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), 0, 62, 13, 14);
                     break;
                 case HumanBodyBones.Neck:
                     dict[bone].GetComponent<ConfigurableJoint>().connectedBody = dict[HumanBodyBones.UpperChest].GetComponent<Rigidbody>();
@@ -220,16 +241,43 @@ public class ConfigJointManager : MonoBehaviour {
 
                 #endregion
 
+                #region Left Leg
+                case HumanBodyBones.LeftUpperLeg:
+                    ConfigureJoint(bone, dict, dict[HumanBodyBones.Hips].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -75, 100, 25, 0);
+                    break;
+                case HumanBodyBones.LeftLowerLeg:
+                    ConfigureJoint(bone, dict, dict[HumanBodyBones.LeftUpperLeg].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -90, 0, 10, 10);
+                    break;
+                case HumanBodyBones.LeftFoot:
+                    dict[bone].GetComponent<ConfigurableJoint>().connectedBody = dict[HumanBodyBones.LeftLowerLeg].GetComponent<Rigidbody>();
+                    break;
+                case HumanBodyBones.LeftToes:
+                    dict[bone].GetComponent<ConfigurableJoint>().connectedBody = dict[HumanBodyBones.LeftFoot].GetComponent<Rigidbody>();
+                    break;
+                #endregion
+
+                #region Right Leg
+                case HumanBodyBones.RightUpperLeg:
+                    ConfigureJoint(bone, dict, dict[HumanBodyBones.Hips].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -75, 100, 25, 0);
+                    break;
+                case HumanBodyBones.RightLowerLeg:
+                    ConfigureJoint(bone, dict, dict[HumanBodyBones.RightUpperLeg].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -90, 0, 10, 10);
+                    break;
+                case HumanBodyBones.RightFoot:
+                    dict[bone].GetComponent<ConfigurableJoint>().connectedBody = dict[HumanBodyBones.RightLowerLeg].GetComponent<Rigidbody>();
+                    break;
+                case HumanBodyBones.RightToes:
+                    dict[bone].GetComponent<ConfigurableJoint>().connectedBody = dict[HumanBodyBones.RightFoot].GetComponent<Rigidbody>();
+                    break;
+                #endregion
+
                 default: break;
             }
         }
     }
 
-    void ConfigureJoint(HumanBodyBones bone, Dictionary<HumanBodyBones, GameObject> dict, Rigidbody connectedBody, Vector3 anchor, Vector3 axis, Vector3 secondaryAxis, float lowAngularXLimit, float highAngularXLimit, float angularYLimit, float angularZLimit)
+    public void ConfigureJoint(HumanBodyBones bone, Dictionary<HumanBodyBones, GameObject> dict, Rigidbody connectedBody, Vector3 anchor, Vector3 axis, Vector3 secondaryAxis, float lowAngularXLimit, float highAngularXLimit, float angularYLimit, float angularZLimit, float mass = 1)
     {
-        //Connected Body
-        dict[bone].GetComponent<ConfigurableJoint>().connectedBody = connectedBody;
-
         //Anchor
         dict[bone].GetComponent<ConfigurableJoint>().anchor = anchor;
 
@@ -247,5 +295,35 @@ public class ConfigJointManager : MonoBehaviour {
         dict[bone].GetComponent<ConfigurableJoint>().angularYLimit = jointLimit;
         jointLimit.limit = angularZLimit;
         dict[bone].GetComponent<ConfigurableJoint>().angularZLimit = jointLimit;
+
+        //TODO: DRIVE VALUES
+        /*
+        dict[bone].GetComponent<ConfigurableJoint>().xDrive = xDrive;
+        dict[bone].GetComponent<ConfigurableJoint>().yDrive = yDrive;
+        dict[bone].GetComponent<ConfigurableJoint>().zDrive = zDrive;        
+        
+        dict[bone].GetComponent<ConfigurableJoint>().angularXDrive = angularXDrive;
+        dict[bone].GetComponent<ConfigurableJoint>().angularYZDrive = angularYZDrive;
+        */
+
+        //Connected Body
+        dict[bone].GetComponent<ConfigurableJoint>().connectedBody = connectedBody;
+
+    }
+
+    public void setMassOfBone(HumanBodyBones bone, Dictionary<HumanBodyBones, GameObject> dict, float mass = 1)
+    {
+    }
+
+    public void SetTagetTransform(GameObject bone, Transform target, Vector3 targetVelocity, Vector3 targetAngularVelocity)
+    {
+        if (bone.GetComponent<ConfigurableJoint>() != null)
+        {
+            bone.GetComponent<ConfigurableJoint>().targetPosition = target.position;
+            bone.GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Inverse(target.rotation);
+
+            //bone.GetComponent<ConfigurableJoint>().targetVelocity = targetVelocity;
+            //bone.GetComponent<ConfigurableJoint>().targetAngularVelocity = targetAngularVelocity;
+        }
     }
 }
