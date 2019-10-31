@@ -60,8 +60,6 @@ public class ConfigJointManager {
 
     void SetJoint(HumanBodyBones bone, Dictionary<HumanBodyBones, GameObject> dict)
     {
-        if (!noJoints.Contains(bone))
-        {
             dict[bone].GetComponent<ConfigurableJoint>().xMotion = ConfigurableJointMotion.Locked;
             dict[bone].GetComponent<ConfigurableJoint>().yMotion = ConfigurableJointMotion.Locked;
             dict[bone].GetComponent<ConfigurableJoint>().zMotion = ConfigurableJointMotion.Locked;
@@ -231,12 +229,21 @@ public class ConfigJointManager {
                     break;
                 case HumanBodyBones.UpperChest:
                     dict[bone].GetComponent<ConfigurableJoint>().connectedBody = dict[HumanBodyBones.Chest].GetComponent<Rigidbody>();
+                    dict[bone].GetComponent<ConfigurableJoint>().angularXMotion = ConfigurableJointMotion.Locked;
+                    dict[bone].GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Locked;
+                    dict[bone].GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Locked;
                     break;
                 case HumanBodyBones.Chest:
                     dict[bone].GetComponent<ConfigurableJoint>().connectedBody = dict[HumanBodyBones.Spine].GetComponent<Rigidbody>();
+                    dict[bone].GetComponent<ConfigurableJoint>().angularXMotion = ConfigurableJointMotion.Locked;
+                    dict[bone].GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Locked;
+                    dict[bone].GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Locked;
                     break;
                 case HumanBodyBones.Spine:
                     ConfigureJoint(bone, dict, dict[HumanBodyBones.Hips].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -45, 15, 15, 15);
+                    dict[bone].GetComponent<ConfigurableJoint>().angularXMotion = ConfigurableJointMotion.Locked;
+                    dict[bone].GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Locked;
+                    dict[bone].GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Locked;
                     break;
 
                 #endregion
@@ -273,7 +280,7 @@ public class ConfigJointManager {
 
                 default: break;
             }
-        }
+        
     }
 
     public void ConfigureJoint(HumanBodyBones bone, Dictionary<HumanBodyBones, GameObject> dict, Rigidbody connectedBody, Vector3 anchor, Vector3 axis, Vector3 secondaryAxis, float lowAngularXLimit, float highAngularXLimit, float angularYLimit, float angularZLimit, float mass = 1)
@@ -297,15 +304,14 @@ public class ConfigJointManager {
         dict[bone].GetComponent<ConfigurableJoint>().angularZLimit = jointLimit;
 
         //TODO: DRIVE VALUES
-        /*
+
         dict[bone].GetComponent<ConfigurableJoint>().xDrive = xDrive;
         dict[bone].GetComponent<ConfigurableJoint>().yDrive = yDrive;
         dict[bone].GetComponent<ConfigurableJoint>().zDrive = zDrive;        
         
         dict[bone].GetComponent<ConfigurableJoint>().angularXDrive = angularXDrive;
         dict[bone].GetComponent<ConfigurableJoint>().angularYZDrive = angularYZDrive;
-        */
-
+        
         //Connected Body
         dict[bone].GetComponent<ConfigurableJoint>().connectedBody = connectedBody;
 
@@ -319,9 +325,9 @@ public class ConfigJointManager {
     {
         if (bone.GetComponent<ConfigurableJoint>() != null)
         {
-            bone.GetComponent<ConfigurableJoint>().targetPosition = target.position;
+            bone.GetComponent<ConfigurableJoint>().targetPosition = bone.transform.InverseTransformPoint(target.position);
             bone.GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Inverse(target.rotation);
-
+            //Debug.Log(bone.GetComponent<ConfigurableJoint>().targetPosition);
             //bone.GetComponent<ConfigurableJoint>().targetVelocity = targetVelocity;
             //bone.GetComponent<ConfigurableJoint>().targetAngularVelocity = targetAngularVelocity;
         }

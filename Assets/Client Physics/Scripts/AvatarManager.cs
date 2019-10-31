@@ -85,11 +85,11 @@ public class AvatarManager : MonoBehaviour {
         if (useJoints)
         {
             xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
-            xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 300;
+            xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 600;
             xDrive.maximumForce = yDrive.maximumForce = zDrive.maximumForce = 10000;           
             
             angularXDrive.positionSpring = angularYZDrive.positionSpring = 2500;
-            angularXDrive.positionDamper = angularYZDrive.positionDamper = 300;
+            angularXDrive.positionDamper = angularYZDrive.positionDamper = 600;
             angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
 
 
@@ -156,43 +156,6 @@ public class AvatarManager : MonoBehaviour {
         gameObjectPerBoneAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Kp = Kp;
         gameObjectPerBoneAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Ki = Ki;
         gameObjectPerBoneAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Kd = Kd;
-    }
-
-
-    void AssignJoint(HumanBodyBones bone)
-    {
-        if (gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>() == null)
-        {
-            gameObjectPerBoneAvatar[bone].AddComponent<ConfigurableJoint>();
-            gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().anchor = gameObjectPerBoneAvatar[bone].transform.position;
-        }
-    }
-
-    /// <summary>
-    ///     Since we use rigidbodies, the child objects are moving independently from their parent objects. 
-    ///     We have to link them together by using Joints to avoid limbs getting seperated.
-    /// </summary>
-    void SetupJoints()
-    {
-        foreach (HumanBodyBones bone in gameObjectPerBoneAvatar.Keys)
-        {
-            AssignJoint(bone);
-
-                switch (bone)
-                {
-                    case HumanBodyBones.LeftUpperArm:
-                        gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectPerBoneAvatar[HumanBodyBones.LeftShoulder].GetComponent<Rigidbody>();
-                        break;
-                    case HumanBodyBones.LeftLowerArm:
-                        gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectPerBoneAvatar[HumanBodyBones.LeftUpperArm].GetComponent<Rigidbody>();
-                        break;
-                    case HumanBodyBones.LeftHand:
-                        gameObjectPerBoneAvatar[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectPerBoneAvatar[HumanBodyBones.LeftLowerArm].GetComponent<Rigidbody>();
-                        break;
-                    default: break;
-                }
-            }
-        
     }
 
     void UpdatePDControllers()
