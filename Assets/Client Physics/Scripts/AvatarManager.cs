@@ -43,6 +43,7 @@ public class AvatarManager : MonoBehaviour {
         }
         else
         {
+            //UpdatePDControllers();
             UpdateJoints();
         }
         //UpdateVacuumBreatherPIDControllers();
@@ -54,6 +55,12 @@ public class AvatarManager : MonoBehaviour {
         }
 
 	}
+
+    void AssignTrackers()
+    {
+
+    }
+
     /// <summary>
     ///     Maps all HumanBodyBones (assigned in the Avatar) to their GameObjects in the scene in order to get access to all components.
     ///     Adds Rigidbody to both bodies, adds PDController to the avatar.
@@ -94,7 +101,7 @@ public class AvatarManager : MonoBehaviour {
 
 
             configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive);
-            configJointManager.SetupJoints(gameObjectPerBoneAvatar);
+            configJointManager.SetupJoints();
         }
         
     }
@@ -132,6 +139,11 @@ public class AvatarManager : MonoBehaviour {
 
         gameObjectPerBoneTarget[bone].AddComponent<Rigidbody>();
         gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    void SetupRagdollForAvatar()
+    {
+        
     }
 
     void AssignMerchVRPIDController(HumanBodyBones bone)
@@ -198,7 +210,7 @@ public class AvatarManager : MonoBehaviour {
                 Rigidbody targetRb = GetRigidbodyFromBone(false, bone);
                 if (targetRb != null)
                 {
-                    configJointManager.SetTagetTransform(gameObjectPerBoneAvatar[bone], gameObjectPerBoneTarget[bone].transform, targetRb.velocity, targetRb.angularVelocity);
+                    configJointManager.SetTagetTransform(bone, gameObjectPerBoneTarget[bone].transform, targetRb.velocity, targetRb.angularVelocity);
                 }
             }
         }
