@@ -14,9 +14,9 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private const float fixedUpdateRefreshRate = 60;
 
-    private SteamVR_Controller.Device _leftController;
+    //private SteamVR_Controller.Device _leftController;
     [SerializeField] private SteamVR_TrackedObject _leftControllerObject;
-    private SteamVR_Controller.Device _rightController;
+    //private SteamVR_Controller.Device _rightController;
     [SerializeField] private SteamVR_TrackedObject _rightControllerObject;
 
     [SerializeField] private bool _simulateMovePress;
@@ -59,14 +59,14 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
         if (_simulateMovePress) return;
         
-        _rightController = SteamVR_Controller.Input((int) _rightControllerObject.index);
-        _leftController = SteamVR_Controller.Input((int) _leftControllerObject.index);
+        //_rightController = SteamVR_Controller.Input((int) _rightControllerObject.index);
+        //_leftController = SteamVR_Controller.Input((int) _leftControllerObject.index);
 
-        if (_rightController == null || _leftController == null)
+        /*if (_rightController == null || _leftController == null)
         {
             Debug.LogError("At least one Controller not found");
             return;
-        }
+        }*/
 
         //Doesn't work in fixed Update
         movementButtonPressed();
@@ -78,20 +78,20 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private void initializeTracking()
     {
-        if (_leftController.GetPress(initialzizeTrackerOrientationButton))
+        /*if (_leftController.GetPress(initialzizeTrackerOrientationButton))
             VrLocomotionTrackers.Instance.initializeTrackerOrientation();
         if (_rightController.GetPress(initializeTrackerHeadingButton))
-            VrLocomotionTrackers.Instance.initializeTrackerHeading();
+            VrLocomotionTrackers.Instance.initializeTrackerHeading();*/
     }
 
     private void movementButtonPressed()
     {
-        if (_rightController.GetPressDown(movementButton) ||
+        /*if (_rightController.GetPressDown(movementButton) ||
             _leftController.GetPressDown(movementButton))
         {
             stoppedMovement = !stoppedMovement;
             Debug.Log("Toggle");
-        }
+        }*/
     }
 
     private void changeLocomotionBehaviour(LocomotionBehaviour locomotionBehaviour)
@@ -121,12 +121,12 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private void spawnBot()
     {
-        if (_leftController.GetPressDown(SteamVR_Controller.ButtonMask.Grip) ||
+        /*if (_leftController.GetPressDown(SteamVR_Controller.ButtonMask.Grip) ||
             _rightController.GetPressDown(SteamVR_Controller.ButtonMask.Grip))
         {
             Debug.Log("Grip");
             UserAvatarService.Instance.SpawnYBot();
-        }
+        }*/
     }
 
     private void movePlayer()
