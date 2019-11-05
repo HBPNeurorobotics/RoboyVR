@@ -14,6 +14,9 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private const float fixedUpdateRefreshRate = 60;
 
+    [SerializeField]
+    private SteamVR_Action_Boolean grabAction;
+    private SteamVR_Input_Sources handType;
     //private SteamVR_Controller.Device _leftController;
     [SerializeField] private SteamVR_TrackedObject _leftControllerObject;
     //private SteamVR_Controller.Device _rightController;
@@ -51,13 +54,18 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private void Update()
     {
-        if (!setLocomotionBehaviour.Equals(currentLocomotionBehaviour))
+        if (grabAction.GetState(SteamVR_Input_Sources.LeftHand))
+        {
+            print("Grab " + handType);
+        }
+
+        /*if (!setLocomotionBehaviour.Equals(currentLocomotionBehaviour))
         {
             currentLocomotionBehaviour = setLocomotionBehaviour;
             changeLocomotionBehaviour(currentLocomotionBehaviour);
         }
 
-        if (_simulateMovePress) return;
+        if (_simulateMovePress) return;*/
         
         //_rightController = SteamVR_Controller.Input((int) _rightControllerObject.index);
         //_leftController = SteamVR_Controller.Input((int) _leftControllerObject.index);
@@ -69,11 +77,11 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
         }*/
 
         //Doesn't work in fixed Update
-        movementButtonPressed();
+        //movementButtonPressed();
 
-        initializeTracking();
+        //initializeTracking();
 
-        spawnBot();
+        //spawnBot();
     }
 
     private void initializeTracking()
@@ -109,14 +117,14 @@ public class SteamVRControllerInput : Singleton<SteamVRControllerInput>
 
     private void FixedUpdate()
     {
-        if (_simulateMovePress)
+        /*if (_simulateMovePress)
         {
             LocomotionHandler.moveForward();
             return;
-        }
+        }*/
 
         //Needs Fixed Update for speed calculation
-        movePlayer();
+        //movePlayer();
     }
 
     private void spawnBot()
