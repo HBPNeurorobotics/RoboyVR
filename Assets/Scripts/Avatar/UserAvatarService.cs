@@ -13,7 +13,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
         get { return this.user_avatar; }
     }
 
-    public GameObject avatar_rig = null;
+    public GameObject local_avatar = null;
 
     //public List<GameObject> published_links = null;
     //public bool publish_all_links = false;
@@ -54,9 +54,9 @@ public class UserAvatarService : Singleton<UserAvatarService>
     
     void Start()
     {
-        if (this.avatar_rig)
+        if (this.local_avatar)
         {
-            SkinnedMeshRenderer rig_mesh_renderer = this.avatar_rig.GetComponentInChildren<SkinnedMeshRenderer>();
+            SkinnedMeshRenderer rig_mesh_renderer = this.local_avatar.GetComponentInChildren<SkinnedMeshRenderer>();
             //Debug.Log("rig center = " + rig_mesh_renderer.bounds.center);
             this.gazebo_model_pos_offset = new Vector3(0f, -rig_mesh_renderer.bounds.extents.y, 0f);
             this.gazebo_model_pos_offset.y -= 0.25f;  // center of mesh is not the center of the model ?
@@ -140,7 +140,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
         this.avatar_name = "user_avatar_" + AuthenticationService.Instance.token.Replace("-", "_");
         Debug.Log("SpawnAvatar - auth token: " + AuthenticationService.Instance.token);
         Debug.Log("SpawnAvatar - avatar_name: " + this.avatar_name);
-        Vector3 spawn_pos = GazeboSceneManager.Unity2GzVec3(new Vector3(avatar_rig.transform.position.x, avatar_rig.transform.position.y - 1.0f, avatar_rig.transform.position.z));
+        Vector3 spawn_pos = GazeboSceneManager.Unity2GzVec3(new Vector3(local_avatar.transform.position.x, local_avatar.transform.position.y - 1.0f, local_avatar.transform.position.z));
         Quaternion spawn_rot = new Quaternion();
 
         GzFactoryMsg msg = new GzFactoryMsg(this.avatar_name, avatar_model_name, new PointMsg(spawn_pos.x, spawn_pos.y, spawn_pos.z), new QuaternionMsg(spawn_rot.x, spawn_rot.y, spawn_rot.z, spawn_rot.w));
@@ -179,14 +179,14 @@ public class UserAvatarService : Singleton<UserAvatarService>
         }
 
         string topic = this.avatar_name + "/cmd_rot";
-        Quaternion rotation_target = GazeboSceneManager.Unity2GzQuaternion(this.avatar_rig.transform.rotation);
+        Quaternion rotation_target = GazeboSceneManager.Unity2GzQuaternion(this.local_avatar.transform.rotation);
         QuaternionMsg rotation_msg = new QuaternionMsg(rotation_target.x, rotation_target.y, rotation_target.z, rotation_target.w);
         ROSBridgeService.Instance.websocket.Publish(topic, rotation_msg);
     }
 
     private void PublishJointSetPosition()
     {
-        Transform joints_parent = this.transform.Find("avatar_rig").Find("mixamorig_Hips");
+        Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
         Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
         foreach(Transform child in children)
         {
@@ -250,7 +250,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private void PublishJointPIDParams()
     {
-        Transform joints_parent = this.transform.Find("avatar_rig").Find("mixamorig_Hips");
+        Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
         Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
         foreach (Transform child in children)
         {
@@ -265,7 +265,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private void GetJointPIDPositionTargets()
     {
-        Transform joints_parent = this.transform.Find("avatar_rig").Find("mixamorig_Hips");
+        Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
         Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
         foreach (Transform child in children)
         {
@@ -341,7 +341,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     }
     private void GetJointPIDPositionTargetsJointStatesMsg()
     {
-        Transform joints_parent = this.transform.Find("avatar_rig").Find("mixamorig_Hips");
+        Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
         Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
         foreach (Transform child in children)
         {
@@ -469,8 +469,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private void PublishModelPose()
     {
         string topic = "/gazebo/set_model_state";
-        Vector3 model_position = GazeboSceneManager.Unity2GzVec3(this.avatar_rig.transform.position + this.avatar_rig.transform.rotation * this.gazebo_model_pos_offset);
-        Quaternion model_rotation = GazeboSceneManager.Unity2GzQuaternion(this.avatar_rig.transform.rotation);
+        Vector3 model_position = GazeboSceneManager.Unity2GzVec3(this.local_avatar.transform.position + this.local_avatar.transform.rotation * this.gazebo_model_pos_offset);
+        Quaternion model_rotation = GazeboSceneManager.Unity2GzQuaternion(this.local_avatar.transform.rotation);
         ModelStateMsg model_state_msg = new ModelStateMsg(
             this.avatar_name,
             new PoseMsg(
@@ -486,19 +486,19 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private void PublishModelPoseTarget()
     {
 
-        if ((model_position_last_published_ - avatar_rig.transform.position).magnitude > model_position_publish_threshold ||
-            (model_rotation_last_published_.eulerAngles - avatar_rig.transform.rotation.eulerAngles).magnitude > model_rotation_publish_threshold)
+        if ((model_position_last_published_ - local_avatar.transform.position).magnitude > model_position_publish_threshold ||
+            (model_rotation_last_published_.eulerAngles - local_avatar.transform.rotation.eulerAngles).magnitude > model_rotation_publish_threshold)
         {
             string topic = "/" + this.avatar_name + "/set_pose_target";
 
-            Vector3 model_position = GazeboSceneManager.Unity2GzVec3(this.avatar_rig.transform.position + this.avatar_rig.transform.rotation * this.gazebo_model_pos_offset);
+            Vector3 model_position = GazeboSceneManager.Unity2GzVec3(this.local_avatar.transform.position + this.local_avatar.transform.rotation * this.gazebo_model_pos_offset);
             PointMsg position_msg = new PointMsg(model_position.x, model_position.y, model_position.z);
-            Quaternion model_rotation = GazeboSceneManager.Unity2GzQuaternion(avatar_rig.transform.rotation);
+            Quaternion model_rotation = GazeboSceneManager.Unity2GzQuaternion(local_avatar.transform.rotation);
             QuaternionMsg rotation_msg = new QuaternionMsg(model_rotation.x, model_rotation.y, model_rotation.z, model_rotation.w);
             ROSBridgeService.Instance.websocket.Publish(topic, new PoseMsg(position_msg, rotation_msg));
 
-            model_position_last_published_ = avatar_rig.transform.position;
-            model_rotation_last_published_ = avatar_rig.transform.rotation;
+            model_position_last_published_ = local_avatar.transform.position;
+            model_rotation_last_published_ = local_avatar.transform.rotation;
         }
 
     }
@@ -517,7 +517,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     //    if (this.publish_all_links)
     //    {
     //        links_to_publish = new List<GameObject>();
-    //        foreach (Transform rig_transform in this.avatar_rig.transform.Find("mixamorig_Hips").GetComponentsInChildren<Transform>())
+    //        foreach (Transform rig_transform in local_avatar.transform.Find("mixamorig_Hips").GetComponentsInChildren<Transform>())
     //        {
     //            if (rig_transform != null)
     //            {

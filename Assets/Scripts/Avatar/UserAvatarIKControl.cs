@@ -4,19 +4,21 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 
-public class UserAvatarVisualsIKControl : MonoBehaviour {
+public class UserAvatarIKControl : MonoBehaviour {
+
+    [SerializeField] private bool ikActive = true;
+    [SerializeField] private IKTargetManager ikTargetManager;
 
     protected Animator animator;
-    public bool ikActive = true;
 
-    public Transform headTarget = null;
-    public Transform bodyTarget = null;
-    public Transform leftHandTarget = null;
-    public Transform rightHandTarget = null;
-    public Transform leftFootTarget = null;
-    public Transform rightFootTarget = null;
+    private Transform headTarget = null;
+    private Transform bodyTarget = null;
+    private Transform leftHandTarget = null;
+    private Transform rightHandTarget = null;
+    private Transform leftFootTarget = null;
+    private Transform rightFootTarget = null;
 
-    public Transform lookAtObj = null;
+    private Transform lookAtObj = null;
 
     public Vector3 bodyTargetOffset = new Vector3(0, -0.75f, 0);
     public Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
@@ -39,8 +41,20 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
     //a callback for calculating IK
     void OnAnimatorIK()
     {
-        if (animator)
+        if (animator && ikTargetManager.IsReady())
         {
+            if (headTarget == null)
+            {
+                headTarget = ikTargetManager.GetIKTargetHead();
+                lookAtObj = ikTargetManager.GetIKTargetLookAt();
+                bodyTarget = ikTargetManager.GetIKTargetBody();
+                leftHandTarget = ikTargetManager.GetIKTargetLeftHand();
+                rightHandTarget = ikTargetManager.GetIKTargetRightHand();
+                leftFootTarget = ikTargetManager.GetIKTargetLeftFoot();
+                rightFootTarget = ikTargetManager.GetIKTargetRightFoot();
+
+                UserAvatarService.Instance.SpawnYBot();
+            }
 
             //if the IK is active, set the position and rotation directly to the goal. 
             if (ikActive)

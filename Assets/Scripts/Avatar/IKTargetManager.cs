@@ -12,25 +12,26 @@ public class IKTargetManager : MonoBehaviour
         public SteamVR_TrackedObject trackedObject;
     }
 
+    [SerializeField] private Pose targetOffsetLeftHand = new Pose(new Vector3(-0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, 90f));
+    [SerializeField] private Pose targetOffsetRightHand = new Pose(new Vector3(0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, -90f));
+
     private Dictionary<uint, TrackingReferenceObject> trackingReferences = new Dictionary<uint, TrackingReferenceObject>();
-    private Transform trackingHead;
-    private Transform trackingBody;
-    private Transform trackingHandLeft;
-    private Transform trackingHandRight;
-    private Transform trackingFootLeft;
-    private Transform trackingFootRight;
+    private Transform trackingTargetHead;
+    private Transform trackingTargetBody;
+    private Transform trackingTargetHandLeft;
+    private Transform trackingTargetHandRight;
+    private Transform trackingTargetFootLeft;
+    private Transform trackingTargetFootRight;
 
     private GameObject ikTargetHead;
+    private GameObject ikTargetLookAt;
     private GameObject ikTargetBody;
     private GameObject ikTargetLeftHand;
     private GameObject ikTargetRightHand;
     private GameObject ikTargetLeftFoot;
     private GameObject ikTargetRightFoot;
 
-    [SerializeField]
-    private Pose targetOffsetLeftHand = new Pose(new Vector3(-0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, 90f) );
-    [SerializeField]
-    private Pose targetOffsetRightHand = new Pose(new Vector3(0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, -90f));
+    private bool initialized = false;
 
     // Use this for initialization
     void Start ()
@@ -85,11 +86,23 @@ public class IKTargetManager : MonoBehaviour
         }
     }
 
+    public bool IsReady()
+    {
+        return initialized;
+    }
+
+    #region IK_TARGET_SETUP
+
     public void OnControllerGripPress()
     {
-        Debug.Log("OnControllerGripPress");
-        IdentifyTrackingTargets();
-        SetupIKTargets();
+        if (!initialized)
+        {
+            IdentifyTrackingTargets();
+            SetupIKTargets();
+
+            initialized = true;
+        }
+
     }
 
     private void IdentifyTrackingTargets()
@@ -103,18 +116,18 @@ public class IKTargetManager : MonoBehaviour
 
             if (trackingReference.trackedDeviceClass == ETrackedDeviceClass.HMD)
             {
-                trackingHead = trackingReference.gameObject.transform;
+                trackingTargetHead = trackingReference.gameObject.transform;
             }
 
             if (trackingReference.trackedDeviceClass == ETrackedDeviceClass.Controller)
             {
                 if (OpenVR.System.GetControllerRoleForTrackedDeviceIndex(deviceIndex) == ETrackedControllerRole.LeftHand)
                 {
-                    trackingHandLeft = trackingReference.gameObject.transform;
+                    trackingTargetHandLeft = trackingReference.gameObject.transform;
                 }
                 else if (OpenVR.System.GetControllerRoleForTrackedDeviceIndex(deviceIndex) == ETrackedControllerRole.RightHand)
                 {
-                    trackingHandRight = trackingReference.gameObject.transform;
+                    trackingTargetHandRight = trackingReference.gameObject.transform;
                 }
             }
 
@@ -126,7 +139,7 @@ public class IKTargetManager : MonoBehaviour
                 // body tracker if is it at least 50cm above ground
                 if (trackingReference.gameObject.transform.position.y >= 0.5f)
                 {
-                    trackingBody = trackingReference.gameObject.transform;
+                    trackingTargetBody = trackingReference.gameObject.transform;
                 }
                 // else feet tracker
                 else
@@ -144,7 +157,7 @@ public class IKTargetManager : MonoBehaviour
         }
         else
         {
-            Vector3 positionToRight = trackingHead.position + trackingHead.right * 10;
+            Vector3 positionToRight = trackingTargetHead.position + trackingTargetHead.right * 10;
             TrackingReferenceObject trackerA = genericTrackersFeet[0];
             TrackingReferenceObject trackerB = genericTrackersFeet[1];
             float distanceA = Vector3.Distance(trackerA.gameObject.transform.position, positionToRight);
@@ -152,34 +165,42 @@ public class IKTargetManager : MonoBehaviour
 
             if (distanceA < distanceB)
             {
-                trackingFootRight = trackerA.gameObject.transform;
-                trackingFootLeft = trackerB.gameObject.transform;
+                trackingTargetFootRight = trackerA.gameObject.transform;
+                trackingTargetFootLeft = trackerB.gameObject.transform;
             }
             else
             {
-                trackingFootRight = trackerB.gameObject.transform;
-                trackingFootLeft = trackerA.gameObject.transform;
+                trackingTargetFootRight = trackerB.gameObject.transform;
+                trackingTargetFootLeft = trackerA.gameObject.transform;
             }
         }
     }
 
     private void SetupIKTargets()
     {
-        if (trackingHead) SetupIKTargetHead(trackingHead);
-        if (trackingBody) SetupIKTargetBody(trackingBody);
-        if (trackingHandLeft) SetupIKTargetHandLeft(trackingHandLeft);
-        if (trackingHandRight) SetupIKTargetHandRight(trackingHandRight);
-        if (trackingFootLeft) SetupIKTargetFootLeft(trackingFootLeft);
-        if (trackingFootRight) SetupIKTargetFootRight(trackingFootRight);
+        if (trackingTargetHead) SetupIKTargetHead(trackingTargetHead);
+        if (trackingTargetHead) SetupIKTargetLookAt(trackingTargetHead);
+        if (trackingTargetBody) SetupIKTargetBody(trackingTargetBody);
+        if (trackingTargetHandLeft) SetupIKTargetHandLeft(trackingTargetHandLeft);
+        if (trackingTargetHandRight) SetupIKTargetHandRight(trackingTargetHandRight);
+        if (trackingTargetFootLeft) SetupIKTargetFootLeft(trackingTargetFootLeft);
+        if (trackingTargetFootRight) SetupIKTargetFootRight(trackingTargetFootRight);
     }
 
-    #region IK_TARGET_SETUP
     private void SetupIKTargetHead(Transform trackingTarget)
     {
         ikTargetHead = new GameObject("IK Target Head");
         ikTargetHead.transform.parent = trackingTarget;
         ikTargetHead.transform.localRotation = new Quaternion();
-        ikTargetHead.transform.localPosition = Vector3.forward;
+        ikTargetHead.transform.localPosition = new Vector3();
+    }
+
+    private void SetupIKTargetLookAt(Transform trackingTarget)
+    {
+        ikTargetLookAt = new GameObject("IK Target Look At");
+        ikTargetLookAt.transform.parent = trackingTarget;
+        ikTargetLookAt.transform.localRotation = new Quaternion();
+        ikTargetLookAt.transform.localPosition = Vector3.forward;
     }
 
     private void SetupIKTargetBody(Transform trackingTarget)
@@ -211,9 +232,10 @@ public class IKTargetManager : MonoBehaviour
         ikTargetLeftFoot.transform.parent = trackingTarget;
 
         // rotate upright
-        ikTargetLeftFoot.transform.localRotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up);
+        ikTargetLeftFoot.transform.rotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up) * trackingTarget.rotation;
         // assume standing on ground when setting up IK targets, then translate IK target down towards the ground
-        ikTargetLeftFoot.transform.localPosition = -trackingTarget.position.y * trackingTarget.InverseTransformVector(Vector3.up);
+        ikTargetLeftFoot.transform.position = new Vector3(trackingTarget.position.x, 0.05f, trackingTarget.position.z);
+        //ikTargetLeftFoot.transform.localPosition = new Vector3(0f, -trackingTarget.position.y, 0f);
     }
 
     private void SetupIKTargetFootRight(Transform trackingTarget)
@@ -222,21 +244,59 @@ public class IKTargetManager : MonoBehaviour
         ikTargetRightFoot.transform.parent = trackingTarget;
 
         // rotate upright
-        ikTargetRightFoot.transform.localRotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up);
+        ikTargetRightFoot.transform.rotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up) * trackingTarget.rotation;
         // assume standing on ground when setting up IK targets, then translate IK target down towards the ground
-        ikTargetRightFoot.transform.localPosition = -trackingTarget.position.y * trackingTarget.InverseTransformVector(Vector3.up);
+        ikTargetRightFoot.transform.position = new Vector3(trackingTarget.position.x, 0.05f, trackingTarget.position.z);
+        //ikTargetRightFoot.transform.localPosition = new Vector3(0f, -trackingTarget.position.y, 0f);
     }
+
+    // DEBUG 
+    private void AddIndicator(Transform parent)
+    {
+        GameObject indicator = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        indicator.GetComponent<Renderer>().material.color = Color.red;
+        indicator.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        indicator.transform.parent = parent;
+    }
+
     #endregion IK_TARGET_SETUP
 
     #region IK_TARGET_GETTERS
+
     public Transform GetIKTargetHead()
     {
-        return ikTargetHead.transform;
+        if (ikTargetHead != null)
+        {
+            return ikTargetHead.transform;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public Transform GetIKTargetLookAt()
+    {
+        if (ikTargetLookAt != null)
+        {
+            return ikTargetLookAt.transform;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public Transform GetIKTargetBody()
     {
-        return ikTargetBody.transform;
+        if (ikTargetBody != null)
+        {
+            return ikTargetBody.transform;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public Transform GetIKTargetLeftHand()
@@ -258,5 +318,6 @@ public class IKTargetManager : MonoBehaviour
     {
         return ikTargetRightFoot.transform;
     }
+
     #endregion IK_TARGET_GETTERS
 }
