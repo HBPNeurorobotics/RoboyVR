@@ -2,8 +2,18 @@
 using UnityEngine;
 using Valve.VR;
 
-public class IKTargetManager : MonoBehaviour
+public class TrackingIKTargetManager : MonoBehaviour
 {
+    public enum TRACKING_TARGET
+    {
+        HEAD = 0,
+        BODY,
+        HAND_LEFT,
+        HAND_RIGHT,
+        FOOT_LEFT,
+        FOOT_RIGHT
+    }
+
     private class TrackingReferenceObject
     {
         public ETrackedDeviceClass trackedDeviceClass;
@@ -261,7 +271,71 @@ public class IKTargetManager : MonoBehaviour
 
     #endregion IK_TARGET_SETUP
 
-    #region IK_TARGET_GETTERS
+    #region TARGET_GETTERS
+
+    public Transform GetTrackingTargetTransform(TRACKING_TARGET target)
+    {
+        if (target == TRACKING_TARGET.HEAD)
+        {
+            return trackingTargetHead;
+        }
+        else if (target == TRACKING_TARGET.BODY)
+        {
+            return trackingTargetBody;
+        }
+        else if (target == TRACKING_TARGET.HAND_LEFT)
+        {
+            return trackingTargetHandLeft;
+        }
+        else if (target == TRACKING_TARGET.HAND_RIGHT)
+        {
+            return trackingTargetHandRight;
+        }
+        else if (target == TRACKING_TARGET.FOOT_LEFT)
+        {
+            return trackingTargetFootLeft;
+        }
+        else if (target == TRACKING_TARGET.FOOT_RIGHT)
+        {
+            return trackingTargetFootRight;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public SteamVR_TrackedObject GetTrackedObject(TRACKING_TARGET target)
+    {
+        if (target == TRACKING_TARGET.HEAD)
+        {
+            return trackingTargetHead.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.BODY)
+        {
+            return trackingTargetBody.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.HAND_LEFT)
+        {
+            return trackingTargetHandLeft.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.HAND_RIGHT)
+        {
+            return trackingTargetHandRight.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.FOOT_LEFT)
+        {
+            return trackingTargetFootLeft.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.FOOT_RIGHT)
+        {
+            return trackingTargetFootRight.GetComponent<SteamVR_TrackedObject>();
+        }
+        else
+        {
+            return null;
+        }
+    }
 
     public Transform GetIKTargetHead()
     {
@@ -319,5 +393,5 @@ public class IKTargetManager : MonoBehaviour
         return ikTargetRightFoot.transform;
     }
 
-    #endregion IK_TARGET_GETTERS
+    #endregion TARGET_GETTERS
 }

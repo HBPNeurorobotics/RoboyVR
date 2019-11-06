@@ -10,10 +10,10 @@ public class UserAvatarService : Singleton<UserAvatarService>
 {
     public GameObject avatar
     {
-        get { return this.user_avatar; }
+        get { return this.remote_avatar; }
     }
 
-    public GameObject local_avatar = null;
+    [SerializeField] private GameObject local_avatar = null;
 
     //public List<GameObject> published_links = null;
     //public bool publish_all_links = false;
@@ -21,7 +21,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private string avatar_name = null;
 
-    private GameObject user_avatar = null;
+    private GameObject remote_avatar = null;
     private GameObject avatar_clone = null;
 
     private bool spawning_avatar = false;
@@ -98,7 +98,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     public void DespawnAvatar()
     {
-        if (this.user_avatar == null)
+        if (this.remote_avatar == null)
         {
             return;
         }
@@ -151,11 +151,11 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private IEnumerator WaitForAvatarCreation()
     {
         yield return new WaitUntil(() => {
-            this.user_avatar = GameObject.Find(this.avatar_name);
-            return this.user_avatar != null;
+            this.remote_avatar = GameObject.Find(this.avatar_name);
+            return this.remote_avatar != null;
             }
         );
-        Debug.Log("Found avatar model: " + this.user_avatar);
+        Debug.Log("Found avatar model: " + this.remote_avatar);
 
         this.PublishJointPIDParams();
 
@@ -173,7 +173,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private void PublishModelRotationTarget()
     {
-        if (this.user_avatar == null)
+        if (this.remote_avatar == null)
         {
             return;
         }

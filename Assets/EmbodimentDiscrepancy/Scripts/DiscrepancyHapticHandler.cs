@@ -32,9 +32,10 @@ namespace EmbodimentDiscrepancy
 		[Range(0, 1)]
 		float pulseStrength = 1;
 
-		[SerializeField]
-		[Tooltip("need to be set correctly at runtime")]
-		public SteamVR_TrackedObject handLeftTrackedObject, handRightTrackedObject, footLeftTrackedObject, footRightTrackedObject;
+        [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
+        [SerializeField] private SteamVR_Action_Vibration vibrateAction;
+        
+		private SteamVR_TrackedObject handLeftTrackedObject, handRightTrackedObject, footLeftTrackedObject, footRightTrackedObject;
 
 		Dictionary<TrackedJoint, SteamVR_TrackedObject> trackedObjectDict = new Dictionary<TrackedJoint, SteamVR_TrackedObject>();
 		List<Rumble> rumbleList = new List<Rumble>();
@@ -94,7 +95,8 @@ namespace EmbodimentDiscrepancy
         {
 			for(float i = 0; i < rumble.pulseLength; i += Time.deltaTime)
             {
-				//SteamVR_Controller.Input((int)rumble.trackedObjectIndex).TriggerHapticPulse((ushort)Mathf.Lerp(0, 3999, pulseStrength));
+                //SteamVR_Controller.Input((int)rumble.trackedObjectIndex).TriggerHapticPulse((ushort)Mathf.Lerp(0, 3999, pulseStrength));
+                Debug.Log("VIBRATION");
 				yield return null;
 			}
             rumble.sentOut = true;
@@ -108,8 +110,17 @@ namespace EmbodimentDiscrepancy
 			trackedObjectDict[joint] = trackedObject;	
 		}
 
-		void Update()
+        void Update()
 		{
+            // initialize tracked objects from tracking manager when ready
+            if (trackingIKTargetManager.IsReady() && handLeftTrackedObject == null)
+            {
+                handLeftTrackedObject = trackingIKTargetManager.GetTrackedObject(TrackingIKTargetManager.TRACKING_TARGET.HAND_LEFT);
+                handRightTrackedObject = trackingIKTargetManager.GetTrackedObject(TrackingIKTargetManager.TRACKING_TARGET.HAND_RIGHT);
+                footLeftTrackedObject = trackingIKTargetManager.GetTrackedObject(TrackingIKTargetManager.TRACKING_TARGET.FOOT_LEFT);
+                footRightTrackedObject = trackingIKTargetManager.GetTrackedObject(TrackingIKTargetManager.TRACKING_TARGET.FOOT_RIGHT);
+            }
+
 			//update tracked objects in library in case they have changed
 			SetTrackedObjectForJoint(TrackedJoint.HandLeft, handLeftTrackedObject);
 			SetTrackedObjectForJoint(TrackedJoint.HandRight, handRightTrackedObject);
