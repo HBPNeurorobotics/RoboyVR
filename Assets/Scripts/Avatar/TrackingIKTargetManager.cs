@@ -32,6 +32,7 @@ public class TrackingIKTargetManager : MonoBehaviour
     private Transform trackingTargetHandRight;
     private Transform trackingTargetFootLeft;
     private Transform trackingTargetFootRight;
+    private Dictionary<uint, SteamVR_Input_Sources> dictSteamVRInputSources = new Dictionary<uint, SteamVR_Input_Sources>();
 
     private GameObject ikTargetHead;
     private GameObject ikTargetLookAt;
@@ -127,6 +128,7 @@ public class TrackingIKTargetManager : MonoBehaviour
             if (trackingReference.trackedDeviceClass == ETrackedDeviceClass.HMD)
             {
                 trackingTargetHead = trackingReference.gameObject.transform;
+                dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.Head);
             }
 
             if (trackingReference.trackedDeviceClass == ETrackedDeviceClass.Controller)
@@ -134,10 +136,12 @@ public class TrackingIKTargetManager : MonoBehaviour
                 if (OpenVR.System.GetControllerRoleForTrackedDeviceIndex(deviceIndex) == ETrackedControllerRole.LeftHand)
                 {
                     trackingTargetHandLeft = trackingReference.gameObject.transform;
+                    dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.LeftHand);
                 }
                 else if (OpenVR.System.GetControllerRoleForTrackedDeviceIndex(deviceIndex) == ETrackedControllerRole.RightHand)
                 {
                     trackingTargetHandRight = trackingReference.gameObject.transform;
+                    dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.RightHand);
                 }
             }
 
@@ -177,11 +181,17 @@ public class TrackingIKTargetManager : MonoBehaviour
             {
                 trackingTargetFootRight = trackerA.gameObject.transform;
                 trackingTargetFootLeft = trackerB.gameObject.transform;
+
+                dictSteamVRInputSources.Add((uint)trackerA.trackedObject.index, SteamVR_Input_Sources.RightFoot);
+                dictSteamVRInputSources.Add((uint)trackerB.trackedObject.index, SteamVR_Input_Sources.LeftFoot);
             }
             else
             {
                 trackingTargetFootRight = trackerB.gameObject.transform;
                 trackingTargetFootLeft = trackerA.gameObject.transform;
+
+                dictSteamVRInputSources.Add((uint)trackerA.trackedObject.index, SteamVR_Input_Sources.LeftFoot);
+                dictSteamVRInputSources.Add((uint)trackerB.trackedObject.index, SteamVR_Input_Sources.RightFoot);
             }
         }
     }
@@ -335,6 +345,11 @@ public class TrackingIKTargetManager : MonoBehaviour
         {
             return null;
         }
+    }
+
+    public SteamVR_Input_Sources GetSteamVRInputSource(uint trackedObjectIndex)
+    {
+        return dictSteamVRInputSources[trackedObjectIndex];
     }
 
     public Transform GetIKTargetHead()

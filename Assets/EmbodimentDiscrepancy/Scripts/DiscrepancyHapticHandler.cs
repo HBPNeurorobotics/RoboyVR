@@ -93,12 +93,9 @@ namespace EmbodimentDiscrepancy
 		//strength is vibration strength from 0-1
         IEnumerator LongVibration(Rumble rumble)
         {
-			for(float i = 0; i < rumble.pulseLength; i += Time.deltaTime)
-            {
-                //SteamVR_Controller.Input((int)rumble.trackedObjectIndex).TriggerHapticPulse((ushort)Mathf.Lerp(0, 3999, pulseStrength));
-                Debug.Log("VIBRATION");
-				yield return null;
-			}
+            SteamVR_Input_Sources vibrationTarget = trackingIKTargetManager.GetSteamVRInputSource((uint)rumble.trackedObjectIndex);
+            vibrateAction.Execute(0, rumble.pulseLength, 1f / rumble.pulseLength, 1, vibrationTarget);
+            yield return null;
             rumble.sentOut = true;
 		}
 
@@ -119,6 +116,7 @@ namespace EmbodimentDiscrepancy
                 handRightTrackedObject = trackingIKTargetManager.GetTrackedObject(TrackingIKTargetManager.TRACKING_TARGET.HAND_RIGHT);
                 footLeftTrackedObject = trackingIKTargetManager.GetTrackedObject(TrackingIKTargetManager.TRACKING_TARGET.FOOT_LEFT);
                 footRightTrackedObject = trackingIKTargetManager.GetTrackedObject(TrackingIKTargetManager.TRACKING_TARGET.FOOT_RIGHT);
+                Debug.Log("initialized DiscrepancyHapticHandler tracking targets");
             }
 
 			//update tracked objects in library in case they have changed

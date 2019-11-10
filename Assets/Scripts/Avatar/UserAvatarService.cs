@@ -259,7 +259,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
             string topic = "/" + this.avatar_name + "/avatar_ybot/" + child.name + "/set_pid_params";
             
             // default was (100f, 50f, 10f)
-            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(10f, 0f, 50f));
+            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(1000f, 500f, 100f));
         }
     }
 
