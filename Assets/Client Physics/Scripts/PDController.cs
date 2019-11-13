@@ -12,13 +12,16 @@ public class PDController : MonoBehaviour
     Vector3 velocityOfDestination;
     public Vector3 oldVelocity;
     Vector3 integral = Vector3.zero;
+    Vector3 previousIntegral = Vector3.zero;
+    int integralReset = 50;
+    int integralCounter = 0;
     Vector3 oldError = Vector3.zero;
 
     public Rigidbody rigidbody;
 
-    public float kp = 1;
-    public float ki = 1;
-    public float kd = 1;
+    public float kp = 0.5f;
+    public float ki = 0.1f;
+    public float kd = 0.2f;
 
 
     // Start is called before the first frame update
@@ -36,7 +39,14 @@ public class PDController : MonoBehaviour
     {
         float dt = Time.fixedDeltaTime;
         Vector3 derivative = (error - oldError) / dt;
+        previousIntegral = integral;
         integral += error * dt;
+
+        integralCounter++;
+        if (integralCounter > integralReset)
+        {
+            integral -= previousIntegral;
+        }
         oldError = error;
         return kp * error + ki * integral + kd * derivative;
     }
@@ -51,6 +61,7 @@ public class PDController : MonoBehaviour
         Vector3 currentPosition = transform.position;
         Vector3 currentVelocity = rigidbody.velocity;
         //Euler Step
+        //Vector3 F = CalculatePIDError(targetPosition - currentPosition) + CalculatePIDError(targetPosition - currentVelocity);
         Vector3 F = (targetPosition - currentPosition) * ksg + (targetVelocity - currentVelocity) * kdg;
         if (float.IsNaN(F.x) || float.IsNaN(F.y) || float.IsNaN(F.z))
         {

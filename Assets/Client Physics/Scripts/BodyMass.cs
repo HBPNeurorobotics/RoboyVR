@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BodyMass {
+public class BodyMass
+{
 
     float totalMassKg;
     AvatarManager avatarManager;
@@ -46,12 +47,50 @@ public class BodyMass {
     {
         switch (bone)
         {
-
+            /*
             case HumanBodyBones.Head: return totalMassKg * 0.0823f;
             case HumanBodyBones.UpperChest: return totalMassKg * 0.1856f;
             case HumanBodyBones.Chest: return totalMassKg * 0.0826f;
             case HumanBodyBones.Spine: return totalMassKg * 0.1265f;
-            default: return 1;
+            */
+            case HumanBodyBones.Head: return totalMassKg * Average(new float[] { 0.0668f, 0.0694f });
+            case HumanBodyBones.UpperChest:
+            case HumanBodyBones.LeftShoulder:
+            case HumanBodyBones.RightShoulder:
+                return totalMassKg * Average(new float[] { 0.1545f, 0.1596f }) / 3; //Upper Trunk
+            case HumanBodyBones.Chest: return totalMassKg * Average(new float[] { 0.1465f, 0.1633f }); //Mid Trunk
+            case HumanBodyBones.Spine:
+            case HumanBodyBones.Hips:
+                return totalMassKg * Average(new float[] { 0.1247f, 0.1117f }) / 2; //Lower Trunk
+            case HumanBodyBones.LeftUpperArm:
+            case HumanBodyBones.RightUpperArm:
+                return totalMassKg * Average(new float[] { 0.0255f, 0.0271f });
+            case HumanBodyBones.LeftLowerArm:
+            case HumanBodyBones.RightLowerArm:
+                return totalMassKg * Average(new float[] { 0.0138f, 0.0162f });
+            case HumanBodyBones.LeftHand:
+            case HumanBodyBones.RightHand:
+                return totalMassKg * Average(new float[] { 0.0056f, 0.0061f });
+            case HumanBodyBones.LeftUpperLeg:
+            case HumanBodyBones.RightUpperLeg:
+                return totalMassKg * Average(new float[] { 0.1478f, 0.1416f });
+            case HumanBodyBones.LeftLowerLeg:
+            case HumanBodyBones.RightLowerLeg:
+                return totalMassKg * Average(new float[] { 0.0481f, 0.0433f });
+            case HumanBodyBones.LeftFoot:
+            case HumanBodyBones.RightFoot:
+                return totalMassKg * Average(new float[] { 0.0129f, 0.0137f });
+            default: return 0.02f;
         }
+    }
+
+    public float Average(float[] values)
+    {
+        float sum = 0;
+        foreach (float x in values)
+        {
+            sum += x;
+        }
+        return sum / values.Length;
     }
 }
