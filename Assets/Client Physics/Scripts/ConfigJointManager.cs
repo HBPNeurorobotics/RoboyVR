@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ConfigJointManager : MonoBehaviour
 {
+    bool useIndividualAxes;
 
     List<HumanBodyBones> noJoints = new List<HumanBodyBones>();
     Dictionary<HumanBodyBones, Transform> originalJointTransforms = new Dictionary<HumanBodyBones, Transform>();
@@ -23,9 +24,9 @@ public class ConfigJointManager : MonoBehaviour
     Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone = new Dictionary<HumanBodyBones, GameObject>();
     Dictionary<HumanBodyBones, GameObject> templateFromBone = new Dictionary<HumanBodyBones, GameObject>();
 
-    Animator templateAnimator = GameObject.FindGameObjectWithTag("Template").GetComponent<Animator>();
+    Animator templateAnimator;
 
-    public ConfigJointManager(JointDrive x, JointDrive y, JointDrive z, JointDrive angX, JointDrive angYZ)
+    public ConfigJointManager(JointDrive x, JointDrive y, JointDrive z, JointDrive angX, JointDrive angYZ, bool useIndividualAxes)
     {
         //noJoints.Add(HumanBodyBones.Hips);
         noJoints.Add(HumanBodyBones.Spine);
@@ -40,11 +41,17 @@ public class ConfigJointManager : MonoBehaviour
 
         angularXDrive = angX;
         angularYZDrive = angYZ;
+
+        this.useIndividualAxes = useIndividualAxes;
+        if (useIndividualAxes)
+        {
+            templateAnimator = GameObject.FindGameObjectWithTag("TemplateIndividual").GetComponent<Animator>();
+        }
+        else
+        {
+            templateAnimator = GameObject.FindGameObjectWithTag("Template").GetComponent<Animator>();
+        }
     }
-
-
-
-
 
     void AssignJoint(HumanBodyBones bone)
     {
@@ -52,6 +59,10 @@ public class ConfigJointManager : MonoBehaviour
         if (gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() == null)
         {
             gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
+            if (useIndividualAxes) {
+                gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
+                gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
+            }
         }
     }
 
@@ -84,8 +95,18 @@ public class ConfigJointManager : MonoBehaviour
         {
             if (gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() != null && templateFromBone[bone].GetComponent<ConfigurableJoint>() != null)
             {
-                UnityEditorInternal.ComponentUtility.CopyComponent(templateFromBone[bone].GetComponent<ConfigurableJoint>());
-                UnityEditorInternal.ComponentUtility.PasteComponentValues(gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>());
+                ConfigurableJoint[] jointsOfRemoteBone = gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>();
+                ConfigurableJoint[] jointsOfTemplateBone = templateFromBone[bone].GetComponents<ConfigurableJoint>();                
+
+                if (jointsOfRemoteBone.Length == jointsOfTemplateBone.Length)
+                {
+
+                    for (int i = 0; i < jointsOfTemplateBone.Length; i++)
+                    {
+                        UnityEditorInternal.ComponentUtility.CopyComponent(jointsOfTemplateBone[i]);
+                        UnityEditorInternal.ComponentUtility.PasteComponentValues(jointsOfRemoteBone[i]);
+                    }
+                }
             }
         }
     }
@@ -94,256 +115,238 @@ public class ConfigJointManager : MonoBehaviour
     {
         //Save original position
         originalJointTransforms.Add(bone, gameObjectsFromBone[bone].transform);
-
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().xMotion = ConfigurableJointMotion.Locked;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().yMotion = ConfigurableJointMotion.Locked;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().zMotion = ConfigurableJointMotion.Locked;
-
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().angularXMotion = ConfigurableJointMotion.Free;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().angularYMotion = ConfigurableJointMotion.Free;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().angularZMotion = ConfigurableJointMotion.Free;
-
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().configuredInWorldSpace = false;
-
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().enableCollision = false;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().enablePreprocessing = false;
-
-        
-        switch (bone)
+        foreach (ConfigurableJoint joint in gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>())
         {
-            #region Left Arm
+            
+            joint.xMotion = ConfigurableJointMotion.Locked;
+            joint.yMotion = ConfigurableJointMotion.Locked;
+            joint.zMotion = ConfigurableJointMotion.Locked;
+            
+            joint.angularXMotion = ConfigurableJointMotion.Free;
+            joint.angularYMotion = ConfigurableJointMotion.Free;
+            joint.angularZMotion = ConfigurableJointMotion.Free;
+            
+            joint.configuredInWorldSpace = false;
 
-            case HumanBodyBones.LeftUpperArm:
-                ConfigureJoint(bone, gameObjectsFromBone[HumanBodyBones.Chest].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0), -90, 45, 85, 25);
-                break;
-            case HumanBodyBones.LeftLowerArm:
-                ConfigureJoint(bone, gameObjectsFromBone[HumanBodyBones.LeftUpperArm].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 1), -177, 0, 15, 15);
-                break;
-            case HumanBodyBones.LeftHand:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftLowerArm].GetComponent<Rigidbody>();
-                break;
-            #region Left Hand
-            //Left Thumb
-            case HumanBodyBones.LeftThumbProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftThumbIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftThumbProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftThumbDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftIndexIntermediate].GetComponent<Rigidbody>();
-                break;
+            joint.enableCollision = false;
+            joint.enablePreprocessing = false;
 
-            //Left Index Finger
-            case HumanBodyBones.LeftIndexProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftIndexIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftIndexProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftIndexDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftIndexIntermediate].GetComponent<Rigidbody>();
-                break;
+            switch (bone)
+            {
+                #region Left Arm
 
-            //Left Middle Finger
-            case HumanBodyBones.LeftMiddleProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftMiddleIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftMiddleProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftMiddleDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftMiddleIntermediate].GetComponent<Rigidbody>();
-                break;
+                case HumanBodyBones.LeftUpperArm:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.Chest].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftLowerArm:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftUpperArm].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftHand:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftLowerArm].GetComponent<Rigidbody>());
+                    break;
+                #region Left Hand
+                //Left Thumb
+                case HumanBodyBones.LeftThumbProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftHand].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftThumbIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftThumbProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftThumbDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftThumbIntermediate].GetComponent<Rigidbody>());
+                    break;
 
-            //Left Ring Finger
-            case HumanBodyBones.LeftRingProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftRingIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftRingProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftRingDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftRingIntermediate].GetComponent<Rigidbody>();
-                break;
+                //Left Index Finger
+                case HumanBodyBones.LeftIndexProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftHand].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftIndexIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftIndexProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftIndexDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftIndexIntermediate].GetComponent<Rigidbody>());
+                    break;
 
-            //Left Little Finger
-            case HumanBodyBones.LeftLittleProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftLittleIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftLittleProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftLittleDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftLittleIntermediate].GetComponent<Rigidbody>();
-                break;
-            #endregion
-            #endregion
+                //Left Middle Finger
+                case HumanBodyBones.LeftMiddleProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftHand].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftMiddleIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftMiddleProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftMiddleDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftMiddleIntermediate].GetComponent<Rigidbody>());
+                    break;
 
-            #region Right Arm
+                //Left Ring Finger
+                case HumanBodyBones.LeftRingProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftLowerArm].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftRingIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftRingProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftRingDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftRingIntermediate].GetComponent<Rigidbody>());
+                    break;
 
-            case HumanBodyBones.RightUpperArm:
-                ConfigureJoint(bone, gameObjectsFromBone[HumanBodyBones.Chest].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(0, 0, 1), new Vector3(0, 1, 0), -45, 90, 85, 25);
-                break;
-            case HumanBodyBones.RightLowerArm:
-                ConfigureJoint(bone, gameObjectsFromBone[HumanBodyBones.RightUpperArm].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 1), 0, 177, 15, 15);
-                break;
-            case HumanBodyBones.RightHand:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightLowerArm].GetComponent<Rigidbody>();
-                break;
+                //Left Little Finger
+                case HumanBodyBones.LeftLittleProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftHand].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftLittleIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftLittleProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftLittleDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftLittleIntermediate].GetComponent<Rigidbody>());
+                    break;
+                #endregion
+                #endregion
 
-            #region Right Hand
+                #region Right Arm
 
-            //Right Thumb
-            case HumanBodyBones.RightThumbProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightThumbIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightThumbProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightThumbDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightIndexIntermediate].GetComponent<Rigidbody>();
-                break;
+                case HumanBodyBones.RightUpperArm:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.Chest].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightLowerArm:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightUpperArm].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightHand:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightLowerArm].GetComponent<Rigidbody>());
+                    break;
 
-            //Right Index Finger
-            case HumanBodyBones.RightIndexProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightIndexIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightIndexProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightIndexDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightIndexIntermediate].GetComponent<Rigidbody>();
-                break;
+                #region Right Hand
 
-            //Right Middle Finger
-            case HumanBodyBones.RightMiddleProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightMiddleIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightMiddleProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightMiddleDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightMiddleIntermediate].GetComponent<Rigidbody>();
-                break;
+                //Right Thumb
+                case HumanBodyBones.RightThumbProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightHand].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightThumbIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightThumbProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightThumbDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightThumbIntermediate].GetComponent<Rigidbody>());
+                    break;
 
-            //Right Ring Finger
-            case HumanBodyBones.RightRingProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightRingIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightRingProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightRingDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightRingIntermediate].GetComponent<Rigidbody>();
-                break;
+                //Right Index Finger
+                case HumanBodyBones.RightIndexProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightHand].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightIndexIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightIndexProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightIndexDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightIndexIntermediate].GetComponent<Rigidbody>());
+                    break;
 
-            //Right Little Finger
-            case HumanBodyBones.RightLittleProximal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightHand].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightLittleIntermediate:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightLittleProximal].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightLittleDistal:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightLittleIntermediate].GetComponent<Rigidbody>();
-                break;
-            #endregion
-            #endregion
+                //Right Middle Finger
+                case HumanBodyBones.RightMiddleProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightHand].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightMiddleIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightMiddleProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightMiddleDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightMiddleIntermediate].GetComponent<Rigidbody>());
+                    break;
 
-            #region Torso
+                //Right Ring Finger
+                case HumanBodyBones.RightRingProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightLowerArm].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightRingIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightRingProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightRingDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightRingIntermediate].GetComponent<Rigidbody>());
+                    break;
 
-            case HumanBodyBones.LeftShoulder:
-                break;
-            case HumanBodyBones.RightShoulder:
-                break;
-            case HumanBodyBones.Neck:
-                break;
-            case HumanBodyBones.Head:
-                ConfigureJoint(bone, gameObjectsFromBone[HumanBodyBones.Chest].GetComponent<Rigidbody>(), new Vector3(0, -0.05f, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -75, 75, 25, 25);
-                break;
-            case HumanBodyBones.UpperChest:
-                break;
-            case HumanBodyBones.Chest:
-                ConfigureJoint(HumanBodyBones.Chest, gameObjectsFromBone[HumanBodyBones.Hips].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -20, 20, 10, 0);
-                break;
-            case HumanBodyBones.Spine:
-                break;
-            case HumanBodyBones.Hips:
-                Rigidbody rb = GameObject.FindGameObjectWithTag("Anchor").GetComponent<Rigidbody>();
-                ConfigureJoint(HumanBodyBones.Hips, rb, new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -20, 20, 10, 0);
-                break;
+                //Right Little Finger
+                case HumanBodyBones.RightLittleProximal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightHand].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightLittleIntermediate:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightLittleProximal].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightLittleDistal:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightLittleIntermediate].GetComponent<Rigidbody>());
+                    break;
+                #endregion
+                #endregion
+
+                #region Torso
+
+                case HumanBodyBones.LeftShoulder:
+                    break;
+                case HumanBodyBones.RightShoulder:
+                    break;
+                case HumanBodyBones.Neck:
+                    break;
+                case HumanBodyBones.Head:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.Chest].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.UpperChest:
+                    break;
+                case HumanBodyBones.Chest:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.Hips].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.Spine:
+                    break;
+                case HumanBodyBones.Hips:
+                    Rigidbody rb = GameObject.FindGameObjectWithTag("Anchor").GetComponent<Rigidbody>();
+                    ConfigureJoint(joint, rb);
+                    break;
 
 
-            #endregion
+                #endregion
 
-            #region Left Leg
-            case HumanBodyBones.LeftUpperLeg:
-                ConfigureJoint(bone, gameObjectsFromBone[HumanBodyBones.Hips].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -75, 100, 25, 0);
-                break;
-            case HumanBodyBones.LeftLowerLeg:
-                ConfigureJoint(bone, gameObjectsFromBone[HumanBodyBones.LeftUpperLeg].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -90, 0, 10, 10);
-                break;
-            case HumanBodyBones.LeftFoot:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftLowerLeg].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.LeftToes:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.LeftFoot].GetComponent<Rigidbody>();
-                break;
-            #endregion
+                #region Left Leg
+                case HumanBodyBones.LeftUpperLeg:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.Hips].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftLowerLeg:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftUpperLeg].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftFoot:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftLowerLeg].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.LeftToes:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.LeftFoot].GetComponent<Rigidbody>());
+                    break;
+                #endregion
 
-            #region Right Leg
-            case HumanBodyBones.RightUpperLeg:
-                ConfigureJoint(bone, gameObjectsFromBone[HumanBodyBones.Hips].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -75, 100, 25, 0);
-                break;
-            case HumanBodyBones.RightLowerLeg:
-                ConfigureJoint(bone, gameObjectsFromBone[HumanBodyBones.RightUpperLeg].GetComponent<Rigidbody>(), new Vector3(0, 0, 0), new Vector3(1, 0, 0), new Vector3(0, 0, 1), -90, 0, 10, 10);
-                break;
-            case HumanBodyBones.RightFoot:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightLowerLeg].GetComponent<Rigidbody>();
-                break;
-            case HumanBodyBones.RightToes:
-                gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = gameObjectsFromBone[HumanBodyBones.RightFoot].GetComponent<Rigidbody>();
-                break;
-            #endregion
+                #region Right Leg
+                case HumanBodyBones.RightUpperLeg:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.Hips].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightLowerLeg:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightUpperLeg].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightFoot:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightLowerLeg].GetComponent<Rigidbody>());
+                    break;
+                case HumanBodyBones.RightToes:
+                    ConfigureJoint(joint, gameObjectsFromBone[HumanBodyBones.RightFoot].GetComponent<Rigidbody>());
+                    break;
+                #endregion
 
-            default: break;
+                default: break;
+            }
         }
     }
 
-    public void ConfigureJoint(HumanBodyBones bone, Rigidbody connectedBody, Vector3 anchor, Vector3 axis, Vector3 secondaryAxis, float lowAngularXLimit, float highAngularXLimit, float angularYLimit, float angularZLimit, float mass = 1)
-    {
-        /*
-        //Anchor
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().anchor = anchor;
-
-        //Axis
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().axis = axis;
-        //Secondary Axis
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().secondaryAxis = secondaryAxis;
-
-        //Limits
-        jointLimit.limit = lowAngularXLimit;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().lowAngularXLimit = jointLimit;
-        jointLimit.limit = highAngularXLimit;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().highAngularXLimit = jointLimit;
-        jointLimit.limit = angularYLimit;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().angularYLimit = jointLimit;
-        jointLimit.limit = angularZLimit;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().angularZLimit = jointLimit;
-        */
+    public void ConfigureJoint(ConfigurableJoint joint, Rigidbody connectedBody) {//, Vector3 anchor, Vector3 axis, Vector3 secondaryAxis, float lowAngularXLimit, float highAngularXLimit, float angularYLimit, float angularZLimit, float mass = 1)
 
         //TODO: DRIVE VALUES
 
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().xDrive = xDrive;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().yDrive = yDrive;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().zDrive = zDrive;
+        joint.xDrive = xDrive;
+        joint.yDrive = yDrive;
+        joint.zDrive = zDrive;
 
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().angularXDrive = angularXDrive;
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().angularYZDrive = angularYZDrive;
+        joint.angularXDrive = angularXDrive;
+        joint.angularYZDrive = angularYZDrive;
 
         //Connected Body
-        gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody = connectedBody;
+        joint.connectedBody = connectedBody;
     }
 
     public void setMassOfBone(HumanBodyBones bone, float mass = 1)
@@ -354,70 +357,81 @@ public class ConfigJointManager : MonoBehaviour
     {
         if (!noJoints.Contains(bone) && gameObjectsFromBone.ContainsKey(bone) && gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() != null)
         {
+            
             /*
-            gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetPosition = originalJointTransforms[bone].position - gameObjectsFromBone[bone].transform.InverseTransformPoint(target.position);
-            gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetRotation = originalJointTransforms[bone].rotation * Quaternion.Inverse(Quaternion.Euler(target.localEulerAngles.x, target.localEulerAngles.y, target.localEulerAngles.z));
-            //Debug.Log(gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetPosition);
             gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetVelocity = targetVelocity;
             gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetAngularVelocity = targetAngularVelocity;
             */
-            //gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetPosition = target.position;
 
-            Vector3 primaryAxis = gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().axis.normalized;
-            Vector3 secondaryAxis = gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().secondaryAxis.normalized;
-            Vector3 floatingAxis = Vector3.Cross(primaryAxis, secondaryAxis).normalized;
-
-            /*
-             * The axis defines the primary axis of the Configurable Joint. The Configurable Joint focuses on its X axis, so the most important rotation axis should be chosen for it.
-            */
-
-            Matrix4x4 jointSpace = new Matrix4x4();
-            jointSpace.SetRow(0, primaryAxis);
-            jointSpace.SetRow(0, secondaryAxis);
-            jointSpace.SetRow(0, floatingAxis);
-            jointSpace.m33 = 1.0f;
-
-            Vector3 worldToJointSpace = jointSpace.transpose * target.rotation.eulerAngles;
-
-            Vector3 worldRotToLocal = gameObjectsFromBone[bone].transform.InverseTransformVector(target.rotation.eulerAngles);
-
-
-            //gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetRotation = Quaternion.Euler(worldToJointSpace);//Quaternion.Euler(worldRotToLocal);//CalculateJointRotation(bone, target.rotation);
-            gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetRotation = CalculateJointRotation(bone, target.localRotation);//Quaternion.Inverse(target.transform.rotation) * originalJointTransforms[bone].rotation;
+            ConfigurableJoint[] joints = gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>();
+            for (int i = 0; i < joints.Length; i++)
+            {
+                joints[i].targetRotation = CalculateJointRotation(joints[i], bone, target.localRotation);
+            }
             //gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetPosition = originalJointTransforms[bone].position - target.position;
         }
     }
 
-    Quaternion CalculateJointRotation(HumanBodyBones bone, Quaternion targetRotation)
+    Quaternion CalculateJointRotation(ConfigurableJoint joint, HumanBodyBones bone, Quaternion targetRotation)
     {
+        //useIndividualAxes --> treat each joint rotation individually
+        if (useIndividualAxes)
+        {
+            Vector3 isolatedEuler = targetRotation.eulerAngles;
+            //rotation around x-Axis -> primaryAxis y and z set to 0
+            if (joint.axis.y == 0 && joint.axis.z == 0)
+            {
+                isolatedEuler.y = isolatedEuler.z = 0;
+                if (bone.Equals(HumanBodyBones.RightLowerArm))
+                {
+                    Debug.Log("Rotation around X " + isolatedEuler);
+                }
+            }
+            //rotation around y-Axis -> primaryAxis x and z set to 0
+            else if (joint.axis.x == 0 && joint.axis.z == 0)
+            {
+                isolatedEuler.x = isolatedEuler.z = 0;
+                if (bone.Equals(HumanBodyBones.RightLowerArm))
+                {
+                    Debug.Log("Rotation around Y " + isolatedEuler);
+                }
+            }
+            //rotation around z-Axis -> primaryAxis x and y set to 0
+            else if (joint.axis.x == 0 && joint.axis.y == 0)
+            {
+                isolatedEuler.x = isolatedEuler.y = 0;
+                if (bone.Equals(HumanBodyBones.RightLowerArm))
+                {
+                    Debug.Log("Rotation around Z " + isolatedEuler);
+                }
+            }
 
-        Vector3 right = gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().axis.normalized;
-        Vector3 forward = Vector3.Cross(gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().axis, gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().secondaryAxis).normalized;
-        Vector3 up = Vector3.Cross(forward, right).normalized;
-        Quaternion worldToJointSpace = Quaternion.LookRotation(forward, up);
+            targetRotation = Quaternion.Euler(isolatedEuler);
+        }
 
-        // Transform into world space
-
-        Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace);
-
-        resultRotation *= Quaternion.Inverse(targetRotation) * gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().connectedBody.gameObject.transform.localRotation * originalJointTransforms[bone].localRotation;
-
-        resultRotation *= worldToJointSpace;
-
-
-        //Debug.Log((Quaternion.Inverse(target.transform.rotation) * startOrientation).eulerAngles);
+        // description of the joint space
+        //the x axis of the joint space
+        Vector3 jointXAxis = joint.axis.normalized;
+        // the y axis of the joint space
+        Vector3 jointYAxis = Vector3.Cross(joint.axis, joint.secondaryAxis).normalized;
+        //the z axis of the joint space
+        Vector3 jointZAxis = Vector3.Cross(jointYAxis, jointXAxis).normalized;
+        /*
+         * Z axis will be aligned with forward
+         * X axis aligned with cross product between forward and upwards
+         * Y axis aligned with cross product between Z and X.
+         * --> rotates world coordinates to align with joint coordinates
+        */
+        Quaternion worldToJointSpace = Quaternion.LookRotation(jointYAxis, jointZAxis);
+        /* turn joint space to align with world
+        * perform rotation in world
+        * turn joint back into joint space
+       */
+        Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace) *
+                                    Quaternion.Inverse(targetRotation) *
+                                    originalJointTransforms[bone].localRotation *
+                                    worldToJointSpace;
         return resultRotation;
-    }
-
-
-    Vector3 ConvertWorldPositionToJointSpace(HumanBodyBones boneID, GameObject bone, Vector3 targetPosition)
-    {
-        Vector3 positionInJointSpace = new Vector3();
-        Vector3 e1 = bone.GetComponent<ConfigurableJoint>().axis; 
-        Vector3 e3 = bone.GetComponent<ConfigurableJoint>().secondaryAxis;
-        Vector3 e2 = Vector3.Cross(e3, e1).normalized;
-
-        return positionInJointSpace;
     }
 
     void InitTemplateDict()

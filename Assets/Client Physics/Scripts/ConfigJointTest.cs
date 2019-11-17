@@ -15,51 +15,83 @@ public class ConfigJointTest : MonoBehaviour
     public JointDrive angularYZDrive = new JointDrive();
 
     Quaternion startOrientation;
+    Quaternion startOrientationConnectedBody;
     Vector3 startPosition;
+    ConfigurableJoint joint; 
     // Use this for initialization
 
     void Start()
     {
+        joint = GetComponent<ConfigurableJoint>();
         xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
         xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 300;
         xDrive.maximumForce = yDrive.maximumForce = zDrive.maximumForce = 10000;
 
-        angularXDrive.positionSpring = angularYZDrive.positionSpring = 20;
-        angularXDrive.positionDamper = angularYZDrive.positionDamper = 10;
+        angularXDrive.positionSpring = angularYZDrive.positionSpring = 500;
+        angularXDrive.positionDamper = angularYZDrive.positionDamper = 50;
         angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
 
-        GetComponent<ConfigurableJoint>().xDrive = xDrive;
-        GetComponent<ConfigurableJoint>().yDrive = yDrive;
-        GetComponent<ConfigurableJoint>().zDrive = zDrive;
+        joint.xDrive = xDrive;
+        joint.yDrive = yDrive;
+        joint.zDrive = zDrive;
 
-        GetComponent<ConfigurableJoint>().angularXDrive = angularXDrive;
-        GetComponent<ConfigurableJoint>().angularYZDrive = angularYZDrive;
+        joint.angularXDrive = angularXDrive;
+        joint.angularYZDrive = angularYZDrive;
 
-        startOrientation = transform.rotation;
-        startPosition = transform.position;
+        startOrientation = transform.localRotation;
+        startPosition = transform.localPosition;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //description of the joint space
+        //the x axis of the joint space
+        Vector3 jointXAxis = joint.axis.normalized;
+        // the y axis of the joint space
+        Vector3 jointYAxis = Vector3.Cross(joint.axis, joint.secondaryAxis).normalized;
+        //the z axis of the joint space
+        Vector3 jointZAxis = Vector3.Cross(jointYAxis, jointXAxis).normalized;
+        /*
+         * Z axis will be aligned with forward
+         * X axis aligned with cross product between forward and upwards
+         * Y axis aligned with cross product between Z and X.
+         * --> rotates world coordinates to align with joint coordinates
+        */
+        Quaternion worldToJointSpace = Quaternion.LookRotation(jointYAxis, jointZAxis);
+        /* turn joint space to align with world
+         * perform rotation in world
+         * turn joint back into joint space
+        */
+        Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace) *
+                                    Quaternion.Inverse(target.transform.localRotation) *
+                                    startOrientation *
+                                    worldToJointSpace;
 
-        Vector3 right = GetComponent<ConfigurableJoint>().axis.normalized;
-        Vector3 forward = Vector3.Cross(GetComponent<ConfigurableJoint>().axis, GetComponent<ConfigurableJoint>().secondaryAxis).normalized;
-        Vector3 up = Vector3.Cross(forward, right).normalized;
-        Quaternion worldToJointSpace = Quaternion.LookRotation(forward, up);
+        joint.targetRotation = resultRotation;
 
-        // Transform into world space
+        Matrix4x4 worldToJointSpaceMatrix = Matrix4x4.Rotate(worldToJointSpace);
 
-        Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace);
+        Vector3 directionToTarget = target.transform.localPosition - joint.connectedBody.transform.localPosition;
 
-        resultRotation *= startOrientation * Quaternion.Inverse(target.transform.rotation);
+        Matrix4x4 targetToJointTranslation = Matrix4x4.Translate(directionToTarget);
 
-        resultRotation *= worldToJointSpace;
+        //Vector3 coordinateOffsetWorldToJoint = worldToJointSpaceMatrix.inverse.MultiplyPoint3x4(transform.localPosition + joint.connectedAnchor);
 
+        /*
+         * rotation results in localPosition offset
+         * --> set joint.targetPosition to a targetPositon that is relative to joint.connectedBody
+         * --> convert target.transform.localPosition into joint space
+        */
 
-        //Debug.Log((Quaternion.Inverse(target.transform.rotation) * startOrientation).eulerAngles);
-        GetComponent<ConfigurableJoint>().targetRotation = resultRotation;
+        Vector3 localToWorld = transform.TransformPoint(transform.localPosition + joint.connectedAnchor);
 
+        Matrix4x4 transformationMatrix = Matrix4x4.TRS(localToWorld, Quaternion.Inverse(worldToJointSpace), new Vector3(1,1,1));
+
+        //Vector3 jointInWorldCoordinates = transformationMatrix * transform.
+
+        //joint.targetPosition = directionToTarget;//localToWorld - target.transform.position; //worldToJointSpaceMatrix.inverse.MultiplyPoint3x4(target.transform.position);
+        
     }
 
 }

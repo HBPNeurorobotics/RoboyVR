@@ -8,6 +8,7 @@ public class AvatarManager : MonoBehaviour
 
     public bool useJoints = true;
     public bool useBodyMass = false;
+    public bool useIndividualAxes = true;
     public float weight = 72f;
     public float PDKp = 1;
     public float PDKd = 1;
@@ -104,7 +105,7 @@ public class AvatarManager : MonoBehaviour
             angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
 
 
-            configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive);
+            configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive, useIndividualAxes);
             configJointManager.SetupJoints();
         }
 
@@ -149,6 +150,11 @@ public class AvatarManager : MonoBehaviour
 
         gameObjectPerBoneTarget[bone].AddComponent<Rigidbody>();
         gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().useGravity = false;
+        if (!bone.Equals(HumanBodyBones.RightUpperArm))
+        {
+            //gameObjectPerBoneRemoteAvatar[bone].GetComponent<Rigidbody>().isKinematic = true;
+        }
+
     }
 
     void SetupRagdollForAvatar()
