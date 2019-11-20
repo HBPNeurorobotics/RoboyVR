@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Valve.VR;
 
 namespace EmbodimentDiscrepancy
 {
@@ -93,7 +94,7 @@ namespace EmbodimentDiscrepancy
         {
 			for(float i = 0; i < rumble.pulseLength; i += Time.deltaTime)
             {
-				SteamVR_Controller.Input((int)rumble.trackedObjectIndex).TriggerHapticPulse((ushort)Mathf.Lerp(0, 3999, pulseStrength));
+				//SteamVR_Controller.Input((int)rumble.trackedObjectIndex).TriggerHapticPulse((ushort)Mathf.Lerp(0, 3999, pulseStrength));
 				yield return null;
 			}
             rumble.sentOut = true;

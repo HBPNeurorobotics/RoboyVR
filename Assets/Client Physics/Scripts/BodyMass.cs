@@ -6,13 +6,12 @@ public class BodyMass
 {
 
     float totalMassKg;
-    AvatarManager avatarManager;
     Dictionary<HumanBodyBones, GameObject> dict;
 
-    public BodyMass(float totalMassKg, AvatarManager avatarManager)
+    public BodyMass(float totalMassKg, Dictionary<HumanBodyBones, GameObject> gameObjectFromBone)
     {
         this.totalMassKg = totalMassKg;
-        this.avatarManager = avatarManager;
+        dict = gameObjectFromBone;
 
         SetBodyMasses();
     }
@@ -25,7 +24,6 @@ public class BodyMass
 
     void SetBodyMasses()
     {
-        dict = avatarManager.GetGameObjectPerBoneAvatarDictionary();
         foreach (HumanBodyBones bone in dict.Keys)
         {
             if (dict[bone].GetComponent<Rigidbody>() != null)

@@ -111,7 +111,7 @@ public class AvatarManager : MonoBehaviour
 
         if (useBodyMass)
         {
-            BodyMass bm = new BodyMass(weight, this);
+            BodyMass bm = new BodyMass(weight, gameObjectPerBoneRemoteAvatar);
         }
 
     }
@@ -161,7 +161,7 @@ public class AvatarManager : MonoBehaviour
     {
 
     }
-
+    /*
     void AssignMerchVRPIDController(HumanBodyBones bone)
     {
         gameObjectPerBoneRemoteAvatar[bone].AddComponent<PIDControllerCombined>();
@@ -169,6 +169,7 @@ public class AvatarManager : MonoBehaviour
         gameObjectPerBoneRemoteAvatar[bone].GetComponent<PIDControllerCombined>().pidRotation = new PIDControllerRot(gameObjectPerBoneRemoteAvatar[bone], 50, 5, 10);
         gameObjectPerBoneRemoteAvatar[bone].GetComponent<PIDControllerCombined>().pidVelocity = new PIDControllerVel(gameObjectPerBoneRemoteAvatar[bone], 35, 0, 0.6f, new Vector3(1, 0, 1), 100);
     }
+    */
 
     void AssignPDController(HumanBodyBones bone)
     {
@@ -211,7 +212,7 @@ public class AvatarManager : MonoBehaviour
         }
     }
 
-    void UpdateMerchVRPIDControllers()
+    /*void UpdateMerchVRPIDControllers()
     {
         foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
         {
@@ -220,14 +221,16 @@ public class AvatarManager : MonoBehaviour
             gameObjectPerBoneRemoteAvatar[bone].GetComponent<PIDControllerCombined>().pidVelocity.UpdateTarget(gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().velocity, 1);
         }
     }
+    */
 
     void UpdateJoints()
     {
         Transform rootBone = gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform;
-        UpdateJointsRecursive(rootBone);
+        //UpdateJointsRecursive(rootBone);
         foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
         {
             //gameObjectPerBoneRemoteAvatar[bone].GetComponent<Rigidbody>().freezeRotation = false;
+            configJointManager.SetTagetTransform(bone, gameObjectPerBoneTarget[bone].transform, gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().velocity, gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().angularVelocity);
         }
     }
 
