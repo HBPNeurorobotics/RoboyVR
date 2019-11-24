@@ -26,8 +26,8 @@ public class ConfigJointTest : MonoBehaviour
         xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 300;
         xDrive.maximumForce = yDrive.maximumForce = zDrive.maximumForce = 10000;
 
-        angularXDrive.positionSpring = angularYZDrive.positionSpring = 2500;
-        angularXDrive.positionDamper = angularYZDrive.positionDamper = 500;
+        angularXDrive.positionSpring = angularYZDrive.positionSpring = 3500;
+        angularXDrive.positionDamper = angularYZDrive.positionDamper = 600;
         angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
 
         joint.xDrive = xDrive;
@@ -37,7 +37,7 @@ public class ConfigJointTest : MonoBehaviour
         joint.angularXDrive = angularXDrive;
         joint.angularYZDrive = angularYZDrive;
 
-        startOrientation = target.transform.localRotation;//transform.localRotation;
+        startOrientation = transform.localRotation;//target.transform.localRotation;//transform.localRotation;
 
         
         joint.angularXMotion = ConfigurableJointMotion.Free;
@@ -63,7 +63,8 @@ public class ConfigJointTest : MonoBehaviour
          * --> rotates world coordinates to align with joint coordinates
         */
         Quaternion worldToJointSpace = Quaternion.LookRotation(jointYAxis, jointZAxis);
-        /* turn joint space to align with world
+        /* 
+         * turn joint space to align with world
          * perform rotation in world
          * turn joint back into joint space
         */

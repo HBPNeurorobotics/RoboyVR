@@ -19,32 +19,27 @@ public class TestManager : MonoBehaviour
     Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneTestAvatar = new Dictionary<HumanBodyBones, GameObject>();
     Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneTarget = new Dictionary<HumanBodyBones, GameObject>();
 
-    List<HumanBodyBones> noJoints = new List<HumanBodyBones>();
+    List<HumanBodyBones> useFixedJoints = new List<HumanBodyBones>();
     // Use this for initialization
     void Start()
     {
-        noJoints.Add(HumanBodyBones.Spine);
-        noJoints.Add(HumanBodyBones.UpperChest);
-        noJoints.Add(HumanBodyBones.LeftShoulder);
-        noJoints.Add(HumanBodyBones.RightShoulder);
-        noJoints.Add(HumanBodyBones.Neck);
+        useFixedJoints.Add(HumanBodyBones.Spine);
+        useFixedJoints.Add(HumanBodyBones.UpperChest);
+        useFixedJoints.Add(HumanBodyBones.LeftShoulder);
+        useFixedJoints.Add(HumanBodyBones.RightShoulder);
+        useFixedJoints.Add(HumanBodyBones.Neck);
 
         animatorRemoteAvatar = GetComponentInChildren<Animator>();
         animatorTarget = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
         InitializeBodyStructures();
-        SetupTest();
     }
 
-    /// <summary>
-    ///     Maps all HumanBodyBones (assigned in the Avatar) to their GameObjects in the scene in order to get access to all components.
-    ///     Adds Rigidbody to both bodies, adds PDController to the avatar.
-    /// </summary>
     void InitializeBodyStructures()
     {
         foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
         {
             //LastBone is not mapped to a bodypart, we need to skip it.
-            if (bone != HumanBodyBones.LastBone && !noJoints.Contains(bone))
+            if (bone != HumanBodyBones.LastBone && !useFixedJoints.Contains(bone))
             {
                 Transform boneTransformAvatar = animatorRemoteAvatar.GetBoneTransform(bone);
                 Transform boneTransformTarget = animatorTarget.GetBoneTransform(bone);
@@ -54,6 +49,12 @@ public class TestManager : MonoBehaviour
                     //build Dictionaries
                     gameObjectPerBoneTestAvatar.Add(bone, boneTransformAvatar.gameObject);
                     gameObjectPerBoneTarget.Add(bone, boneTransformTarget.gameObject);
+                    
+                    ConfigJointTest test = gameObjectPerBoneTestAvatar[bone].AddComponent<ConfigJointTest>();
+                    if (test != null)
+                    {
+                        test.target = boneTransformTarget.gameObject;
+                    }
                 }
             }
         }
@@ -61,23 +62,6 @@ public class TestManager : MonoBehaviour
         if (useBodyMass)
         {
             BodyMass bm = new BodyMass(weight, gameObjectPerBoneTestAvatar);
-        }
-    }
-
-    void SetupTest()
-    {
-        foreach(HumanBodyBones bone in gameObjectPerBoneTestAvatar.Keys)
-        {
-            //gameObjectPerBoneTestAvatar[bone].AddComponent<ConfigurableJoint>();
-            //gameObjectPerBoneTestAvatar[bone].GetComponent<Rigidbody>().useGravity = false;
-
-            //SetJoint(bone);
-
-            ConfigJointTest test = gameObjectPerBoneTestAvatar[bone].GetComponent<ConfigJointTest>();
-            if (test != null)
-            {
-                test.target = gameObjectPerBoneTarget[bone];
-            }
         }
     }
 
