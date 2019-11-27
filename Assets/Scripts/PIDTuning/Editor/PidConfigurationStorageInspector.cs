@@ -32,14 +32,14 @@ namespace PIDTuning.Editor
                 return;
             }
 
-            if (GUILayout.Button("Transmit to Simulation"))
+            if (GUILayout.Button("Transmit all PIDs"))
             {
                 if (configStorage.GetComponent<TestRunner>().State == TestRunner.TestRunnerState.RunningTest)
                 {
                     Debug.LogWarning("Cannot transmit PID configuration while test is running");
                 }
 
-                configStorage.TransmitPidConfiguration();
+                configStorage.TransmitFullConfiguration();
             }
 
             if (GUILayout.Button("Fill from JSON"))
@@ -54,7 +54,9 @@ namespace PIDTuning.Editor
 
             DrawResetGui(configStorage);
 
-            DrawJointPidMapping(configStorage.Configuration);
+            EditorGUILayout.Space();
+
+            DrawJointPidMapping(configStorage.Configuration, configStorage);
 
             Repaint();
         }
@@ -70,10 +72,11 @@ namespace PIDTuning.Editor
             if (GUILayout.Button("Reset to base values"))
             {
                 configStorage.ResetConfiguration(_baseKp, _baseKi, _baseKd);
+                configStorage.TransmitFullConfiguration();
             }
         }
 
-        private void DrawJointPidMapping(PidConfiguration config)
+        private void DrawJointPidMapping(PidConfiguration config, PidConfigurationStorage configStorage)
         {
             foreach (var joinToPid in config.Mapping)
             {
@@ -83,6 +86,11 @@ namespace PIDTuning.Editor
                 jointParams.Kp = EditorGUILayout.FloatField("P", jointParams.Kp);
                 jointParams.Ki = EditorGUILayout.FloatField("I", jointParams.Ki);
                 jointParams.Kd = EditorGUILayout.FloatField("D", jointParams.Kd);
+
+                if (GUILayout.Button("Transmit Joint PID"))
+                {
+                    configStorage.TransmitSingleJointConfiguration(joinToPid.Key);
+                }
 
                 EditorGUILayout.Space();
             }

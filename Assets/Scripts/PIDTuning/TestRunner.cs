@@ -143,7 +143,7 @@ namespace PIDTuning
             // We copy the current PID configuration here so that the user cannot accidentally modify it during the test.
             // (They still can do that if they transmit a new configuration, but in that case that's their own fault.)
             var testRunPidConfig = new PidConfiguration(_pidConfigurationStorage.Configuration);
-            _pidConfigurationStorage.TransmitPidConfiguration(testRunPidConfig);
+            _pidConfigurationStorage.TransmitFullConfiguration();
 
             // Run Simulation Loop and record data
             // -----------------------------------------------------------------------------------
@@ -176,7 +176,12 @@ namespace PIDTuning
                 // Play animation and record samples during playback
                 // -----------------------------------------------------------------------------------
 
-                yield return _animatorControl.RunAnimationPlayback(animation);
+                yield return _animatorControl.StartAnimationPlayback(animation);
+
+                // Skip first second of animation to allow the model to assume the correct initial pose.
+                // Ideally, we should wait until the robot has settled into the pose that is present in the
+                // first frame of the animation, but that is kinda difficult...
+                yield return new WaitForSeconds(1f);
 
                 yield return RecordMotion(() => _animatorControl.IsAnimationRunning, stepData);
 
@@ -201,16 +206,16 @@ namespace PIDTuning
 
         private void AssertReadyForTest()
         {
-            // Important:
-            // If anything in here fails: Did you forget to call ResetTestRunner() after a simulation?
+            string errorMessage =
+                "TestRunner was not properly reset before starting the next test. Please call \"ResetTestRunnre\" after each test";
 
-            Assert.AreEqual(State, TestRunnerState.Ready);
-            Assert.AreEqual(_latestTestTimestamp, null);
-            Assert.AreEqual(_latestPidConfiguration, null);
-            Assert.AreEqual(_latestAnimationToJointToStepData, null);
-            Assert.AreEqual(LatestAnimationToJointToEvaluation, null);
-            Assert.AreEqual(LatestAnimationToEvaluation, null);
-            Assert.AreEqual(LatestEvaluation, null);
+            Assert.AreEqual(State, TestRunnerState.Ready, errorMessage);
+            Assert.AreEqual(_latestTestTimestamp, null, errorMessage);
+            Assert.AreEqual(_latestPidConfiguration, null, errorMessage);
+            Assert.AreEqual(_latestAnimationToJointToStepData, null, errorMessage);
+            Assert.AreEqual(LatestAnimationToJointToEvaluation, null, errorMessage);
+            Assert.AreEqual(LatestAnimationToEvaluation, null, errorMessage);
+            Assert.AreEqual(LatestEvaluation, null, errorMessage);
         }
 
         /// <summary>
@@ -346,6 +351,26 @@ namespace PIDTuning
                 }
 
                 File.WriteAllText(Path.Combine(animationDirectory, "eval.json"), LatestAnimationToEvaluation[animation.Key].ToJson().ToString());
+
+                // The code below exports performance evaluations of the left arm for each animation
+                // It's important for my thesis, but not that important for you, probably ;)
+                // That's why we don't re-throw an exception if something doesn't work out in here
+                try
+                {
+                    var armX = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftArm_x"];
+                    var armY = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftArm_y"];
+                    var armZ = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftArm_z"];
+                    var foreArm = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftForeArm"];
+                    var hand = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftHand"];
+
+                    var eval = PerformanceEvaluation.FromCumulative(new[] { armX, armY, armZ, foreArm, hand });
+
+                    File.WriteAllText(Path.Combine(testRunFolder, "left-arm-eval-" + animation.Key + ".json"), eval.ToJson().ToString());
+                }
+                catch
+                {
+                    
+                }
             }
         }
     }

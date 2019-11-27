@@ -95,7 +95,7 @@ namespace PIDTuning.Editor
                 if (_initialized)
                 {
                     DrawGraph();
-                    DrawGraphControls();
+                    DrawJointControls();
 
                     if (_testRunner.State == TestRunner.TestRunnerState.FinishedTest)
                     {
@@ -108,8 +108,10 @@ namespace PIDTuning.Editor
         // Lower-level drawing functions
         // #########################################################################################
 
-        private void DrawGraphControls()
+        private void DrawJointControls()
         {
+            EditorGUILayout.BeginHorizontal();
+
             var newSelectedJointIndex = EditorGUILayout.Popup(_selectedJointIndex, _jointNames);
 
             if (newSelectedJointIndex != _selectedJointIndex)
@@ -117,6 +119,21 @@ namespace PIDTuning.Editor
                 _graphRenderer.StartNewLine(DateTime.Now);
                 _selectedJointIndex = newSelectedJointIndex;
             }
+
+            if (GUILayout.Button("Invert Joint Angle (Step-Test)", GUILayout.Width(350f)))
+            {
+                if (_animatorControl.Animator.enabled)
+                {
+                    _animatorControl.Animator.enabled = false;
+                    Debug.LogWarning("Had to disable animator component to trigger step test!");
+                }
+
+                var oldAngle = _poseErrorTracker.LocalRig.GetJointToRadianMapping()[_jointNames[_selectedJointIndex]];
+                _poseErrorTracker.LocalRig.SetJointRadians(_jointNames[_selectedJointIndex], -oldAngle);
+
+            }
+
+            EditorGUILayout.EndHorizontal();
         }
 
         private void DrawGraph()
@@ -271,9 +288,9 @@ namespace PIDTuning.Editor
 
             AppendMetricIfNotNull(sb, "Max Overshoot", evaluation.MaxOvershoot);
 
-            AppendMetricIfNotNull(sb, "Avg Settling Time (10%)", evaluation.AvgSettlingTime10Percent);
-            AppendMetricIfNotNull(sb, "Avg Settling Time (5%)", evaluation.AvgSettlingTime5Percent);
-            AppendMetricIfNotNull(sb, "Avg Settling Time (2%)", evaluation.AvgSettlingTime2Percent);
+            AppendMetricIfNotNull(sb, "Avg Settling Time (10 deg)", evaluation.AvgSettlingTime10Degrees);
+            AppendMetricIfNotNull(sb, "Avg Settling Time (5 deg)", evaluation.AvgSettlingTime5Degrees);
+            AppendMetricIfNotNull(sb, "Avg Settling Time (2 deg)", evaluation.AvgSettlingTime2Degrees);
 
             AppendMetricIfNotNull(sb, "Avg Response Time (10%)", evaluation.Avg10PercentResponseTime);
             AppendMetricIfNotNull(sb, "Avg Response Time (50%)", evaluation.Avg50PercentResponseTime);

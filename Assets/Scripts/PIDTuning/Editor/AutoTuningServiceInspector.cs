@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ROSBridgeLib.geometry_msgs;
 using UnityEditor;
 using UnityEngine;
@@ -9,17 +11,50 @@ namespace PIDTuning.Editor
     [CustomEditor(typeof(AutoTuningService))]
     public class AutoTuningServiceInspector : UnityEditor.Editor
     {
+        private string[] jointNames = null;
+
+        private int jointToTuneIdx = 0;
+
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
 
-            var ats = (AutoTuningService) target;
+            var ats = (AutoTuningService)target;
 
-            if (GUILayout.Button("Tune mixamorig_LeftArm_y"))
+            if (!Application.isPlaying)
             {
-                ats.StartCoroutine(ats.TuneSingleJoint("mixamorig_LeftArm_y"));
+                GUILayout.Label("Functionality only available in play mode");
+                return;
             }
 
+            if (null == jointNames)
+            {
+                Initialize(ats);
+            }
+
+            if (GUILayout.Button("Tune all joints"))
+            {
+                ats.StartCoroutine(ats.TuneAllJoints());
+            }
+
+            EditorGUILayout.Space();
+
+            jointToTuneIdx = EditorGUILayout.Popup(jointToTuneIdx, jointNames);
+
+            if (GUILayout.Button("Tune selected joint"))
+            {
+                ats.StartCoroutine(ats.TuneSingleJoint(jointNames[jointToTuneIdx]));
+            }
+
+            EditorGUILayout.Space();
+
+            DisplayAvailableTunings(ats);
+
+            Repaint();
+        }
+
+        private static void DisplayAvailableTunings(AutoTuningService ats)
+        {
             if (null != ats.LastTuningData)
             {
                 GUILayout.Label("Tunings for " + ats.LastTuningData.Joint);
@@ -28,23 +63,27 @@ namespace PIDTuning.Editor
                 {
                     EditorGUILayout.Separator();
 
-                    GUILayout.Label(string.Format("{0}:\n- P: {1}\n- I: {2}\n- D: {3}", 
-                        variantToTuning.Key, 
+                    GUILayout.Label(string.Format("{0}:\n- P: {1}\n- I: {2}\n- D: {3}",
+                        variantToTuning.Key,
                         variantToTuning.Value.Kp,
                         variantToTuning.Value.Ki,
                         variantToTuning.Value.Kd));
-                    
+
                     if (GUILayout.Button("Use this tuning"))
                     {
                         var configStorage = ats.gameObject.GetComponent<PidConfigurationStorage>();
 
-                        configStorage.Configuration.Mapping[ats.LastTuningData.Joint] = variantToTuning.Value;
-                        configStorage.TransmitPidConfiguration();
+                        // We use to copy constructor here to avoid that the user can modify the original tuning
+                        configStorage.Configuration.Mapping[ats.LastTuningData.Joint] = new PidParameters(variantToTuning.Value);
+                        configStorage.TransmitSingleJointConfiguration(ats.LastTuningData.Joint);
                     }
                 }
             }
+        }
 
-            Repaint();
+        private void Initialize(AutoTuningService ats)
+        {
+            jointNames = ats.PoseErrorTracker.GetJointNames().ToArray();
         }
     }
 }

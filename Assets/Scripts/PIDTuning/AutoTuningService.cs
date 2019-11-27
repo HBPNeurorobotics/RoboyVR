@@ -29,13 +29,15 @@ namespace PIDTuning
         [SerializeField]
         private GameObject _localAvatar;
 
-        public ZieglerNicholsVariant TuningVariant = ZieglerNicholsVariant.Classic;
+        public ZieglerNicholsHeuristic TuningHeuristic = ZieglerNicholsHeuristic.PDControl;
 
         // TODO: Explain
         public float RelayConstantForce = 500f;
 
+        public float RelayTargetAngle = 0f;
+
         // TODO: Explain
-        public float RelayTestStartAngle = 15f;
+        public float RelayStartAngle = 15f;
 
         // TODO: Explain
         public float TestWarmupSeconds = 30f;
@@ -47,13 +49,15 @@ namespace PIDTuning
 
         private PidConfigurationStorage _pidConfigStorage;
 
-        private PoseErrorTracker _poseErrorTracker;
+        public PoseErrorTracker PoseErrorTracker { private set; get; }
 
         private TestEnvSetup _testEnvSetup;
 
         private Animator _localAvatarAnimator;
 
         private RigAngleTracker _localAvatarRig;
+
+        private AnimatorControl _animatorControl;
 
         private bool _tuningInProgress;
 
@@ -72,8 +76,9 @@ namespace PIDTuning
 
             _testRunner = GetComponent<TestRunner>();
             _pidConfigStorage = GetComponent<PidConfigurationStorage>();
-            _poseErrorTracker = GetComponent<PoseErrorTracker>();
-           _testEnvSetup = GetComponent<TestEnvSetup>();
+            PoseErrorTracker = GetComponent<PoseErrorTracker>();
+            _testEnvSetup = GetComponent<TestEnvSetup>();
+            _animatorControl = GetComponent<AnimatorControl>();
 
             Assert.IsNotNull(_localAvatar);
             Assert.IsNotNull(_localAvatarAnimator = _localAvatar.GetComponent<Animator>());
@@ -104,7 +109,7 @@ namespace PIDTuning
             _localAvatarAnimator.enabled = false;
 
             // Set starting angle of joint
-            _localAvatarRig.SetJointEulerAngle(joint, RelayTestStartAngle);
+            _localAvatarRig.SetJointEulerAngle(joint, RelayStartAngle);
 
             // Wait for sim to catch up
             yield return _testEnvSetup.RunSimulationReset();
@@ -119,7 +124,7 @@ namespace PIDTuning
             try
             {
                 Assert.IsTrue(oscillation.HasValue, "It seems the Bang-Bang control did not create a suitable oscillation pattern. Please modify some parameters and try again.");
-                LastTuningData = TuningResult.GenerateFromOscullation(joint, oscillation.Value, RelayConstantForce);
+                LastTuningData = TuningResult.GenerateFromOscillation(joint, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
             }
             finally
             {
@@ -127,11 +132,11 @@ namespace PIDTuning
             }
 
             // Acquire the final tuned parameters
-            var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningVariant, oscillation.Value, RelayConstantForce);
+            var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningHeuristic, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
 
             // Apply the tuning and transmit it to the simulation
             _pidConfigStorage.Configuration.Mapping[joint] = tunedPid;
-            _pidConfigStorage.TransmitPidConfiguration();
+            _pidConfigStorage.TransmitSingleJointConfiguration(joint);
 
             // Restore animator state
             _localAvatarAnimator.enabled = previousAnimatorState;
@@ -150,11 +155,11 @@ namespace PIDTuning
 
             // Disable PID controller
             _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, 0f);
-            _pidConfigStorage.TransmitPidConfiguration();
+            _pidConfigStorage.TransmitFullConfiguration();
 
             // Set set-point to 0 (even if the PID won't control the joint for now)
             // We are trying to reach the set-point using relay control only for the test
-            _localAvatarRig.SetJointEulerAngle(joint, 0f);
+            _localAvatarRig.SetJointEulerAngle(joint, RelayTargetAngle);
 
             var startTime = DateTime.Now;
 
@@ -185,13 +190,13 @@ namespace PIDTuning
 
             // Restore pre-test configurations
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
-            _pidConfigStorage.TransmitPidConfiguration();
+            _pidConfigStorage.TransmitFullConfiguration();
         }
 
         private void AdjustRelayForce(string joint)
         {
             // ReSharper disable once CompareOfFloatsByEqualityOperator
-            if (1f == Mathf.Sign(_poseErrorTracker.GetCurrentStepDataForJoint(joint).Measured))
+            if (1f == Mathf.Sign(PoseErrorTracker.GetCurrentStepDataForJoint(joint).Measured - RelayTargetAngle))
             {
                 SetConstantForceForJoint(joint, -RelayConstantForce);
             }
@@ -229,19 +234,19 @@ namespace PIDTuning
     public class TuningResult
     {
         public readonly string Joint;
-        public readonly Dictionary<ZieglerNicholsVariant, PidParameters> Tunings;
+        public readonly Dictionary<ZieglerNicholsHeuristic, PidParameters> Tunings;
 
-        private TuningResult(string joint, Dictionary<ZieglerNicholsVariant, PidParameters> tunings)
+        private TuningResult(string joint, Dictionary<ZieglerNicholsHeuristic, PidParameters> tunings)
         {
             Joint = joint;
             Tunings = tunings;
         }
 
-        public static TuningResult GenerateFromOscullation(string joint, OscillationAnalysisResult oscillation, float relayConstantForce)
+        public static TuningResult GenerateFromOscillation(string joint, OscillationAnalysisResult oscillation, float relayConstantForce, float timeStretchFactor)
         {
-            var tunings = Enum.GetValues(typeof(ZieglerNicholsVariant))
-                .Cast<ZieglerNicholsVariant>()
-                .ToDictionary(variant => variant, variant => ZieglerNicholsTuning.FromBangBangAnalysis(variant, oscillation, relayConstantForce));
+            var tunings = Enum.GetValues(typeof(ZieglerNicholsHeuristic))
+                .Cast<ZieglerNicholsHeuristic>()
+                .ToDictionary(variant => variant, variant => ZieglerNicholsTuning.FromBangBangAnalysis(variant, oscillation, relayConstantForce, timeStretchFactor));
 
             return new TuningResult(joint, tunings);
         }

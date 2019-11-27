@@ -36,6 +36,9 @@ public class RigAngleTracker : MonoBehaviour
     private const string L_FOOT_NAME = "mixamorig_LeftFoot";
     private const string R_FOOT_NAME = "mixamorig_RightFoot";
 
+    private const string L_HAND_NAME = "mixamorig_LeftHand";
+    private const string R_HAND_NAME = "mixamorig_RightHand";
+
     private bool _initialized = false;
 
     private int _lastTrackedFrame = -1;
@@ -138,6 +141,9 @@ public class RigAngleTracker : MonoBehaviour
         Transform leftForeArm = FindChildTransformRecursive(transform, L_FORE_ARM_NAME);
         Transform rightForeArm = FindChildTransformRecursive(transform, R_FORE_ARM_NAME);
 
+        Transform leftHand = FindChildTransformRecursive(transform, L_HAND_NAME);
+        Transform rightHand = FindChildTransformRecursive(transform, R_HAND_NAME);
+
         Transform leftUpLeg = FindChildTransformRecursive(transform, L_UP_LEG_NAME);
         Transform rightUpLeg = FindChildTransformRecursive(transform, R_UP_LEG_NAME);
 
@@ -176,6 +182,14 @@ public class RigAngleTracker : MonoBehaviour
 
         _jointMappings[R_FORE_ARM_NAME] = 
             new JointMapping(rightArm, rightForeArm, true, MappedEulerAngle.InvertedZ);
+
+        // Hands
+
+        _jointMappings[L_HAND_NAME] =
+            new JointMapping(leftForeArm, leftHand, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_NAME] =
+            new JointMapping(rightForeArm, rightHand, true, MappedEulerAngle.Y);
 
         // Upper Legs
 
@@ -226,6 +240,9 @@ public class RigAngleTracker : MonoBehaviour
         Transform leftForeArm = FindChildTransformRecursive(transform, L_FORE_ARM_NAME);
         Transform rightForeArm = FindChildTransformRecursive(transform, R_FORE_ARM_NAME);
 
+        Transform leftHand = FindChildTransformRecursive(transform, L_HAND_NAME);
+        Transform rightHand = FindChildTransformRecursive(transform, R_HAND_NAME);
+
         Transform leftUpLeg = FindChildTransformRecursive(transform, L_UP_LEG_NAME);
         Transform rightUpLeg = FindChildTransformRecursive(transform, R_UP_LEG_NAME);
 
@@ -264,6 +281,12 @@ public class RigAngleTracker : MonoBehaviour
         _jointMappings[L_FORE_ARM_NAME] = new JointMapping(leftArm, leftForeArm, false, MappedEulerAngle.Y);
 
         _jointMappings[R_FORE_ARM_NAME] = new JointMapping(rightArm, rightForeArm, false, MappedEulerAngle.Y);
+
+        // Hands
+
+        _jointMappings[L_HAND_NAME] = new JointMapping(leftForeArm, leftHand, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_NAME] = new JointMapping(rightForeArm, rightHand, false, MappedEulerAngle.InvertedZ);
 
         // Upper Legs
 
@@ -325,6 +348,12 @@ public class RigAngleTracker : MonoBehaviour
         return null;
     }
 
+    /// <summary>
+    /// This stuff is a bit hard to get behind, but let's try:
+    /// - If you change X to rotate the joint on the local avatar, use MappedEulerAngle.X for both local and remote avatars
+    /// - If you change Y to rotate the joint on the local avatar, use MappedEulerAngle.Y for local and MappedEulerAngle.InvertedZ for remote
+    /// - If you change Z to rotate the joint on the local avatar, use MappedEulerAngle.InvertedZ for local and MappedEulerAngle.Y for remote
+    /// </summary>
     private enum MappedEulerAngle
     {
         X,
@@ -413,23 +442,23 @@ public class RigAngleTracker : MonoBehaviour
             switch (MappedEulerAngle)
             {
                 case MappedEulerAngle.X:
-                    Child.transform.eulerAngles = new Vector3(
+                    Child.transform.localEulerAngles = new Vector3(
                         angle, 
-                        Child.transform.eulerAngles.y, 
-                        Child.transform.eulerAngles.z);
+                        Child.transform.localEulerAngles.y, 
+                        Child.transform.localEulerAngles.z);
                     break;
 
                 case MappedEulerAngle.Y:
-                    Child.transform.eulerAngles = new Vector3(
-                        Child.transform.eulerAngles.x,
+                    Child.transform.localEulerAngles = new Vector3(
+                        Child.transform.localEulerAngles.x,
                         angle,
-                        Child.transform.eulerAngles.z);
+                        Child.transform.localEulerAngles.z);
                     break;
 
                 case MappedEulerAngle.InvertedZ:
-                    Child.transform.eulerAngles = new Vector3(
-                        Child.transform.eulerAngles.x,
-                        Child.transform.eulerAngles.y,
+                    Child.transform.localEulerAngles = new Vector3(
+                        Child.transform.localEulerAngles.x,
+                        Child.transform.localEulerAngles.y,
                         -angle);
                     break;
             }

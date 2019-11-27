@@ -12,12 +12,13 @@ namespace PIDTuning
 
         [SerializeField] private float _timeStretchFactor = 1f;
 
-        private Animator _animator = null;
+        public Animator Animator { private set; get; }
+
         private UserAvatarVisualsIKControl _ikControl = null;
 
         public bool IsAnimationRunning
         {
-            get { return 1f > _animator.GetCurrentAnimatorStateInfo(0).normalizedTime; }
+            get { return 1f > Animator.GetCurrentAnimatorStateInfo(0).normalizedTime; }
         }
 
         public float TimeStretchFactor
@@ -33,10 +34,10 @@ namespace PIDTuning
         {
             Assert.IsNotNull(_localAvatar);
 
-            _animator = _localAvatar.GetComponent<Animator>();
+            Animator = _localAvatar.GetComponent<Animator>();
             _ikControl = _localAvatar.GetComponent<UserAvatarVisualsIKControl>();
 
-            Assert.IsNotNull(_animator);
+            Assert.IsNotNull(Animator);
             Assert.IsNotNull(_ikControl);
 
             PrepareRigForPlayback();
@@ -47,15 +48,15 @@ namespace PIDTuning
         public void ResetUserAvatar()
         {
             PrepareRigForPlayback();
-            _animator.Play("idle");
+            Animator.Play("idle");
         }
 
-        public IEnumerator RunAnimationPlayback(string state)
+        public IEnumerator StartAnimationPlayback(string state)
         {
             PrepareRigForPlayback();
-            _animator.Play(state);
+            Animator.Play(state);
 
-            yield return new WaitUntil(() => _animator.GetCurrentAnimatorStateInfo(0).IsName(state));
+            yield return new WaitUntil(() => Animator.GetCurrentAnimatorStateInfo(0).IsName(state));
         }
 
         /// <summary>
@@ -63,23 +64,23 @@ namespace PIDTuning
         /// </summary>
         public void ValidateStateList(List<string> states)
         {
-            Assert.IsNotNull(_animator);
+            Assert.IsNotNull(Animator);
 
             foreach (var state in states)
             {
-                Assert.IsTrue(_animator.HasState(0, Animator.StringToHash(state)));
+                Assert.IsTrue(Animator.HasState(0, Animator.StringToHash(state)));
             }
         }
 
         private void PrepareRigForPlayback()
         {
-            _animator.enabled = true;
+            Animator.enabled = true;
 
             // Disable IK in test environment
             _ikControl.ikActive = false;
 
             // Apply time stretch to account for low simulations speeds
-            _animator.speed = 1f / _timeStretchFactor;
+            Animator.speed = 1f / _timeStretchFactor;
         }
     }
 }

@@ -38,24 +38,27 @@ namespace PIDTuning
         /// an argument, the current value of the Configuration property of this component
         /// will be transmitted.
         /// </summary>
-        public void TransmitPidConfiguration(PidConfiguration config = null)
+        public void TransmitFullConfiguration()
         {
-            if (null == config)
-            {
-                config = Configuration;
-            }
+            AssertServiceReady();
 
-            Assert.IsNotNull(config);
-
-            Assert.IsTrue(_userAvatarService.IsRemoteAvatarPresent, "Cannot transmit PID config when remote avatar is not present. Did you forget to spawn it?");
-
-            foreach (var joint in config.Mapping)
+            foreach (var joint in Configuration.Mapping)
             {
                 string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
 
-                // default was (100f, 50f, 10f)
                 ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(joint.Value.Kp, joint.Value.Ki, joint.Value.Kd));
             }
+        }
+
+        public void TransmitSingleJointConfiguration(string joint)
+        {
+            AssertServiceReady();
+
+            string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
+
+            var jointConfig = Configuration.Mapping[joint];
+
+            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(jointConfig.Kp, jointConfig.Ki, jointConfig.Kd));
         }
 
         public void ReplaceWithConfigFromJson(string json)
@@ -68,6 +71,7 @@ namespace PIDTuning
             }
 
             Configuration = newConfig;
+            TransmitFullConfiguration();
         }
 
         public void ResetConfiguration(float kp, float ki, float kd)
@@ -77,6 +81,14 @@ namespace PIDTuning
             var joinNames = Configuration.Mapping.Keys.ToArray();
 
             Configuration.InitializeMapping(joinNames, PidParameters.FromParallelForm(kp, ki, kd));
+            TransmitFullConfiguration();
+        }
+
+        private void AssertServiceReady()
+        {
+            Assert.IsNotNull(Configuration);
+
+            Assert.IsTrue(_userAvatarService.IsRemoteAvatarPresent, "Cannot transmit PID config when remote avatar is not present. Did you forget to spawn it?");
         }
     }
 }

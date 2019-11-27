@@ -268,8 +268,6 @@ public class UserAvatarService : Singleton<UserAvatarService>
         }
     }
 
-    // This method doesn't seem to work with the "new" separation of the arm joints into 3 joints...
-    // It also dvertises a whole bunch of joints that we don't even drive.. Is that right?
     private void PublishJointPIDParams()
     {
         //Transform joints_parent = this.transform.Find("avatar_rig").Find("mixamorig_Hips");

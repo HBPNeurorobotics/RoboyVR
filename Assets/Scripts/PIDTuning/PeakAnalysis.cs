@@ -28,7 +28,7 @@ namespace PIDTuning
 
     public static class PeakAnalysis
     {
-        private const float MIN_PEAK_ERROR_DISTANCE = 1f;
+        private const float MIN_PEAK_ERROR_DISTANCE = 2f;
         private const int PEAK_DETECTION_SAMPLE_DIST = 10;
 
         private enum PeakType
@@ -83,9 +83,21 @@ namespace PIDTuning
             }
             else
             {
-                float avgAmplitude = peaks.Average(datedEntry => datedEntry.Value.AbsoluteError);
+                // Amplitude actually isn't this straightforward: It can happen that the oscillation
+                // does not occur around a set-point, but around another point (since we don't have I-control
+                // during relay tests and gravity is still in effect).
 
-                var posPeaks = peaks.Where(datedEntry => datedEntry.Value.SignedError < 0f).ToList();
+                // So this won't work:
+                //float avgAmplitude = peaks.Average(datedEntry => datedEntry.Value.AbsoluteError);
+
+                // To remedy this, we calculate the average signed error of the peaks, which can then
+                // be treated as the new "base-line"
+                float baseline = peaks.Average(datedEntry => datedEntry.Value.SignedError);
+                float avgAmplitude = peaks.Average(datedEntry => Mathf.Abs(datedEntry.Value.SignedError - baseline));
+
+                // To get the oscillation interval, we simply look at the distance between all positive peaks:
+
+                var posPeaks = peaks.Where(datedEntry => datedEntry.Value.SignedError > baseline).ToList();
 
                 var avgInterval = (float)posPeaks
                     .Skip(1)
