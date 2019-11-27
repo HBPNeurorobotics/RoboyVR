@@ -50,7 +50,7 @@ public class TestManager : MonoBehaviour
                     gameObjectPerBoneTestAvatar.Add(bone, boneTransformAvatar.gameObject);
                     gameObjectPerBoneTarget.Add(bone, boneTransformTarget.gameObject);
                     
-                    ConfigJointTest test = gameObjectPerBoneTestAvatar[bone].AddComponent<ConfigJointTest>();
+                    ConfigJointMotionHandler test = gameObjectPerBoneTestAvatar[bone].AddComponent<ConfigJointMotionHandler>();
                     if (test != null)
                     {
                         test.target = boneTransformTarget.gameObject;

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConfigJointTest : MonoBehaviour
+public class ConfigJointMotionHandler : MonoBehaviour
 {
 
     public GameObject target;
+    public float angularVelocityScale = 3f;
 
     public JointDrive xDrive = new JointDrive();
     public JointDrive yDrive = new JointDrive();
@@ -16,18 +17,23 @@ public class ConfigJointTest : MonoBehaviour
 
     Quaternion startOrientation;
 
-    ConfigurableJoint joint; 
+    Vector3 previousAngularVelocity;
+
+    ConfigurableJoint joint;
+    Rigidbody rb;
 
     // Use this for initialization
     void Start()
     {
         joint = GetComponent<ConfigurableJoint>();
+        rb = GetComponent<Rigidbody>();
+
         xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
         xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 300;
         xDrive.maximumForce = yDrive.maximumForce = zDrive.maximumForce = 10000;
 
-        angularXDrive.positionSpring = angularYZDrive.positionSpring = 3500;
-        angularXDrive.positionDamper = angularYZDrive.positionDamper = 600;
+        angularXDrive.positionSpring = angularYZDrive.positionSpring = 3000;
+        angularXDrive.positionDamper = angularYZDrive.positionDamper = 300;
         angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
 
         joint.xDrive = xDrive;
@@ -37,9 +43,9 @@ public class ConfigJointTest : MonoBehaviour
         joint.angularXDrive = angularXDrive;
         joint.angularYZDrive = angularYZDrive;
 
-        startOrientation = transform.localRotation;//target.transform.localRotation;//transform.localRotation;
+        startOrientation = transform.localRotation;
+        previousAngularVelocity = rb.angularVelocity;
 
-        
         joint.angularXMotion = ConfigurableJointMotion.Free;
         joint.angularYMotion = ConfigurableJointMotion.Free;
         joint.angularZMotion = ConfigurableJointMotion.Free;
@@ -47,33 +53,11 @@ public class ConfigJointTest : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        //description of the joint space
-        //the x axis of the joint space
-        Vector3 jointXAxis = joint.axis.normalized;
-        // the y axis of the joint space
-        Vector3 jointYAxis = Vector3.Cross(joint.axis, joint.secondaryAxis).normalized;
-        //the z axis of the joint space
-        Vector3 jointZAxis = Vector3.Cross(jointYAxis, jointXAxis).normalized;
-        /*
-         * Z axis will be aligned with forward
-         * X axis aligned with cross product between forward and upwards
-         * Y axis aligned with cross product between Z and X.
-         * --> rotates world coordinates to align with joint coordinates
-        */
-        Quaternion worldToJointSpace = Quaternion.LookRotation(jointYAxis, jointZAxis);
-        /* 
-         * turn joint space to align with world
-         * perform rotation in world
-         * turn joint back into joint space
-        */
-        Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace) *
-                                    Quaternion.Inverse(target.transform.localRotation) *
-                                    startOrientation *
-                                    worldToJointSpace;
 
-        joint.targetRotation = resultRotation;
+        SetTargetRotation();
+        SetTargetAngularVelocity();
 
         /*
         Matrix4x4 worldToJointSpaceMatrix = Matrix4x4.Rotate(worldToJointSpace);
@@ -100,4 +84,49 @@ public class ConfigJointTest : MonoBehaviour
 
     }
 
+    void SetTargetRotation()
+    {
+        //Debug.Log(startOrientation);
+        //description of the joint space
+        //the x axis of the joint space
+        Vector3 jointXAxis = joint.axis.normalized;
+        // the y axis of the joint space
+        Vector3 jointYAxis = Vector3.Cross(joint.axis, joint.secondaryAxis).normalized;
+        //the z axis of the joint space
+        Vector3 jointZAxis = Vector3.Cross(jointYAxis, jointXAxis).normalized;
+        /*
+         * Z axis will be aligned with forward
+         * X axis aligned with cross product between forward and upwards
+         * Y axis aligned with cross product between Z and X.
+         * --> rotates world coordinates to align with joint coordinates
+        */
+        Quaternion worldToJointSpace = Quaternion.LookRotation(jointYAxis, jointZAxis);
+        /* 
+         * turn joint space to align with world
+         * perform rotation in world
+         * turn joint back into joint space
+        */
+        Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace) *
+                                    Quaternion.Inverse(target.transform.localRotation) *
+                                    startOrientation *
+                                    worldToJointSpace;
+
+        joint.targetRotation = resultRotation;
+    }
+
+    void SetTargetAngularVelocity()
+    {
+        /*
+        Vector3 angularDistance = transform.localRotation.eulerAngles - previousRotation.eulerAngles;
+        Vector3 angularVelocity = angularDistance / Time.fixedDeltaTime;
+        previousRotation = transform.localRotation;
+
+        joint.targetAngularVelocity = -angularVelocity;
+        
+        if(Mathf.Sign(rb.angularVelocity.x) != Mathf.Sign(previousAngularVelocity.x) || Mathf.Sign(rb.angularVelocity.y) != Mathf.Sign(previousAngularVelocity.y) || Mathf.Sign(rb.angularVelocity.z) != Mathf.Sign(previousAngularVelocity.z))
+        {
+            rb.AddTorque(-previousAngularVelocity);
+        }
+        */
+    }
 }

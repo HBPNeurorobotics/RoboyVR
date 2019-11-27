@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -38,7 +39,7 @@ public class AvatarManager : MonoBehaviour
 
     //The bones of the character that physiscs should be applied to
     Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneRemoteAvatar = new Dictionary<HumanBodyBones, GameObject>();
-    Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneTargetAtStart = new Dictionary<HumanBodyBones, GameObject>();
+    Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneRemoteAvatarAtStart = new Dictionary<HumanBodyBones, GameObject>();
     Dictionary<GameObject, HumanBodyBones> bonesPerGameObjectRemoteAvatar = new Dictionary<GameObject, HumanBodyBones>();
     //The bones of the character that the remote avatar imitates
     Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneTarget = new Dictionary<HumanBodyBones, GameObject>();
@@ -111,7 +112,7 @@ public class AvatarManager : MonoBehaviour
             }
         }
 
-        gameObjectPerBoneTargetAtStart = SafeCopyOfTargetDictionary(); 
+        gameObjectPerBoneRemoteAvatarAtStart = SafeCopyOfRemoteAvatarDictionary(); 
 
         if (useJoints)
         {
@@ -208,14 +209,31 @@ public class AvatarManager : MonoBehaviour
         gameObjectPerBoneRemoteAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Kd = Kd;
     }
 
-    Dictionary<HumanBodyBones, GameObject> SafeCopyOfTargetDictionary()
+    Dictionary<HumanBodyBones, GameObject> SafeCopyOfRemoteAvatarDictionary()
     {
+        //Dictionary<HumanBodyBones, GameObject> copy = gameObjectPerBoneRemoteAvatar.ToDictionary(k => k.Key, k => k.Value);
+        //return copy;
+        return new Dictionary<HumanBodyBones, GameObject>(gameObjectPerBoneRemoteAvatar);
+        /*
+        List<JointTransformContainer> jointTransformContainers = new List<JointTransformContainer>();
+        JointTransformContainer container;
+        foreach (HumanBodyBones bone in gameObjectPerBoneTarget.Keys)
+        {
+            container = new JointTransformContainer(bone, gameObjectPerBoneTarget[bone].transform);
+            jointTransformContainers.Add(container);
+        }
+        return jointTransformContainers;  
+        */
+
+        /*
         Dictionary<HumanBodyBones, GameObject> tmp = new Dictionary<HumanBodyBones, GameObject>();
         foreach(HumanBodyBones bone in gameObjectPerBoneTarget.Keys)
         {
             tmp.Add(bone, gameObjectPerBoneTarget[bone]);
         }
         return tmp;
+        */
+
     }
 
     void UpdatePDControllers()
@@ -314,9 +332,9 @@ public class AvatarManager : MonoBehaviour
         return gameObjectPerBoneRemoteAvatar;
     }
 
-    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneTargetDictionaryAtStart()
+    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneRemoteAvatarDictionaryAtStart()
     {
-        return gameObjectPerBoneTargetAtStart;
+        return gameObjectPerBoneRemoteAvatarAtStart;
     }
 
     public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneTargetDictionary()

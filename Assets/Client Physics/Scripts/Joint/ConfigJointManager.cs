@@ -29,7 +29,7 @@ public class ConfigJointManager : MonoBehaviour
 
     public ConfigJointManager(JointDrive x, JointDrive y, JointDrive z, JointDrive angX, JointDrive angYZ, bool useIndividualAxes)
     {
-        //noJoints.Add(HumanBodyBones.Hips);
+        usesFixedJoint.Add(HumanBodyBones.Hips);
         usesFixedJoint.Add(HumanBodyBones.Spine);
         usesFixedJoint.Add(HumanBodyBones.UpperChest);
         usesFixedJoint.Add(HumanBodyBones.LeftShoulder);
@@ -320,6 +320,7 @@ public class ConfigJointManager : MonoBehaviour
                     break;
                 case HumanBodyBones.Hips:
                     Rigidbody rb = GameObject.FindGameObjectWithTag("Anchor").GetComponent<Rigidbody>();
+                    joint.angularXMotion = joint.angularYMotion = joint.angularZMotion = ConfigurableJointMotion.Locked;
                     ConfigureJoint(bone, joint, rb);
                     break;
 
@@ -378,7 +379,14 @@ public class ConfigJointManager : MonoBehaviour
         //This will only be used if there are no individual rotations/velocities assigned by the AvatarManager
         if (!avatarManager.usesActiveInput())
         {
-            AssignTargetToImitatePassive(bone);
+            if (usesFixedJoint.Contains(bone))
+            {
+                //joint.angularXMotion = joint.angularYMotion = joint.angularZMotion = ConfigurableJointMotion.Locked;
+            }
+            else
+            {
+                AssignTargetToImitatePassive(bone);
+            }
         }
         else
         {
@@ -388,13 +396,13 @@ public class ConfigJointManager : MonoBehaviour
 
     void AssignTargetToImitatePassive(HumanBodyBones bone)
     {
-        ConfigJointTest rotationHelper = gameObjectsFromBone[bone].AddComponent<ConfigJointTest>();
+        ConfigJointMotionHandler rotationHelper = gameObjectsFromBone[bone].AddComponent<ConfigJointMotionHandler>();
         rotationHelper.target = avatarManager.GetGameObjectPerBoneTargetDictionary()[bone];
     }
 
     void AssignOriginalTransforms(HumanBodyBones bone)
     {
-        gameObjectsFromBoneAtStart = avatarManager.GetGameObjectPerBoneTargetDictionaryAtStart();
+        gameObjectsFromBoneAtStart = avatarManager.GetGameObjectPerBoneRemoteAvatarDictionaryAtStart();
     }
 
     public void setMassOfBone(HumanBodyBones bone, float mass = 1)
@@ -458,7 +466,24 @@ public class ConfigJointManager : MonoBehaviour
 
             targetRotation = Quaternion.Euler(isolatedEuler);
         }
-        
+
+        /*
+        //dummy value (no rotation), this will always be changed since the bone will always be present in the list
+        Transform transformAtStart = avatarManager.gameObject.transform;
+        foreach(JointTransformContainer container in transformsFromBoneAtStart)
+        {
+            if (container.GetBone().Equals(bone))
+            {
+                transformAtStart = container.GetStart();
+                break;
+            }
+        }
+
+        if (bone.Equals(HumanBodyBones.RightUpperArm))
+        {
+            Debug.Log(transformAtStart.localRotation);
+        }
+        */
 
         //description of the joint space
         //the x axis of the joint space
@@ -479,10 +504,7 @@ public class ConfigJointManager : MonoBehaviour
          * perform rotation in world
          * turn joint back into joint space
         */
-        if (bone.Equals(HumanBodyBones.RightUpperArm))
-        {
-            Debug.Log(gameObjectsFromBoneAtStart[bone].transform.localRotation);
-        }
+
         Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace) *
                                     Quaternion.Inverse(targetRotation) *
                                     gameObjectsFromBoneAtStart[bone].transform.localRotation *
