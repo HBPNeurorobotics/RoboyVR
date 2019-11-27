@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using ROSBridgeLib.geometry_msgs;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -195,7 +196,6 @@ namespace PIDTuning
 
         private void AdjustRelayForce(string joint)
         {
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (1f == Mathf.Sign(PoseErrorTracker.GetCurrentStepDataForJoint(joint).Measured - RelayTargetAngle))
             {
                 SetConstantForceForJoint(joint, -RelayConstantForce);
@@ -249,6 +249,29 @@ namespace PIDTuning
                 .ToDictionary(variant => variant, variant => ZieglerNicholsTuning.FromBangBangAnalysis(variant, oscillation, relayConstantForce, timeStretchFactor));
 
             return new TuningResult(joint, tunings);
+        }
+
+        public JObject ToJson()
+        {
+            var json = new JObject();
+
+            json["joint"] = Joint;
+
+            var tuningArray = new JArray();
+
+            foreach (var tuning in Tunings)
+            {
+                var tuningJson = new JObject();
+
+                tuningJson["heuristic"] = tuning.Key.ToString();
+                tuningJson["tuning"] = tuning.Value.ToJson();
+
+                tuningArray.Add(tuningJson);
+            }
+
+            json["tunings"] = tuningArray;
+
+            return json;
         }
     }
 }

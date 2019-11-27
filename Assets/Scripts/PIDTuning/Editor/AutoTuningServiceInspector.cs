@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using ROSBridgeLib.geometry_msgs;
 using UnityEditor;
@@ -58,6 +59,16 @@ namespace PIDTuning.Editor
             if (null != ats.LastTuningData)
             {
                 GUILayout.Label("Tunings for " + ats.LastTuningData.Joint);
+
+                if (GUILayout.Button("Export as JSON"))
+                {
+                    var path = EditorUtility.SaveFilePanel("Export Heuristics", Application.dataPath, ats.LastTuningData.Joint + "-heuristics", "json");
+
+                    if (path.Length != 0)
+                    {
+                        File.WriteAllText(path, ats.LastTuningData.ToJson().ToString());
+                    }
+                }
 
                 foreach (var variantToTuning in ats.LastTuningData.Tunings)
                 {
