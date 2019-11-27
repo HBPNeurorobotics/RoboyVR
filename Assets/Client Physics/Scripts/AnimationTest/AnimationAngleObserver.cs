@@ -6,14 +6,14 @@ using UnityEngine;
 public class AnimationAngleObserver : MonoBehaviour
 {
     Vector3 localEuler;
-    public float minAngleX, minAngleY, minAngleZ;
+    JointAngleContainer jointAngleContainer = new JointAngleContainer();
     public float currentAngleX, currentAngleY, currentAngleZ;
-    public float maxAngleX, maxAngleY, maxAngleZ;
+
     void Start()
     {
-        minAngleX = 0;
-        minAngleY = 0;
-        minAngleZ = 0;
+        jointAngleContainer.minAngleX = 0;
+        jointAngleContainer.minAngleY = 0;
+        jointAngleContainer.minAngleZ = 0;
     }
 
     void FixedUpdate()
@@ -24,13 +24,13 @@ public class AnimationAngleObserver : MonoBehaviour
         currentAngleY = localEuler.y;
         currentAngleZ = localEuler.z;
 
-        minAngleX = SetMin(minAngleX, currentAngleX);
-        minAngleY = SetMin(minAngleY, currentAngleY);
-        minAngleZ = SetMin(minAngleZ, currentAngleZ);
+        jointAngleContainer.minAngleX = SetMin(jointAngleContainer.minAngleX, currentAngleX);
+        jointAngleContainer.minAngleY = SetMin(jointAngleContainer.minAngleY, currentAngleY);
+        jointAngleContainer.minAngleZ = SetMin(jointAngleContainer.minAngleZ, currentAngleZ);
 
-        maxAngleX = SetMax(maxAngleX, currentAngleX);
-        maxAngleY = SetMax(maxAngleY, currentAngleY);
-        maxAngleZ = SetMax(maxAngleZ, currentAngleZ);
+        jointAngleContainer.maxAngleX = SetMax(jointAngleContainer.maxAngleX, currentAngleX);
+        jointAngleContainer.maxAngleY = SetMax(jointAngleContainer.maxAngleY, currentAngleY);
+        jointAngleContainer.maxAngleZ = SetMax(jointAngleContainer.maxAngleZ, currentAngleZ);
 
     }
 
@@ -42,5 +42,10 @@ public class AnimationAngleObserver : MonoBehaviour
     float SetMax(float oldMax, float current)
     {
         return oldMax < current ? current : oldMax;
+    }
+    public JointAngleContainer GetJointAngleContainer(HumanBodyBones bone)
+    {
+        jointAngleContainer.bone = bone;
+        return jointAngleContainer;
     }
 }

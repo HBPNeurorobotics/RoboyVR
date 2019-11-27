@@ -19,7 +19,6 @@ public class AvatarManager : MonoBehaviour
     public float Ki = 0;
     public float Kd = .05f;
 
-    ConfigJointManager configJointManager;
     [Header("Joint Angular Drive X")]
     public float springX = 2500;
     public float damperX = 500;    
@@ -33,6 +32,9 @@ public class AvatarManager : MonoBehaviour
     public JointDrive angularXDrive = new JointDrive();
     public JointDrive angularYZDrive = new JointDrive();
 
+    public TextAsset angles;
+    [SerializeField]
+    ConfigJointManager configJointManager;
 
     Animator animatorRemoteAvatar;
     Animator animatorTarget;

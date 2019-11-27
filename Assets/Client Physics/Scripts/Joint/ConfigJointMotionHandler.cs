@@ -15,6 +15,8 @@ public class ConfigJointMotionHandler : MonoBehaviour
     public JointDrive angularXDrive = new JointDrive();
     public JointDrive angularYZDrive = new JointDrive();
 
+    ConfigurableJointMotion motion = ConfigurableJointMotion.Limited;
+
     Quaternion startOrientation;
 
     Vector3 previousAngularVelocity;
@@ -46,9 +48,9 @@ public class ConfigJointMotionHandler : MonoBehaviour
         startOrientation = transform.localRotation;
         previousAngularVelocity = rb.angularVelocity;
 
-        joint.angularXMotion = ConfigurableJointMotion.Free;
-        joint.angularYMotion = ConfigurableJointMotion.Free;
-        joint.angularZMotion = ConfigurableJointMotion.Free;
+        joint.angularXMotion = motion;
+        joint.angularYMotion = motion;
+        joint.angularZMotion = motion;
         
     }
 

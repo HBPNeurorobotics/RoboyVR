@@ -8,7 +8,8 @@ public class ConfigJointManager : MonoBehaviour
     bool useIndividualAxes;
 
     List<HumanBodyBones> usesFixedJoint = new List<HumanBodyBones>();
-    SoftJointLimit jointLimit = new SoftJointLimit();
+    [SerializeField]
+    Dictionary<HumanBodyBones, JointAngleContainer> jointAngleLimits = new Dictionary<HumanBodyBones, JointAngleContainer>();
 
     [Header("Position Drives")]
     public JointDrive xDrive;
@@ -72,6 +73,9 @@ public class ConfigJointManager : MonoBehaviour
     {
         GetAvatar();
         InitTemplateDict();
+
+        jointAngleLimits = ReadJointAngleLimitsFromFile();
+
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
         {
             AssignJoint(bone);
@@ -109,6 +113,26 @@ public class ConfigJointManager : MonoBehaviour
         gameObjectsFromBone = avatarManager.GetGameObjectPerBoneAvatarDictionary();
     }
 
+    Dictionary<HumanBodyBones, JointAngleContainer> ReadJointAngleLimitsFromFile()
+    {
+        TextAsset file = avatarManager.angles;
+        string[] lines = file.text.Split('\n');
+
+        Dictionary<HumanBodyBones, JointAngleContainer> jointAngleLimits = new Dictionary<HumanBodyBones, JointAngleContainer>();
+
+        foreach(string line in lines)
+        {
+            if (line.Length > 0)
+            {
+                JointAngleContainer container = JsonUtility.FromJson<JointAngleContainer>(line);
+                jointAngleLimits.Add(container.bone, container);
+            }
+        }
+
+        return jointAngleLimits;
+
+    }
+
     void SetJointFromTemplate(HumanBodyBones bone)
     {
         if (gameObjectsFromBone.ContainsKey(bone) && templateFromBone.ContainsKey(bone))
@@ -144,9 +168,9 @@ public class ConfigJointManager : MonoBehaviour
             joint.yMotion = ConfigurableJointMotion.Locked;
             joint.zMotion = ConfigurableJointMotion.Locked;
             
-            joint.angularXMotion = ConfigurableJointMotion.Free;
-            joint.angularYMotion = ConfigurableJointMotion.Free;
-            joint.angularZMotion = ConfigurableJointMotion.Free;
+            joint.angularXMotion = ConfigurableJointMotion.Limited;
+            joint.angularYMotion = ConfigurableJointMotion.Limited;
+            joint.angularZMotion = ConfigurableJointMotion.Limited;
             
             joint.configuredInWorldSpace = false;
 

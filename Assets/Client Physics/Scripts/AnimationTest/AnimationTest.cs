@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
@@ -35,14 +36,16 @@ public class AnimationTest : MonoBehaviour {
 
     void OnApplicationQuit()
     {
+
         string path = "Assets/Client Physics/Scripts/AnimationTest/angles.txt";
 
-        //Write some text to the test.txt file
+        File.Delete(path);
+
         StreamWriter writer = new StreamWriter(path, true);
+
         writer.Write(GetAnglesPerBone());
         writer.Close();
 
-        //Re-import the file to update the reference in the editor
         AssetDatabase.ImportAsset(path);
     }
 
@@ -53,11 +56,14 @@ public class AnimationTest : MonoBehaviour {
         foreach(HumanBodyBones bone in bones.Keys)
         {
             AnimationAngleObserver observer = bones[bone].GetComponent<AnimationAngleObserver>();
-            result += bone + 
-                              ":\n\t\tMinAngleX: "+ observer.minAngleX + "\t\t\tMaxAngleX: " + observer.maxAngleX +
-                              "\n\t\tMinAngleY: " + observer.minAngleY + "\t\t\tMaxAngleY: " + observer.maxAngleY +
-                              "\n\t\tMinAngleZ: " + observer.minAngleZ + "\t\t\tMaxAngleZ: " + observer.maxAngleZ + 
+            /*
+             * result += bone + 
+                              ":\n\t\tMinAngleX: "+ Math.Round(observer.minAngleX, 3) + "\t\t\tMaxAngleX: " + Math.Round(observer.maxAngleX, 3) +
+                              "\n\t\tMinAngleY: " + Math.Round(observer.minAngleY, 3) + "\t\t\tMaxAngleY: " + Math.Round(observer.maxAngleY, 3) +
+                              "\n\t\tMinAngleZ: " + Math.Round(observer.minAngleZ, 3) + "\t\t\tMaxAngleZ: " + Math.Round(observer.maxAngleZ, 3) + 
                               "\n";
+                              */
+            result += JsonUtility.ToJson(observer.GetJointAngleContainer(bone)) + "\n";
         }
 
         return result;
