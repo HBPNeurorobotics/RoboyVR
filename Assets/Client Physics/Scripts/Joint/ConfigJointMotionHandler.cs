@@ -24,11 +24,17 @@ public class ConfigJointMotionHandler : MonoBehaviour
     ConfigurableJoint joint;
     Rigidbody rb;
 
+    bool useIndividualAxes;
+    AvatarManager avatarManager;
+
     // Use this for initialization
     void Start()
     {
         joint = GetComponent<ConfigurableJoint>();
         rb = GetComponent<Rigidbody>();
+
+        avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
+        useIndividualAxes = avatarManager.useIndividualAxes;
 
         xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
         xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 300;
@@ -47,11 +53,11 @@ public class ConfigJointMotionHandler : MonoBehaviour
 
         startOrientation = transform.localRotation;
         previousAngularVelocity = rb.angularVelocity;
-
+        /*
         joint.angularXMotion = motion;
         joint.angularYMotion = motion;
         joint.angularZMotion = motion;
-        
+        */
     }
 
     // Update is called once per frame

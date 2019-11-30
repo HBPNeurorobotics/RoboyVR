@@ -9,6 +9,7 @@ public class AvatarManager : MonoBehaviour
 
     public bool useJoints = true;
     public bool useBodyMass = false;
+    public bool useAnglesFromAnimationTest = false;
     public bool useIndividualAxes = true;
     [SerializeField]
     private bool activeInput = false;
@@ -130,7 +131,6 @@ public class AvatarManager : MonoBehaviour
 
 
             configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive, useIndividualAxes);
-            configJointManager.SetupJoints();
         }
 
         if (useBodyMass)

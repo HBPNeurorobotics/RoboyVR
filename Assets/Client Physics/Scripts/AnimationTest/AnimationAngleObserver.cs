@@ -46,6 +46,7 @@ public class AnimationAngleObserver : MonoBehaviour
     public JointAngleContainer GetJointAngleContainer(HumanBodyBones bone)
     {
         jointAngleContainer.bone = bone;
+        jointAngleContainer.boneName = Enum.GetName(typeof(HumanBodyBones), bone);
         return jointAngleContainer;
     }
 }

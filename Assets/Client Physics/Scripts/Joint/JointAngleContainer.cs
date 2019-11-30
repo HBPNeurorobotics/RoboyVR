@@ -6,6 +6,6 @@ using UnityEngine;
 public class JointAngleContainer
 {
     public HumanBodyBones bone;
-    public float minAngleX, minAngleY, minAngleZ;
-    public float maxAngleX, maxAngleY, maxAngleZ;
+    public string boneName;
+    public float minAngleX, maxAngleX, minAngleY, maxAngleY, minAngleZ, maxAngleZ;
 }
