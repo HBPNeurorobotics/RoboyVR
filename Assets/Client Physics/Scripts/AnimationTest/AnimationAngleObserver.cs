@@ -24,7 +24,8 @@ public class AnimationAngleObserver : MonoBehaviour
         currentAngleY = localEuler.y;
         currentAngleZ = localEuler.z;
 
-        jointAngleContainer.minAngleX = SetMin(jointAngleContainer.minAngleX, currentAngleX);
+        jointAngleContainer.minAngleX = SetMin(jointAngleContainer.minAngleX, currentAngleX);        
+        //Debug.Log(jointAngleContainer.minAngleX);
         jointAngleContainer.minAngleY = SetMin(jointAngleContainer.minAngleY, currentAngleY);
         jointAngleContainer.minAngleZ = SetMin(jointAngleContainer.minAngleZ, currentAngleZ);
 
@@ -35,8 +36,8 @@ public class AnimationAngleObserver : MonoBehaviour
     }
 
     float SetMin(float oldMin, float current)
-    { 
-        return oldMin > current ? current : oldMin;
+    {
+        return oldMin > current ? current: oldMin;
     }
 
     float SetMax(float oldMax, float current)

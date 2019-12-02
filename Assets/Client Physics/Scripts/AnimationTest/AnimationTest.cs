@@ -15,7 +15,7 @@ public class AnimationTest : MonoBehaviour {
         foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
         {
             //LastBone is not mapped to a bodypart, we need to skip it.
-            if (bone != HumanBodyBones.LastBone)
+            if (bone != HumanBodyBones.LastBone) //&& bone == HumanBodyBones.LeftLowerArm) 
             {
                 Transform boneTransformAvatar = animator.GetBoneTransform(bone);
                 if (boneTransformAvatar != null)

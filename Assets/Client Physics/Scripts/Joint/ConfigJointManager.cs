@@ -77,7 +77,6 @@ public class ConfigJointManager : MonoBehaviour
 
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
         {
-            //BodyMass bm = new BodyMass(72, avatarManager);
             AddJoint(bone);
         }
 
@@ -108,11 +107,17 @@ public class ConfigJointManager : MonoBehaviour
         for (int i = 0; i < jointsOfTemplateBone.Length; i++)
         {
             ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
-            gameObjectsFromBone[bone].GetComponent<Rigidbody>().useGravity = false;
+
 
             UnityEditorInternal.ComponentUtility.CopyComponent(jointsOfTemplateBone[i]);
             UnityEditorInternal.ComponentUtility.PasteComponentValues(newJoint);
 
+            //assign rigidbody
+            Rigidbody templateRb = jointsOfTemplateBone[i].gameObject.GetComponent<Rigidbody>();
+            UnityEditorInternal.ComponentUtility.CopyComponent(templateRb);
+            UnityEditorInternal.ComponentUtility.PasteComponentValues(gameObjectsFromBone[bone].GetComponent<Rigidbody>());
+
+            //Set Connected Rigidbody of Joints
             SetConnectedBody(bone, newJoint);
         }
     }
@@ -123,22 +128,49 @@ public class ConfigJointManager : MonoBehaviour
         ConfigurableJoint xJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
         xJoint.axis = new Vector3(1, 0, 0);
         xJoint.angularXMotion = ConfigurableJointMotion.Limited;
-        ApplyAnglesFromAnimationTest(bone, xJoint, 'x');
-        SetConnectedBody(bone, xJoint);
+
+
 
         //Add joint to handle x rotation
         ConfigurableJoint yJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
         yJoint.axis = new Vector3(0, 1, 0);
         yJoint.angularXMotion = ConfigurableJointMotion.Limited;
-        ApplyAnglesFromAnimationTest(bone, yJoint, 'y');
-        SetConnectedBody(bone, yJoint);
+        
+
 
         //Add joint to handle x rotation
         ConfigurableJoint zJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
         zJoint.axis = new Vector3(0, 0, 1);
         zJoint.angularXMotion = ConfigurableJointMotion.Limited;
-        ApplyAnglesFromAnimationTest(bone, zJoint, 'z');
-        SetConnectedBody(bone, zJoint);
+        
+
+        switch (bone)
+        {
+            case HumanBodyBones.Chest:
+            case HumanBodyBones.Spine:
+            case HumanBodyBones.RightUpperLeg:
+            case HumanBodyBones.RightLowerLeg:
+            case HumanBodyBones.RightFoot:
+            case HumanBodyBones.RightToes:
+                xJoint.secondaryAxis = new Vector3(0, 0, 1);
+                yJoint.secondaryAxis = new Vector3(0, 1, 0);
+                zJoint.secondaryAxis = new Vector3(1, 0, 0);
+
+                ApplyAnglesFromAnimationTest(bone, xJoint, 'x', true);
+                ApplyAnglesFromAnimationTest(bone, yJoint, 'y', true);
+                ApplyAnglesFromAnimationTest(bone, zJoint, 'z', true);
+                break;
+            default:
+                ApplyAnglesFromAnimationTest(bone, xJoint, 'x', false);
+                ApplyAnglesFromAnimationTest(bone, yJoint, 'y', false);
+                ApplyAnglesFromAnimationTest(bone, zJoint, 'z', false);
+                break;
+        }
+
+        SetConnectedBody(bone, xJoint); 
+        SetConnectedBody(bone, yJoint);
+        SetConnectedBody(bone, zJoint);        
+       
     }
 
     Dictionary<HumanBodyBones, JointAngleContainer> ReadJointAngleLimitsFromJson()
@@ -162,7 +194,7 @@ public class ConfigJointManager : MonoBehaviour
     }
 
     // This needs to consider the axis definition of the joint!
-    void ApplyAnglesFromAnimationTest(HumanBodyBones bone, ConfigurableJoint joint, char axis)
+    void ApplyAnglesFromAnimationTest(HumanBodyBones bone, ConfigurableJoint joint, char axis, bool invertMinMax)
     {
         JointAngleContainer angleContainer;
         if (jointAngleLimits.TryGetValue(bone, out angleContainer))
@@ -176,13 +208,20 @@ public class ConfigJointManager : MonoBehaviour
                     upperLimit = angleContainer.maxAngleX;
                     break;
                 case 'y':
-                    lowerLimit = angleContainer.minAngleX;
-                    upperLimit = angleContainer.maxAngleX;
+                    lowerLimit = angleContainer.minAngleY;
+                    upperLimit = angleContainer.maxAngleY;
                     break;
                 case 'z':
-                    lowerLimit = angleContainer.minAngleX;
-                    upperLimit = angleContainer.maxAngleX;
+                    lowerLimit = angleContainer.minAngleZ;
+                    upperLimit = angleContainer.maxAngleZ;
                     break;
+            }
+
+            if (invertMinMax)
+            {
+                float tmp = lowerLimit;
+                lowerLimit = upperLimit;
+                upperLimit = lowerLimit;
             }
 
             joint.lowAngularXLimit = ApplySoftJointAngleHelper(joint.lowAngularXLimit, lowerLimit);
@@ -216,12 +255,12 @@ public class ConfigJointManager : MonoBehaviour
         joint.xMotion = ConfigurableJointMotion.Locked;
         joint.yMotion = ConfigurableJointMotion.Locked;
         joint.zMotion = ConfigurableJointMotion.Locked;
-
+        
         if (!useIndividualAxes)
         {
-            joint.angularXMotion = ConfigurableJointMotion.Limited;
-            joint.angularYMotion = ConfigurableJointMotion.Limited;
-            joint.angularZMotion = ConfigurableJointMotion.Limited;
+            joint.angularXMotion = ConfigurableJointMotion.Free;
+            joint.angularYMotion = ConfigurableJointMotion.Free;
+            joint.angularZMotion = ConfigurableJointMotion.Free;
         }
 
         joint.configuredInWorldSpace = false;
@@ -472,8 +511,11 @@ public class ConfigJointManager : MonoBehaviour
 
     void AssignTargetToImitatePassive(HumanBodyBones bone)
     {
-        ConfigJointMotionHandler rotationHelper = gameObjectsFromBone[bone].AddComponent<ConfigJointMotionHandler>();
-        rotationHelper.target = avatarManager.GetGameObjectPerBoneTargetDictionary()[bone];
+        if (gameObjectsFromBone[bone].GetComponent<ConfigJointMotionHandler>() == null)
+        {
+            ConfigJointMotionHandler rotationHelper = gameObjectsFromBone[bone].AddComponent<ConfigJointMotionHandler>();
+            rotationHelper.target = avatarManager.GetGameObjectPerBoneTargetDictionary()[bone];
+        }
     }
 
     void AssignOriginalTransforms(HumanBodyBones bone)

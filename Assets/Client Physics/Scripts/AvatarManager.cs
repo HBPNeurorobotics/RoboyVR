@@ -34,7 +34,7 @@ public class AvatarManager : MonoBehaviour
     public JointDrive angularYZDrive = new JointDrive();
 
     public TextAsset angles;
-    [SerializeField]
+
     ConfigJointManager configJointManager;
 
     Animator animatorRemoteAvatar;
@@ -73,9 +73,9 @@ public class AvatarManager : MonoBehaviour
         //UpdateVacuumBreatherPIDControllers();
         //UpdateJoints();
         //UpdateMerchVRPIDControllers();
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.F))
         {
-            gameObjectPerBoneRemoteAvatar[HumanBodyBones.LeftLowerArm].GetComponent<Rigidbody>().AddTorque(Vector3.forward * 10, ForceMode.Force);
+            gameObjectPerBoneRemoteAvatar[HumanBodyBones.LeftLowerArm].GetComponent<Rigidbody>().AddForce(Vector3.down * 100, ForceMode.Force);
         }
 
     }
@@ -133,9 +133,10 @@ public class AvatarManager : MonoBehaviour
             configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive, useIndividualAxes);
         }
 
+        //Now set in editor window
         if (useBodyMass)
         {
-            BodyMass bm = new BodyMass(weight, gameObjectPerBoneRemoteAvatar);
+            //BodyMass bm = new BodyMass(weight, gameObjectPerBoneRemoteAvatar);
         }
 
     }

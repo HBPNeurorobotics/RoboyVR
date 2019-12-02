@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
+[ExecuteInEditMode]
 public class BodyMass
 {
 
@@ -20,6 +22,17 @@ public class BodyMass
     {
         this.totalMassKg = totalMassKg;
         SetBodyMasses();
+    }
+
+    public void RestoreOneValues()
+    {
+        foreach (HumanBodyBones bone in dict.Keys)
+        {
+            if (dict[bone].GetComponent<Rigidbody>() != null)
+            {
+                dict[bone].GetComponent<Rigidbody>().mass = 1;
+            }
+        }
     }
 
     void SetBodyMasses()

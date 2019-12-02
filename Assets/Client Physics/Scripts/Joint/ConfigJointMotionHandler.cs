@@ -21,7 +21,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
 
     Vector3 previousAngularVelocity;
 
-    ConfigurableJoint joint;
+    ConfigurableJoint[] joints;
     Rigidbody rb;
 
     bool useIndividualAxes;
@@ -30,7 +30,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        joint = GetComponent<ConfigurableJoint>();
+        joints = GetComponents<ConfigurableJoint>();
         rb = GetComponent<Rigidbody>();
 
         avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
@@ -44,12 +44,15 @@ public class ConfigJointMotionHandler : MonoBehaviour
         angularXDrive.positionDamper = angularYZDrive.positionDamper = 300;
         angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
 
-        joint.xDrive = xDrive;
-        joint.yDrive = yDrive;
-        joint.zDrive = zDrive;
+        foreach (ConfigurableJoint joint in joints)
+        {
+            joint.xDrive = xDrive;
+            joint.yDrive = yDrive;
+            joint.zDrive = zDrive;
 
-        joint.angularXDrive = angularXDrive;
-        joint.angularYZDrive = angularYZDrive;
+            joint.angularXDrive = angularXDrive;
+            joint.angularYZDrive = angularYZDrive;
+        }
 
         startOrientation = transform.localRotation;
         previousAngularVelocity = rb.angularVelocity;
@@ -63,9 +66,11 @@ public class ConfigJointMotionHandler : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
-        SetTargetRotation();
-        SetTargetAngularVelocity();
+        foreach (ConfigurableJoint joint in joints)
+        {
+            SetTargetRotation(joint);
+            SetTargetAngularVelocity(joint);
+        }
 
         /*
         Matrix4x4 worldToJointSpaceMatrix = Matrix4x4.Rotate(worldToJointSpace);
@@ -92,7 +97,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
 
     }
 
-    void SetTargetRotation()
+    void SetTargetRotation(ConfigurableJoint joint)
     {
         //Debug.Log(startOrientation);
         //description of the joint space
@@ -108,6 +113,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
          * Y axis aligned with cross product between Z and X.
          * --> rotates world coordinates to align with joint coordinates
         */
+        jointYAxis.x += 0.001f;
         Quaternion worldToJointSpace = Quaternion.LookRotation(jointYAxis, jointZAxis);
         /* 
          * turn joint space to align with world
@@ -122,7 +128,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
         joint.targetRotation = resultRotation;
     }
 
-    void SetTargetAngularVelocity()
+    void SetTargetAngularVelocity(ConfigurableJoint joint)
     {
         /*
         Vector3 angularDistance = transform.localRotation.eulerAngles - previousRotation.eulerAngles;
