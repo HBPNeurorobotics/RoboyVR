@@ -30,7 +30,10 @@ namespace PIDTuning
 
             Configuration = new PidConfiguration(DateTime.UtcNow);
 
-            Configuration.InitializeMapping(_userAvatar.GetJointToRadianMapping().Keys, PidParameters.FromParallelForm(1000f, 100f, 500f));
+            Configuration.InitializeMapping(_userAvatar.GetJointToRadianMapping().Keys, PidParameters.FromParallelForm(
+                _userAvatarService.InitialP, 
+                _userAvatarService.InitialI, 
+                _userAvatarService.InitialD));
         }
 
         /// <summary>

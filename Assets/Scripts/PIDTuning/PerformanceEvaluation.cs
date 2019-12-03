@@ -192,7 +192,7 @@ namespace PIDTuning
                     if (currentStreak.Count >= 2)
                     {
                         // Evaluate the current streak, if it is actually a streak (meaning more than 1 element)
-                        CalculateMaxOvershoot(currentStreak, ref maxOvershoot);
+                        CalculateMaxOvershoot(currentStreak, ref maxOvershoot, currentSetPointDistance);
 
                         CalculateSettlingTime(currentStreak, currentSetPointDistance,
                             avgSettlingTime10Degrees, avgSettlingTime5Degrees, avgSettlingTime2Degrees);
@@ -225,7 +225,7 @@ namespace PIDTuning
             if (currentStreak.Count >= 2)
             {
                 // Evaluate the current streak, if it is actually a streak (meaning more than 2 elements)
-                CalculateMaxOvershoot(currentStreak, ref maxOvershoot);
+                CalculateMaxOvershoot(currentStreak, ref maxOvershoot, currentSetPointDistance);
                 CalculateSettlingTime(currentStreak, currentSetPointDistance,
                     avgSettlingTime10Degrees, avgSettlingTime5Degrees, avgSettlingTime2Degrees);
                 CalculateResponseTime(currentStreak, currentSetPointDistance,
@@ -234,8 +234,13 @@ namespace PIDTuning
         }
 
         private static void CalculateMaxOvershoot(List<KeyValuePair<DateTime, PidStepDataEntry>> currentStreak, 
-            ref float? maxOvershoot)
+            ref float? maxOvershoot, float setPointDistance)
         {
+            if (setPointDistance < 10f)
+            {
+                return;
+            }
+
             // Max Overshoot can be calculated iff PV crosses the line/value given by a constant SP at least once
 
             // We first determine if PV will be crossing from below or above SP:
@@ -312,6 +317,11 @@ namespace PIDTuning
         private static void CalculateResponseTime(List<KeyValuePair<DateTime, PidStepDataEntry>> currentStreak, float setPointDistance,
             AvgAccumulator avg10PercentResponseTime, AvgAccumulator avg50PercentResponseTime, AvgAccumulator avgCompleteResponseTime)
         {
+            if (setPointDistance < 10f)
+            {
+                return;
+            }
+
             var threshold10Percent = .9f * setPointDistance;
             var threshold50Percent = .5f * setPointDistance;
             var initialErrorSign = Mathf.Sign(currentStreak[0].Value.SignedError);
@@ -413,9 +423,9 @@ namespace PIDTuning
 
             float? maxOvershoot = null;
 
-            AvgAccumulator avgSettlingTime10Percent = new AvgAccumulator();
-            AvgAccumulator avgSettlingTime5Percent = new AvgAccumulator();
-            AvgAccumulator avgSettlingTime2Percent = new AvgAccumulator();
+            AvgAccumulator avgSettlingTime10Degrees = new AvgAccumulator();
+            AvgAccumulator avgSettlingTime5Degrees = new AvgAccumulator();
+            AvgAccumulator avgSettlingTime2Degrees = new AvgAccumulator();
 
             AvgAccumulator avg10PercentResponseTime = new AvgAccumulator();
             AvgAccumulator avg50PercentResponseTime = new AvgAccumulator();
@@ -440,9 +450,9 @@ namespace PIDTuning
                     }
                 }
 
-                avgSettlingTime10Percent.Update(eval.AvgSettlingTime10Degrees);
-                avgSettlingTime5Percent.Update(eval.AvgSettlingTime5Degrees);
-                avgSettlingTime2Percent.Update(eval.AvgSettlingTime2Degrees);
+                avgSettlingTime10Degrees.Update(eval.AvgSettlingTime10Degrees);
+                avgSettlingTime5Degrees.Update(eval.AvgSettlingTime5Degrees);
+                avgSettlingTime2Degrees.Update(eval.AvgSettlingTime2Degrees);
 
                 avg10PercentResponseTime.Update(eval.Avg10PercentResponseTime);
                 avg50PercentResponseTime.Update(eval.Avg50PercentResponseTime);
@@ -460,9 +470,9 @@ namespace PIDTuning
                 avgSignedError: avgSignedError,
                 maxAbsoluteError: maxAbsoluteError,
                 maxOvershoot: maxOvershoot,
-                avgSettlingTime10Degrees: avgSettlingTime10Percent.ToAverage(),
-                avgSettlingTime5Degrees: avgSettlingTime5Percent.ToAverage(),
-                avgSettlingTime2Degrees: avgSettlingTime2Percent.ToAverage(),
+                avgSettlingTime10Degrees: avgSettlingTime10Degrees.ToAverage(),
+                avgSettlingTime5Degrees: avgSettlingTime5Degrees.ToAverage(),
+                avgSettlingTime2Degrees: avgSettlingTime2Degrees.ToAverage(),
                 avg10PercentResponseTime: avg10PercentResponseTime.ToAverage(),
                 avg50PercentResponseTime: avg50PercentResponseTime.ToAverage(),
                 avgCompleteResponseTime: avgCompleteResponseTime.ToAverage());

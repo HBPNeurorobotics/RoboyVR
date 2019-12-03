@@ -16,7 +16,7 @@ namespace PIDTuning
         private TestEnvSetup _testEnvSetup;
         private AnimatorControl _animatorControl;
         private PoseErrorTracker _poseErrorTracker;
-        private PidConfigurationStorage _pidConfigurationStorage;
+        public PidConfigurationStorage PidConfigurationStorage { private set; get; }
 
         public enum TestRunnerState
         {
@@ -91,7 +91,7 @@ namespace PIDTuning
             Assert.IsNotNull(_testEnvSetup = GetComponent<TestEnvSetup>());
             Assert.IsNotNull(_animatorControl = GetComponent<AnimatorControl>());
             Assert.IsNotNull(_poseErrorTracker = GetComponent<PoseErrorTracker>());
-            Assert.IsNotNull(_pidConfigurationStorage = GetComponent<PidConfigurationStorage>());
+            Assert.IsNotNull(PidConfigurationStorage = GetComponent<PidConfigurationStorage>());
 
             _testAnimationStateList = ParseTestAnimationStatesInput();
 
@@ -142,8 +142,8 @@ namespace PIDTuning
 
             // We copy the current PID configuration here so that the user cannot accidentally modify it during the test.
             // (They still can do that if they transmit a new configuration, but in that case that's their own fault.)
-            var testRunPidConfig = new PidConfiguration(_pidConfigurationStorage.Configuration);
-            _pidConfigurationStorage.TransmitFullConfiguration();
+            var testRunPidConfig = new PidConfiguration(PidConfigurationStorage.Configuration);
+            PidConfigurationStorage.TransmitFullConfiguration();
 
             // Run Simulation Loop and record data
             // -----------------------------------------------------------------------------------
@@ -274,9 +274,7 @@ namespace PIDTuning
 
             _latestTestTimestamp = DateTime.UtcNow;
 
-            // TODO: The PID config should come from the user, but for now we are just going to instantiate it here
-            _latestPidConfiguration = new PidConfiguration(_latestTestTimestamp.Value);
-            _latestPidConfiguration.InitializeMapping(_poseErrorTracker.GetJointNames(), PidParameters.FromParallelForm(1000f, 100f, 500f));
+            _latestPidConfiguration = new PidConfiguration(PidConfigurationStorage.Configuration);
 
             // Prepare step data target dictionary
 
@@ -351,26 +349,6 @@ namespace PIDTuning
                 }
 
                 File.WriteAllText(Path.Combine(animationDirectory, "eval.json"), LatestAnimationToEvaluation[animation.Key].ToJson().ToString());
-
-                // The code below exports performance evaluations of the left arm for each animation
-                // It's important for my thesis, but not that important for you, probably ;)
-                // That's why we don't re-throw an exception if something doesn't work out in here
-                try
-                {
-                    var armX = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftArm_x"];
-                    var armY = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftArm_y"];
-                    var armZ = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftArm_z"];
-                    var foreArm = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftForeArm"];
-                    var hand = LatestAnimationToJointToEvaluation[animation.Key]["mixamorig_LeftHand"];
-
-                    var eval = PerformanceEvaluation.FromCumulative(new[] { armX, armY, armZ, foreArm, hand });
-
-                    File.WriteAllText(Path.Combine(testRunFolder, "left-arm-eval-" + animation.Key + ".json"), eval.ToJson().ToString());
-                }
-                catch
-                {
-                    
-                }
             }
         }
     }
