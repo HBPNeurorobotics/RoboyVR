@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
 public class JointSettings : MonoBehaviour  {
+    public bool showInEditor = false;
+    public bool showAngularXDriveInEditor = false;
+    public bool showAngularYZDriveInEditor = false;
     public string bone;
     [Header("Angular Drive X")]
     public float angularXDriveSpring;

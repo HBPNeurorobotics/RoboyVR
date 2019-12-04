@@ -4,66 +4,63 @@ using UnityEngine;
 using UnityEditor;
 
 [ExecuteInEditMode]
-public class EditAvatarTemplate : EditorWindow {
+public class EditAvatarTemplate : EditorWindow
+{
     float bodyWeight = 72f;
+    float indent = 15f;
     string test = "test";
-    bool isInitialized = false;
-    bool mirrorAngles;
+    bool useCollisions;
+    bool mirror;
+    bool showJointSettings = true;
+
+    static EditAvatarTemplate editor;
+
+    Vector2 scroll;
 
     Object template;
     Dictionary<HumanBodyBones, GameObject> gameObjectsPerBone = new Dictionary<HumanBodyBones, GameObject>();
 
-    List<JointSettings> jointSettings = new List<JointSettings>();
+    Dictionary<HumanBodyBones, JointSettings> jointSettings = new Dictionary<HumanBodyBones, JointSettings>();
+    Dictionary<HumanBodyBones, JointSettings> jointSettingsNoLeft = new Dictionary<HumanBodyBones, JointSettings>();
 
     [MenuItem("Window/Edit Joint Avatar Template")]
     public static void GetWindow()
     {
-        EditAvatarTemplate editor = (EditAvatarTemplate)GetWindow(typeof(EditAvatarTemplate));
+        editor = (EditAvatarTemplate)GetWindow(typeof(EditAvatarTemplate));
         editor.Show();
     }
     void OnGUI()
     {
-        EditorGUILayout.HelpBox("The rig of AvatarTemplate", MessageType.Info);
-        template = EditorGUILayout.ObjectField(template, typeof(GameObject), true);
-        bodyWeight = EditorGUILayout.FloatField("Total Body Weight", bodyWeight);
+        EditorGUILayout.HelpBox("Assign the rig of AvatarTemplate", MessageType.Info);
 
-        GetDictionary();
 
         EditorGUILayout.BeginVertical();
 
-        GUILayout.Label("Joint Settings", EditorStyles.boldLabel);
+        template = EditorGUILayout.ObjectField(template, typeof(GameObject), true);
+
+        bodyWeight = EditorGUILayout.FloatField("Total Body Weight", bodyWeight);
+
+        GetDictionary();
+        useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
+        mirror = EditorGUILayout.Toggle("Mirror Changes", mirror);
+        showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
 
         Debug.Log("bones: " + gameObjectsPerBone.Keys.Count);
-        Debug.Log(jointSettings.Count);
+        Debug.Log("settings: " + jointSettings.Count);
 
-        for (int i = 0; i < jointSettings.Count; i++)
+        if (showJointSettings)
         {
-            //jointSettings[i] = (JointSettings)EditorGUILayout.ObjectField(jointSettings[i], typeof(JointSettings), true);
-
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Space(10);
-            GUILayout.Label(jointSettings[i].bone);
-            jointSettings[i].angularXDriveDamper = EditorGUILayout.FloatField("Angular X Damper", jointSettings[i].angularXDriveDamper);
-            EditorGUILayout.EndHorizontal();
-
+            DisplayJointSettings();
         }
-
         EditorGUILayout.EndVertical();
 
-        //EditorGUILayout.PropertyField(SerializedObject, );
 
-        if(GUILayout.Button("Update Template"))
+        if (GUILayout.Button("Restore Default Mass"))
         {
             BodyMass bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone);
-            Debug.Log("Body Weights assigned");
-        }
-
-        if(GUILayout.Button("Restore Default Mass"))
-        {
-            BodyMass bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone); 
             bodyMass.RestoreOneValues();
         }
-
+        //TODO
         if (GUILayout.Button("Restore All"))
         {
             foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
@@ -72,7 +69,11 @@ public class EditAvatarTemplate : EditorWindow {
             }
             //template = (GameObject)Instantiate(Resources.Load("Assets/Client Physics/Prefabs/AvatarTemplate.prefab"));
         }
-            
+
+        if (GUILayout.Button("Update Template"))
+        {
+            UpdateTemplate();
+        }
     }
 
     void GetDictionary()
@@ -95,13 +96,183 @@ public class EditAvatarTemplate : EditorWindow {
 
     void GetJointSettings(HumanBodyBones bone)
     {
-        ConfigurableJoint joint = gameObjectsPerBone[bone].GetComponent<ConfigurableJoint>();
-        if (joint != null)
+        if (!jointSettings.ContainsKey(bone))
         {
-            JointSettings setting = new JointSettings(bone.ToString(), joint.angularXDrive.positionSpring, joint.angularXDrive.positionDamper, joint.angularYZDrive.positionSpring, joint.angularYZDrive.positionDamper);
-            jointSettings.Add(setting);
+            ConfigurableJoint joint = gameObjectsPerBone[bone].GetComponent<ConfigurableJoint>();
+            if (joint != null)
+            {
+                JointSettings setting = new JointSettings(bone.ToString(), joint.angularXDrive.positionSpring, joint.angularXDrive.positionDamper, joint.angularYZDrive.positionSpring, joint.angularYZDrive.positionDamper);
+                jointSettings.Add(bone, setting);
+                if (!setting.bone.ToString().StartsWith("Left"))
+                {
+                    jointSettingsNoLeft.Add(bone, setting);
+                }
+            }
         }
     }
 
-    
+    void DisplayJointSettings()
+    {
+        scroll = EditorGUILayout.BeginScrollView(scroll);
+        Dictionary<HumanBodyBones, JointSettings> dict;
+
+        dict = mirror ? jointSettingsNoLeft : jointSettings;
+
+        //Display Joint Settings
+        foreach (HumanBodyBones bone in dict.Keys)
+        {
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(indent);
+            EditorGUILayout.BeginVertical();
+
+            DisplayJointSettingsOfBone(bone);
+
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+
+        }
+        EditorGUILayout.EndScrollView();
+    }
+
+    void DisplayJointSettingsOfBone(HumanBodyBones bone)
+    {
+        jointSettings[bone].showInEditor = EditorGUILayout.Foldout(jointSettings[bone].showInEditor, jointSettings[bone].bone, true);
+
+        if (jointSettings[bone].showInEditor)
+        {
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(indent);
+            EditorGUILayout.BeginVertical();
+
+            DisplayAngularDrives(bone);
+
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+        }
+    }
+
+    void DisplayAngularDrives(HumanBodyBones bone)
+    {
+        //Angular X Drive
+        jointSettings[bone].showAngularXDriveInEditor = EditorGUILayout.Foldout(jointSettings[bone].showAngularXDriveInEditor, "Angular X Drive", true);
+        if (jointSettings[bone].showAngularXDriveInEditor)
+        {
+            DisplayAngularDrivesHelper(bone, 0);
+        }
+
+        //Angular YZ Drive
+        jointSettings[bone].showAngularYZDriveInEditor = EditorGUILayout.Foldout(jointSettings[bone].showAngularYZDriveInEditor, "Angular YZ Drive", true);
+        if (jointSettings[bone].showAngularYZDriveInEditor)
+        {
+            DisplayAngularDrivesHelper(bone, 1);
+        }
+    }
+
+    void DisplayAngularDrivesHelper(HumanBodyBones bone, int index)
+    {
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(indent);
+        EditorGUILayout.BeginVertical();
+
+        //Angular X Drive
+        if (index == 0)
+        {
+            jointSettings[bone].angularXDriveSpring = EditorGUILayout.FloatField("Spring", jointSettings[bone].angularXDriveSpring);
+            jointSettings[bone].angularXDriveDamper = EditorGUILayout.FloatField("Damper", jointSettings[bone].angularXDriveDamper);
+        }
+        else
+        //Angular YZ Drive
+        {
+            jointSettings[bone].angularYZDriveSpring = EditorGUILayout.FloatField("Spring", jointSettings[bone].angularYZDriveSpring);
+            jointSettings[bone].angularYZDriveDamper = EditorGUILayout.FloatField("Damper", jointSettings[bone].angularYZDriveDamper);
+        }
+
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
+    }
+
+    void UpdateTemplate()
+    {
+        //Mass
+        BodyMass bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone);
+
+        //Joint Settings
+        UpdateJoints();
+
+        //Refresh Values
+        editor.Repaint();
+    }
+
+    void UpdateJoints()
+    {
+        foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
+        {
+            ConfigurableJoint joint = gameObjectsPerBone[bone].GetComponent<ConfigurableJoint>();
+            if (joint != null)
+            {
+                joint.enableCollision = useCollisions;
+                JointSettings setting;
+                if (jointSettings.TryGetValue(bone, out setting))
+                {
+                    if (mirror)
+                    {
+                        if (setting.bone.ToString().StartsWith("Left"))
+                        {
+                            setting = jointSettings[LeftToRightMapping(bone)];
+                        }
+                    }
+
+                    ApplyJointSetting(joint, setting);
+                }
+            }
+        }
+    }
+
+    HumanBodyBones LeftToRightMapping(HumanBodyBones bone)
+    {
+        switch (bone)
+        {
+            case HumanBodyBones.LeftFoot: return HumanBodyBones.RightFoot;
+            case HumanBodyBones.LeftHand: return HumanBodyBones.RightHand;
+            case HumanBodyBones.LeftIndexDistal: return HumanBodyBones.RightIndexDistal;
+            case HumanBodyBones.LeftIndexIntermediate: return HumanBodyBones.RightIndexIntermediate;
+            case HumanBodyBones.LeftIndexProximal: return HumanBodyBones.RightIndexProximal;
+            case HumanBodyBones.LeftLittleDistal: return HumanBodyBones.RightLittleDistal;
+            case HumanBodyBones.LeftLittleIntermediate: return HumanBodyBones.RightLittleIntermediate;
+            case HumanBodyBones.LeftLittleProximal: return HumanBodyBones.RightLittleProximal;
+            case HumanBodyBones.LeftLowerArm: return HumanBodyBones.RightLowerArm;
+            case HumanBodyBones.LeftLowerLeg: return HumanBodyBones.RightLowerLeg;
+            case HumanBodyBones.LeftMiddleDistal: return HumanBodyBones.RightMiddleDistal;
+            case HumanBodyBones.LeftMiddleIntermediate: return HumanBodyBones.RightMiddleIntermediate;
+            case HumanBodyBones.LeftMiddleProximal: return HumanBodyBones.RightMiddleProximal;
+            case HumanBodyBones.LeftRingDistal: return HumanBodyBones.RightRingDistal;
+            case HumanBodyBones.LeftRingIntermediate: return HumanBodyBones.RightRingIntermediate;
+            case HumanBodyBones.LeftRingProximal: return HumanBodyBones.RightRingProximal;
+            case HumanBodyBones.LeftShoulder: return HumanBodyBones.RightShoulder;
+            case HumanBodyBones.LeftThumbDistal: return HumanBodyBones.RightThumbDistal;
+            case HumanBodyBones.LeftThumbIntermediate: return HumanBodyBones.RightThumbIntermediate;
+            case HumanBodyBones.LeftThumbProximal: return HumanBodyBones.RightThumbProximal;
+            case HumanBodyBones.LeftToes: return HumanBodyBones.RightToes;
+            case HumanBodyBones.LeftUpperArm: return HumanBodyBones.RightUpperArm;
+            case HumanBodyBones.LeftUpperLeg: return HumanBodyBones.RightUpperLeg;                    
+            default: return bone;
+        }
+    }
+
+    void ApplyJointSetting(ConfigurableJoint joint, JointSettings setting)
+    {
+        JointDrive tmp;
+
+        tmp = joint.angularXDrive;
+        tmp.positionSpring = setting.angularXDriveSpring;
+        tmp.positionDamper = setting.angularXDriveDamper;
+        joint.angularXDrive = tmp;
+
+        tmp = joint.angularYZDrive;
+        tmp.positionSpring = setting.angularYZDriveSpring;
+        tmp.positionDamper = setting.angularYZDriveDamper;
+        joint.angularYZDrive = tmp;
+    }
+
+
 }

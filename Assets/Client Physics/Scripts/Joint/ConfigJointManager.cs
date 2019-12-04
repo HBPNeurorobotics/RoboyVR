@@ -255,13 +255,15 @@ public class ConfigJointManager : MonoBehaviour
         joint.xMotion = ConfigurableJointMotion.Locked;
         joint.yMotion = ConfigurableJointMotion.Locked;
         joint.zMotion = ConfigurableJointMotion.Locked;
-        
+        /*
         if (!useIndividualAxes)
         {
             joint.angularXMotion = ConfigurableJointMotion.Free;
             joint.angularYMotion = ConfigurableJointMotion.Free;
             joint.angularZMotion = ConfigurableJointMotion.Free;
         }
+        */
+        
 
         joint.configuredInWorldSpace = false;
 

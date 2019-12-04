@@ -6,7 +6,6 @@ using UnityEditor;
 using UnityEngine;
 
 public class AnimationTest : MonoBehaviour {
-    public List<AnimationClip> animations = new List<AnimationClip>();
     Dictionary<HumanBodyBones, GameObject> bones = new Dictionary<HumanBodyBones, GameObject>();
     Animator animator;
 	// Use this for initialization
@@ -15,7 +14,7 @@ public class AnimationTest : MonoBehaviour {
         foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
         {
             //LastBone is not mapped to a bodypart, we need to skip it.
-            if (bone != HumanBodyBones.LastBone) //&& bone == HumanBodyBones.LeftLowerArm) 
+            if (bone != HumanBodyBones.LastBone)
             {
                 Transform boneTransformAvatar = animator.GetBoneTransform(bone);
                 if (boneTransformAvatar != null)
@@ -25,13 +24,7 @@ public class AnimationTest : MonoBehaviour {
                 }
                 
             }
-        }
-        foreach (AnimationClip clip in animations)
-        {
-            AnimationState state = new AnimationState();
-            StartCoroutine(PlayAnimations(clip));
-        }
-        
+        }       
 	}
 	
 	// Update is called once per frame
@@ -73,13 +66,6 @@ public class AnimationTest : MonoBehaviour {
         foreach(HumanBodyBones bone in bones.Keys)
         {
             AnimationAngleObserver observer = bones[bone].GetComponent<AnimationAngleObserver>();
-            /*
-             * result += bone + 
-                              ":\n\t\tMinAngleX: "+ Math.Round(observer.minAngleX, 3) + "\t\t\tMaxAngleX: " + Math.Round(observer.maxAngleX, 3) +
-                              "\n\t\tMinAngleY: " + Math.Round(observer.minAngleY, 3) + "\t\t\tMaxAngleY: " + Math.Round(observer.maxAngleY, 3) +
-                              "\n\t\tMinAngleZ: " + Math.Round(observer.minAngleZ, 3) + "\t\t\tMaxAngleZ: " + Math.Round(observer.maxAngleZ, 3) + 
-                              "\n";
-                              */
             result += JsonUtility.ToJson(observer.GetJointAngleContainer(bone)) + "\n";
         }
 

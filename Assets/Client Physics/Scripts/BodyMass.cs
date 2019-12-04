@@ -15,7 +15,16 @@ public class BodyMass
         this.totalMassKg = totalMassKg;
         dict = gameObjectFromBone;
 
-        SetBodyMasses();
+        //SetBodyMasses();
+    }
+
+    public void AdjustWeightOfBodyPart(HumanBodyBones bone, float mass)
+    {
+        Rigidbody rb = dict[bone].GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.mass = mass;
+        }
     }
 
     public void SetTotalMass(float totalMassKg)
@@ -26,16 +35,18 @@ public class BodyMass
 
     public void RestoreOneValues()
     {
+        Rigidbody rb;
         foreach (HumanBodyBones bone in dict.Keys)
         {
-            if (dict[bone].GetComponent<Rigidbody>() != null)
+            rb = dict[bone].GetComponent<Rigidbody>();
+            if (rb != null)
             {
-                dict[bone].GetComponent<Rigidbody>().mass = 1;
+                rb.mass = 1;
             }
         }
     }
 
-    void SetBodyMasses()
+    public void SetBodyMasses()
     {
         foreach (HumanBodyBones bone in dict.Keys)
         {
@@ -58,12 +69,6 @@ public class BodyMass
     {
         switch (bone)
         {
-            /*
-            case HumanBodyBones.Head: return totalMassKg * 0.0823f;
-            case HumanBodyBones.UpperChest: return totalMassKg * 0.1856f;
-            case HumanBodyBones.Chest: return totalMassKg * 0.0826f;
-            case HumanBodyBones.Spine: return totalMassKg * 0.1265f;
-            */
             case HumanBodyBones.Head: return totalMassKg * Average(new float[] { 0.0668f, 0.0694f });
             case HumanBodyBones.UpperChest:
             case HumanBodyBones.LeftShoulder:

@@ -35,7 +35,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
 
         avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
         useIndividualAxes = avatarManager.useIndividualAxes;
-
+        /*
         xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
         xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 300;
         xDrive.maximumForce = yDrive.maximumForce = zDrive.maximumForce = 10000;
@@ -43,7 +43,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
         angularXDrive.positionSpring = angularYZDrive.positionSpring = 3000;
         angularXDrive.positionDamper = angularYZDrive.positionDamper = 300;
         angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
-
+        
         foreach (ConfigurableJoint joint in joints)
         {
             joint.xDrive = xDrive;
@@ -53,7 +53,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
             joint.angularXDrive = angularXDrive;
             joint.angularYZDrive = angularYZDrive;
         }
-
+        */
         startOrientation = transform.localRotation;
         previousAngularVelocity = rb.angularVelocity;
         /*
@@ -113,7 +113,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
          * Y axis aligned with cross product between Z and X.
          * --> rotates world coordinates to align with joint coordinates
         */
-        jointYAxis.x += 0.001f;
+        //jointYAxis.x += 0.001f;
         Quaternion worldToJointSpace = Quaternion.LookRotation(jointYAxis, jointZAxis);
         /* 
          * turn joint space to align with world
