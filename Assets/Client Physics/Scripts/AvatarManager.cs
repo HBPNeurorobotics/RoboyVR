@@ -33,6 +33,9 @@ public class AvatarManager : MonoBehaviour
     public JointDrive angularXDrive = new JointDrive();
     public JointDrive angularYZDrive = new JointDrive();
 
+    BodyGroups bodyGroupsRemote;
+    BodyGroups bodyGroupsTarget;
+
     public TextAsset angles;
 
     ConfigJointManager configJointManager;
@@ -53,6 +56,7 @@ public class AvatarManager : MonoBehaviour
         animatorRemoteAvatar = GetComponentInChildren<Animator>();
         animatorTarget = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
         InitializeBodyStructures();
+        Debug.Log(bodyGroupsRemote.LeftArm().Count);//ContainsKey(HumanBodyBones.LeftIndexIntermediate));
     }
 
     // Update is called once per frame
@@ -113,7 +117,10 @@ public class AvatarManager : MonoBehaviour
                     //AssignMerchVRPIDController(bone);
                 }
             }
-        }
+        }   
+
+        bodyGroupsRemote = new BodyGroups(gameObjectPerBoneRemoteAvatar);
+        bodyGroupsTarget = new BodyGroups(gameObjectPerBoneTarget);
 
         gameObjectPerBoneRemoteAvatarAtStart = SafeCopyOfRemoteAvatarDictionary(); 
 
@@ -175,17 +182,8 @@ public class AvatarManager : MonoBehaviour
 
         gameObjectPerBoneTarget[bone].AddComponent<Rigidbody>();
         gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().useGravity = false;
-        if (!bone.Equals(HumanBodyBones.RightUpperArm))
-        {
-            //gameObjectPerBoneRemoteAvatar[bone].GetComponent<Rigidbody>().isKinematic = true;
-        }
-
     }
 
-    void SetupRagdollForAvatar()
-    {
-
-    }
     /*
     void AssignMerchVRPIDController(HumanBodyBones bone)
     {
@@ -349,4 +347,13 @@ public class AvatarManager : MonoBehaviour
     {
         return activeInput;
     }
+    
+    public BodyGroups GetBodyGroupsRemote()
+    {
+        return bodyGroupsRemote;
+    }
+    public BodyGroups GetBodyGroupsTarget()
+    {
+        return bodyGroupsTarget;
+    }  
 }
