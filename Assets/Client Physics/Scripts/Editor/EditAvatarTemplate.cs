@@ -10,6 +10,8 @@ public class EditAvatarTemplate : EditorWindow
     float indent = 15f;
     string test = "test";
     bool useCollisions;
+    bool noPreprocessing = true;
+    bool hasColliders = false;
     bool mirror;
     bool showJointSettings = true;
 
@@ -23,6 +25,8 @@ public class EditAvatarTemplate : EditorWindow
     Dictionary<HumanBodyBones, JointSettings> jointSettings = new Dictionary<HumanBodyBones, JointSettings>();
     Dictionary<HumanBodyBones, JointSettings> jointSettingsNoLeft = new Dictionary<HumanBodyBones, JointSettings>();
 
+    BodyMass bodyMass;
+
     [MenuItem("Window/Edit Joint Avatar Template")]
     public static void GetWindow()
     {
@@ -34,45 +38,65 @@ public class EditAvatarTemplate : EditorWindow
         EditorGUILayout.HelpBox("Assign the rig of AvatarTemplate", MessageType.Info);
 
 
-        EditorGUILayout.BeginVertical();
-
         template = EditorGUILayout.ObjectField(template, typeof(GameObject), true);
 
-        bodyWeight = EditorGUILayout.FloatField("Total Body Weight", bodyWeight);
-
-        GetDictionary();
-        useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
-        mirror = EditorGUILayout.Toggle("Mirror Changes", mirror);
-        showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
-
-        Debug.Log("bones: " + gameObjectsPerBone.Keys.Count);
-        Debug.Log("settings: " + jointSettings.Count);
-
-        if (showJointSettings)
+        if (template != null)
         {
-            DisplayJointSettings();
-        }
-        EditorGUILayout.EndVertical();
+            EditorGUILayout.BeginVertical();
+            bodyWeight = EditorGUILayout.FloatField("Total Body Weight", bodyWeight);
 
+            GetDictionary();
 
-        if (GUILayout.Button("Restore Default Mass"))
-        {
-            BodyMass bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone);
-            bodyMass.RestoreOneValues();
-        }
-        //TODO
-        if (GUILayout.Button("Restore All"))
-        {
-            foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
+            hasColliders = EditorGUILayout.Toggle("Add Colliders", hasColliders);
+
+            if (hasColliders)
             {
-                PrefabUtility.ResetToPrefabState(gameObjectsPerBone[bone]);
+                AddColliders();
             }
-            //template = (GameObject)Instantiate(Resources.Load("Assets/Client Physics/Prefabs/AvatarTemplate.prefab"));
-        }
+            else
+            {
+                RemoveColliders();
+            }
 
-        if (GUILayout.Button("Update Template"))
-        {
-            UpdateTemplate();
+            useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
+            noPreprocessing = EditorGUILayout.Toggle("Disable Preprocessing", noPreprocessing);
+            mirror = EditorGUILayout.Toggle("Mirror Changes", mirror);
+
+
+            showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
+
+            if (showJointSettings)
+            {
+                DisplayJointSettings();
+            }
+
+            EditorGUILayout.EndVertical();
+
+            if (GUILayout.Button("Enable Colliders"))
+            {
+
+            }
+
+            if (GUILayout.Button("Restore Default Mass"))
+            {
+                bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone);
+                bodyMass.RestoreOneValues();
+            }
+
+            //TODO
+            if (GUILayout.Button("Restore All"))
+            {
+                foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
+                {
+                    PrefabUtility.ResetToPrefabState(gameObjectsPerBone[bone]);
+                }
+                //template = (GameObject)Instantiate(Resources.Load("Assets/Client Physics/Prefabs/AvatarTemplate.prefab"));
+            }
+
+            if (GUILayout.Button("Update Template"))
+            {
+                UpdateTemplate();
+            }
         }
     }
 
@@ -194,7 +218,8 @@ public class EditAvatarTemplate : EditorWindow
     void UpdateTemplate()
     {
         //Mass
-        BodyMass bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone);
+        bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone);
+        bodyMass.SetBodyMasses();
 
         //Joint Settings
         UpdateJoints();
@@ -211,6 +236,7 @@ public class EditAvatarTemplate : EditorWindow
             if (joint != null)
             {
                 joint.enableCollision = useCollisions;
+                joint.enablePreprocessing = !noPreprocessing;
                 JointSettings setting;
                 if (jointSettings.TryGetValue(bone, out setting))
                 {
@@ -254,7 +280,7 @@ public class EditAvatarTemplate : EditorWindow
             case HumanBodyBones.LeftThumbProximal: return HumanBodyBones.RightThumbProximal;
             case HumanBodyBones.LeftToes: return HumanBodyBones.RightToes;
             case HumanBodyBones.LeftUpperArm: return HumanBodyBones.RightUpperArm;
-            case HumanBodyBones.LeftUpperLeg: return HumanBodyBones.RightUpperLeg;                    
+            case HumanBodyBones.LeftUpperLeg: return HumanBodyBones.RightUpperLeg;
             default: return bone;
         }
     }
@@ -274,5 +300,39 @@ public class EditAvatarTemplate : EditorWindow
         joint.angularYZDrive = tmp;
     }
 
+    void AddColliders()
+    {
+        foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
+        {
+            if (gameObjectsPerBone[bone].GetComponent<Collider>() == null)
+            {
+                switch (bone)
+                {
+                    //SphereColliders
+                    case HumanBodyBones.Head:
+                    case HumanBodyBones.LeftShoulder:
+                    case HumanBodyBones.RightShoulder: gameObjectsPerBone[bone].AddComponent<SphereCollider>(); return;
+                    //Box Colliders
+                    case HumanBodyBones.Hips:
+                    case HumanBodyBones.Spine:
+                    case HumanBodyBones.Chest:
+                    case HumanBodyBones.UpperChest: gameObjectsPerBone[bone].AddComponent<BoxCollider>(); return;
+                    //Capsule Colliders
+                    default: gameObjectsPerBone[bone].AddComponent<CapsuleCollider>(); return;
+                }
+            }
+        }
+    }
 
+    void RemoveColliders()
+    {
+        foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
+        {
+            Collider collider = gameObjectsPerBone[bone].GetComponent<Collider>();
+            if (collider != null)
+            {
+                DestroyImmediate(collider);
+            }
+        }
+    }
 }

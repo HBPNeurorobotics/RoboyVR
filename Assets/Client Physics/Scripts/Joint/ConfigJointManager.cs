@@ -56,6 +56,7 @@ public class ConfigJointManager : MonoBehaviour
         }
 
         SetupJoints();
+
     }
 
 
@@ -63,7 +64,6 @@ public class ConfigJointManager : MonoBehaviour
     void SetupJoints()
     {
         GetAvatar();
-
 
         if (useIndividualAxes)
         {
