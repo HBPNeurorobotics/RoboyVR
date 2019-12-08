@@ -27,12 +27,18 @@ public class BodyMass
         }
     }
 
+    /// <summary>
+    /// Use to update the mass of all body parts according to new body weight
+    /// </summary>
+    /// <param name="totalMassKg">The new body weight. Each body part will weight a percentage of it.</param>
     public void SetTotalMass(float totalMassKg)
     {
         this.totalMassKg = totalMassKg;
         SetBodyMasses();
     }
-
+    /// <summary>
+    /// Sets the mass of all body parts to be equal to 1.
+    /// </summary>
     public void RestoreOneValues()
     {
         Rigidbody rb;
@@ -56,15 +62,11 @@ public class BodyMass
             }
         }
     }
-
-    void ChangeMassOfBodyPart(HumanBodyBones bone, float newMass)
-    {
-        if (dict[bone].GetComponent<Rigidbody>() != null)
-        {
-            dict[bone].GetComponent<Rigidbody>().mass = newMass;
-        }
-    }
-
+    /// <summary>
+    /// Calculates the average weight of a human body part. Default is used for body parts for which no value has been found.
+    /// </summary>
+    /// <param name="bone">The bone of the body part.</param>
+    /// <returns></returns>
     float DetermineMassOfBodyPart(HumanBodyBones bone)
     {
         switch (bone)
@@ -99,7 +101,11 @@ public class BodyMass
             default: return 0.02f;
         }
     }
-
+    /// <summary>
+    /// Tool to compute the avarage value of a given array.
+    /// </summary>
+    /// <param name="values">The values to compute the avarage of.</param>
+    /// <returns></returns>
     public float Average(float[] values)
     {
         float sum = 0;

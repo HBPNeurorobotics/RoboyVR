@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Assign to a body whose orientation should be observed. Stores minimum and maximum angles.
+/// </summary>
 public class AnimationAngleObserver : MonoBehaviour
 {
     Vector3 localEuler;

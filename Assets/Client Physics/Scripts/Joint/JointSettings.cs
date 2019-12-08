@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class JointSettings : MonoBehaviour  {
+public class JointSettings : MonoBehaviour
+{
     public bool showInEditor = false;
     public bool showAngularXDriveInEditor = false;
     public bool showAngularYZDriveInEditor = false;
@@ -19,5 +20,10 @@ public class JointSettings : MonoBehaviour  {
         this.angularXDriveSpring = angularXDriveSpring;
         this.angularYZDriveDamper = angularYZDriveDamper;
         this.angularYZDriveSpring = angularYZDriveSpring;
+    }
+
+    public JointSettings()
+    {
+
     }
 }

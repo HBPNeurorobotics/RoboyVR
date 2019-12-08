@@ -7,6 +7,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
 
     public GameObject target;
     public float angularVelocityScale = 3f;
+    bool useRotationFromJointSpace = false;
 
     public JointDrive xDrive = new JointDrive();
     public JointDrive yDrive = new JointDrive();
@@ -18,6 +19,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
     ConfigurableJointMotion motion = ConfigurableJointMotion.Limited;
 
     Quaternion startOrientation;
+    Quaternion jointSpaceRotation;
 
     Vector3 previousAngularVelocity;
 
@@ -99,33 +101,25 @@ public class ConfigJointMotionHandler : MonoBehaviour
 
     void SetTargetRotation(ConfigurableJoint joint)
     {
-        //Debug.Log(startOrientation);
-        //description of the joint space
-        //the x axis of the joint space
-        Vector3 jointXAxis = joint.axis.normalized;
-        // the y axis of the joint space
-        Vector3 jointYAxis = Vector3.Cross(joint.axis, joint.secondaryAxis).normalized;
-        //the z axis of the joint space
-        Vector3 jointZAxis = Vector3.Cross(jointYAxis, jointXAxis).normalized;
-        /*
-         * Z axis will be aligned with forward
-         * X axis aligned with cross product between forward and upwards
-         * Y axis aligned with cross product between Z and X.
-         * --> rotates world coordinates to align with joint coordinates
-        */
-        //jointYAxis.x += 0.001f;
-        Quaternion worldToJointSpace = Quaternion.LookRotation(jointYAxis, jointZAxis);
-        /* 
-         * turn joint space to align with world
-         * perform rotation in world
-         * turn joint back into joint space
-        */
-        Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace) *
-                                    Quaternion.Inverse(target.transform.localRotation) *
-                                    startOrientation *
-                                    worldToJointSpace;
+        if (useRotationFromJointSpace)
+        {
+            joint.targetRotation = jointSpaceRotation;
+        }
+        else
+        {
+            Quaternion worldToJointSpace = ConfigJointUtility.GetWorldToJointRotation(joint);
+            /* 
+             * turn joint space to align with world
+             * perform rotation in world
+             * turn joint back into joint space
+            */
+            Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace) *
+                                        Quaternion.Inverse(target.transform.localRotation) *
+                                        startOrientation *
+                                        worldToJointSpace;
 
-        joint.targetRotation = resultRotation;
+            joint.targetRotation = resultRotation;
+        }
     }
 
     void SetTargetAngularVelocity(ConfigurableJoint joint)
@@ -143,4 +137,25 @@ public class ConfigJointMotionHandler : MonoBehaviour
         }
         */
     }
+
+    /// <summary>
+    /// Set whether the joint target rotation should be set to a rotation in joint space instead of imitating a target object.
+    /// </summary>
+    /// <param name="rotation">The input target rotation in joint space.</param>
+    /// <param name="useJointRotation">True: rotation will be directly set. False: uses target.localRotation</param>
+    public void UseJointRotation(Quaternion rotation, bool useJointRotation)
+    {
+        useRotationFromJointSpace = useJointRotation;
+        jointSpaceRotation = rotation;
+    }
+
+    public Quaternion GetOriginalOrientation()
+    {
+        return startOrientation;
+    }
+    public void SetOriginalOrientation(Quaternion originalOrientation)
+    {
+         this.startOrientation = originalOrientation;
+    }
+
 }

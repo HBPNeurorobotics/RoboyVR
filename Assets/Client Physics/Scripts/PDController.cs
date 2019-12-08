@@ -75,13 +75,13 @@ public class PDController : MonoBehaviour
     {
         Quaternion desiredRotation = orientationOfDestination;
         float dt = Time.fixedDeltaTime;
-        Vector3 x;
+        Vector3 angleAxis;
         float xMag;
         Quaternion q = desiredRotation * Quaternion.Inverse(transform.rotation);
-        q.ToAngleAxis(out xMag, out x);
-        x.Normalize();
-        x *= Mathf.Deg2Rad;
-        Vector3 pidv = proportionalGain * x * xMag - derivativeGain * rigidbody.angularVelocity;
+        q.ToAngleAxis(out xMag, out angleAxis);
+        angleAxis.Normalize();
+        angleAxis *= Mathf.Deg2Rad;
+        Vector3 pidv = proportionalGain * angleAxis * xMag - derivativeGain * rigidbody.angularVelocity;
         Quaternion rotInertia2World = rigidbody.inertiaTensorRotation * transform.rotation;
         pidv = Quaternion.Inverse(rotInertia2World) * pidv;
         pidv.Scale(rigidbody.inertiaTensor);

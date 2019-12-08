@@ -12,8 +12,11 @@ public class EditAvatarTemplate : EditorWindow
     bool useCollisions;
     bool noPreprocessing = true;
     bool hasColliders = false;
+    bool setGlobalJointSetting = false;
     bool mirror;
     bool showJointSettings = true;
+
+    JointSettings globalSettings = new JointSettings();
 
     static EditAvatarTemplate editor;
 
@@ -48,7 +51,7 @@ public class EditAvatarTemplate : EditorWindow
             GetDictionary();
 
             hasColliders = EditorGUILayout.Toggle("Add Colliders", hasColliders);
-
+            /*
             if (hasColliders)
             {
                 AddColliders();
@@ -57,25 +60,28 @@ public class EditAvatarTemplate : EditorWindow
             {
                 RemoveColliders();
             }
-
+            */
             useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
             noPreprocessing = EditorGUILayout.Toggle("Disable Preprocessing", noPreprocessing);
-            mirror = EditorGUILayout.Toggle("Mirror Changes", mirror);
+            setGlobalJointSetting = EditorGUILayout.Toggle("Set Global Joint Settings", setGlobalJointSetting);
 
-
-            showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
-
-            if (showJointSettings)
+            if (!setGlobalJointSetting)
             {
-                DisplayJointSettings();
-            }
+                mirror = EditorGUILayout.Toggle("Mirror Changes", mirror);
 
+
+                showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
+
+                if (showJointSettings)
+                {
+                    DisplayJointSettings();
+                }
+            }
+            else
+            {
+                DisplayGlobalJoint();
+            }
             EditorGUILayout.EndVertical();
-
-            if (GUILayout.Button("Enable Colliders"))
-            {
-
-            }
 
             if (GUILayout.Button("Restore Default Mass"))
             {
@@ -117,6 +123,10 @@ public class EditAvatarTemplate : EditorWindow
             }
         }
     }
+    /// <summary>
+    /// Returns the JointSettings of a specified bone. Use only if a single ConfigurableJoint is attached to the bone.
+    /// </summary>
+    /// <param name="bone"></param>
 
     void GetJointSettings(HumanBodyBones bone)
     {
@@ -134,7 +144,9 @@ public class EditAvatarTemplate : EditorWindow
             }
         }
     }
-
+    /// <summary>
+    /// Shows all JointSettings in Editor.
+    /// </summary>
     void DisplayJointSettings()
     {
         scroll = EditorGUILayout.BeginScrollView(scroll);
@@ -149,7 +161,7 @@ public class EditAvatarTemplate : EditorWindow
             GUILayout.Space(indent);
             EditorGUILayout.BeginVertical();
 
-            DisplayJointSettingsOfBone(bone);
+            DisplayJointSettingsOfBone(jointSettings[bone]);
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
@@ -157,42 +169,53 @@ public class EditAvatarTemplate : EditorWindow
         }
         EditorGUILayout.EndScrollView();
     }
-
-    void DisplayJointSettingsOfBone(HumanBodyBones bone)
+    /// <summary>
+    /// Shows single JointSettings in Editor.
+    /// </summary>
+    /// <param name="boneSettings">The JointSettings to show.</param>
+    void DisplayJointSettingsOfBone(JointSettings boneSettings)
     {
-        jointSettings[bone].showInEditor = EditorGUILayout.Foldout(jointSettings[bone].showInEditor, jointSettings[bone].bone, true);
+        boneSettings.showInEditor = EditorGUILayout.Foldout(boneSettings.showInEditor, boneSettings.bone, true);
 
-        if (jointSettings[bone].showInEditor)
+        if (boneSettings.showInEditor)
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(indent);
             EditorGUILayout.BeginVertical();
 
-            DisplayAngularDrives(bone);
+            DisplayJointValues(boneSettings);
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
         }
     }
+    /// <summary>
+    /// Shows the values of a JointSettings.
+    /// </summary>
+    /// <param name="settings"></param>
+    void DisplayJointValues(JointSettings settings)
+    {
+        DisplayAngularDrives(settings);
+    }
 
-    void DisplayAngularDrives(HumanBodyBones bone)
+    void DisplayAngularDrives(JointSettings settings)
     {
         //Angular X Drive
-        jointSettings[bone].showAngularXDriveInEditor = EditorGUILayout.Foldout(jointSettings[bone].showAngularXDriveInEditor, "Angular X Drive", true);
-        if (jointSettings[bone].showAngularXDriveInEditor)
+        settings.showAngularXDriveInEditor = EditorGUILayout.Foldout(settings.showAngularXDriveInEditor, "Angular X Drive", true);
+        if (settings.showAngularXDriveInEditor)
         {
-            DisplayAngularDrivesHelper(bone, 0);
+            DisplayAngularDrivesHelper(settings, 0);
         }
 
         //Angular YZ Drive
-        jointSettings[bone].showAngularYZDriveInEditor = EditorGUILayout.Foldout(jointSettings[bone].showAngularYZDriveInEditor, "Angular YZ Drive", true);
-        if (jointSettings[bone].showAngularYZDriveInEditor)
+        settings.showAngularYZDriveInEditor = EditorGUILayout.Foldout(settings.showAngularYZDriveInEditor, "Angular YZ Drive", true);
+        if (settings.showAngularYZDriveInEditor)
         {
-            DisplayAngularDrivesHelper(bone, 1);
+            DisplayAngularDrivesHelper(settings, 1);
         }
     }
 
-    void DisplayAngularDrivesHelper(HumanBodyBones bone, int index)
+    void DisplayAngularDrivesHelper(JointSettings settings, int index)
     {
         EditorGUILayout.BeginHorizontal();
         GUILayout.Space(indent);
@@ -201,18 +224,37 @@ public class EditAvatarTemplate : EditorWindow
         //Angular X Drive
         if (index == 0)
         {
-            jointSettings[bone].angularXDriveSpring = EditorGUILayout.FloatField("Spring", jointSettings[bone].angularXDriveSpring);
-            jointSettings[bone].angularXDriveDamper = EditorGUILayout.FloatField("Damper", jointSettings[bone].angularXDriveDamper);
+            settings.angularXDriveSpring = EditorGUILayout.FloatField("Spring", settings.angularXDriveSpring);
+            settings.angularXDriveDamper = EditorGUILayout.FloatField("Damper", settings.angularXDriveDamper);
         }
         else
         //Angular YZ Drive
         {
-            jointSettings[bone].angularYZDriveSpring = EditorGUILayout.FloatField("Spring", jointSettings[bone].angularYZDriveSpring);
-            jointSettings[bone].angularYZDriveDamper = EditorGUILayout.FloatField("Damper", jointSettings[bone].angularYZDriveDamper);
+            settings.angularYZDriveSpring = EditorGUILayout.FloatField("Spring", settings.angularYZDriveSpring);
+            settings.angularYZDriveDamper = EditorGUILayout.FloatField("Damper", settings.angularYZDriveDamper);
         }
 
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
+    }
+    /// <summary>
+    /// Shows values of the global JointSettings in the editor. These settings apply to all joints if setGlobalJointSettings is chosen.
+    /// </summary>
+    void DisplayGlobalJoint()
+    {
+        globalSettings.showInEditor = EditorGUILayout.Foldout(globalSettings.showInEditor, "Global Joint Settings", true);
+
+        if (globalSettings.showInEditor)
+        {
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(indent);
+            EditorGUILayout.BeginVertical();
+
+            DisplayJointValues(globalSettings);
+
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+        }
     }
 
     void UpdateTemplate()
@@ -229,7 +271,8 @@ public class EditAvatarTemplate : EditorWindow
     }
 
     void UpdateJoints()
-    {
+    {                    
+        //TODO Safe Joint Settings
         foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
         {
             ConfigurableJoint joint = gameObjectsPerBone[bone].GetComponent<ConfigurableJoint>();
@@ -237,23 +280,34 @@ public class EditAvatarTemplate : EditorWindow
             {
                 joint.enableCollision = useCollisions;
                 joint.enablePreprocessing = !noPreprocessing;
-                JointSettings setting;
-                if (jointSettings.TryGetValue(bone, out setting))
+                if (setGlobalJointSetting)
                 {
-                    if (mirror)
+                    ApplyJointSetting(joint, globalSettings);
+                }
+                else
+                {
+                    JointSettings setting;
+                    if (jointSettings.TryGetValue(bone, out setting))
                     {
-                        if (setting.bone.ToString().StartsWith("Left"))
+                        if (mirror)
                         {
-                            setting = jointSettings[LeftToRightMapping(bone)];
+                            if (setting.bone.ToString().StartsWith("Left"))
+                            {
+                                setting = jointSettings[LeftToRightMapping(bone)];
+                            }
                         }
-                    }
 
-                    ApplyJointSetting(joint, setting);
+                        ApplyJointSetting(joint, setting);
+                    }
                 }
             }
         }
     }
-
+    /// <summary>
+    /// Returns the body part on the right side for a body part on the left side.
+    /// </summary>
+    /// <param name="bone">The body part on the left side.</param>
+    /// <returns></returns>
     HumanBodyBones LeftToRightMapping(HumanBodyBones bone)
     {
         switch (bone)

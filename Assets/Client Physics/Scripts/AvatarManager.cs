@@ -8,6 +8,7 @@ public class AvatarManager : MonoBehaviour
 {
 
     public bool useJoints = true;
+    public bool configureJointsInEditor = true;
     public bool useBodyMass = false;
     public bool useAnglesFromAnimationTest = false;
     public bool useIndividualAxes = true;
@@ -56,7 +57,6 @@ public class AvatarManager : MonoBehaviour
         animatorRemoteAvatar = GetComponentInChildren<Animator>();
         animatorTarget = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
         InitializeBodyStructures();
-        Debug.Log(bodyGroupsRemote.LeftArm().Count);//ContainsKey(HumanBodyBones.LeftIndexIntermediate));
     }
 
     // Update is called once per frame
@@ -86,7 +86,7 @@ public class AvatarManager : MonoBehaviour
 
     /// <summary>
     ///     Maps all HumanBodyBones (assigned in the Avatar) to their GameObjects in the scene in order to get access to all components.
-    ///     Adds Rigidbody to both bodies, adds PDController to the avatar.
+    ///     Adds Rigidbody to both bodies, adds PDController to the avatar if useJoints is false and ConfigJointManager otherwise.
     /// </summary>
     void InitializeBodyStructures()
     {
@@ -126,18 +126,25 @@ public class AvatarManager : MonoBehaviour
 
         if (useJoints)
         {
-            xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
-            xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 600;
-            xDrive.maximumForce = yDrive.maximumForce = zDrive.maximumForce = 10000;
+            if (!configureJointsInEditor)
+            {
+                xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
+                xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 600;
+                xDrive.maximumForce = yDrive.maximumForce = zDrive.maximumForce = 10000;
 
-            angularXDrive.positionSpring = springX;
-            angularYZDrive.positionSpring = springYZ;
-            angularXDrive.positionDamper = damperX;
-            angularYZDrive.positionDamper = damperYZ;
-            angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
+                angularXDrive.positionSpring = springX;
+                angularYZDrive.positionSpring = springYZ;
+                angularXDrive.positionDamper = damperX;
+                angularYZDrive.positionDamper = damperYZ;
+                angularXDrive.maximumForce = angularYZDrive.maximumForce = 10000;
 
 
-            configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive, useIndividualAxes);
+                configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive, useIndividualAxes);
+            }
+            else
+            {
+                configJointManager = new ConfigJointManager(useIndividualAxes);
+            }
         }
 
         //Now set in editor window

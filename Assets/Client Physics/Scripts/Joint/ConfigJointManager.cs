@@ -28,7 +28,15 @@ public class ConfigJointManager : MonoBehaviour
     Dictionary<HumanBodyBones, GameObject> templateFromBone = new Dictionary<HumanBodyBones, GameObject>();
 
     Animator templateAnimator;
-
+    /// <summary>
+    /// Assigns ConfigurableJoints configured by the AvatarManager
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <param name="angX"></param>
+    /// <param name="angYZ"></param>
+    /// <param name="useIndividualAxes"></param>
     public ConfigJointManager(JointDrive x, JointDrive y, JointDrive z, JointDrive angX, JointDrive angYZ, bool useIndividualAxes)
     {
         usesFixedJoint.Add(HumanBodyBones.Hips);
@@ -58,6 +66,24 @@ public class ConfigJointManager : MonoBehaviour
         SetupJoints();
 
     }
+    /// <summary>
+    /// Assigns ConfigurableJoints configured by the editor
+    /// </summary>
+    /// <param name="useIndividualAxes"></param>
+    public ConfigJointManager(bool useIndividualAxes)
+    {
+        this.useIndividualAxes = useIndividualAxes;
+        if (useIndividualAxes)
+        {
+            //templateAnimator = GameObject.FindGameObjectWithTag("TemplateIndividual").GetComponent<Animator>();
+        }
+        else
+        {
+            templateAnimator = GameObject.FindGameObjectWithTag("Template").GetComponent<Animator>();
+        }
+
+        SetupJoints();
+    }
 
 
 
@@ -81,14 +107,19 @@ public class ConfigJointManager : MonoBehaviour
         }
 
     }
-
+    /// <summary>
+    /// Finds the GameObject tagged as avatar and assigns the AvatarManager reference
+    /// </summary>
     void GetAvatar()
     {
         avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
         gameObjectsFromBone = avatarManager.GetGameObjectPerBoneAvatarDictionary();
         useAnglesFromAnimationTest = avatarManager.useAnglesFromAnimationTest;
     }
-
+    /// <summary>
+    /// Adds a ConfigurableJoint to the GameObject that corresponds to the specified bone.
+    /// </summary>
+    /// <param name="bone">The bone that a ConfigurableJoint component should be added to. If useIndividualAxis joint angles are set from previous animation test.</param>
     void AddJoint(HumanBodyBones bone)
     {
         if (!useIndividualAxes)
@@ -100,7 +131,10 @@ public class ConfigJointManager : MonoBehaviour
             AddJointFromAnimationTest(bone);
         }
     }
-
+    /// <summary>
+    /// Copys the ConfigurableJoint from a template avatar and pastes its values into the newly added ConfigurableJoint at the bone. 
+    /// </summary>
+    /// <param name="bone">The bone that the new ConfigurableJoint is added to in the remote avatar. This is also the bone that the values are copied from in the template.</param>
     void AddJointFromTemplate(HumanBodyBones bone)
     {
         ConfigurableJoint[] jointsOfTemplateBone = templateFromBone[bone].GetComponents<ConfigurableJoint>();
@@ -248,7 +282,11 @@ public class ConfigJointManager : MonoBehaviour
         return newLimit;
     }
 
-
+    /// <summary>
+    /// Sets the connectedBody property of the ConfigurableJoint in a human body.
+    /// </summary>
+    /// <param name="bone">The bone of the ConfigurableJoint.</param>
+    /// <param name="joint">The joined at a bone. This needs to be specified to support cases of multiple joints per bone (e.g. one for each axis).</param>
     void SetConnectedBody(HumanBodyBones bone, ConfigurableJoint joint)
     {
 
@@ -478,17 +516,22 @@ public class ConfigJointManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets joint values (TODO remove), Sets the connected body of a ConfigurableJoint.
+    /// </summary>
+    /// <param name="bone"> The bone of the BodyPart that has a ConfigurableJoint Component</param>
+    /// <param name="joint">A ConfigurableJoint of the bone (might be multiple in the future)</param>
+    /// <param name="connectedBody">The rigidbody of the Object that the joint is connected to. For example, this would be the LeftUpperArm if the bone is the LeftLowerArm, NOT the LeftHand</param>
     public void ConfigureJoint(HumanBodyBones bone, ConfigurableJoint joint, Rigidbody connectedBody)
     {
-
-        //TODO: DRIVE VALUES
-
+        //TODO: CURRENTLY OVEWRITES EDITOR INPUT, REMOVE LATER
         joint.xDrive = xDrive;
         joint.yDrive = yDrive;
         joint.zDrive = zDrive;
 
         joint.angularXDrive = angularXDrive;
         joint.angularYZDrive = angularYZDrive;
+        //END TODO
 
         //Connected Body
         joint.connectedBody = connectedBody;

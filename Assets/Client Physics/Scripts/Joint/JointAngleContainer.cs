@@ -2,6 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+/// <summary>
+/// Wrapper class to store various settings of a ConfigurableJoint.
+/// </summary>
 [Serializable]
 public class JointAngleContainer
 {
