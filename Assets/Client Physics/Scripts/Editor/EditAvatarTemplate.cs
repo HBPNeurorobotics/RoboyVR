@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Linq;
 
 [ExecuteInEditMode]
 public class EditAvatarTemplate : EditorWindow
@@ -15,6 +16,9 @@ public class EditAvatarTemplate : EditorWindow
     bool setGlobalJointSetting = false;
     bool mirror;
     bool showJointSettings = true;
+    bool useGravity = true;
+
+    BodyGroups.BodyGroup bodyGroup;
 
     JointSettings globalSettings = new JointSettings();
 
@@ -47,7 +51,7 @@ public class EditAvatarTemplate : EditorWindow
         {
             EditorGUILayout.BeginVertical();
             bodyWeight = EditorGUILayout.FloatField("Total Body Weight", bodyWeight);
-
+            bodyGroup = (BodyGroups.BodyGroup)EditorGUILayout.EnumPopup("Body Group", bodyGroup);
             GetDictionary();
 
             hasColliders = EditorGUILayout.Toggle("Add Colliders", hasColliders);
@@ -61,6 +65,7 @@ public class EditAvatarTemplate : EditorWindow
                 RemoveColliders();
             }
             */
+            useGravity = EditorGUILayout.Toggle("Enable Gravity", useGravity);
             useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
             noPreprocessing = EditorGUILayout.Toggle("Disable Preprocessing", noPreprocessing);
             setGlobalJointSetting = EditorGUILayout.Toggle("Set Global Joint Settings", setGlobalJointSetting);
@@ -108,12 +113,42 @@ public class EditAvatarTemplate : EditorWindow
 
     void GetDictionary()
     {
-        foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
+        List<HumanBodyBones> bones = new List<HumanBodyBones>();
+        Animator animator = ((GameObject)template).GetComponent<Animator>();
+        BodyGroups bodyGroups = new BodyGroups(animator);
+        switch (bodyGroup)
+        {
+            case BodyGroups.BodyGroup.ALL_COMBINED: bones = bodyGroups.AllCombined().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.HEAD: bones = bodyGroups.Head().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.LEFT_ARM: bones = bodyGroups.LeftArm().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.LEFT_FOOT: bones = bodyGroups.LeftFoot().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.LEFT_HAND: bones = bodyGroups.LeftHand().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.LEFT_LEG: bones = bodyGroups.LeftLeg().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.RIGHT_ARM: bones = bodyGroups.RightArm().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.RIGHT_FOOT: bones = bodyGroups.RightFoot().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.RIGHT_HAND: bones = bodyGroups.RightHand().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.RIGHT_LEG: bones = bodyGroups.RightLeg().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.TRUNK: bones = bodyGroups.Trunk().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.TRUNK_HEAD: bones = bodyGroups.TrunkHead().Keys.ToList<HumanBodyBones>(); break;
+            default: break;
+        }
+        //TODO: Clear bones of not selected groups
+        foreach (HumanBodyBones bone in bones)
+        {
+            if (gameObjectsPerBone.ContainsKey(bone) && !bones.Contains(bone))
+            {
+                Debug.Log(bone.ToString());
+                gameObjectsPerBone.Remove(bone);
+                jointSettings.Remove(bone);
+            }
+        }
+
+        foreach (HumanBodyBones bone in bones)
         {
             //LastBone is not mapped to a bodypart, we need to skip it.
             if (bone != HumanBodyBones.LastBone && !gameObjectsPerBone.ContainsKey(bone))
             {
-                Transform boneTransformAvatar = ((GameObject)template).GetComponent<Animator>().GetBoneTransform(bone);
+                Transform boneTransformAvatar = animator.GetBoneTransform(bone);
                 if (boneTransformAvatar != null)
                 {
                     gameObjectsPerBone.Add(bone, boneTransformAvatar.gameObject);
@@ -127,7 +162,6 @@ public class EditAvatarTemplate : EditorWindow
     /// Returns the JointSettings of a specified bone. Use only if a single ConfigurableJoint is attached to the bone.
     /// </summary>
     /// <param name="bone"></param>
-
     void GetJointSettings(HumanBodyBones bone)
     {
         if (!jointSettings.ContainsKey(bone))
@@ -271,7 +305,7 @@ public class EditAvatarTemplate : EditorWindow
     }
 
     void UpdateJoints()
-    {                    
+    {
         //TODO Safe Joint Settings
         foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
         {
@@ -282,6 +316,7 @@ public class EditAvatarTemplate : EditorWindow
                 joint.enablePreprocessing = !noPreprocessing;
                 if (setGlobalJointSetting)
                 {
+                    AddGravity(bone);
                     ApplyJointSetting(joint, globalSettings);
                 }
                 else
@@ -296,7 +331,7 @@ public class EditAvatarTemplate : EditorWindow
                                 setting = jointSettings[LeftToRightMapping(bone)];
                             }
                         }
-
+                        AddGravity(bone);
                         ApplyJointSetting(joint, setting);
                     }
                 }
@@ -352,6 +387,15 @@ public class EditAvatarTemplate : EditorWindow
         tmp.positionSpring = setting.angularYZDriveSpring;
         tmp.positionDamper = setting.angularYZDriveDamper;
         joint.angularYZDrive = tmp;
+    }
+
+    void AddGravity(HumanBodyBones bone)
+    {
+        Rigidbody rb = gameObjectsPerBone[bone].GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.useGravity = useGravity;
+        }
     }
 
     void AddColliders()
