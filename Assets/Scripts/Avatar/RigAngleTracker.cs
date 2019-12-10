@@ -99,8 +99,7 @@ public class RigAngleTracker : MonoBehaviour
     /// </summary>
     private void BuildJointMapping()
     {
-        var isRemoteAvatar = gameObject.name != "avatar_rig";
-
+        var isRemoteAvatar = gameObject.name != "local_avatar";
         if (isRemoteAvatar)
         {
             CreateMappingForRemoteAvatar();
