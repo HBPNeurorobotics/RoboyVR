@@ -35,8 +35,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private Vector3 gazebo_model_pos_offset = new Vector3();
 
-    public float publish_frequency = 0.5f;
-    public float publish_threshold_joints = 10.0f;
+    public float publish_frequency = 0.25f;
+    public float publish_threshold_joints = 0.01f;
     private float t_last_publish_joints = 0.0f;
     private Dictionary<string, Vector3> joint_pid_position_targets_ = new Dictionary<string, Vector3>();
     private Dictionary<string, Vector3> joint_pid_position_targets_last_published_ = new Dictionary<string, Vector3>();
