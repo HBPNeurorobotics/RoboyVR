@@ -263,6 +263,11 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 98434862}
   m_CullTransparentMesh: 0
+--- !u!1 &138453667 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000014254142504, guid: 4d293c8e162f3874b982baadd71153d2,
+    type: 2}
+  m_PrefabInternal: {fileID: 1995584368}
 --- !u!1 &139956225
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,7 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41060aea552a4d94bbcd37eaf3961364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IP: 192.168.178.28
+  IP: 131.159.10.80
   GzBridgePort: 8080
   ROSBridgePort: 9090
   ROSBridgeSuffix: 
@@ -955,6 +960,44 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!21 &865121357
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!137 &1129297833 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13700000, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
+    type: 3}
+  m_PrefabInternal: {fileID: 1932146457}
 --- !u!1 &1143849598 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 124034, guid: 4d293c8e162f3874b982baadd71153d2,
@@ -1022,12 +1065,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: Valve.VR.SteamVR_Behaviour_BooleanEvent, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!4 &1176987638 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400076, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
-    type: 3}
-  m_PrefabInternal: {fileID: 1932146457}
---- !u!43 &1366733577
+--- !u!43 &1166898991
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1182,39 +1220,11 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
---- !u!21 &1411660792
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!4 &1176987638 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400076, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
+    type: 3}
+  m_PrefabInternal: {fileID: 1932146457}
 --- !u!1 &1421554624
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,6 +1291,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!137 &1632651596 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13700002, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
+    type: 3}
+  m_PrefabInternal: {fileID: 1932146457}
 --- !u!1 &1647852246
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,6 +1540,7 @@ MonoBehaviour:
   targetOffsetRightHand:
     position: {x: 0.05, y: 0, z: -0.15}
     rotation: {x: 0, y: 0, z: -0.70710677, w: 0.70710677}
+  feetTargetOffsetAboveGround: 0.05
 --- !u!1 &1878630272
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,8 +1591,10 @@ GameObject:
   - component: {fileID: 1906616307}
   - component: {fileID: 1906616308}
   - component: {fileID: 1906616310}
-  - component: {fileID: 1906616309}
   - component: {fileID: 1906616311}
+  - component: {fileID: 1906616309}
+  - component: {fileID: 1906616312}
+  - component: {fileID: 1906616313}
   m_Layer: 0
   m_Name: UserAvatarService
   m_TagString: Untagged
@@ -1609,8 +1627,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   local_avatar: {fileID: 1932146459}
+  publish_frequency: 0.25
   publish_threshold_joints: 0.01
-  publish_frequency_joints: 0.5
   model_position_publish_threshold: 0.1
   model_rotation_publish_threshold: 0.1
 --- !u!114 &1906616309
@@ -1627,7 +1645,7 @@ MonoBehaviour:
   maxRumblesPerSecond: 10
   maxRumblesTime: 5
   maxRumblePulseDuration: 0.1
-  maxRumblePulseDistance: 0.1
+  maxRumblePulseDistance: 0.5
   pulseStrength: 1
   trackingIKTargetManager: {fileID: 1813675161}
   vibrateAction:
@@ -1648,11 +1666,11 @@ MonoBehaviour:
   discrepancyHeadEffects: {fileID: 0}
   discrepancyHapticHandler: {fileID: 1906616309}
   discrepancySoundHandler: {fileID: 0}
-  discrepancyIndicatorHandler: {fileID: 0}
+  discrepancyIndicatorHandler: {fileID: 1906616312}
   discrepancyPostProcessingEffects: {fileID: 0}
   lineEffectHands: 0
   lineEffectFeet: 0
-  hapticEffectHands: 1
+  hapticEffectHands: 0
   hapticEffectFeet: 0
   geigerSoundEffectHands: 0
   geigerSoundEffectFeet: 0
@@ -1690,6 +1708,44 @@ MonoBehaviour:
   userAvatarService: {fileID: 1906616308}
   discrepancyHandler: {fileID: 1906616310}
   toleranceDistanceGlobal: 0.1
+--- !u!114 &1906616312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1906616306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1345efce8f6d43b5a1ced31d6b961c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointsAt: 1
+  discrepancyIndicatorPrefab: {fileID: 114875802185532956, guid: 026aeb12a643a4cf88c5bfb073c36f65,
+    type: 2}
+  discrepancyIndicatorCanvasPrefab: {fileID: 223526190350274204, guid: 622f7f0b9e7a14f2386db4ea063a806c,
+    type: 2}
+  mainCamera: {fileID: 138453667}
+  hideIndicatorsWhenTargetInView: 1
+  inViewportOffset: 0.2
+--- !u!114 &1906616313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1906616306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc3c7b422b7f49bb9f2a7d4015b12bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gazeboSceneManager: {fileID: 139956226}
+  remoteUserAvatarSubstring: user_avatar
+  mat_setStencil: {fileID: 2100000, guid: 5b5b8e502f52e444da472a3b1228fc4b, type: 2}
+  mat_silhouette: {fileID: 2100000, guid: 74c3bea518fd44e0f91de5ccaceb3349, type: 2}
+  localUserAvatarMeshRenderers:
+  - {fileID: 1129297833}
+  - {fileID: 1632651596}
+  silhouetteColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1914116793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1913,11 +1969,11 @@ Prefab:
     - target: {fileID: 3380982, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1366733577}
+      objectReference: {fileID: 1166898991}
     - target: {fileID: 2348914, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 1411660792}
+      objectReference: {fileID: 865121357}
     - target: {fileID: 11417306, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: index
       value: -1
@@ -1944,7 +2000,15 @@ Prefab:
     - target: {fileID: 20000014031267948, guid: 4d293c8e162f3874b982baadd71153d2,
         type: 2}
       propertyPath: near clip plane
-      value: 0.1
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417168, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11417306, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}

@@ -24,6 +24,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     [SerializeField] private Pose targetOffsetLeftHand = new Pose(new Vector3(-0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, 90f));
     [SerializeField] private Pose targetOffsetRightHand = new Pose(new Vector3(0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, -90f));
+    [SerializeField] private float feetTargetOffsetAboveGround = 0.1f;
 
     private Dictionary<uint, TrackingReferenceObject> trackingReferences = new Dictionary<uint, TrackingReferenceObject>();
     private Transform trackingTargetHead;
@@ -254,7 +255,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         // rotate upright
         ikTargetLeftFoot.transform.rotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up) * trackingTarget.rotation;
         // assume standing on ground when setting up IK targets, then translate IK target down towards the ground
-        ikTargetLeftFoot.transform.position = new Vector3(trackingTarget.position.x, 0.05f, trackingTarget.position.z);
+        ikTargetLeftFoot.transform.position = new Vector3(trackingTarget.position.x, feetTargetOffsetAboveGround, trackingTarget.position.z);
         //ikTargetLeftFoot.transform.localPosition = new Vector3(0f, -trackingTarget.position.y, 0f);
     }
 
@@ -266,7 +267,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         // rotate upright
         ikTargetRightFoot.transform.rotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up) * trackingTarget.rotation;
         // assume standing on ground when setting up IK targets, then translate IK target down towards the ground
-        ikTargetRightFoot.transform.position = new Vector3(trackingTarget.position.x, 0.05f, trackingTarget.position.z);
+        ikTargetRightFoot.transform.position = new Vector3(trackingTarget.position.x, feetTargetOffsetAboveGround, trackingTarget.position.z);
         //ikTargetRightFoot.transform.localPosition = new Vector3(0f, -trackingTarget.position.y, 0f);
     }
 
