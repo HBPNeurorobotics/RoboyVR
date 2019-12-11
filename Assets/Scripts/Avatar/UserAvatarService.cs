@@ -10,10 +10,10 @@ public class UserAvatarService : Singleton<UserAvatarService>
 {
     public GameObject avatar
     {
-        get { return this.user_avatar; }
+        get { return this.remote_avatar; }
     }
 
-    public GameObject local_avatar = null;
+    [SerializeField] private GameObject local_avatar = null;
 
     //public List<GameObject> published_links = null;
     //public bool publish_all_links = false;
@@ -21,7 +21,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private string avatar_name = null;
 
-    private GameObject user_avatar = null;
+    private GameObject remote_avatar = null;
     private GameObject avatar_clone = null;
 
     private bool spawning_avatar = false;
@@ -35,8 +35,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private Vector3 gazebo_model_pos_offset = new Vector3();
 
-    public float publish_threshold_joints = 10.0f;
-    public float publish_frequency_joints = 0.5f;
+    public float publish_frequency = 0.25f;
+    public float publish_threshold_joints = 0.01f;
     private float t_last_publish_joints = 0.0f;
     private Dictionary<string, Vector3> joint_pid_position_targets_ = new Dictionary<string, Vector3>();
     private Dictionary<string, Vector3> joint_pid_position_targets_last_published_ = new Dictionary<string, Vector3>();
@@ -75,7 +75,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
             //GetJointPIDPositionTargets();
             GetJointPIDPositionTargetsJointStatesMsg();
 
-            if (Time.time - t_last_publish_joints >= publish_frequency_joints)
+            if (Time.time - t_last_publish_joints >= publish_frequency)
             {
                 //PublishModelPose();  //TODO: move to physical movement
                 PublishModelPoseTarget();
@@ -98,7 +98,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     public void DespawnAvatar()
     {
-        if (this.user_avatar == null)
+        if (this.remote_avatar == null)
         {
             return;
         }
@@ -151,11 +151,11 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private IEnumerator WaitForAvatarCreation()
     {
         yield return new WaitUntil(() => {
-            this.user_avatar = GameObject.Find(this.avatar_name);
-            return this.user_avatar != null;
+            this.remote_avatar = GameObject.Find(this.avatar_name);
+            return this.remote_avatar != null;
             }
         );
-        Debug.Log("Found avatar model: " + this.user_avatar);
+        Debug.Log("Found avatar model: " + this.remote_avatar);
 
         this.PublishJointPIDParams();
 
@@ -173,7 +173,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private void PublishModelRotationTarget()
     {
-        if (this.user_avatar == null)
+        if (this.remote_avatar == null)
         {
             return;
         }
@@ -259,7 +259,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
             string topic = "/" + this.avatar_name + "/avatar_ybot/" + child.name + "/set_pid_params";
             
             // default was (100f, 50f, 10f)
-            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(10f, 0f, 50f));
+            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(2000f, 100f, 500f));
         }
     }
 

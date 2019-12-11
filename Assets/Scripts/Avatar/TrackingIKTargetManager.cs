@@ -2,8 +2,18 @@
 using UnityEngine;
 using Valve.VR;
 
-public class IKTargetManager : MonoBehaviour
+public class TrackingIKTargetManager : MonoBehaviour
 {
+    public enum TRACKING_TARGET
+    {
+        HEAD = 0,
+        BODY,
+        HAND_LEFT,
+        HAND_RIGHT,
+        FOOT_LEFT,
+        FOOT_RIGHT
+    }
+
     private class TrackingReferenceObject
     {
         public ETrackedDeviceClass trackedDeviceClass;
@@ -14,6 +24,7 @@ public class IKTargetManager : MonoBehaviour
 
     [SerializeField] private Pose targetOffsetLeftHand = new Pose(new Vector3(-0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, 90f));
     [SerializeField] private Pose targetOffsetRightHand = new Pose(new Vector3(0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, -90f));
+    [SerializeField] private float feetTargetOffsetAboveGround = 0.1f;
 
     private Dictionary<uint, TrackingReferenceObject> trackingReferences = new Dictionary<uint, TrackingReferenceObject>();
     private Transform trackingTargetHead;
@@ -22,6 +33,7 @@ public class IKTargetManager : MonoBehaviour
     private Transform trackingTargetHandRight;
     private Transform trackingTargetFootLeft;
     private Transform trackingTargetFootRight;
+    private Dictionary<uint, SteamVR_Input_Sources> dictSteamVRInputSources = new Dictionary<uint, SteamVR_Input_Sources>();
 
     private GameObject ikTargetHead;
     private GameObject ikTargetLookAt;
@@ -117,6 +129,7 @@ public class IKTargetManager : MonoBehaviour
             if (trackingReference.trackedDeviceClass == ETrackedDeviceClass.HMD)
             {
                 trackingTargetHead = trackingReference.gameObject.transform;
+                dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.Head);
             }
 
             if (trackingReference.trackedDeviceClass == ETrackedDeviceClass.Controller)
@@ -124,10 +137,12 @@ public class IKTargetManager : MonoBehaviour
                 if (OpenVR.System.GetControllerRoleForTrackedDeviceIndex(deviceIndex) == ETrackedControllerRole.LeftHand)
                 {
                     trackingTargetHandLeft = trackingReference.gameObject.transform;
+                    dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.LeftHand);
                 }
                 else if (OpenVR.System.GetControllerRoleForTrackedDeviceIndex(deviceIndex) == ETrackedControllerRole.RightHand)
                 {
                     trackingTargetHandRight = trackingReference.gameObject.transform;
+                    dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.RightHand);
                 }
             }
 
@@ -167,11 +182,17 @@ public class IKTargetManager : MonoBehaviour
             {
                 trackingTargetFootRight = trackerA.gameObject.transform;
                 trackingTargetFootLeft = trackerB.gameObject.transform;
+
+                dictSteamVRInputSources.Add((uint)trackerA.trackedObject.index, SteamVR_Input_Sources.RightFoot);
+                dictSteamVRInputSources.Add((uint)trackerB.trackedObject.index, SteamVR_Input_Sources.LeftFoot);
             }
             else
             {
                 trackingTargetFootRight = trackerB.gameObject.transform;
                 trackingTargetFootLeft = trackerA.gameObject.transform;
+
+                dictSteamVRInputSources.Add((uint)trackerA.trackedObject.index, SteamVR_Input_Sources.LeftFoot);
+                dictSteamVRInputSources.Add((uint)trackerB.trackedObject.index, SteamVR_Input_Sources.RightFoot);
             }
         }
     }
@@ -234,7 +255,7 @@ public class IKTargetManager : MonoBehaviour
         // rotate upright
         ikTargetLeftFoot.transform.rotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up) * trackingTarget.rotation;
         // assume standing on ground when setting up IK targets, then translate IK target down towards the ground
-        ikTargetLeftFoot.transform.position = new Vector3(trackingTarget.position.x, 0.05f, trackingTarget.position.z);
+        ikTargetLeftFoot.transform.position = new Vector3(trackingTarget.position.x, feetTargetOffsetAboveGround, trackingTarget.position.z);
         //ikTargetLeftFoot.transform.localPosition = new Vector3(0f, -trackingTarget.position.y, 0f);
     }
 
@@ -246,7 +267,7 @@ public class IKTargetManager : MonoBehaviour
         // rotate upright
         ikTargetRightFoot.transform.rotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up) * trackingTarget.rotation;
         // assume standing on ground when setting up IK targets, then translate IK target down towards the ground
-        ikTargetRightFoot.transform.position = new Vector3(trackingTarget.position.x, 0.05f, trackingTarget.position.z);
+        ikTargetRightFoot.transform.position = new Vector3(trackingTarget.position.x, feetTargetOffsetAboveGround, trackingTarget.position.z);
         //ikTargetRightFoot.transform.localPosition = new Vector3(0f, -trackingTarget.position.y, 0f);
     }
 
@@ -261,7 +282,76 @@ public class IKTargetManager : MonoBehaviour
 
     #endregion IK_TARGET_SETUP
 
-    #region IK_TARGET_GETTERS
+    #region TARGET_GETTERS
+
+    public Transform GetTrackingTargetTransform(TRACKING_TARGET target)
+    {
+        if (target == TRACKING_TARGET.HEAD)
+        {
+            return trackingTargetHead;
+        }
+        else if (target == TRACKING_TARGET.BODY)
+        {
+            return trackingTargetBody;
+        }
+        else if (target == TRACKING_TARGET.HAND_LEFT)
+        {
+            return trackingTargetHandLeft;
+        }
+        else if (target == TRACKING_TARGET.HAND_RIGHT)
+        {
+            return trackingTargetHandRight;
+        }
+        else if (target == TRACKING_TARGET.FOOT_LEFT)
+        {
+            return trackingTargetFootLeft;
+        }
+        else if (target == TRACKING_TARGET.FOOT_RIGHT)
+        {
+            return trackingTargetFootRight;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public SteamVR_TrackedObject GetTrackedObject(TRACKING_TARGET target)
+    {
+        if (target == TRACKING_TARGET.HEAD)
+        {
+            return trackingTargetHead.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.BODY)
+        {
+            return trackingTargetBody.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.HAND_LEFT)
+        {
+            return trackingTargetHandLeft.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.HAND_RIGHT)
+        {
+            return trackingTargetHandRight.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.FOOT_LEFT)
+        {
+            return trackingTargetFootLeft.GetComponent<SteamVR_TrackedObject>();
+        }
+        else if (target == TRACKING_TARGET.FOOT_RIGHT)
+        {
+            return trackingTargetFootRight.GetComponent<SteamVR_TrackedObject>();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public SteamVR_Input_Sources GetSteamVRInputSource(uint trackedObjectIndex)
+    {
+        return dictSteamVRInputSources[trackedObjectIndex];
+    }
 
     public Transform GetIKTargetHead()
     {
@@ -319,5 +409,5 @@ public class IKTargetManager : MonoBehaviour
         return ikTargetRightFoot.transform;
     }
 
-    #endregion IK_TARGET_GETTERS
+    #endregion TARGET_GETTERS
 }
