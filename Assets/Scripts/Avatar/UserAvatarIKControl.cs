@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class UserAvatarIKControl : MonoBehaviour {
 
-    [SerializeField] private bool ikActive = true;
+    [SerializeField] public bool ikActive = true;
     [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
 
     protected Animator animator;
