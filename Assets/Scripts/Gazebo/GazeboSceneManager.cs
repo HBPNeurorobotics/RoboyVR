@@ -1,4 +1,4 @@
-﻿using SimpleJSON;
+using SimpleJSON;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,6 +19,11 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
     // scene access
     private string scene_name_ = null;
     private GameObject models_parent = null;
+	public GameObject Models_parent{
+		get{
+			return models_parent;
+		}
+	}
     private GameObject lights_parent = null;
     private GameObject joints_parent = null;
 
@@ -525,7 +530,8 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
 
             Transform geometry_gameobject_transform = parent_transform.Find(mesh_name);
             geometry_gameobject = geometry_gameobject_transform == null ? this.CreateMeshFromJSON(json_geometry["mesh"], parent_transform, json_model_scale) : geometry_gameobject_transform.gameObject;
-            geometry_gameobject.transform.SetParent(parent_transform, false);
+
+
         }
 
         if (geometry_gameobject != null)

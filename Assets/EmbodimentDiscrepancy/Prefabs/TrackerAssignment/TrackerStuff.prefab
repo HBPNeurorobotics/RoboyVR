@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1472089645805762}
+  m_IsPrefabAsset: 1
+--- !u!1 &1472089645805762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4967745728528176}
+  - component: {fileID: 114243206587990692}
+  m_Layer: 0
+  m_Name: TrackerStuff
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4967745728528176
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1472089645805762}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114243206587990692
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1472089645805762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dccfb8db89de64d9084a007558d54a42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyToAssignTrackers: 97
+  userAvatarVisualsIKControl: {fileID: 0}
+  discrepancyHapticHandler: {fileID: 0}
+  mainCam: {fileID: 0}
+  avatarLeftHandTransform: {fileID: 0}
+  avatarRightHandTransform: {fileID: 0}
+  avatarLeftFootTransform: {fileID: 0}
+  avatarRightFootTransform: {fileID: 0}
+  avatarBodyTransform: {fileID: 0}
+  trackedObjects:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  leftHandIKTargetPrefab: {fileID: 4866444052327332, guid: d06bbf1ef4fe845ba85a897bbe24feae,
+    type: 2}
+  rightHandIKTargetPrefab: {fileID: 4141841309156016, guid: 71021dbcf02484a7cb91b8cf44ad5f4f,
+    type: 2}
+  leftFootIKTargetPrefab: {fileID: 4961011361312238, guid: 665b4986da23c4e48ba4d5e57f004808,
+    type: 2}
+  rightFootIKTargetPrefab: {fileID: 4130560527749424, guid: d96a60a116d6344b4a55dc5d6594b7a2,
+    type: 2}
+  bodyIKTargetPrefab: {fileID: 4100691950281346, guid: 80b22dfa4a9cd42c2afa67da28636997,
+    type: 2}
+  lookAtIKTargetPrefab: {fileID: 4635651609098940, guid: aee2a38f7d4cdf047a026a12277d0581,
+    type: 2}
+  objectsToDisableAfterAssignment:
+  - {fileID: 0}

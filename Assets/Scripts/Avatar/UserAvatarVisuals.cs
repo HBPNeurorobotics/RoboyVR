@@ -23,7 +23,9 @@ public class UserAvatarVisuals : MonoBehaviour {
         Renderer[] renderers = this.GetComponentsInChildren<Renderer>();
         foreach (Renderer renderer in renderers)
         {
-            foreach (Material material in renderer.materials)
+			if(renderer.gameObject.GetComponent<ParticleSystem>() != null)
+				continue;
+			foreach (Material material in renderer.materials)
             {
                 Color color = material.color;
                 color.a = opacity;
