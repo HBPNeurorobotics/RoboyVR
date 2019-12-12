@@ -22,6 +22,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     }
 
     [SerializeField] private GameObject local_avatar = null;
+    [SerializeField] private SkinnedMeshRenderer local_avatar_mesh_renderer = null;
 
     public RigAngleTracker RigAngleTracker;
 
@@ -71,9 +72,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     {
         if (this.local_avatar)
         {
-            SkinnedMeshRenderer rig_mesh_renderer = this.local_avatar.GetComponentInChildren<SkinnedMeshRenderer>();
-            //Debug.Log("rig center = " + rig_mesh_renderer.bounds.center);
-            this.gazebo_model_pos_offset = new Vector3(0f, -rig_mesh_renderer.bounds.extents.y, 0f);
+            this.gazebo_model_pos_offset = new Vector3(0f, -local_avatar_mesh_renderer.bounds.extents.y, 0f);
 
             // Markus: This line causeed issues for me. Avatar was too far down an coudln't extend his legs.
             // this.gazebo_model_pos_offset.y -= 0.25f;  // center of mesh is not the center of the model ?
@@ -389,7 +388,6 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private void PublishModelPoseTarget()
     {
-
         if ((model_position_last_published_ - local_avatar.transform.position).magnitude > model_position_publish_threshold ||
             (model_rotation_last_published_.eulerAngles - local_avatar.transform.rotation.eulerAngles).magnitude > model_rotation_publish_threshold)
         {
