@@ -24,8 +24,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
     public GameObject avatar_rig = null;
 
     public RigAngleTracker RigAngleTracker;
-
-    public bool useGazebo = false;
+    [SerializeField]
+    private bool use_gazebo = false;
 
     //public List<GameObject> published_links = null;
     //public bool publish_all_links = false;
@@ -63,15 +63,24 @@ public class UserAvatarService : Singleton<UserAvatarService>
     public float InitialI = 100f;
     public float InitialD = 500f;
 
+    [Header("Initial Joint Settings")]
+    [Header("Angular Drive X")]
+    public float initialAngularXDriveSpring = 3000;
+    public float initialAngularXDriveDamper = 600;
+    [Header("Angular Drive YZ")]
+    public float initialAngularYZDriveSpring = 3000;
+    public float initialAngularYZDriveDamper = 600;
+
     void Awake()
     {
-        if (useGazebo)
+        if (use_gazebo)
         {
             GzBridgeService.Instance.AddCallbackModelInfoMsg(this.OnModelInfoMsg);
             GzBridgeService.Instance.AddCallbackOnCloseConnection(this.DespawnAvatar);
         }
         else
         {
+            this.user_avatar = GameObject.FindGameObjectWithTag("Target");
             avatar_ready = true;
             OnAvatarSpawned(this);
         }
@@ -97,7 +106,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
             StartCoroutine(SpawnAvatar("user_avatar_ybot"));
         }
 
-        if (this.avatar_ready && useGazebo)
+        if (this.avatar_ready && use_gazebo)
         {
             // These tasks are now accomplished by RigAngleTracker on the avatar
             //GetJointPIDPositionTargets();
@@ -544,6 +553,10 @@ public class UserAvatarService : Singleton<UserAvatarService>
             model_rotation_last_published_ = avatar_rig.transform.rotation;
         }
 
+    }
+    public bool GetUseGazebo()
+    {
+        return use_gazebo;
     }
 
     #region legacy code

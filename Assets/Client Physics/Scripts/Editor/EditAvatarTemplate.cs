@@ -113,48 +113,73 @@ public class EditAvatarTemplate : EditorWindow
 
     void GetDictionary()
     {
-        List<HumanBodyBones> bones = new List<HumanBodyBones>();
+        Dictionary<HumanBodyBones, GameObject> chosenBones = new Dictionary<HumanBodyBones, GameObject>();
         Animator animator = ((GameObject)template).GetComponent<Animator>();
         BodyGroups bodyGroups = new BodyGroups(animator);
         switch (bodyGroup)
         {
-            case BodyGroups.BodyGroup.ALL_COMBINED: bones = bodyGroups.AllCombined().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.HEAD: bones = bodyGroups.Head().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.LEFT_ARM: bones = bodyGroups.LeftArm().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.LEFT_FOOT: bones = bodyGroups.LeftFoot().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.LEFT_HAND: bones = bodyGroups.LeftHand().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.LEFT_LEG: bones = bodyGroups.LeftLeg().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.RIGHT_ARM: bones = bodyGroups.RightArm().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.RIGHT_FOOT: bones = bodyGroups.RightFoot().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.RIGHT_HAND: bones = bodyGroups.RightHand().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.RIGHT_LEG: bones = bodyGroups.RightLeg().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.TRUNK: bones = bodyGroups.Trunk().Keys.ToList<HumanBodyBones>(); break;
-            case BodyGroups.BodyGroup.TRUNK_HEAD: bones = bodyGroups.TrunkHead().Keys.ToList<HumanBodyBones>(); break;
+            case BodyGroups.BodyGroup.ALL_COMBINED: chosenBones = bodyGroups.AllCombined(); break;
+            case BodyGroups.BodyGroup.HEAD: chosenBones = bodyGroups.Head(); break;
+            case BodyGroups.BodyGroup.LEFT_ARM: chosenBones = bodyGroups.LeftArm(); break;
+            case BodyGroups.BodyGroup.LEFT_FOOT: chosenBones = bodyGroups.LeftFoot(); break;
+            case BodyGroups.BodyGroup.LEFT_HAND: chosenBones = bodyGroups.LeftHand(); break;
+            case BodyGroups.BodyGroup.LEFT_LEG: chosenBones = bodyGroups.LeftLeg(); break;
+            case BodyGroups.BodyGroup.RIGHT_ARM: chosenBones = bodyGroups.RightArm(); break;
+            case BodyGroups.BodyGroup.RIGHT_FOOT: chosenBones = bodyGroups.RightFoot(); break;
+            case BodyGroups.BodyGroup.RIGHT_HAND: chosenBones = bodyGroups.RightHand(); break;
+            case BodyGroups.BodyGroup.RIGHT_LEG: chosenBones = bodyGroups.RightLeg(); break;
+            case BodyGroups.BodyGroup.TRUNK: chosenBones = bodyGroups.Trunk(); break;
+            case BodyGroups.BodyGroup.TRUNK_HEAD: chosenBones = bodyGroups.TrunkHead(); break;
             default: break;
         }
         //TODO: Clear bones of not selected groups
-        foreach (HumanBodyBones bone in bones)
-        {
-            if (gameObjectsPerBone.ContainsKey(bone) && !bones.Contains(bone))
-            {
-                Debug.Log(bone.ToString());
-                gameObjectsPerBone.Remove(bone);
-                jointSettings.Remove(bone);
-            }
-        }
-
-        foreach (HumanBodyBones bone in bones)
+        //gameObjectsPerBone.Keys.ToList().Clear();
+        //gameObjectsPerBone.Values.ToList().Clear();
+        //gameObjectsPerBone.Keys.ToList().AddRange(chosenBones.Keys);
+        /*
+        foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
         {
             //LastBone is not mapped to a bodypart, we need to skip it.
             if (bone != HumanBodyBones.LastBone && !gameObjectsPerBone.ContainsKey(bone))
             {
-                Transform boneTransformAvatar = animator.GetBoneTransform(bone);
-                if (boneTransformAvatar != null)
+                if (chosenBones.ContainsKey(bone))
                 {
-                    gameObjectsPerBone.Add(bone, boneTransformAvatar.gameObject);
-                    GetJointSettings(bone);
+                    Transform boneTransformAvatar = animator.GetBoneTransform(bone);
+                    if (boneTransformAvatar != null)
+                    {
+                        gameObjectsPerBone.Add(bone, boneTransformAvatar.gameObject);
+                        GetJointSettings(bone);
+                    }
                 }
-
+                else
+                {
+                    gameObjectsPerBone.Remove(bone);
+                }
+            }
+        }
+        */
+        foreach(HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
+        {
+            if (!bone.Equals(HumanBodyBones.LastBone))
+            {
+                if (chosenBones.ContainsKey(bone))
+                {
+                    Transform boneTransformAvatar = animator.GetBoneTransform(bone);
+                    if (boneTransformAvatar != null && !gameObjectsPerBone.ContainsKey(bone))
+                    {
+                        gameObjectsPerBone.Add(bone, boneTransformAvatar.gameObject);
+                        GetJointSettings(bone);
+                    }
+                }
+                else
+                {
+                    if (gameObjectsPerBone.ContainsKey(bone))
+                    {
+                        gameObjectsPerBone.Remove(bone);
+                        jointSettings.Remove(bone);
+                        jointSettingsNoLeft.Remove(bone);
+                    }
+                }
             }
         }
     }
@@ -169,7 +194,7 @@ public class EditAvatarTemplate : EditorWindow
             ConfigurableJoint joint = gameObjectsPerBone[bone].GetComponent<ConfigurableJoint>();
             if (joint != null)
             {
-                JointSettings setting = new JointSettings(bone.ToString(), joint.angularXDrive.positionSpring, joint.angularXDrive.positionDamper, joint.angularYZDrive.positionSpring, joint.angularYZDrive.positionDamper);
+                JointSettings setting = new JointSettings(bone, joint.angularXDrive.positionSpring, joint.angularXDrive.positionDamper, joint.angularYZDrive.positionSpring, joint.angularYZDrive.positionDamper);
                 jointSettings.Add(bone, setting);
                 if (!setting.bone.ToString().StartsWith("Left"))
                 {
@@ -209,7 +234,7 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="boneSettings">The JointSettings to show.</param>
     void DisplayJointSettingsOfBone(JointSettings boneSettings)
     {
-        boneSettings.showInEditor = EditorGUILayout.Foldout(boneSettings.showInEditor, boneSettings.bone, true);
+        boneSettings.showInEditor = EditorGUILayout.Foldout(boneSettings.showInEditor, boneSettings.bone.ToString(), true);
 
         if (boneSettings.showInEditor)
         {

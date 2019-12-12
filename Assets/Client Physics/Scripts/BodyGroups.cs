@@ -220,11 +220,12 @@ namespace UnityEngine
                     AddBoneToDictionary(HumanBodyBones.LeftThumbIntermediate, dict);
                     AddBoneToDictionary(HumanBodyBones.LeftThumbProximal, dict);
 
-                    AddBoneToDictionary(HumanBodyBones.RightUpperArm, dict);
-                    AddBoneToDictionary(HumanBodyBones.RightLowerArm, dict);
-                    AddBoneToDictionary(HumanBodyBones.RightHand, dict);
                     #endregion
                     #region RightArm
+                    AddBoneFromAllCombined(HumanBodyBones.RightUpperArm, dict);
+                    AddBoneToDictionary(HumanBodyBones.RightLowerArm, dict);
+                    AddBoneToDictionary(HumanBodyBones.RightHand, dict);
+
                     AddBoneToDictionary(HumanBodyBones.RightIndexDistal, dict);
                     AddBoneToDictionary(HumanBodyBones.RightIndexIntermediate, dict);
                     AddBoneToDictionary(HumanBodyBones.RightIndexProximal, dict);
@@ -376,7 +377,7 @@ namespace UnityEngine
         void AddBoneToDictionary(HumanBodyBones bone, Dictionary<HumanBodyBones, GameObject> dictionary)
         {
             Transform boneTransform = animator.GetBoneTransform(bone);
-            if(boneTransform != null)
+            if(boneTransform != null && !dictionary.ContainsKey(bone))
             {
                 dictionary.Add(bone, boneTransform.gameObject);
             }

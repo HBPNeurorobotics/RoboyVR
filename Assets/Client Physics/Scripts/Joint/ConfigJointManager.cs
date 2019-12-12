@@ -572,16 +572,10 @@ public class ConfigJointManager : MonoBehaviour
     {
     }
 
-    public void SetTagetTransform(HumanBodyBones bone, Transform target, Vector3 targetVelocity, Vector3 targetAngularVelocity)
+    public void SetTagetTransform(HumanBodyBones bone, Transform target)
     {
         if (!usesFixedJoint.Contains(bone) && gameObjectsFromBone.ContainsKey(bone) && gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() != null)
         {
-
-            /*
-            gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetVelocity = targetVelocity;
-            gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetAngularVelocity = targetAngularVelocity;
-            */
-
             ConfigurableJoint[] joints = gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>();
 
             for (int i = 0; i < joints.Length; i++)

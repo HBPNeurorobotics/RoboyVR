@@ -44,6 +44,7 @@ public class RigAngleTracker : MonoBehaviour
 
     private Dictionary<string, JointMapping> _jointMappings = new Dictionary<string, JointMapping>();
 
+    public UserAvatarService _userAvatar; 
     public Dictionary<string, float> GetJointToRadianMapping()
     {
         if (!_initialized)
@@ -60,6 +61,12 @@ public class RigAngleTracker : MonoBehaviour
 
         return _jointToRadians;
     }
+    /// <summary>
+    /// Provides access to dictionary of RemoteAvatar and TargetAvatar
+    /// </summary>
+    public AvatarManager _avatarManager;
+
+    private Dictionary<HumanBodyBones, GameObject> _jointMappingsClient = new Dictionary<HumanBodyBones, GameObject>();
 
     private void UpdateJointToRadians()
     {
@@ -113,174 +120,188 @@ public class RigAngleTracker : MonoBehaviour
 
     private void CreateMappingForRemoteAvatar()
     {
-        // These four joint links are unique to the remote avatar. The local avatar doesn't have them
+        if (_userAvatar.GetUseGazebo())
+        {
+            // These four joint links are unique to the remote avatar. The local avatar doesn't have them
 
-        const string L_ARM_JLINK1_NAME = "mixamorig_LeftArm_JointLink1";
-        const string L_ARM_JLINK2_NAME = "mixamorig_LeftArm_JointLink2";
+            const string L_ARM_JLINK1_NAME = "mixamorig_LeftArm_JointLink1";
+            const string L_ARM_JLINK2_NAME = "mixamorig_LeftArm_JointLink2";
 
-        const string R_ARM_JLINK1_NAME = "mixamorig_RightArm_JointLink1";
-        const string R_ARM_JLINK2_NAME = "mixamorig_RightArm_JointLink2";
+            const string R_ARM_JLINK1_NAME = "mixamorig_RightArm_JointLink1";
+            const string R_ARM_JLINK2_NAME = "mixamorig_RightArm_JointLink2";
 
-        Transform hips = FindChildTransformRecursive(transform, HIPS_NAME);
+            Transform hips = FindChildTransformRecursive(transform, HIPS_NAME);
 
-        Transform leftShoulder = FindChildTransformRecursive(transform, L_SHOULDER_NAME);
-        Transform rightShoulder = FindChildTransformRecursive(transform, R_SHOULDER_NAME);
+            Transform leftShoulder = FindChildTransformRecursive(transform, L_SHOULDER_NAME);
+            Transform rightShoulder = FindChildTransformRecursive(transform, R_SHOULDER_NAME);
 
-        Transform leftArm = FindChildTransformRecursive(transform, L_ARM_NAME);
-        Transform leftArm_jlink1 = FindChildTransformRecursive(transform, L_ARM_JLINK1_NAME);
-        Transform leftArm_jlink2 = FindChildTransformRecursive(transform, L_ARM_JLINK2_NAME);
+            Transform leftArm = FindChildTransformRecursive(transform, L_ARM_NAME);
+            Transform leftArm_jlink1 = FindChildTransformRecursive(transform, L_ARM_JLINK1_NAME);
+            Transform leftArm_jlink2 = FindChildTransformRecursive(transform, L_ARM_JLINK2_NAME);
 
-        Transform rightArm = FindChildTransformRecursive(transform, R_ARM_NAME);
-        Transform rightArm_jlink1 = FindChildTransformRecursive(transform, R_ARM_JLINK1_NAME);
-        Transform rightArm_jlink2 = FindChildTransformRecursive(transform, R_ARM_JLINK2_NAME);
+            Transform rightArm = FindChildTransformRecursive(transform, R_ARM_NAME);
+            Transform rightArm_jlink1 = FindChildTransformRecursive(transform, R_ARM_JLINK1_NAME);
+            Transform rightArm_jlink2 = FindChildTransformRecursive(transform, R_ARM_JLINK2_NAME);
 
-        Transform leftForeArm = FindChildTransformRecursive(transform, L_FORE_ARM_NAME);
-        Transform rightForeArm = FindChildTransformRecursive(transform, R_FORE_ARM_NAME);
+            Transform leftForeArm = FindChildTransformRecursive(transform, L_FORE_ARM_NAME);
+            Transform rightForeArm = FindChildTransformRecursive(transform, R_FORE_ARM_NAME);
 
-        Transform leftUpLeg = FindChildTransformRecursive(transform, L_UP_LEG_NAME);
-        Transform rightUpLeg = FindChildTransformRecursive(transform, R_UP_LEG_NAME);
+            Transform leftUpLeg = FindChildTransformRecursive(transform, L_UP_LEG_NAME);
+            Transform rightUpLeg = FindChildTransformRecursive(transform, R_UP_LEG_NAME);
 
-        Transform leftLeg = FindChildTransformRecursive(transform, L_LEG_NAME);
-        Transform rightLeg = FindChildTransformRecursive(transform, R_LEG_NAME);
+            Transform leftLeg = FindChildTransformRecursive(transform, L_LEG_NAME);
+            Transform rightLeg = FindChildTransformRecursive(transform, R_LEG_NAME);
 
-        Transform leftFoot = FindChildTransformRecursive(transform, L_FOOT_NAME);
-        Transform rightFoot = FindChildTransformRecursive(transform, R_FOOT_NAME);
+            Transform leftFoot = FindChildTransformRecursive(transform, L_FOOT_NAME);
+            Transform rightFoot = FindChildTransformRecursive(transform, R_FOOT_NAME);
 
-        // Left Arm
+            // Left Arm
 
-        _jointMappings[L_ARM_NAME + "_x"] =
-            new JointMapping(leftArm_jlink1, leftArm_jlink2, true, MappedEulerAngle.X);
+            _jointMappings[L_ARM_NAME + "_x"] =
+                new JointMapping(leftArm_jlink1, leftArm_jlink2, true, MappedEulerAngle.X);
 
-        _jointMappings[L_ARM_NAME + "_y"] =
-            new JointMapping(leftArm_jlink2, leftArm, true, MappedEulerAngle.Y);
+            _jointMappings[L_ARM_NAME + "_y"] =
+                new JointMapping(leftArm_jlink2, leftArm, true, MappedEulerAngle.Y);
 
-        _jointMappings[L_ARM_NAME + "_z"] =
-            new JointMapping(leftShoulder, leftArm_jlink1, true, MappedEulerAngle.InvertedZ);
+            _jointMappings[L_ARM_NAME + "_z"] =
+                new JointMapping(leftShoulder, leftArm_jlink1, true, MappedEulerAngle.InvertedZ);
 
-        // Right Arm
+            // Right Arm
 
-        _jointMappings[R_ARM_NAME + "_x"] =
-            new JointMapping(rightArm_jlink1, rightArm_jlink2, true, MappedEulerAngle.X);
+            _jointMappings[R_ARM_NAME + "_x"] =
+                new JointMapping(rightArm_jlink1, rightArm_jlink2, true, MappedEulerAngle.X);
 
-        _jointMappings[R_ARM_NAME + "_y"] =
-            new JointMapping(rightArm_jlink2, rightArm, true, MappedEulerAngle.Y);
+            _jointMappings[R_ARM_NAME + "_y"] =
+                new JointMapping(rightArm_jlink2, rightArm, true, MappedEulerAngle.Y);
 
-        _jointMappings[R_ARM_NAME + "_z"] =
-            new JointMapping(rightShoulder, rightArm_jlink1, true, MappedEulerAngle.InvertedZ);
+            _jointMappings[R_ARM_NAME + "_z"] =
+                new JointMapping(rightShoulder, rightArm_jlink1, true, MappedEulerAngle.InvertedZ);
 
-        // ForeArms
+            // ForeArms
 
-        _jointMappings[L_FORE_ARM_NAME] = 
-            new JointMapping(leftArm, leftForeArm, true, MappedEulerAngle.InvertedZ);
+            _jointMappings[L_FORE_ARM_NAME] =
+                new JointMapping(leftArm, leftForeArm, true, MappedEulerAngle.InvertedZ);
 
-        _jointMappings[R_FORE_ARM_NAME] = 
-            new JointMapping(rightArm, rightForeArm, true, MappedEulerAngle.InvertedZ);
+            _jointMappings[R_FORE_ARM_NAME] =
+                new JointMapping(rightArm, rightForeArm, true, MappedEulerAngle.InvertedZ);
 
-        // Upper Legs
+            // Upper Legs
 
-        _jointMappings[L_UP_LEG_NAME] = new JointMapping(hips, leftUpLeg, true, MappedEulerAngle.X);
+            _jointMappings[L_UP_LEG_NAME] = new JointMapping(hips, leftUpLeg, true, MappedEulerAngle.X);
 
-        _jointMappings[R_UP_LEG_NAME] = new JointMapping(hips, rightUpLeg, true, MappedEulerAngle.X);
+            _jointMappings[R_UP_LEG_NAME] = new JointMapping(hips, rightUpLeg, true, MappedEulerAngle.X);
 
-        // Lower Legs
+            // Lower Legs
 
-        _jointMappings[L_LEG_NAME] = new JointMapping(leftUpLeg, leftLeg, true, MappedEulerAngle.X);
+            _jointMappings[L_LEG_NAME] = new JointMapping(leftUpLeg, leftLeg, true, MappedEulerAngle.X);
 
-        _jointMappings[R_LEG_NAME] = new JointMapping(rightUpLeg, rightLeg, true, MappedEulerAngle.X);
+            _jointMappings[R_LEG_NAME] = new JointMapping(rightUpLeg, rightLeg, true, MappedEulerAngle.X);
 
-        // Feet
+            // Feet
 
-        _jointMappings[L_FOOT_NAME] = new JointMapping(leftLeg, leftFoot, true, MappedEulerAngle.X);
+            _jointMappings[L_FOOT_NAME] = new JointMapping(leftLeg, leftFoot, true, MappedEulerAngle.X);
 
-        _jointMappings[R_FOOT_NAME] = new JointMapping(rightLeg, rightFoot, true, MappedEulerAngle.X);
+            _jointMappings[R_FOOT_NAME] = new JointMapping(rightLeg, rightFoot, true, MappedEulerAngle.X);
+        }
+        else
+        {
+            _jointMappingsClient = _avatarManager.GetGameObjectPerBoneAvatarDictionary();
+        }
     }
 
     private void CreateMappingForLocalAvatar()
     {
-        // Note: With a bunch of clever string manipulation, it would be possible to get rid of all "left"/"right" distinctions here.
-        // In all honesty, I  was just too lazy to do it.
+        if (_userAvatar.GetUseGazebo())
+        {
+            // Note: With a bunch of clever string manipulation, it would be possible to get rid of all "left"/"right" distinctions here.
+            // In all honesty, I  was just too lazy to do it.
 
-        /*
-         * Hierarchy (symmetry):
-         * - HIPS
-         *   - UP_LEG
-         *     - LEG
-         *       - FOOT
-         *   - [Various un-tracked spiny things]
-         *     - SPINE2
-         *       - SHOULDER
-         *         - ARM
-         *           - FORE_ARM
-         */
+            /*
+             * Hierarchy (symmetry):
+             * - HIPS
+             *   - UP_LEG
+             *     - LEG
+             *       - FOOT
+             *   - [Various un-tracked spiny things]
+             *     - SPINE2
+             *       - SHOULDER
+             *         - ARM
+             *           - FORE_ARM
+             */
 
-        // Find all relevant transforms in the hierarchy
-        Transform hips = FindChildTransformRecursive(transform, HIPS_NAME);
+            // Find all relevant transforms in the hierarchy
+            Transform hips = FindChildTransformRecursive(transform, HIPS_NAME);
 
-        Transform leftShoulder = FindChildTransformRecursive(transform, L_SHOULDER_NAME);
-        Transform rightShoulder = FindChildTransformRecursive(transform, R_SHOULDER_NAME);
+            Transform leftShoulder = FindChildTransformRecursive(transform, L_SHOULDER_NAME);
+            Transform rightShoulder = FindChildTransformRecursive(transform, R_SHOULDER_NAME);
 
-        Transform leftArm = FindChildTransformRecursive(transform, L_ARM_NAME);
-        Transform rightArm = FindChildTransformRecursive(transform, R_ARM_NAME);
+            Transform leftArm = FindChildTransformRecursive(transform, L_ARM_NAME);
+            Transform rightArm = FindChildTransformRecursive(transform, R_ARM_NAME);
 
-        Transform leftForeArm = FindChildTransformRecursive(transform, L_FORE_ARM_NAME);
-        Transform rightForeArm = FindChildTransformRecursive(transform, R_FORE_ARM_NAME);
+            Transform leftForeArm = FindChildTransformRecursive(transform, L_FORE_ARM_NAME);
+            Transform rightForeArm = FindChildTransformRecursive(transform, R_FORE_ARM_NAME);
 
-        Transform leftUpLeg = FindChildTransformRecursive(transform, L_UP_LEG_NAME);
-        Transform rightUpLeg = FindChildTransformRecursive(transform, R_UP_LEG_NAME);
+            Transform leftUpLeg = FindChildTransformRecursive(transform, L_UP_LEG_NAME);
+            Transform rightUpLeg = FindChildTransformRecursive(transform, R_UP_LEG_NAME);
 
-        Transform leftLeg = FindChildTransformRecursive(transform, L_LEG_NAME);
-        Transform rightLeg = FindChildTransformRecursive(transform, R_LEG_NAME);
+            Transform leftLeg = FindChildTransformRecursive(transform, L_LEG_NAME);
+            Transform rightLeg = FindChildTransformRecursive(transform, R_LEG_NAME);
 
-        Transform leftFoot = FindChildTransformRecursive(transform, L_FOOT_NAME);
-        Transform rightFoot = FindChildTransformRecursive(transform, R_FOOT_NAME);
+            Transform leftFoot = FindChildTransformRecursive(transform, L_FOOT_NAME);
+            Transform rightFoot = FindChildTransformRecursive(transform, R_FOOT_NAME);
 
-        // Update Functions. These were extracted from UserAvatarService "GetJointPIDPositionTargetsJointStatesMsg"
+            // Update Functions. These were extracted from UserAvatarService "GetJointPIDPositionTargetsJointStatesMsg"
 
-        // Left Arm
+            // Left Arm
 
-        _jointMappings[L_ARM_NAME + "_x"] =
-            new JointMapping(leftShoulder, leftArm, false, MappedEulerAngle.X);
+            _jointMappings[L_ARM_NAME + "_x"] =
+                new JointMapping(leftShoulder, leftArm, false, MappedEulerAngle.X);
 
-        _jointMappings[L_ARM_NAME + "_y"] =
-            new JointMapping(leftShoulder, leftArm, false, MappedEulerAngle.InvertedZ);
+            _jointMappings[L_ARM_NAME + "_y"] =
+                new JointMapping(leftShoulder, leftArm, false, MappedEulerAngle.InvertedZ);
 
-        _jointMappings[L_ARM_NAME + "_z"] =
-            new JointMapping(leftShoulder, leftArm, false, MappedEulerAngle.Y);
+            _jointMappings[L_ARM_NAME + "_z"] =
+                new JointMapping(leftShoulder, leftArm, false, MappedEulerAngle.Y);
 
-        // Right Arm
+            // Right Arm
 
-        _jointMappings[R_ARM_NAME + "_x"] =
-            new JointMapping(rightShoulder, rightArm, false, MappedEulerAngle.X);
+            _jointMappings[R_ARM_NAME + "_x"] =
+                new JointMapping(rightShoulder, rightArm, false, MappedEulerAngle.X);
 
-        _jointMappings[R_ARM_NAME + "_y"] =
-            new JointMapping(rightShoulder, rightArm, false, MappedEulerAngle.InvertedZ);
+            _jointMappings[R_ARM_NAME + "_y"] =
+                new JointMapping(rightShoulder, rightArm, false, MappedEulerAngle.InvertedZ);
 
-        _jointMappings[R_ARM_NAME + "_z"] =
-            new JointMapping(rightShoulder, rightArm, false, MappedEulerAngle.Y);
+            _jointMappings[R_ARM_NAME + "_z"] =
+                new JointMapping(rightShoulder, rightArm, false, MappedEulerAngle.Y);
 
-        // ForeArms
+            // ForeArms
 
-        _jointMappings[L_FORE_ARM_NAME] = new JointMapping(leftArm, leftForeArm, false, MappedEulerAngle.Y);
+            _jointMappings[L_FORE_ARM_NAME] = new JointMapping(leftArm, leftForeArm, false, MappedEulerAngle.Y);
 
-        _jointMappings[R_FORE_ARM_NAME] = new JointMapping(rightArm, rightForeArm, false, MappedEulerAngle.Y);
+            _jointMappings[R_FORE_ARM_NAME] = new JointMapping(rightArm, rightForeArm, false, MappedEulerAngle.Y);
 
-        // Upper Legs
+            // Upper Legs
 
-        _jointMappings[L_UP_LEG_NAME] = new JointMapping(hips, leftUpLeg, false, MappedEulerAngle.X);
+            _jointMappings[L_UP_LEG_NAME] = new JointMapping(hips, leftUpLeg, false, MappedEulerAngle.X);
 
-        _jointMappings[R_UP_LEG_NAME] = new JointMapping(hips, rightUpLeg, false, MappedEulerAngle.X);
+            _jointMappings[R_UP_LEG_NAME] = new JointMapping(hips, rightUpLeg, false, MappedEulerAngle.X);
 
-        // Lower Legs
+            // Lower Legs
 
-        _jointMappings[L_LEG_NAME] = new JointMapping(leftUpLeg, leftLeg, false, MappedEulerAngle.X);
+            _jointMappings[L_LEG_NAME] = new JointMapping(leftUpLeg, leftLeg, false, MappedEulerAngle.X);
 
-        _jointMappings[R_LEG_NAME] = new JointMapping(rightUpLeg, rightLeg, false, MappedEulerAngle.X);
+            _jointMappings[R_LEG_NAME] = new JointMapping(rightUpLeg, rightLeg, false, MappedEulerAngle.X);
 
-        // Feet
+            // Feet
 
-        _jointMappings[L_FOOT_NAME] = new JointMapping(leftLeg, leftFoot, false, MappedEulerAngle.X);
+            _jointMappings[L_FOOT_NAME] = new JointMapping(leftLeg, leftFoot, false, MappedEulerAngle.X);
 
-        _jointMappings[R_FOOT_NAME] = new JointMapping(rightLeg, rightFoot, false, MappedEulerAngle.X);
+            _jointMappings[R_FOOT_NAME] = new JointMapping(rightLeg, rightFoot, false, MappedEulerAngle.X);
+        }
+        else
+        {
+            _jointMappingsClient = _avatarManager.GetGameObjectPerBoneTargetDictionary();
+        }
     }
 
     /// <summary>

@@ -289,10 +289,10 @@ public class AvatarManager : MonoBehaviour
         {
             //gameObjectPerBoneRemoteAvatar[bone].GetComponent<Rigidbody>().freezeRotation = false;
             Rigidbody targetRigidbody = gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>();
-            configJointManager.SetTagetTransform(bone, gameObjectPerBoneTarget[bone].transform, targetRigidbody.velocity, targetRigidbody.angularVelocity);
+            configJointManager.SetTagetTransform(bone, gameObjectPerBoneTarget[bone].transform);
         }
     }
-
+    /*
     void UpdateJointsRecursive(Transform boneTransform)
     {
         HumanBodyBones tmpBone;
@@ -333,7 +333,7 @@ public class AvatarManager : MonoBehaviour
             gameObjectPerBoneRemoteAvatar[bone].GetComponent<ConfigurableJoint>().connectedBody.freezeRotation = false;
         }
     }
-
+    */
 
     public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneAvatarDictionary()
     {

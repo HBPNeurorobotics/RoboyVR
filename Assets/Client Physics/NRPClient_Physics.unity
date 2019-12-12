@@ -2059,161 +2059,6 @@ CapsuleCollider:
   m_Height: 0.52539974
   m_Direction: 1
   m_Center: {x: 0, y: -0.26269987, z: 0}
---- !u!43 &115276287
-Mesh:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  serializedVersion: 9
-  m_SubMeshes:
-  - serializedVersion: 2
-    firstByte: 0
-    indexCount: 24
-    topology: 0
-    baseVertex: 0
-    firstVertex: 0
-    vertexCount: 8
-    localAABB:
-      m_Center: {x: 0, y: 0.01, z: 0}
-      m_Extent: {x: 1.65, y: 0, z: 1.275}
-  m_Shapes:
-    vertices: []
-    shapes: []
-    channels: []
-    fullWeights: []
-  m_BindPose: []
-  m_BoneNameHashes: 
-  m_RootBoneNameHash: 0
-  m_MeshCompression: 0
-  m_IsReadable: 1
-  m_KeepVertices: 1
-  m_KeepIndices: 1
-  m_IndexFormat: 0
-  m_IndexBuffer: 000004000100010004000500010005000200020005000600020006000300030006000700030007000000000007000400
-  m_VertexData:
-    serializedVersion: 2
-    m_VertexCount: 8
-    m_Channels:
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 3
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 12
-      format: 0
-      dimension: 4
-    - stream: 0
-      offset: 28
-      format: 0
-      dimension: 2
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    - stream: 0
-      offset: 0
-      format: 0
-      dimension: 0
-    m_DataSize: 288
-    _typelessdata: 0000c03f0ad7233c000090bf000000000000803f0000803f0000803f00000000000000000000c0bf0ad7233c000090bf000000000000803f0000803f0000803f0000803f000000000000c0bf0ad7233c0000903f000000000000803f0000803f0000803f00000000000000000000c03f0ad7233c0000903f000000000000803f0000803f0000803f0000803f000000003333d33f0ad7233c3333a3bf000000000000803f0000803f00000000000000000000803f3333d3bf0ad7233c3333a3bf000000000000803f0000803f000000000000803f0000803f3333d3bf0ad7233c3333a33f000000000000803f0000803f00000000000000000000803f3333d33f0ad7233c3333a33f000000000000803f0000803f000000000000803f0000803f
-  m_CompressedMesh:
-    m_Vertices:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UV:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Normals:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Tangents:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Weights:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_NormalSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_TangentSigns:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_FloatColors:
-      m_NumItems: 0
-      m_Range: 0
-      m_Start: 0
-      m_Data: 
-      m_BitSize: 0
-    m_BoneIndices:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_Triangles:
-      m_NumItems: 0
-      m_Data: 
-      m_BitSize: 0
-    m_UVInfo: 0
-  m_LocalAABB:
-    m_Center: {x: 0, y: 0.01, z: 0}
-    m_Extent: {x: 1.65, y: 0, z: 1.275}
-  m_MeshUsageFlags: 0
-  m_BakedConvexCollisionMesh: 
-  m_BakedTriangleCollisionMesh: 
-  m_MeshMetrics[0]: 1
-  m_MeshMetrics[1]: 1
-  m_MeshOptimized: 0
 --- !u!1 &123348502
 GameObject:
   m_ObjectHideFlags: 0
@@ -2495,7 +2340,7 @@ MeshFilter:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 129591123}
-  m_Mesh: {fileID: 115276287}
+  m_Mesh: {fileID: 352543370}
 --- !u!23 &129591126
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2512,7 +2357,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 0
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 168351813}
+  - {fileID: 1821211406}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3351,39 +3196,6 @@ MonoBehaviour:
   kp: 1
   ki: 1
   kd: 1
---- !u!21 &168351813
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &170243083 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100134, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
@@ -6034,6 +5846,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _userAvatar: {fileID: 0}
+  _avatarManager: {fileID: 0}
 --- !u!95 &309789276
 Animator:
   serializedVersion: 3
@@ -6918,6 +6732,161 @@ Transform:
   m_Father: {fileID: 970669864}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!43 &352543370
+Mesh:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  serializedVersion: 9
+  m_SubMeshes:
+  - serializedVersion: 2
+    firstByte: 0
+    indexCount: 24
+    topology: 0
+    baseVertex: 0
+    firstVertex: 0
+    vertexCount: 8
+    localAABB:
+      m_Center: {x: 0, y: 0.01, z: 0}
+      m_Extent: {x: 1.65, y: 0, z: 1.275}
+  m_Shapes:
+    vertices: []
+    shapes: []
+    channels: []
+    fullWeights: []
+  m_BindPose: []
+  m_BoneNameHashes: 
+  m_RootBoneNameHash: 0
+  m_MeshCompression: 0
+  m_IsReadable: 1
+  m_KeepVertices: 1
+  m_KeepIndices: 1
+  m_IndexFormat: 0
+  m_IndexBuffer: 000004000100010004000500010005000200020005000600020006000300030006000700030007000000000007000400
+  m_VertexData:
+    serializedVersion: 2
+    m_VertexCount: 8
+    m_Channels:
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 3
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 12
+      format: 0
+      dimension: 4
+    - stream: 0
+      offset: 28
+      format: 0
+      dimension: 2
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    - stream: 0
+      offset: 0
+      format: 0
+      dimension: 0
+    m_DataSize: 288
+    _typelessdata: 0000c03f0ad7233c000090bf000000000000803f0000803f0000803f00000000000000000000c0bf0ad7233c000090bf000000000000803f0000803f0000803f0000803f000000000000c0bf0ad7233c0000903f000000000000803f0000803f0000803f00000000000000000000c03f0ad7233c0000903f000000000000803f0000803f0000803f0000803f000000003333d33f0ad7233c3333a3bf000000000000803f0000803f00000000000000000000803f3333d3bf0ad7233c3333a3bf000000000000803f0000803f000000000000803f0000803f3333d3bf0ad7233c3333a33f000000000000803f0000803f00000000000000000000803f3333d33f0ad7233c3333a33f000000000000803f0000803f000000000000803f0000803f
+  m_CompressedMesh:
+    m_Vertices:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UV:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Normals:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Tangents:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Weights:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_NormalSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_TangentSigns:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_FloatColors:
+      m_NumItems: 0
+      m_Range: 0
+      m_Start: 0
+      m_Data: 
+      m_BitSize: 0
+    m_BoneIndices:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_Triangles:
+      m_NumItems: 0
+      m_Data: 
+      m_BitSize: 0
+    m_UVInfo: 0
+  m_LocalAABB:
+    m_Center: {x: 0, y: 0.01, z: 0}
+    m_Extent: {x: 1.65, y: 0, z: 1.275}
+  m_MeshUsageFlags: 0
+  m_BakedConvexCollisionMesh: 
+  m_BakedTriangleCollisionMesh: 
+  m_MeshMetrics[0]: 1
+  m_MeshMetrics[1]: 1
+  m_MeshOptimized: 0
 --- !u!1 &359819100
 GameObject:
   m_ObjectHideFlags: 0
@@ -9482,6 +9451,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _userAvatar: {fileID: 0}
+  _avatarManager: {fileID: 0}
 --- !u!95 &546811993
 Animator:
   serializedVersion: 3
@@ -17316,6 +17287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _userAvatar: {fileID: 0}
+  _avatarManager: {fileID: 0}
 --- !u!114 &1020058611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17457,6 +17430,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar_rig: {fileID: 0}
   RigAngleTracker: {fileID: 0}
+  use_gazebo: 0
   publish_threshold_joints: 0.01
   publish_frequency_joints: 0.5
   model_position_publish_threshold: 0.1
@@ -17464,6 +17438,10 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
+  initialAngularXDriveSpring: 3000
+  initialAngularXDriveDamper: 600
+  initialAngularYZDriveSpring: 3000
+  initialAngularYZDriveDamper: 600
 --- !u!114 &1028724064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17488,7 +17466,7 @@ GameObject:
   - component: {fileID: 1035547226}
   m_Layer: 0
   m_Name: UserAvatarService
-  m_TagString: Untagged
+  m_TagString: UserAvatar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17521,6 +17499,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar_rig: {fileID: 1899631920}
   RigAngleTracker: {fileID: 1899631921}
+  use_gazebo: 0
   publish_threshold_joints: 0.01
   publish_frequency_joints: 0.1
   model_position_publish_threshold: 0.1
@@ -17528,6 +17507,10 @@ MonoBehaviour:
   InitialP: 10000
   InitialI: 1000
   InitialD: 1000
+  initialAngularXDriveSpring: 3000
+  initialAngularXDriveDamper: 600
+  initialAngularYZDriveSpring: 3000
+  initialAngularYZDriveDamper: 600
 --- !u!1 &1038413342
 GameObject:
   m_ObjectHideFlags: 0
@@ -21733,6 +21716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _userAvatar: {fileID: 0}
+  _avatarManager: {fileID: 0}
 --- !u!95 &1244919177
 Animator:
   serializedVersion: 3
@@ -23215,6 +23200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar_rig: {fileID: 0}
   RigAngleTracker: {fileID: 0}
+  use_gazebo: 0
   publish_threshold_joints: 0.01
   publish_frequency_joints: 0.5
   model_position_publish_threshold: 0.1
@@ -23222,6 +23208,10 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
+  initialAngularXDriveSpring: 3000
+  initialAngularXDriveDamper: 600
+  initialAngularYZDriveSpring: 3000
+  initialAngularYZDriveDamper: 600
 --- !u!4 &1301142376
 Transform:
   m_ObjectHideFlags: 0
@@ -23562,22 +23552,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400138, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
     type: 3}
   m_PrefabInternal: {fileID: 1328485834}
---- !u!1 &1328485836 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100138, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
-    type: 3}
-  m_PrefabInternal: {fileID: 1328485834}
---- !u!114 &1328485839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1328485836}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1329994744
 GameObject:
   m_ObjectHideFlags: 0
@@ -24229,6 +24203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar_rig: {fileID: 0}
   RigAngleTracker: {fileID: 0}
+  use_gazebo: 0
   publish_threshold_joints: 0.01
   publish_frequency_joints: 0.5
   model_position_publish_threshold: 0.1
@@ -24236,6 +24211,10 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
+  initialAngularXDriveSpring: 3000
+  initialAngularXDriveDamper: 600
+  initialAngularYZDriveSpring: 3000
+  initialAngularYZDriveDamper: 600
 --- !u!4 &1353312762
 Transform:
   m_ObjectHideFlags: 0
@@ -24425,6 +24404,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _userAvatar: {fileID: 0}
+  _avatarManager: {fileID: 0}
 --- !u!95 &1366397134
 Animator:
   serializedVersion: 3
@@ -25057,6 +25038,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar_rig: {fileID: 0}
   RigAngleTracker: {fileID: 0}
+  use_gazebo: 0
   publish_threshold_joints: 0.01
   publish_frequency_joints: 0.5
   model_position_publish_threshold: 0.1
@@ -25064,6 +25046,10 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
+  initialAngularXDriveSpring: 3000
+  initialAngularXDriveDamper: 600
+  initialAngularYZDriveSpring: 3000
+  initialAngularYZDriveDamper: 600
 --- !u!1 &1415514336
 GameObject:
   m_ObjectHideFlags: 0
@@ -28460,7 +28446,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1626103712
 Transform:
   m_ObjectHideFlags: 0
@@ -29056,1886 +29042,37 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4275533568125134, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
+    - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275533568125134, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
+    - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275533568125134, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
+    - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275533568125134, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
+    - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275533568125134, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
+    - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275533568125134, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
+    - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 4275533568125134, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
+    - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4275533568125134, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
+    - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_RootOrder
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 153069678074496182, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.x
-      value: 0.000000051647298
-      objectReference: {fileID: 0}
-    - target: {fileID: 153069678074496182, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.y
-      value: 0.9979194
-      objectReference: {fileID: 0}
-    - target: {fileID: 153069678074496182, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_ConnectedAnchor.z
-      value: 0.000000478626
-      objectReference: {fileID: 0}
-    - target: {fileID: 153069678074496182, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153493977034060346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153404854486191136, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153693925550001112, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153880505690427592, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153643169531241888, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153470836873040050, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153242857370753588, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153283264764414640, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153721727468044506, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153814471891081476, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153877169997407532, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153945840113084356, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153343230949870210, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153287433676170906, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153905859058946006, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153158375625572034, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153423169326607488, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153140729302572684, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153922298675116934, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153202182335660628, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153586326839894398, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153263753847820222, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153575550522382966, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153063037539931138, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153370398418433674, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153972982468332372, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153686950720781704, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153723182981427156, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153005370956078384, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153098273711785346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153318189679354192, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153585513802784098, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153186989212731744, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153084688187657042, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153660110913298722, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153356009439168362, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153274066344951088, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153021272682016586, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153803053185970438, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153827577942480186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153542145876318842, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153517062346269074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153568417203889886, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153962358110134118, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153489874334019400, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153362395285299982, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153979202221700068, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153628398368384546, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153315300293392760, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153358344998502792, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153649013727835630, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153069678074496182, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_EnablePreprocessing
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 54028509864283674, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54642922692154850, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 11.1528
-      objectReference: {fileID: 0}
-    - target: {fileID: 54197844841607466, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54198311978670324, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54981203539917294, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 3.2904
-      objectReference: {fileID: 0}
-    - target: {fileID: 54360846806198166, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 4.2552004
-      objectReference: {fileID: 0}
-    - target: {fileID: 54939737614496988, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54356581283511450, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 4.9031997
-      objectReference: {fileID: 0}
-    - target: {fileID: 54868186041928638, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54956697879317970, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54694624849600820, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 10.4184
-      objectReference: {fileID: 0}
-    - target: {fileID: 54324459191863730, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54607516442790236, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 4.2552004
-      objectReference: {fileID: 0}
-    - target: {fileID: 54844197472786538, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 1.8936
-      objectReference: {fileID: 0}
-    - target: {fileID: 54862221851090506, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54973062575204552, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 1.8936
-      objectReference: {fileID: 0}
-    - target: {fileID: 54171147282437936, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54683600270839446, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54230484820042216, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 3.2904
-      objectReference: {fileID: 0}
-    - target: {fileID: 54533797768134696, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54894392539040432, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.42119998
-      objectReference: {fileID: 0}
-    - target: {fileID: 54408785862915388, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 1.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 54425518637046200, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 3.7691998
-      objectReference: {fileID: 0}
-    - target: {fileID: 54469959124923392, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.42119998
-      objectReference: {fileID: 0}
-    - target: {fileID: 54747082981700334, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 3.7691998
-      objectReference: {fileID: 0}
-    - target: {fileID: 54008130039695672, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54371460908810796, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 10.4184
-      objectReference: {fileID: 0}
-    - target: {fileID: 54662816155595736, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54522894158787946, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54665756317844874, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54596546315314188, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54330302702631804, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 3.7691998
-      objectReference: {fileID: 0}
-    - target: {fileID: 54577655447916042, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54793301695043080, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54458270377672814, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54835163605438750, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54672908256010570, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.9576
-      objectReference: {fileID: 0}
-    - target: {fileID: 54478888260640914, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54401809434367498, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54640538699264276, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54883924264939846, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.9576
-      objectReference: {fileID: 0}
-    - target: {fileID: 54061272648529708, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54554450924471754, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54137296956585504, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54557902142609060, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54948529966004630, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54406835973415410, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54576994766572810, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54112933433961448, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54768784475070340, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54732996397061514, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.02
-      objectReference: {fileID: 0}
-    - target: {fileID: 54337225029800822, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 1.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 153186989212731744, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 1812213255410952, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 137632881541419034, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153098273711785346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153098273711785346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153098273711785346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153098273711785346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153649013727835630, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153649013727835630, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153649013727835630, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153649013727835630, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153063037539931138, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153063037539931138, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153063037539931138, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153063037539931138, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153158375625572034, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153158375625572034, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153158375625572034, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153158375625572034, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153814471891081476, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153814471891081476, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153814471891081476, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153814471891081476, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153517062346269074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153517062346269074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153517062346269074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153517062346269074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153358344998502792, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153358344998502792, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153358344998502792, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153358344998502792, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153586326839894398, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153586326839894398, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153586326839894398, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153586326839894398, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153585513802784098, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153585513802784098, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153585513802784098, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153585513802784098, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153242857370753588, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153242857370753588, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153242857370753588, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153242857370753588, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153470836873040050, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153470836873040050, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153470836873040050, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153470836873040050, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153356009439168362, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153356009439168362, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153356009439168362, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153356009439168362, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153274066344951088, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153274066344951088, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153274066344951088, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153274066344951088, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153542145876318842, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153542145876318842, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153542145876318842, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153542145876318842, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153905859058946006, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153905859058946006, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153905859058946006, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153905859058946006, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153575550522382966, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153575550522382966, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153575550522382966, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153575550522382966, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153686950720781704, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153686950720781704, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153686950720781704, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153686950720781704, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153568417203889886, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153568417203889886, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153568417203889886, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153568417203889886, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153945840113084356, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153945840113084356, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153945840113084356, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153945840113084356, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153628398368384546, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153628398368384546, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153628398368384546, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153628398368384546, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153263753847820222, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153263753847820222, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153263753847820222, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153263753847820222, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153493977034060346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153493977034060346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153493977034060346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153493977034060346, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153287433676170906, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153287433676170906, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153287433676170906, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153287433676170906, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153489874334019400, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153489874334019400, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153489874334019400, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153489874334019400, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153283264764414640, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153283264764414640, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153283264764414640, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153283264764414640, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153922298675116934, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153922298675116934, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153922298675116934, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153922298675116934, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153318189679354192, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153318189679354192, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153318189679354192, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153318189679354192, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153021272682016586, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153021272682016586, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153021272682016586, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153021272682016586, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153880505690427592, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153880505690427592, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153880505690427592, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153880505690427592, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153343230949870210, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153343230949870210, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153343230949870210, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153343230949870210, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153972982468332372, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153972982468332372, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153972982468332372, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153972982468332372, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153315300293392760, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153315300293392760, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153315300293392760, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153315300293392760, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153423169326607488, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153423169326607488, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153423169326607488, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153423169326607488, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153660110913298722, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153660110913298722, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153660110913298722, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153660110913298722, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153140729302572684, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153140729302572684, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153140729302572684, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153140729302572684, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153877169997407532, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153877169997407532, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153877169997407532, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153877169997407532, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153723182981427156, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153723182981427156, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153723182981427156, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153723182981427156, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153005370956078384, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153005370956078384, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153005370956078384, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153005370956078384, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153721727468044506, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153721727468044506, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153721727468044506, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153721727468044506, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153827577942480186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153827577942480186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153827577942480186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153827577942480186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153202182335660628, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153202182335660628, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153202182335660628, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153202182335660628, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153803053185970438, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153803053185970438, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153803053185970438, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153803053185970438, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153084688187657042, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153084688187657042, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153084688187657042, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153084688187657042, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153979202221700068, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153979202221700068, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153979202221700068, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153979202221700068, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153404854486191136, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153404854486191136, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153404854486191136, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153404854486191136, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153643169531241888, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153643169531241888, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153643169531241888, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153643169531241888, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153186989212731744, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153186989212731744, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153186989212731744, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153186989212731744, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153962358110134118, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153962358110134118, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153962358110134118, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153962358110134118, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153693925550001112, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153693925550001112, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153693925550001112, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153693925550001112, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153362395285299982, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153362395285299982, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153362395285299982, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153362395285299982, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153370398418433674, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153370398418433674, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153370398418433674, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153370398418433674, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153069678074496182, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153069678074496182, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 4000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153069678074496182, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 54694624849600820, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54862221851090506, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54662816155595736, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54061272648529708, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54458270377672814, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54406835973415410, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54793301695043080, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54324459191863730, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54981203539917294, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54973062575204552, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54356581283511450, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54554450924471754, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54008130039695672, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54360846806198166, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54137296956585504, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54844197472786538, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54768784475070340, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54732996397061514, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54883924264939846, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54747082981700334, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54894392539040432, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54956697879317970, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54557902142609060, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54028509864283674, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54469959124923392, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54401809434367498, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54672908256010570, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54171147282437936, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54112933433961448, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54230484820042216, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54948529966004630, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54665756317844874, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54642922692154850, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54197844841607466, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54640538699264276, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54607516442790236, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54868186041928638, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54337225029800822, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54577655447916042, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54425518637046200, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54198311978670324, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54371460908810796, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54522894158787946, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54533797768134696, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54576994766572810, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54330302702631804, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54939737614496988, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54683600270839446, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54596546315314188, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54408785862915388, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54835163605438750, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 54478888260640914, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_UseGravity
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
@@ -31013,6 +29150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar_rig: {fileID: 0}
   RigAngleTracker: {fileID: 0}
+  use_gazebo: 0
   publish_threshold_joints: 0.01
   publish_frequency_joints: 0.1
   model_position_publish_threshold: 0.1
@@ -31020,6 +29158,10 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
+  initialAngularXDriveSpring: 3000
+  initialAngularXDriveDamper: 600
+  initialAngularYZDriveSpring: 3000
+  initialAngularYZDriveDamper: 600
 --- !u!114 &1690760950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31293,6 +29435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar_rig: {fileID: 0}
   RigAngleTracker: {fileID: 0}
+  use_gazebo: 0
   publish_threshold_joints: 0.01
   publish_frequency_joints: 0.5
   model_position_publish_threshold: 0.1
@@ -31300,6 +29443,10 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
+  initialAngularXDriveSpring: 3000
+  initialAngularXDriveDamper: 600
+  initialAngularYZDriveSpring: 3000
+  initialAngularYZDriveDamper: 600
 --- !u!1 &1721071145
 GameObject:
   m_ObjectHideFlags: 0
@@ -33652,6 +31799,39 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!21 &1821211406
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1822262863
 GameObject:
   m_ObjectHideFlags: 0
@@ -34888,6 +33068,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _userAvatar: {fileID: 1035547226}
+  _avatarManager: {fileID: 1690760948}
 --- !u!114 &1899631922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34976,7 +33158,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1906616307
 Transform:
   m_ObjectHideFlags: 0
@@ -35004,6 +33186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar_rig: {fileID: 0}
   RigAngleTracker: {fileID: 0}
+  use_gazebo: 0
   publish_threshold_joints: 0.01
   publish_frequency_joints: 0.5
   model_position_publish_threshold: 0.1
@@ -35011,6 +33194,10 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
+  initialAngularXDriveSpring: 3000
+  initialAngularXDriveDamper: 600
+  initialAngularYZDriveSpring: 3000
+  initialAngularYZDriveDamper: 600
 --- !u!1 &1908728952
 GameObject:
   m_ObjectHideFlags: 0
@@ -35355,6 +33542,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _userAvatar: {fileID: 0}
+  _avatarManager: {fileID: 0}
 --- !u!1 &1934042002
 GameObject:
   m_ObjectHideFlags: 0
@@ -37616,6 +35805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   avatar_rig: {fileID: 0}
   RigAngleTracker: {fileID: 0}
+  use_gazebo: 0
   publish_threshold_joints: 0.01
   publish_frequency_joints: 0.5
   model_position_publish_threshold: 0.1
@@ -37623,6 +35813,10 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
+  initialAngularXDriveSpring: 3000
+  initialAngularXDriveDamper: 600
+  initialAngularYZDriveSpring: 3000
+  initialAngularYZDriveDamper: 600
 --- !u!1 &2039497941
 GameObject:
   m_ObjectHideFlags: 0
