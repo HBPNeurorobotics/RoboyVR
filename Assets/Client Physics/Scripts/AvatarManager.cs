@@ -13,6 +13,8 @@ public class AvatarManager : MonoBehaviour
     public bool useAnglesFromAnimationTest = false;
     public bool useIndividualAxes = true;
     [SerializeField]
+    private bool addColliders = true;
+    [SerializeField]
     private bool activeInput = false;
     public float weight = 72f;
     public float PDKp = 1;
@@ -85,8 +87,8 @@ public class AvatarManager : MonoBehaviour
     }
 
     /// <summary>
-    ///     Maps all HumanBodyBones (assigned in the Avatar) to their GameObjects in the scene in order to get access to all components.
-    ///     Adds Rigidbody to both bodies, adds PDController to the avatar if useJoints is false and ConfigJointManager otherwise.
+    ///     Maps all HumanBodyBones (assigned in the Animator) to their GameObjects in the scene in order to get access to all components.
+    ///     Adds Rigidbody to both bodies, adds PDController to the avatar if useJoints is false and a single ConfigJointManager otherwise.
     /// </summary>
     void InitializeBodyStructures()
     {
@@ -363,4 +365,9 @@ public class AvatarManager : MonoBehaviour
     {
         return bodyGroupsTarget;
     }  
+
+    public bool ShouldAddColliders()
+    {
+        return addColliders;
+    }
 }

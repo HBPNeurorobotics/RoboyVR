@@ -62,6 +62,10 @@ namespace PIDTuning
 
         private bool _tuningInProgress;
 
+        private bool _gazebo;
+
+        private Dictionary<HumanBodyBones, GameObject> _remoteBones;
+
         public TuningResult LastTuningData { private set; get; }
 
         //[Header("Initial PID tuning values")]
@@ -75,11 +79,14 @@ namespace PIDTuning
         {
             Assert.IsNotNull(_userAvatarService);
 
+
+            _gazebo = _userAvatarService.GetUseGazebo();
             _testRunner = GetComponent<TestRunner>();
             _pidConfigStorage = GetComponent<PidConfigurationStorage>();
             PoseErrorTracker = GetComponent<PoseErrorTracker>();
             _testEnvSetup = GetComponent<TestEnvSetup>();
             _animatorControl = GetComponent<AnimatorControl>();
+            _remoteBones = _userAvatarService._avatarManager.GetGameObjectPerBoneAvatarDictionary();
 
             Assert.IsNotNull(_localAvatar);
             Assert.IsNotNull(_localAvatarAnimator = _localAvatar.GetComponent<Animator>());
@@ -91,9 +98,20 @@ namespace PIDTuning
             Assert.IsFalse(_tuningInProgress);
             _tuningInProgress = true;
 
-            foreach (var joint in _localAvatarRig.GetJointToRadianMapping().Keys)
+            if (_gazebo)
             {
-                yield return TuneSingleJoint(joint);
+
+                foreach (var joint in _localAvatarRig.GetJointToRadianMapping().Keys)
+                {
+                    yield return TuneSingleJoint(joint);
+                }
+            }
+            else
+            {
+                foreach(var bone in _localAvatarRig.GetJointMappingsClient().Keys)
+                {
+                    yield return TuneSingleJoint(bone.ToString());
+                }
             }
 
             _tuningInProgress = false;
@@ -110,7 +128,14 @@ namespace PIDTuning
             _localAvatarAnimator.enabled = false;
 
             // Set starting angle of joint
-            _localAvatarRig.SetJointEulerAngle(joint, RelayStartAngle);
+            if (_gazebo)
+            {
+                _localAvatarRig.SetJointEulerAngle(joint, RelayStartAngle);
+            }
+            else
+            {
+                //_localAvatarRig.SetJointQuaternion()
+            }
 
             // Wait for sim to catch up
             yield return _testEnvSetup.RunSimulationReset();
@@ -118,7 +143,7 @@ namespace PIDTuning
             // Run Bang-Bang control for a while to get oscillation data
             var bangBangStepData = new Box<PidStepData>(null);
 
-            yield return RunBangBangEvaluation(joint, bangBangStepData);
+            yield return RunBangBangEvaluation(joint, bangBangStepData, _userAvatarService.GetUseGazebo());
 
             // Evaluate the oscillation data
             var oscillation = PeakAnalysis.AnalyzeOscillation(bangBangStepData.Value);
@@ -145,7 +170,7 @@ namespace PIDTuning
             _tuningInProgress = false;
         }
 
-        private IEnumerator RunBangBangEvaluation(string joint, Box<PidStepData> evaluation)
+        private IEnumerator RunBangBangEvaluation(string joint, Box<PidStepData> evaluation, bool gazebo)
         {
             // TODO: Explain all of this m8
             TimeSpan warmupSeconds = TimeSpan.FromSeconds(TestWarmupSeconds);
@@ -166,7 +191,7 @@ namespace PIDTuning
 
             while (DateTime.Now - startTime < warmupSeconds)
             {
-                AdjustRelayForce(joint);
+                AdjustRelayForce(joint, gazebo);
                 
                 yield return null;
             }
@@ -178,7 +203,7 @@ namespace PIDTuning
 
             while (DateTime.Now - startTime < measurementSeconds)
             {
-                AdjustRelayForce(joint);
+                AdjustRelayForce(joint, gazebo);
 
                 yield return null;
             }
@@ -187,30 +212,45 @@ namespace PIDTuning
             evaluation.Value = _testRunner.StopManualRecord()[joint];
 
             // Get rid of any force
-            SetConstantForceForJoint(joint, 0f);
+            SetConstantForceForJoint(joint, 0f, gazebo);
 
             // Restore pre-test configurations
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
             _pidConfigStorage.TransmitFullConfiguration();
         }
 
-        private void AdjustRelayForce(string joint)
+        private void AdjustRelayForce(string joint, bool gazebo)
         {
             if (1f == Mathf.Sign(PoseErrorTracker.GetCurrentStepDataForJoint(joint).Measured - RelayTargetAngle))
             {
-                SetConstantForceForJoint(joint, -RelayConstantForce);
+                SetConstantForceForJoint(joint, -RelayConstantForce, gazebo);
             }
             else
             {
-                SetConstantForceForJoint(joint, RelayConstantForce);
+                SetConstantForceForJoint(joint, RelayConstantForce, gazebo);
             }
         }
 
-        private void SetConstantForceForJoint(string joint, float force)
+        private void SetConstantForceForJoint(string joint, float force, bool gazebo)
         {
-            string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + joint + "/set_constant_force";
+            if (gazebo)
+            {
+                string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + joint + "/set_constant_force";
 
-            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(force, 0f, 0f));
+                ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(force, 0f, 0f));
+            }
+            else
+            {
+                HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint);
+                GameObject tmp;
+                if(_remoteBones.TryGetValue(bone, out tmp)){
+                    Rigidbody rb = _remoteBones[bone].GetComponent<Rigidbody>();
+                    if(rb != null)
+                    {
+                        rb.AddForce(new Vector3(force, 0, 0));
+                    }
+                } 
+            }
         }
 
         /// <summary>
@@ -235,11 +275,18 @@ namespace PIDTuning
     {
         public readonly string Joint;
         public readonly Dictionary<ZieglerNicholsHeuristic, PidParameters> Tunings;
+        public readonly Dictionary<ZieglerNicholsHeuristic, JointSettings> ClientTunings;
 
         private TuningResult(string joint, Dictionary<ZieglerNicholsHeuristic, PidParameters> tunings)
         {
             Joint = joint;
             Tunings = tunings;
+        }
+
+        private TuningResult(string joint, Dictionary<ZieglerNicholsHeuristic, JointSettings> tunings)
+        {
+            Joint = joint;
+            ClientTunings = tunings;
         }
 
         public static TuningResult GenerateFromOscillation(string joint, OscillationAnalysisResult oscillation, float relayConstantForce, float timeStretchFactor)

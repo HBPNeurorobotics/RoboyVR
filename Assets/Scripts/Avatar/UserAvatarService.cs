@@ -63,6 +63,11 @@ public class UserAvatarService : Singleton<UserAvatarService>
     public float InitialI = 100f;
     public float InitialD = 500f;
 
+    /// <summary>
+    /// Provides access to dictionary of RemoteAvatar and TargetAvatar
+    /// </summary>
+    public AvatarManager _avatarManager;
+
     [Header("Initial Joint Settings")]
     [Header("Angular Drive X")]
     public float initialAngularXDriveSpring = 3000;

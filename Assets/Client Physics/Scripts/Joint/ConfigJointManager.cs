@@ -100,6 +100,7 @@ public class ConfigJointManager : MonoBehaviour
             InitTemplateDict();
         }
 
+        Physics.IgnoreLayerCollision(9, 9);
 
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
         {
@@ -137,6 +138,37 @@ public class ConfigJointManager : MonoBehaviour
     /// <param name="bone">The bone that the new ConfigurableJoint is added to in the remote avatar. This is also the bone that the values are copied from in the template.</param>
     void AddJointFromTemplate(HumanBodyBones bone)
     {
+        //Assign rigidbody 
+        Rigidbody templateRb = templateFromBone[bone].gameObject.GetComponent<Rigidbody>();
+        if (templateRb != null)
+        {
+            templateRb.useGravity = false;
+            UnityEditorInternal.ComponentUtility.CopyComponent(templateRb);
+            UnityEditorInternal.ComponentUtility.PasteComponentValues(gameObjectsFromBone[bone].GetComponent<Rigidbody>());
+        }
+        //Add colliders if needed
+        if (avatarManager.ShouldAddColliders())
+        {
+            Component colliderComp;
+            //Some bones have multiple colliders to better fit the shape of the body part
+            Collider[] templateColliders = templateFromBone[bone].GetComponents<Collider>();
+            foreach (Collider templateCollider in templateColliders)
+            {
+                Type colliderType = templateCollider.GetType();
+                colliderComp = gameObjectsFromBone[bone].AddComponent(colliderType);
+
+                //Colliders recalculate the center of mass and inertia tensor of the rigidbody. Since this leads to unintended behavior we have to restore default values.
+                gameObjectsFromBone[bone].GetComponent<Rigidbody>().centerOfMass = Vector3.zero;
+                gameObjectsFromBone[bone].GetComponent<Rigidbody>().inertiaTensor = Vector3.one;
+
+                UnityEditorInternal.ComponentUtility.CopyComponent(templateCollider);
+                UnityEditorInternal.ComponentUtility.PasteComponentValues(colliderComp);
+
+                //We need to disable the template collider to avoid collisions and save costs
+                templateFromBone[bone].GetComponent<Collider>().enabled = false;
+            }
+        }
+        //Add joint(s)
         ConfigurableJoint[] jointsOfTemplateBone = templateFromBone[bone].GetComponents<ConfigurableJoint>();
         for (int i = 0; i < jointsOfTemplateBone.Length; i++)
         {
@@ -145,11 +177,6 @@ public class ConfigJointManager : MonoBehaviour
 
             UnityEditorInternal.ComponentUtility.CopyComponent(jointsOfTemplateBone[i]);
             UnityEditorInternal.ComponentUtility.PasteComponentValues(newJoint);
-
-            //assign rigidbody
-            Rigidbody templateRb = jointsOfTemplateBone[i].gameObject.GetComponent<Rigidbody>();
-            UnityEditorInternal.ComponentUtility.CopyComponent(templateRb);
-            UnityEditorInternal.ComponentUtility.PasteComponentValues(gameObjectsFromBone[bone].GetComponent<Rigidbody>());
 
             //Set Connected Rigidbody of Joints
             SetConnectedBody(bone, newJoint);
@@ -169,14 +196,14 @@ public class ConfigJointManager : MonoBehaviour
         ConfigurableJoint yJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
         yJoint.axis = new Vector3(0, 1, 0);
         yJoint.angularXMotion = ConfigurableJointMotion.Limited;
-        
+
 
 
         //Add joint to handle x rotation
         ConfigurableJoint zJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
         zJoint.axis = new Vector3(0, 0, 1);
         zJoint.angularXMotion = ConfigurableJointMotion.Limited;
-        
+
 
         switch (bone)
         {
@@ -201,10 +228,10 @@ public class ConfigJointManager : MonoBehaviour
                 break;
         }
 
-        SetConnectedBody(bone, xJoint); 
+        SetConnectedBody(bone, xJoint);
         SetConnectedBody(bone, yJoint);
-        SetConnectedBody(bone, zJoint);        
-       
+        SetConnectedBody(bone, zJoint);
+
     }
 
     Dictionary<HumanBodyBones, JointAngleContainer> ReadJointAngleLimitsFromJson()
@@ -233,7 +260,7 @@ public class ConfigJointManager : MonoBehaviour
         JointAngleContainer angleContainer;
         if (jointAngleLimits.TryGetValue(bone, out angleContainer))
         {
-            
+
             float lowerLimit = 0f, upperLimit = 0f;
             switch (axis)
             {
@@ -301,7 +328,7 @@ public class ConfigJointManager : MonoBehaviour
             joint.angularZMotion = ConfigurableJointMotion.Free;
         }
         */
-        
+
 
         joint.configuredInWorldSpace = false;
 

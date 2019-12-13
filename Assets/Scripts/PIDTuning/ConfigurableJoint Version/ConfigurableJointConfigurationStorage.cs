@@ -25,7 +25,7 @@ public class ConfigurableJointConfigurationStorage : MonoBehaviour
 
         configuration = new ConfigurableJointConfiguration(DateTime.UtcNow);
 
-        configuration.InitializeMapping(_userAvatar._avatarManager.GetGameObjectPerBoneTargetDictionary().Keys,
+        configuration.InitializeMapping(_userAvatarService._avatarManager.GetGameObjectPerBoneTargetDictionary().Keys,
                                         new JointSettings(_userAvatarService.initialAngularXDriveSpring,
                                                           _userAvatarService.initialAngularXDriveDamper,
                                                           _userAvatarService.initialAngularYZDriveSpring,

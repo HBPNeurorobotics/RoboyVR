@@ -44,7 +44,7 @@ public class RigAngleTracker : MonoBehaviour
 
     private Dictionary<string, JointMapping> _jointMappings = new Dictionary<string, JointMapping>();
 
-    public UserAvatarService _userAvatar; 
+    public UserAvatarService _userAvatar;
     public Dictionary<string, float> GetJointToRadianMapping()
     {
         if (!_initialized)
@@ -61,12 +61,19 @@ public class RigAngleTracker : MonoBehaviour
 
         return _jointToRadians;
     }
-    /// <summary>
-    /// Provides access to dictionary of RemoteAvatar and TargetAvatar
-    /// </summary>
-    public AvatarManager _avatarManager;
+
 
     private Dictionary<HumanBodyBones, GameObject> _jointMappingsClient = new Dictionary<HumanBodyBones, GameObject>();
+
+    public Dictionary<HumanBodyBones, GameObject> GetJointMappingsClient()
+    {
+        if (!_initialized)
+        {
+            BuildJointMapping();
+            _initialized = true;
+        }
+        return _jointMappingsClient;
+    }
 
     private void UpdateJointToRadians()
     {
@@ -85,6 +92,17 @@ public class RigAngleTracker : MonoBehaviour
         }
 
         _jointMappings[joint].SetJointEulerAngle(angle);
+    }
+
+    public void SetJointQuaternion(HumanBodyBones bone, Quaternion localOrientation)
+    {
+        if (!_initialized)
+        {
+            BuildJointMapping();
+            _initialized = true;
+        }
+
+        _jointMappingsClient[bone].transform.localRotation = localOrientation;
     }
 
     public void SetJointRadians(string joint, float rad)
@@ -106,7 +124,13 @@ public class RigAngleTracker : MonoBehaviour
     /// </summary>
     private void BuildJointMapping()
     {
-        var isRemoteAvatar = gameObject.name != "local_avatar";
+        var isRemoteAvatar = gameObject.name != "avatar_rig";
+
+        if (!_userAvatar.GetUseGazebo())
+        {
+            isRemoteAvatar = gameObject.tag.Equals("Target");
+        }
+
         if (isRemoteAvatar)
         {
             CreateMappingForRemoteAvatar();
@@ -115,7 +139,6 @@ public class RigAngleTracker : MonoBehaviour
         {
             CreateMappingForLocalAvatar();
         }
-        
     }
 
     private void CreateMappingForRemoteAvatar()
@@ -205,7 +228,7 @@ public class RigAngleTracker : MonoBehaviour
         }
         else
         {
-            _jointMappingsClient = _avatarManager.GetGameObjectPerBoneAvatarDictionary();
+            _jointMappingsClient = _userAvatar._avatarManager.GetGameObjectPerBoneAvatarDictionary();
         }
     }
 
@@ -300,7 +323,7 @@ public class RigAngleTracker : MonoBehaviour
         }
         else
         {
-            _jointMappingsClient = _avatarManager.GetGameObjectPerBoneTargetDictionary();
+            _jointMappingsClient = _userAvatar._avatarManager.GetGameObjectPerBoneTargetDictionary();
         }
     }
 
@@ -373,7 +396,7 @@ public class RigAngleTracker : MonoBehaviour
         /// the remote avatar's joints anyway - Let Gazebo do that).
         /// </summary>
         public readonly bool InvertRotation;
-        
+
         public readonly MappedEulerAngle MappedEulerAngle;
 
         public JointMapping(Transform parent, Transform child, bool invertRotation, MappedEulerAngle mappedEulerAngle)
@@ -434,8 +457,8 @@ public class RigAngleTracker : MonoBehaviour
             {
                 case MappedEulerAngle.X:
                     Child.transform.eulerAngles = new Vector3(
-                        angle, 
-                        Child.transform.eulerAngles.y, 
+                        angle,
+                        Child.transform.eulerAngles.y,
                         Child.transform.eulerAngles.z);
                     break;
 

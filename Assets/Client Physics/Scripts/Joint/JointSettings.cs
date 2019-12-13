@@ -59,4 +59,16 @@ public class JointSettings : MonoBehaviour
         this.angularYZDriveDamper = angularYZDriveDamper;
         this.angularYZDriveSpring = angularYZDriveSpring;
     }
+
+    public void SetAngularXDriveFromPD(float p, float d)
+    {
+        angularXDriveSpring = p;
+        angularXDriveDamper = d;
+    }
+
+    public void SetAngularYZDriveFromPD(float p, float d)
+    {
+        angularYZDriveSpring = p;
+        angularYZDriveDamper = d;
+    }
 }
