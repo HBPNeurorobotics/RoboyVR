@@ -30,17 +30,18 @@ public class AnimationAngleObserver : MonoBehaviour
         //quaternion Rotation order in Unity: Y -> X -> Z
         localEuler = UnityEditor.TransformUtils.GetInspectorRotation(transform);
 
+        Vector3 forward = transform.localRotation * Vector3.forward;
         
-        currentAngleX = transform.localRotation.x;
-        currentAngleY = transform.localRotation.y;
-        currentAngleZ = transform.localRotation.z;
+        currentAngleX = Mathf.Atan2(forward.z, forward.y) * Mathf.Rad2Deg;
+        currentAngleY = Mathf.Atan2(forward.z, forward.x) * Mathf.Rad2Deg;
+        currentAngleZ = Mathf.Atan2(forward.y, forward.x) * Mathf.Rad2Deg;
 
         //Debug.DrawLine(transform.position, Vector3.up);
-
+        /*
         currentAngleX = localEuler.x;
         currentAngleY = localEuler.y;
         currentAngleZ = localEuler.z;
-
+        */
         jointAngleContainer.minAngleX = SetMin(jointAngleContainer.minAngleX, currentAngleX);        
         jointAngleContainer.minAngleY = SetMin(jointAngleContainer.minAngleY, currentAngleY);
         jointAngleContainer.minAngleZ = SetMin(jointAngleContainer.minAngleZ, currentAngleZ);

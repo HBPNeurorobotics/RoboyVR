@@ -61,7 +61,7 @@ public class TestManager : MonoBehaviour
 
         if (useBodyMass)
         {
-            BodyMass bm = new BodyMass(weight, gameObjectPerBoneTestAvatar);
+            BodyMass bm = new BodyMass(weight, gameObjectPerBoneTestAvatar, BodyMass.MODE.AVERAGE);
         }
     }
 

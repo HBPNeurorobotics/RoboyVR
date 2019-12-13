@@ -8,6 +8,7 @@ using System.Linq;
 public class EditAvatarTemplate : EditorWindow
 {
     float bodyWeight = 72f;
+    BodyMass.MODE mode = BodyMass.MODE.AVERAGE;
     float indent = 15f;
     string test = "test";
     bool useCollisions;
@@ -18,7 +19,7 @@ public class EditAvatarTemplate : EditorWindow
     bool showJointSettings = true;
     bool useGravity = true;
 
-    BodyGroups.BodyGroup bodyGroup;
+    BodyGroups.BODYGROUP bodyGroup;
 
     JointSettings globalSettings = new JointSettings();
 
@@ -51,7 +52,9 @@ public class EditAvatarTemplate : EditorWindow
         {
             EditorGUILayout.BeginVertical();
             bodyWeight = EditorGUILayout.FloatField("Total Body Weight", bodyWeight);
-            bodyGroup = (BodyGroups.BodyGroup)EditorGUILayout.EnumPopup("Body Group", bodyGroup);
+            mode = (BodyMass.MODE)EditorGUILayout.EnumPopup("Population Group of Avatar", mode);
+
+            bodyGroup = (BodyGroups.BODYGROUP)EditorGUILayout.EnumPopup("Body Group", bodyGroup);
             GetDictionary();
 
             hasColliders = EditorGUILayout.Toggle("Add Colliders", hasColliders);
@@ -90,7 +93,7 @@ public class EditAvatarTemplate : EditorWindow
 
             if (GUILayout.Button("Restore Default Mass"))
             {
-                bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone);
+                bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone, mode);
                 bodyMass.RestoreOneValues();
             }
 
@@ -118,18 +121,18 @@ public class EditAvatarTemplate : EditorWindow
         BodyGroups bodyGroups = new BodyGroups(animator);
         switch (bodyGroup)
         {
-            case BodyGroups.BodyGroup.ALL_COMBINED: chosenBones = bodyGroups.AllCombined(); break;
-            case BodyGroups.BodyGroup.HEAD: chosenBones = bodyGroups.Head(); break;
-            case BodyGroups.BodyGroup.LEFT_ARM: chosenBones = bodyGroups.LeftArm(); break;
-            case BodyGroups.BodyGroup.LEFT_FOOT: chosenBones = bodyGroups.LeftFoot(); break;
-            case BodyGroups.BodyGroup.LEFT_HAND: chosenBones = bodyGroups.LeftHand(); break;
-            case BodyGroups.BodyGroup.LEFT_LEG: chosenBones = bodyGroups.LeftLeg(); break;
-            case BodyGroups.BodyGroup.RIGHT_ARM: chosenBones = bodyGroups.RightArm(); break;
-            case BodyGroups.BodyGroup.RIGHT_FOOT: chosenBones = bodyGroups.RightFoot(); break;
-            case BodyGroups.BodyGroup.RIGHT_HAND: chosenBones = bodyGroups.RightHand(); break;
-            case BodyGroups.BodyGroup.RIGHT_LEG: chosenBones = bodyGroups.RightLeg(); break;
-            case BodyGroups.BodyGroup.TRUNK: chosenBones = bodyGroups.Trunk(); break;
-            case BodyGroups.BodyGroup.TRUNK_HEAD: chosenBones = bodyGroups.TrunkHead(); break;
+            case BodyGroups.BODYGROUP.ALL_COMBINED: chosenBones = bodyGroups.AllCombined(); break;
+            case BodyGroups.BODYGROUP.HEAD: chosenBones = bodyGroups.Head(); break;
+            case BodyGroups.BODYGROUP.LEFT_ARM: chosenBones = bodyGroups.LeftArm(); break;
+            case BodyGroups.BODYGROUP.LEFT_FOOT: chosenBones = bodyGroups.LeftFoot(); break;
+            case BodyGroups.BODYGROUP.LEFT_HAND: chosenBones = bodyGroups.LeftHand(); break;
+            case BodyGroups.BODYGROUP.LEFT_LEG: chosenBones = bodyGroups.LeftLeg(); break;
+            case BodyGroups.BODYGROUP.RIGHT_ARM: chosenBones = bodyGroups.RightArm(); break;
+            case BodyGroups.BODYGROUP.RIGHT_FOOT: chosenBones = bodyGroups.RightFoot(); break;
+            case BodyGroups.BODYGROUP.RIGHT_HAND: chosenBones = bodyGroups.RightHand(); break;
+            case BodyGroups.BODYGROUP.RIGHT_LEG: chosenBones = bodyGroups.RightLeg(); break;
+            case BodyGroups.BODYGROUP.TRUNK: chosenBones = bodyGroups.Trunk(); break;
+            case BodyGroups.BODYGROUP.TRUNK_HEAD: chosenBones = bodyGroups.TrunkHead(); break;
             default: break;
         }
         //TODO: Clear bones of not selected groups
@@ -319,7 +322,7 @@ public class EditAvatarTemplate : EditorWindow
     void UpdateTemplate()
     {
         //Mass
-        bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone);
+        bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone, mode);
         bodyMass.SetBodyMasses();
 
         //Joint Settings

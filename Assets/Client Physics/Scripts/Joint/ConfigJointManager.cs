@@ -320,6 +320,7 @@ public class ConfigJointManager : MonoBehaviour
         joint.xMotion = ConfigurableJointMotion.Locked;
         joint.yMotion = ConfigurableJointMotion.Locked;
         joint.zMotion = ConfigurableJointMotion.Locked;
+        
         /*
         if (!useIndividualAxes)
         {
@@ -488,6 +489,7 @@ public class ConfigJointManager : MonoBehaviour
             case HumanBodyBones.Neck:
                 ConfigureJoint(bone, joint, gameObjectsFromBone[HumanBodyBones.UpperChest].GetComponent<Rigidbody>());
                 break;
+            //TODO assign head to neck, neck is too light
             case HumanBodyBones.Head:
                 ConfigureJoint(bone, joint, gameObjectsFromBone[HumanBodyBones.UpperChest].GetComponent<Rigidbody>());
                 break;
