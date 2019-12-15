@@ -10,8 +10,8 @@ namespace PIDTuning
     {
         [SerializeField]
         private UserAvatarService _userAvatarService;
-
-        public RigAngleTracker LocalRig { private set; get; }
+        [SerializeField] public RigAngleTracker LocalRig;
+        
         public RigAngleTracker RemoteRig { private set; get; }
 
         /// <summary>
@@ -28,9 +28,6 @@ namespace PIDTuning
         private void OnEnable()
         {
             Assert.IsNotNull(_userAvatarService);
-            Assert.IsNotNull(_userAvatarService.avatar_rig);
-
-            LocalRig = _userAvatarService.avatar_rig.GetComponent<RigAngleTracker>();
             Assert.IsNotNull(LocalRig);
 
             _userAvatarService.OnAvatarSpawned += AddTrackerToAvatar;

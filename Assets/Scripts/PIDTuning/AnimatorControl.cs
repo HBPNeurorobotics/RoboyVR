@@ -14,7 +14,7 @@ namespace PIDTuning
 
         public Animator Animator { private set; get; }
 
-        private UserAvatarVisualsIKControl _ikControl = null;
+        private UserAvatarIKControl _ikControl = null;
 
         public bool IsAnimationRunning
         {
@@ -35,7 +35,7 @@ namespace PIDTuning
             Assert.IsNotNull(_localAvatar);
 
             Animator = _localAvatar.GetComponent<Animator>();
-            _ikControl = _localAvatar.GetComponent<UserAvatarVisualsIKControl>();
+            _ikControl = _localAvatar.GetComponent<UserAvatarIKControl>();
 
             Assert.IsNotNull(Animator);
             Assert.IsNotNull(_ikControl);
