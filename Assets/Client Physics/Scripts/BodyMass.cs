@@ -191,11 +191,12 @@ public class BodyMass
             case HumanBodyBones.UpperChest:
             case HumanBodyBones.LeftShoulder:
             case HumanBodyBones.RightShoulder:
-                return totalMassKg * GetPercentage( UPPER_TRUNK_F_MASS, UPPER_TRUNK_M_MASS ) / 3; //Upper Trunk
+            case HumanBodyBones.Neck:
+                return totalMassKg * GetPercentage( UPPER_TRUNK_F_MASS, UPPER_TRUNK_M_MASS ) / 4f; //Upper Trunk -> assumption: mass is roughly equally distributed
             case HumanBodyBones.Chest: return totalMassKg * GetPercentage( MID_TRUNK_F_MASS, MID_TRUNK_M_MASS ); //Mid Trunk
             case HumanBodyBones.Spine:
             case HumanBodyBones.Hips:
-                return totalMassKg * GetPercentage( LOWER_TRUNK_F_MASS, LOWER_TRUNK_M_MASS ) / 2; //Lower Trunk
+                return totalMassKg * GetPercentage( LOWER_TRUNK_F_MASS, LOWER_TRUNK_M_MASS ) / 2; //Lower Trunk -> assumption: mass is roughly equally distributed
             case HumanBodyBones.LeftUpperArm:
             case HumanBodyBones.RightUpperArm:
                 return totalMassKg * GetPercentage( UPPER_ARM_F_MASS, UPPER_ARM_M_MASS );

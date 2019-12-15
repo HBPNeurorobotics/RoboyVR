@@ -11,22 +11,26 @@ public class JointSettings : MonoBehaviour
     [Header("Angular Drive X")]
     public float angularXDriveSpring;
     public float angularXDriveDamper;
+    public float maxForceX;
     [Header("Angular Drive YZ")]
     public float angularYZDriveSpring;
-    public float angularYZDriveDamper;
+    public float angularYZDriveDamper; 
+    public float maxForceYZ;
 
     public JointDrive angularXDrive;
     public JointDrive angularYZDrive;
 
 
 
-    public JointSettings(HumanBodyBones bone, float angularXDriveSpring, float angularXDriveDamper, float angularYZDriveSpring, float angularYZDriveDamper)
+    public JointSettings(HumanBodyBones bone, float angularXDriveSpring, float angularXDriveDamper, float maxForceX, float angularYZDriveSpring, float angularYZDriveDamper, float maxForceYZ)
     {
         this.bone = bone;
         this.angularXDriveDamper = angularXDriveDamper;
         this.angularXDriveSpring = angularXDriveSpring;
+        this.maxForceX = maxForceX;
         this.angularYZDriveDamper = angularYZDriveDamper;
         this.angularYZDriveSpring = angularYZDriveSpring;
+        this.maxForceYZ = maxForceYZ;
     }
     /// <summary>
     /// A container for all important ConfigurableJoint parameters for tuning purposes.

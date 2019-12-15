@@ -197,7 +197,7 @@ public class EditAvatarTemplate : EditorWindow
             ConfigurableJoint joint = gameObjectsPerBone[bone].GetComponent<ConfigurableJoint>();
             if (joint != null)
             {
-                JointSettings setting = new JointSettings(bone, joint.angularXDrive.positionSpring, joint.angularXDrive.positionDamper, joint.angularYZDrive.positionSpring, joint.angularYZDrive.positionDamper);
+                JointSettings setting = new JointSettings(bone, joint.angularXDrive.positionSpring, joint.angularXDrive.positionDamper, joint.angularXDrive.maximumForce, joint.angularYZDrive.positionSpring, joint.angularYZDrive.positionDamper, joint.angularYZDrive.maximumForce);
                 jointSettings.Add(bone, setting);
                 if (!setting.bone.ToString().StartsWith("Left"))
                 {
@@ -288,12 +288,14 @@ public class EditAvatarTemplate : EditorWindow
         {
             settings.angularXDriveSpring = EditorGUILayout.FloatField("Spring", settings.angularXDriveSpring);
             settings.angularXDriveDamper = EditorGUILayout.FloatField("Damper", settings.angularXDriveDamper);
+            settings.maxForceX = EditorGUILayout.FloatField("Maximum Force", settings.maxForceX);
         }
         else
         //Angular YZ Drive
         {
             settings.angularYZDriveSpring = EditorGUILayout.FloatField("Spring", settings.angularYZDriveSpring);
             settings.angularYZDriveDamper = EditorGUILayout.FloatField("Damper", settings.angularYZDriveDamper);
+            settings.maxForceYZ= EditorGUILayout.FloatField("Maximum Force", settings.maxForceYZ);
         }
 
         EditorGUILayout.EndVertical();

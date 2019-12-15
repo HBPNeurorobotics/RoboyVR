@@ -143,6 +143,7 @@ public class ConfigJointManager : MonoBehaviour
         if (templateRb != null)
         {
             templateRb.useGravity = false;
+
             UnityEditorInternal.ComponentUtility.CopyComponent(templateRb);
             UnityEditorInternal.ComponentUtility.PasteComponentValues(gameObjectsFromBone[bone].GetComponent<Rigidbody>());
         }
@@ -168,6 +169,7 @@ public class ConfigJointManager : MonoBehaviour
                 templateFromBone[bone].GetComponent<Collider>().enabled = false;
             }
         }
+
         //Add joint(s)
         ConfigurableJoint[] jointsOfTemplateBone = templateFromBone[bone].GetComponents<ConfigurableJoint>();
         for (int i = 0; i < jointsOfTemplateBone.Length; i++)
@@ -491,7 +493,7 @@ public class ConfigJointManager : MonoBehaviour
                 break;
             //TODO assign head to neck, neck is too light
             case HumanBodyBones.Head:
-                ConfigureJoint(bone, joint, gameObjectsFromBone[HumanBodyBones.UpperChest].GetComponent<Rigidbody>());
+                ConfigureJoint(bone, joint, gameObjectsFromBone[HumanBodyBones.Neck].GetComponent<Rigidbody>());
                 break;
             case HumanBodyBones.UpperChest:
                 ConfigureJoint(bone, joint, gameObjectsFromBone[HumanBodyBones.Chest].GetComponent<Rigidbody>());
@@ -567,15 +569,17 @@ public class ConfigJointManager : MonoBehaviour
 
         //This will only be used if there are no individual rotations/velocities assigned by the AvatarManager
         if (!avatarManager.usesActiveInput())
-        {
+        {/*
             if (usesFixedJoint.Contains(bone))
             {
                 joint.angularXMotion = joint.angularYMotion = joint.angularZMotion = ConfigurableJointMotion.Locked;
-            }
+            } 
             else
             {
                 AssignTargetToImitatePassive(bone);
             }
+            */
+            AssignTargetToImitatePassive(bone);
         }
         else
         {
