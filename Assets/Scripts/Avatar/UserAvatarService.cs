@@ -13,15 +13,16 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     public GameObject avatar
     {
-        get { return this.user_avatar; }
+        get { return this.remote_avatar; }
     }
 
     public bool IsRemoteAvatarPresent
     {
-        get { return user_avatar != null; }
+        get { return remote_avatar != null; }
     }
 
-    public GameObject avatar_rig = null;
+    [SerializeField] private GameObject local_avatar = null;
+    [SerializeField] private SkinnedMeshRenderer local_avatar_mesh_renderer = null;
 
     public RigAngleTracker RigAngleTracker;
     [SerializeField]
@@ -33,7 +34,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     public string avatar_name { private set; get; }
 
-    private GameObject user_avatar = null;
+    private GameObject remote_avatar = null;
     private GameObject avatar_clone = null;
 
     private bool spawning_avatar = false;
@@ -47,8 +48,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private Vector3 gazebo_model_pos_offset = new Vector3();
 
-    public float publish_threshold_joints = 10.0f;
-    public float publish_frequency_joints = 0.5f;
+    public float publish_frequency = 0.25f;
+    public float publish_threshold_joints = 0.01f;
     private float t_last_publish_joints = 0.0f;
     public Dictionary<string, Vector3> JointPidPositionTargets = new Dictionary<string, Vector3>();
     private Dictionary<string, Vector3> joint_pid_position_targets_last_published_ = new Dictionary<string, Vector3>();
@@ -85,7 +86,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
         }
         else
         {
-            this.user_avatar = GameObject.FindGameObjectWithTag("Target");
+            this.local_avatar = GameObject.FindGameObjectWithTag("Target");
             avatar_ready = true;
             OnAvatarSpawned(this);
         }
@@ -93,11 +94,9 @@ public class UserAvatarService : Singleton<UserAvatarService>
     
     void Start()
     {
-        if (this.avatar_rig)
+        if (this.local_avatar)
         {
-            SkinnedMeshRenderer rig_mesh_renderer = this.avatar_rig.GetComponentInChildren<SkinnedMeshRenderer>();
-            //Debug.Log("rig center = " + rig_mesh_renderer.bounds.center);
-            this.gazebo_model_pos_offset = new Vector3(0f, -rig_mesh_renderer.bounds.extents.y, 0f);
+            this.gazebo_model_pos_offset = new Vector3(0f, -local_avatar_mesh_renderer.bounds.extents.y, 0f);
 
             // Markus: This line causeed issues for me. Avatar was too far down an coudln't extend his legs.
             // this.gazebo_model_pos_offset.y -= 0.25f;  // center of mesh is not the center of the model ?
@@ -117,7 +116,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
             //GetJointPIDPositionTargets();
             //GetJointPIDPositionTargetsJointStatesMsg();
 
-            if (Time.time - t_last_publish_joints >= publish_frequency_joints)
+            if (Time.time - t_last_publish_joints >= publish_frequency)
             {
                 //PublishModelPose();  //TODO: move to physical movement
                 PublishModelPoseTarget();
@@ -140,7 +139,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     public void DespawnAvatar()
     {
-        if (this.user_avatar == null)
+        if (this.remote_avatar == null)
         {
             return;
         }
@@ -182,7 +181,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
         this.avatar_name = "user_avatar_" + AuthenticationService.Instance.token.Replace("-", "_");
         Debug.Log("SpawnAvatar - auth token: " + AuthenticationService.Instance.token);
         Debug.Log("SpawnAvatar - avatar_name: " + this.avatar_name);
-        Vector3 spawn_pos = GazeboSceneManager.Unity2GzVec3(new Vector3(avatar_rig.transform.position.x, avatar_rig.transform.position.y, avatar_rig.transform.position.z));
+        
+        Vector3 spawn_pos = GazeboSceneManager.Unity2GzVec3(new Vector3(local_avatar.transform.position.x, local_avatar.transform.position.y /* - 1.0f */, local_avatar.transform.position.z));
         Quaternion spawn_rot = new Quaternion();
 
         GzFactoryMsg msg = new GzFactoryMsg(this.avatar_name, avatar_model_name, new PointMsg(spawn_pos.x, spawn_pos.y, spawn_pos.z), new QuaternionMsg(spawn_rot.x, spawn_rot.y, spawn_rot.z, spawn_rot.w));
@@ -193,11 +193,11 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private IEnumerator WaitForAvatarCreation()
     {
         yield return new WaitUntil(() => {
-            this.user_avatar = GameObject.Find(this.avatar_name);
-            return this.user_avatar != null;
+            this.remote_avatar = GameObject.Find(this.avatar_name);
+            return this.remote_avatar != null;
             }
         );
-        Debug.Log("Found avatar model: " + this.user_avatar);
+        Debug.Log("Found avatar model: " + this.remote_avatar);
 
         this.PublishJointPIDParams();
 
@@ -217,20 +217,20 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private void PublishModelRotationTarget()
     {
-        if (this.user_avatar == null)
+        if (this.remote_avatar == null)
         {
             return;
         }
 
         string topic = this.avatar_name + "/cmd_rot";
-        Quaternion rotation_target = GazeboSceneManager.Unity2GzQuaternion(this.avatar_rig.transform.rotation);
+        Quaternion rotation_target = GazeboSceneManager.Unity2GzQuaternion(this.local_avatar.transform.rotation);
         QuaternionMsg rotation_msg = new QuaternionMsg(rotation_target.x, rotation_target.y, rotation_target.z, rotation_target.w);
         ROSBridgeService.Instance.websocket.Publish(topic, rotation_msg);
     }
 
     private void PublishJointSetPosition()
     {
-        Transform joints_parent = this.transform.Find("avatar_rig").Find("mixamorig_Hips");
+        Transform joints_parent = this.transform.Find("local_avatar").Find("mixamorig_Hips");
         Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
         foreach(Transform child in children)
         {
@@ -294,32 +294,19 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private void PublishJointPIDParams()
     {
-        //Transform joints_parent = this.transform.Find("avatar_rig").Find("mixamorig_Hips");
-        //Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
-        //foreach (Transform child in children)
-        //{
-        //    if (child == joints_parent) continue;
-
-        //    string topic = "/" + this.avatar_name + "/avatar_ybot/" + child.name + "/set_pid_params";
-
-        //    // default was (100f, 50f, 10f)
-        //    ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(20f, 0f, 0f));
-        //}
-
+        /*Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
+        Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
+        foreach (Transform child in children)*/
         foreach (string joint in RigAngleTracker.GetJointToRadianMapping().Keys)
         {
             string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
-
-            // default was (100f, 50f, 10f)
             ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(InitialP, InitialI, InitialD));
         }
     }
 
     private void GetJointPIDPositionTargets()
     {
-        var isJointDictionaryEmpty = JointPidPositionTargets.Count == 0;
-
-        Transform joints_parent = this.transform.Find("avatar_rig").Find("mixamorig_Hips");
+        Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
         Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
         foreach (Transform child in children)
         {
@@ -394,106 +381,6 @@ public class UserAvatarService : Singleton<UserAvatarService>
         }
     }
 
-    private void GetJointPIDPositionTargetsJointStatesMsg()
-    {
-        Transform joints_parent = this.transform.Find("avatar_rig").Find("mixamorig_Hips");
-        Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
-        foreach (Transform child in children)
-        {
-            if (child == joints_parent) continue;
-
-            //Quaternion rot_diff = Quaternion.FromToRotation(child.parent.forward, child.forward);
-            Quaternion rot_diff = Quaternion.Inverse(child.parent.rotation) * child.rotation;
-
-            Vector3 euler_angles = rot_diff.eulerAngles;
-            euler_angles.x = euler_angles.x % 360;
-            euler_angles.y = euler_angles.y % 360;
-            euler_angles.z = euler_angles.z % 360;
-
-            euler_angles.x = euler_angles.x > 180 ? euler_angles.x - 360 : euler_angles.x;
-            euler_angles.y = euler_angles.y > 180 ? euler_angles.y - 360 : euler_angles.y;
-            euler_angles.z = euler_angles.z > 180 ? euler_angles.z - 360 : euler_angles.z;
-
-            //Vector3 euler_angles_rad = euler_angles * Mathf.Deg2Rad;
-
-            string joint_name = child.name;
-            /* 
-             * in case the naming seems confusing, the ...Arm joints are actually placed at the shoulder and the ...Shoulder joints are closer to the spine for the ybot type of rigged model
-             * the name of the joint indicates the child limb that is attached to it 
-             * => ...Arm is the shoulder joint where the upper arm is attached, ...ForeArm is the elbow joint where the forearm is attached, etc.
-             */
-            if (child.name.Contains("LeftArm") || child.name.Contains("RightArm"))
-            {
-                // unfortunately, gazebo doesn't play well with joints having multiple DoFs / rotation axes (i.e. joint type ball, revolute2, universal)
-                // revolute2, universal let you set positions but seem to run into gimbal-lock-alike problems for local rotation axes of the joints
-                // specifically defining the two axes of rotation to be local y & z seems impossible 
-                // we have to split the natural shoulder joint (ball joint) into three individual revolute joints, each covering one axis of rotation for the shoulder
-
-                //Debug.Log(child.name + " : " + euler_angles);
-                string joint_x_axis = child.name + "_x";
-                string joint_y_axis = child.name + "_y";
-                string joint_z_axis = child.name + "_z";
-
-                // TEST
-                // TEST end
-
-                euler_angles = euler_angles * Mathf.Deg2Rad;
-                //ROSBridgeService.Instance.websocket.Publish(topic_x_axis, new Vector3Msg(euler_angles.x, 0, 0));
-                //ROSBridgeService.Instance.websocket.Publish(topic_y_axis, new Vector3Msg(-euler_angles.z, 0, 0));
-                //ROSBridgeService.Instance.websocket.Publish(topic_z_axis, new Vector3Msg(euler_angles.y, 0, 0));
-
-                if (!JointPidPositionTargets.ContainsKey(joint_x_axis)) JointPidPositionTargets.Add(joint_x_axis, new Vector3());
-                if (!JointPidPositionTargets.ContainsKey(joint_y_axis)) JointPidPositionTargets.Add(joint_y_axis, new Vector3());
-                if (!JointPidPositionTargets.ContainsKey(joint_z_axis)) JointPidPositionTargets.Add(joint_z_axis, new Vector3());
-                JointPidPositionTargets[joint_x_axis] = new Vector3(euler_angles.x, 0, 0);
-                JointPidPositionTargets[joint_y_axis] = new Vector3(-euler_angles.z, 0, 0);
-                JointPidPositionTargets[joint_z_axis] = new Vector3(euler_angles.y, 0, 0);
-            }
-            else if (child.name.Contains("LeftForeArm") || child.name.Contains("RightForeArm"))
-            {
-                euler_angles = new Vector3(euler_angles.y, euler_angles.x, euler_angles.z);
-                euler_angles = euler_angles * Mathf.Deg2Rad;
-                //ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
-
-                if (!JointPidPositionTargets.ContainsKey(joint_name)) JointPidPositionTargets.Add(joint_name, new Vector3());
-                JointPidPositionTargets[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
-            }
-            else if (child.name.Contains("UpLeg") || child.name.Contains("Leg") || child.name.Contains("Foot") || child.name.Contains("Shoulder"))
-            {
-                euler_angles = euler_angles * Mathf.Deg2Rad;
-                //ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
-
-                if (!JointPidPositionTargets.ContainsKey(joint_name)) JointPidPositionTargets.Add(joint_name, new Vector3());
-                JointPidPositionTargets[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
-            }
-        }
-    }
-
-    private void PublishJointPIDPositionTargets()
-    {
-        foreach (KeyValuePair<string, Vector3> entry in JointPidPositionTargets)
-        {
-            var joint_name = entry.Key;
-            var cur_target = entry.Value;
-            string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint_name + "/set_pid_position_target";
-            if (!joint_pid_position_targets_last_published_.ContainsKey(joint_name))
-            {
-                joint_pid_position_targets_last_published_.Add(joint_name, cur_target);
-                ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(cur_target.x, cur_target.y, cur_target.z));
-            }
-            else
-            {
-                var last_published = joint_pid_position_targets_last_published_[joint_name];
-                var difference = (cur_target - last_published).magnitude;
-                if (difference > publish_threshold_joints)
-                {
-                    joint_pid_position_targets_last_published_[joint_name] = cur_target;
-                    ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(cur_target.x, cur_target.y, cur_target.z));
-                }
-            }
-        }
-    }
-
     private void PublishJointPIDPositionTargetsJointStatesTopic()
     {
         /*string[] names = new string[joint_pid_position_targets_.Count];
@@ -523,39 +410,21 @@ public class UserAvatarService : Singleton<UserAvatarService>
         ROSBridgeService.Instance.websocket.Publish(topic, new ROSBridgeLib.gazebo_msgs.JointStatesMsg(states));
     }
 
-    private void PublishModelPose()
-    {
-        string topic = "/gazebo/set_model_state";
-        Vector3 model_position = GazeboSceneManager.Unity2GzVec3(this.avatar_rig.transform.position + this.avatar_rig.transform.rotation * this.gazebo_model_pos_offset);
-        Quaternion model_rotation = GazeboSceneManager.Unity2GzQuaternion(this.avatar_rig.transform.rotation);
-        ModelStateMsg model_state_msg = new ModelStateMsg(
-            this.avatar_name,
-            new PoseMsg(
-                new PointMsg(model_position.x, model_position.y, model_position.z),
-                new QuaternionMsg(model_rotation.x, model_rotation.y, model_rotation.z, model_rotation.w)
-            ),
-            new Vector3Msg(1f, 1f, 1f),
-            new TwistMsg()
-        );
-        ROSBridgeService.Instance.websocket.Publish(topic, model_state_msg);
-    }
-
     private void PublishModelPoseTarget()
     {
-
-        if ((model_position_last_published_ - avatar_rig.transform.position).magnitude > model_position_publish_threshold ||
-            (model_rotation_last_published_.eulerAngles - avatar_rig.transform.rotation.eulerAngles).magnitude > model_rotation_publish_threshold)
+        if ((model_position_last_published_ - local_avatar.transform.position).magnitude > model_position_publish_threshold ||
+            (model_rotation_last_published_.eulerAngles - local_avatar.transform.rotation.eulerAngles).magnitude > model_rotation_publish_threshold)
         {
             string topic = "/" + this.avatar_name + "/set_pose_target";
 
-            Vector3 model_position = GazeboSceneManager.Unity2GzVec3(this.avatar_rig.transform.position + this.avatar_rig.transform.rotation * this.gazebo_model_pos_offset);
+            Vector3 model_position = GazeboSceneManager.Unity2GzVec3(this.local_avatar.transform.position + this.local_avatar.transform.rotation * this.gazebo_model_pos_offset);
             PointMsg position_msg = new PointMsg(model_position.x, model_position.y, model_position.z);
-            Quaternion model_rotation = GazeboSceneManager.Unity2GzQuaternion(avatar_rig.transform.rotation);
+            Quaternion model_rotation = GazeboSceneManager.Unity2GzQuaternion(local_avatar.transform.rotation);
             QuaternionMsg rotation_msg = new QuaternionMsg(model_rotation.x, model_rotation.y, model_rotation.z, model_rotation.w);
             ROSBridgeService.Instance.websocket.Publish(topic, new PoseMsg(position_msg, rotation_msg));
 
-            model_position_last_published_ = avatar_rig.transform.position;
-            model_rotation_last_published_ = avatar_rig.transform.rotation;
+            model_position_last_published_ = local_avatar.transform.position;
+            model_rotation_last_published_ = local_avatar.transform.rotation;
         }
 
     }
@@ -565,6 +434,123 @@ public class UserAvatarService : Singleton<UserAvatarService>
     }
 
     #region legacy code
+
+    //private void PublishModelPose()
+    //{
+    //    string topic = "/gazebo/set_model_state";
+    //    Vector3 model_position = GazeboSceneManager.Unity2GzVec3(this.local_avatar.transform.position + this.local_avatar.transform.rotation * this.gazebo_model_pos_offset);
+    //    Quaternion model_rotation = GazeboSceneManager.Unity2GzQuaternion(this.local_avatar.transform.rotation);
+    //    ModelStateMsg model_state_msg = new ModelStateMsg(
+    //        this.avatar_name,
+    //        new PoseMsg(
+    //            new PointMsg(model_position.x, model_position.y, model_position.z),
+    //            new QuaternionMsg(model_rotation.x, model_rotation.y, model_rotation.z, model_rotation.w)
+    //        ),
+    //        new Vector3Msg(1f, 1f, 1f),
+    //        new TwistMsg()
+    //    );
+    //    ROSBridgeService.Instance.websocket.Publish(topic, model_state_msg);
+    //}
+
+    //private void PublishJointPIDPositionTargets()
+    //{
+    //    foreach (KeyValuePair<string, Vector3> entry in JointPidPositionTargets)
+    //    {
+    //        var joint_name = entry.Key;
+    //        var cur_target = entry.Value;
+    //        string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint_name + "/set_pid_position_target";
+    //        if (!joint_pid_position_targets_last_published_.ContainsKey(joint_name))
+    //        {
+    //            joint_pid_position_targets_last_published_.Add(joint_name, cur_target);
+    //            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(cur_target.x, cur_target.y, cur_target.z));
+    //        }
+    //        else
+    //        {
+    //            var last_published = joint_pid_position_targets_last_published_[joint_name];
+    //            var difference = (cur_target - last_published).magnitude;
+    //            if (difference > publish_threshold_joints)
+    //            {
+    //                joint_pid_position_targets_last_published_[joint_name] = cur_target;
+    //                ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(cur_target.x, cur_target.y, cur_target.z));
+    //            }
+    //        }
+    //    }
+    //}
+
+    //private void GetJointPIDPositionTargetsJointStatesMsg()
+    //{
+    //    Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
+    //    Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
+    //    foreach (Transform child in children)
+    //    {
+    //        if (child == joints_parent) continue;
+
+    //        //Quaternion rot_diff = Quaternion.FromToRotation(child.parent.forward, child.forward);
+    //        Quaternion rot_diff = Quaternion.Inverse(child.parent.rotation) * child.rotation;
+
+    //        Vector3 euler_angles = rot_diff.eulerAngles;
+    //        euler_angles.x = euler_angles.x % 360;
+    //        euler_angles.y = euler_angles.y % 360;
+    //        euler_angles.z = euler_angles.z % 360;
+
+    //        euler_angles.x = euler_angles.x > 180 ? euler_angles.x - 360 : euler_angles.x;
+    //        euler_angles.y = euler_angles.y > 180 ? euler_angles.y - 360 : euler_angles.y;
+    //        euler_angles.z = euler_angles.z > 180 ? euler_angles.z - 360 : euler_angles.z;
+
+    //        //Vector3 euler_angles_rad = euler_angles * Mathf.Deg2Rad;
+
+    //        string joint_name = child.name;
+    //        /* 
+    //         * in case the naming seems confusing, the ...Arm joints are actually placed at the shoulder and the ...Shoulder joints are closer to the spine for the ybot type of rigged model
+    //         * the name of the joint indicates the child limb that is attached to it 
+    //         * => ...Arm is the shoulder joint where the upper arm is attached, ...ForeArm is the elbow joint where the forearm is attached, etc.
+    //         */
+    //        if (child.name.Contains("LeftArm") || child.name.Contains("RightArm"))
+    //        {
+    //            // unfortunately, gazebo doesn't play well with joints having multiple DoFs / rotation axes (i.e. joint type ball, revolute2, universal)
+    //            // revolute2, universal let you set positions but seem to run into gimbal-lock-alike problems for local rotation axes of the joints
+    //            // specifically defining the two axes of rotation to be local y & z seems impossible 
+    //            // we have to split the natural shoulder joint (ball joint) into three individual revolute joints, each covering one axis of rotation for the shoulder
+
+    //            //Debug.Log(child.name + " : " + euler_angles);
+    //            string joint_x_axis = child.name + "_x";
+    //            string joint_y_axis = child.name + "_y";
+    //            string joint_z_axis = child.name + "_z";
+
+    //            // TEST
+    //            // TEST end
+
+    //            euler_angles = euler_angles * Mathf.Deg2Rad;
+    //            //ROSBridgeService.Instance.websocket.Publish(topic_x_axis, new Vector3Msg(euler_angles.x, 0, 0));
+    //            //ROSBridgeService.Instance.websocket.Publish(topic_y_axis, new Vector3Msg(-euler_angles.z, 0, 0));
+    //            //ROSBridgeService.Instance.websocket.Publish(topic_z_axis, new Vector3Msg(euler_angles.y, 0, 0));
+
+    //            if (!JointPidPositionTargets.ContainsKey(joint_x_axis)) JointPidPositionTargets.Add(joint_x_axis, new Vector3());
+    //            if (!JointPidPositionTargets.ContainsKey(joint_y_axis)) JointPidPositionTargets.Add(joint_y_axis, new Vector3());
+    //            if (!JointPidPositionTargets.ContainsKey(joint_z_axis)) JointPidPositionTargets.Add(joint_z_axis, new Vector3());
+    //            JointPidPositionTargets[joint_x_axis] = new Vector3(euler_angles.x, 0, 0);
+    //            JointPidPositionTargets[joint_y_axis] = new Vector3(-euler_angles.z, 0, 0);
+    //            JointPidPositionTargets[joint_z_axis] = new Vector3(euler_angles.y, 0, 0);
+    //        }
+    //        else if (child.name.Contains("LeftForeArm") || child.name.Contains("RightForeArm"))
+    //        {
+    //            euler_angles = new Vector3(euler_angles.y, euler_angles.x, euler_angles.z);
+    //            euler_angles = euler_angles * Mathf.Deg2Rad;
+    //            //ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
+
+    //            if (!JointPidPositionTargets.ContainsKey(joint_name)) JointPidPositionTargets.Add(joint_name, new Vector3());
+    //            JointPidPositionTargets[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+    //        }
+    //        else if (child.name.Contains("UpLeg") || child.name.Contains("Leg") || child.name.Contains("Foot") || child.name.Contains("Shoulder"))
+    //        {
+    //            euler_angles = euler_angles * Mathf.Deg2Rad;
+    //            //ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
+
+    //            if (!JointPidPositionTargets.ContainsKey(joint_name)) JointPidPositionTargets.Add(joint_name, new Vector3());
+    //            JointPidPositionTargets[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+    //        }
+    //    }
+    //}
 
     //private void InitializeLinkLinearVelocityControllers()
     //{

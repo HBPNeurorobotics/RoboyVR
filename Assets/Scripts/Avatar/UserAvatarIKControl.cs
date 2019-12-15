@@ -7,8 +7,8 @@ using UnityEngine;
 public class UserAvatarIKControl : MonoBehaviour
 {
 
-    [SerializeField] private bool ikActive = true;
-    [SerializeField] private IKTargetManager ikTargetManager;
+    [SerializeField] public bool ikActive = true;
+    [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
 
     protected Animator animator;
 
@@ -20,13 +20,8 @@ public class UserAvatarIKControl : MonoBehaviour
     private Transform rightFootTarget = null;
 
     private Transform lookAtObj = null;
-
-    public Vector3 bodyTargetOffset = new Vector3(0, -0.75f, 0);
+    
     public Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
-    [SerializeField] Vector3 footLeftOffset = new Vector3(0.08f, 0, 0);
-    [SerializeField] Vector3 footRightOffset = new Vector3(-0.08f, 0, 0);
-    [SerializeField] Vector3 footLeftRotation = new Vector3(0, 90, 0);
-    [SerializeField] Vector3 footRightRotation = new Vector3(0, -90, 0);
 
 
     // Use this for initialization
@@ -44,17 +39,18 @@ public class UserAvatarIKControl : MonoBehaviour
     //a callback for calculating IK
     void OnAnimatorIK()
     {
-        if (animator && ikTargetManager.IsReady())
+        if (animator)
         {
-            if (headTarget == null)
+            // initialize
+            if (ikActive && trackingIKTargetManager.IsReady() && headTarget == null)
             {
-                headTarget = ikTargetManager.GetIKTargetHead();
-                lookAtObj = ikTargetManager.GetIKTargetLookAt();
-                bodyTarget = ikTargetManager.GetIKTargetBody();
-                leftHandTarget = ikTargetManager.GetIKTargetLeftHand();
-                rightHandTarget = ikTargetManager.GetIKTargetRightHand();
-                leftFootTarget = ikTargetManager.GetIKTargetLeftFoot();
-                rightFootTarget = ikTargetManager.GetIKTargetRightFoot();
+                headTarget = trackingIKTargetManager.GetIKTargetHead();
+                lookAtObj = trackingIKTargetManager.GetIKTargetLookAt();
+                bodyTarget = trackingIKTargetManager.GetIKTargetBody();
+                leftHandTarget = trackingIKTargetManager.GetIKTargetLeftHand();
+                rightHandTarget = trackingIKTargetManager.GetIKTargetRightHand();
+                leftFootTarget = trackingIKTargetManager.GetIKTargetLeftFoot();
+                rightFootTarget = trackingIKTargetManager.GetIKTargetRightFoot();
 
                 UserAvatarService.Instance.SpawnYBot();
             }
@@ -65,7 +61,7 @@ public class UserAvatarIKControl : MonoBehaviour
                 // position body
                 if (bodyTarget != null)
                 {
-                    this.transform.position = bodyTarget.position + bodyTargetOffset;
+                    this.transform.position = bodyTarget.position;
                     this.transform.rotation = bodyTarget.rotation;
                 }
                 // no body target, but head and feet targets
@@ -131,9 +127,9 @@ public class UserAvatarIKControl : MonoBehaviour
                     //rightFootTarget.up = Vector3.up;
                     animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position + footRightOffset);
-                    Quaternion rightQuaternion = Quaternion.Euler(rightFootTarget.eulerAngles + footRightRotation);
-                    animator.SetIKRotation(AvatarIKGoal.RightFoot, rightQuaternion);
+                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position);
+                    //Quaternion rightQuaternion = Quaternion.Euler(rightFootTarget.eulerAngles);
+                    animator.SetIKRotation(AvatarIKGoal.RightFoot, /*rightQuaternion*/rightFootTarget.rotation);
                 }
 
                 if (leftFootTarget != null)
@@ -141,9 +137,9 @@ public class UserAvatarIKControl : MonoBehaviour
                     //leftFootTarget.up = Vector3.up;
                     animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position + footLeftOffset);
-                    Quaternion leftQuaternion = Quaternion.Euler(leftFootTarget.eulerAngles + footLeftRotation);
-                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftQuaternion);
+                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position);
+                    //Quaternion leftQuaternion = Quaternion.Euler(leftFootTarget.eulerAngles);
+                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, /*leftQuaternion*/leftFootTarget.rotation);
                 }
             }
         }
