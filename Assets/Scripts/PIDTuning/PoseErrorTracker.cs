@@ -8,8 +8,6 @@ namespace PIDTuning
 {
     public class PoseErrorTracker : MonoBehaviour
     {
-        [SerializeField]
-        private UserAvatarService _userAvatarService;
         [SerializeField] public RigAngleTracker LocalRig;
         
         public RigAngleTracker RemoteRig { private set; get; }
@@ -27,17 +25,17 @@ namespace PIDTuning
 
         private void OnEnable()
         {
-            Assert.IsNotNull(_userAvatarService);
+            Assert.IsNotNull(UserAvatarService.Instance);
             Assert.IsNotNull(LocalRig);
 
-            _userAvatarService.OnAvatarSpawned += AddTrackerToAvatar;
+            UserAvatarService.Instance.OnAvatarSpawned += AddTrackerToAvatar;
         }
 
         private void OnDisable()
         {
-            if (null != _userAvatarService)
+            if (null != UserAvatarService.Instance)
             {
-                _userAvatarService.OnAvatarSpawned -= AddTrackerToAvatar;
+                UserAvatarService.Instance.OnAvatarSpawned -= AddTrackerToAvatar;
             }  
         }
 

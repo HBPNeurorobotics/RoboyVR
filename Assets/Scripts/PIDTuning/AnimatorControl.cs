@@ -32,6 +32,7 @@ namespace PIDTuning
         /// </summary>
         private void Awake()
         {
+            //_localAvatar = UserAvatarService.Instance.LocalAvatar;
             Assert.IsNotNull(_localAvatar);
 
             Animator = _localAvatar.GetComponent<Animator>();
@@ -64,6 +65,7 @@ namespace PIDTuning
         /// </summary>
         public void ValidateStateList(List<string> states)
         {
+            Animator = _localAvatar.GetComponent<Animator>();
             Assert.IsNotNull(Animator);
 
             foreach (var state in states)

@@ -33,6 +33,7 @@ namespace PIDTuning.Editor
                 Initialize(ats);
             }
 
+            GUILayout.Label("WARNING! Tune all joints rudimentary implementation, should be looked at again.");
             if (GUILayout.Button("Tune all joints"))
             {
                 ats.StartCoroutine(ats.TuneAllJoints());
