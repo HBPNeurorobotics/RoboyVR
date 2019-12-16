@@ -100,7 +100,7 @@ public class ConfigJointManager : MonoBehaviour
             InitTemplateDict();
         }
 
-        Physics.IgnoreLayerCollision(9, 9);
+        //Physics.IgnoreLayerCollision(9, 9);
 
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
         {
@@ -138,6 +138,8 @@ public class ConfigJointManager : MonoBehaviour
     /// <param name="bone">The bone that the new ConfigurableJoint is added to in the remote avatar. This is also the bone that the values are copied from in the template.</param>
     void AddJointFromTemplate(HumanBodyBones bone)
     {
+        //Assign collision layer according to template
+        gameObjectsFromBone[bone].layer = templateFromBone[bone].layer;
         //Assign rigidbody 
         Rigidbody templateRb = templateFromBone[bone].gameObject.GetComponent<Rigidbody>();
         if (templateRb != null)

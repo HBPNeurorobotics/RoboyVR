@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 54342138354723346}
   - component: {fileID: 153116061650440466}
   - component: {fileID: 136347289941427580}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandMiddle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37,7 +37,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4717863186159268}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandMiddle4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,7 +52,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4277009177261376}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandMiddle4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,7 +70,7 @@ GameObject:
   - component: {fileID: 54385400954758620}
   - component: {fileID: 153678771708500556}
   - component: {fileID: 136554653709489416}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85,7 +85,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4669990644534082}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 4735958450176742}
   - component: {fileID: 54655480792283116}
   - component: {fileID: 153601183630955664}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: mixamorig_RightToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4055472703518534}
   - component: {fileID: 95617623589519452}
-  - component: {fileID: 114495634754177270}
   m_Layer: 0
   m_Name: avatar_rig
   m_TagString: Template
@@ -137,7 +136,7 @@ GameObject:
   - component: {fileID: 54038588241418072}
   - component: {fileID: 153864898798000800}
   - component: {fileID: 65885262268561888}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: mixamorig_LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +154,7 @@ GameObject:
   - component: {fileID: 54143394576337488}
   - component: {fileID: 153477216006046716}
   - component: {fileID: 136451216416347278}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +172,7 @@ GameObject:
   - component: {fileID: 54201843633629918}
   - component: {fileID: 153151687421733864}
   - component: {fileID: 135995187770372878}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_LeftShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +190,7 @@ GameObject:
   - component: {fileID: 54019492988438926}
   - component: {fileID: 153601729664165422}
   - component: {fileID: 136919445136849350}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +208,7 @@ GameObject:
   - component: {fileID: 54702231126464050}
   - component: {fileID: 153391387271467408}
   - component: {fileID: 135977960547833096}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +226,7 @@ GameObject:
   - component: {fileID: 54576061527181880}
   - component: {fileID: 153029183227458762}
   - component: {fileID: 136924979020846508}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4135487200128960}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +275,7 @@ GameObject:
   - component: {fileID: 54870751307607094}
   - component: {fileID: 153613466751153074}
   - component: {fileID: 136834758640575810}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +293,7 @@ GameObject:
   - component: {fileID: 54259366406543132}
   - component: {fileID: 153085799559295738}
   - component: {fileID: 136876125915522502}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +312,7 @@ GameObject:
   - component: {fileID: 153255122487156806}
   - component: {fileID: 135308396757605580}
   - component: {fileID: 135257557204347040}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +330,7 @@ GameObject:
   - component: {fileID: 54989507027982880}
   - component: {fileID: 153338331777125978}
   - component: {fileID: 136971457150193762}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +348,7 @@ GameObject:
   - component: {fileID: 54400378577855786}
   - component: {fileID: 153192277609503588}
   - component: {fileID: 65227590735647280}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: mixamorig_LeftToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +366,7 @@ GameObject:
   - component: {fileID: 54299011164708510}
   - component: {fileID: 153220951643094026}
   - component: {fileID: 135281700873204222}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,7 +381,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4456364883779252}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandPinky4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -400,7 +399,7 @@ GameObject:
   - component: {fileID: 54001621573734136}
   - component: {fileID: 153904981152116120}
   - component: {fileID: 136503257610249534}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: mixamorig_RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +417,7 @@ GameObject:
   - component: {fileID: 54705476441721330}
   - component: {fileID: 153579098635931154}
   - component: {fileID: 136484949844597642}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +435,7 @@ GameObject:
   - component: {fileID: 54312543796718466}
   - component: {fileID: 153374387337919966}
   - component: {fileID: 136956927223933222}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: mixamorig_LeftUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -454,7 +453,7 @@ GameObject:
   - component: {fileID: 54624000145570886}
   - component: {fileID: 153853248719670226}
   - component: {fileID: 136747587347575118}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,7 +471,7 @@ GameObject:
   - component: {fileID: 54192446786479978}
   - component: {fileID: 153952524962462958}
   - component: {fileID: 135868124030914678}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -490,7 +489,7 @@ GameObject:
   - component: {fileID: 54679877125094748}
   - component: {fileID: 153946179769165834}
   - component: {fileID: 135000696647588890}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -508,7 +507,7 @@ GameObject:
   - component: {fileID: 54441753501917956}
   - component: {fileID: 153474876945601202}
   - component: {fileID: 65768697789107206}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: mixamorig_RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,7 +525,7 @@ GameObject:
   - component: {fileID: 54022160949446724}
   - component: {fileID: 153466729642266144}
   - component: {fileID: 65443667466023882}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -544,7 +543,7 @@ GameObject:
   - component: {fileID: 54696302823743716}
   - component: {fileID: 153448885319945492}
   - component: {fileID: 136848360333101250}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandMiddle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -562,7 +561,7 @@ GameObject:
   - component: {fileID: 54417872071861686}
   - component: {fileID: 153428594303094828}
   - component: {fileID: 136306631436827078}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandRing2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -581,7 +580,7 @@ GameObject:
   - component: {fileID: 153973074121426108}
   - component: {fileID: 135283818107084612}
   - component: {fileID: 135513325198163914}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -599,7 +598,7 @@ GameObject:
   - component: {fileID: 54048925882799580}
   - component: {fileID: 153326291858727260}
   - component: {fileID: 136222569702812114}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -618,7 +617,7 @@ GameObject:
   - component: {fileID: 153395417568865810}
   - component: {fileID: 135525522678164062}
   - component: {fileID: 135168771148101380}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -636,7 +635,7 @@ GameObject:
   - component: {fileID: 54197635977485824}
   - component: {fileID: 153100475285422260}
   - component: {fileID: 136223588122761860}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandRing1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -655,7 +654,7 @@ GameObject:
   - component: {fileID: 153441778167517456}
   - component: {fileID: 135164774838642458}
   - component: {fileID: 135843485053530466}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,7 +672,7 @@ GameObject:
   - component: {fileID: 54193854054775566}
   - component: {fileID: 153060031551034982}
   - component: {fileID: 65754133194408870}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -688,7 +687,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4538228761672486}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_RightEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -703,7 +702,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4428849886865034}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandPinky4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -721,7 +720,7 @@ GameObject:
   - component: {fileID: 54000147986335128}
   - component: {fileID: 153135366317122254}
   - component: {fileID: 135003230336972366}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_RightShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -736,7 +735,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4563405440532052}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandThumb4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -754,7 +753,7 @@ GameObject:
   - component: {fileID: 54799093380620072}
   - component: {fileID: 153939212139107506}
   - component: {fileID: 136265222484856122}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -788,7 +787,7 @@ GameObject:
   - component: {fileID: 54140768269088332}
   - component: {fileID: 153806038848139504}
   - component: {fileID: 136376074503254296}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -806,7 +805,7 @@ GameObject:
   - component: {fileID: 54880426336479004}
   - component: {fileID: 153522716104396484}
   - component: {fileID: 65040298033206204}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -824,7 +823,7 @@ GameObject:
   - component: {fileID: 54100697319736584}
   - component: {fileID: 153789895714910418}
   - component: {fileID: 136359728376000538}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -842,7 +841,7 @@ GameObject:
   - component: {fileID: 54539388219966078}
   - component: {fileID: 153666078359251504}
   - component: {fileID: 136666427086191240}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -872,7 +871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4098520498326482}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandRing4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -890,7 +889,7 @@ GameObject:
   - component: {fileID: 54644316483634340}
   - component: {fileID: 153804847841737128}
   - component: {fileID: 136035316995577048}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandMiddle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -908,7 +907,7 @@ GameObject:
   - component: {fileID: 54741851885422118}
   - component: {fileID: 153016810372036676}
   - component: {fileID: 136838157149339412}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: mixamorig_LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -923,7 +922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000580510117416}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_LeftEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -941,7 +940,7 @@ GameObject:
   - component: {fileID: 54344304414784586}
   - component: {fileID: 153293487038805878}
   - component: {fileID: 136250474244538464}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -959,7 +958,7 @@ GameObject:
   - component: {fileID: 54786126365368098}
   - component: {fileID: 153635163578429828}
   - component: {fileID: 136894350835797288}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandRing3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -974,7 +973,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4315354965107774}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandRing4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -992,7 +991,7 @@ GameObject:
   - component: {fileID: 54521194892649080}
   - component: {fileID: 153468079969204186}
   - component: {fileID: 136007902791329354}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1007,7 +1006,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4705688155355316}
-  m_Layer: 9
+  m_Layer: 12
   m_Name: mixamorig_HeadTop_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1025,7 +1024,7 @@ GameObject:
   - component: {fileID: 54055470324899454}
   - component: {fileID: 153028628722306132}
   - component: {fileID: 136448550581601626}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: mixamorig_RightUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1043,7 +1042,7 @@ GameObject:
   - component: {fileID: 54321032643344596}
   - component: {fileID: 153852660793057546}
   - component: {fileID: 136140495565557256}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1061,7 +1060,7 @@ GameObject:
   - component: {fileID: 54611921741376646}
   - component: {fileID: 153531466732970176}
   - component: {fileID: 136720708059278362}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1079,7 +1078,7 @@ GameObject:
   - component: {fileID: 54122251400460408}
   - component: {fileID: 153276524305022386}
   - component: {fileID: 136386984356990464}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandMiddle1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1097,7 +1096,7 @@ GameObject:
   - component: {fileID: 54500491130697710}
   - component: {fileID: 153405870391342862}
   - component: {fileID: 65423807882350966}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1115,7 +1114,7 @@ GameObject:
   - component: {fileID: 54988156308074068}
   - component: {fileID: 153793013265805786}
   - component: {fileID: 136051544822598178}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1133,7 +1132,7 @@ GameObject:
   - component: {fileID: 54734242005473876}
   - component: {fileID: 153690342644618876}
   - component: {fileID: 136324458922145654}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandMiddle3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1151,7 +1150,7 @@ GameObject:
   - component: {fileID: 54745572332600014}
   - component: {fileID: 153881644354558738}
   - component: {fileID: 136387008612174764}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandMiddle2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1169,7 +1168,7 @@ GameObject:
   - component: {fileID: 54670644404627586}
   - component: {fileID: 153824098912325252}
   - component: {fileID: 136314105406193308}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mixamorig_RightHandPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1187,7 +1186,7 @@ GameObject:
   - component: {fileID: 54405863605716942}
   - component: {fileID: 153470756962939460}
   - component: {fileID: 65105213745917364}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: mixamorig_RightToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1202,7 +1201,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4118175875246498}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHandThumb4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1219,7 +1218,7 @@ GameObject:
   - component: {fileID: 4740839018116480}
   - component: {fileID: 54365126744145126}
   - component: {fileID: 153646422142724828}
-  m_Layer: 9
+  m_Layer: 13
   m_Name: mixamorig_LeftToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1237,7 +1236,7 @@ GameObject:
   - component: {fileID: 54354004758541940}
   - component: {fileID: 153788054318329362}
   - component: {fileID: 65582255526101152}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: mixamorig_LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1296,7 +1295,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1467191776125628}
-  m_LocalRotation: {x: -0.0000049999894, y: 0.000009500002, z: 0.0000010000583, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.03394359, y: -0.01959747, z: 0.01959792}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1805,7 +1804,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1526362091962416}
-  m_LocalRotation: {x: -0.000010499914, y: 0.000008500108, z: -0.000009499907, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.03788811, y: -0.021669975, z: 0.030030882}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2021,8 +2020,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1379813696236482}
-  m_LocalRotation: {x: -0.0000049999912, y: -0.000009500004, z: -0.0000010000324,
-    w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.03394347, y: -0.019597363, z: 0.01959793}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2248,14 +2246,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1624710536495156}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 2.8269
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54001621573734136
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2263,14 +2261,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1403047815899336}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 3.2904
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54019492988438926
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2278,14 +2276,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1255921156499442}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54022160949446724
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2293,14 +2291,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1495131983457276}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 11.1528
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54038588241418072
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2308,14 +2306,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1204612060150870}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.9576
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54048925882799580
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2323,14 +2321,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1535660335031316}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54055470324899454
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2338,14 +2336,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1919218301073158}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10.4184
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54100697319736584
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2353,14 +2351,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1663664453659200}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54122251400460408
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2368,14 +2366,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1950652504151620}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54140768269088332
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2383,14 +2381,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1656238488979106}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54143394576337488
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2398,14 +2396,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1206966329079062}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54192446786479978
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2413,14 +2411,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1467191776125628}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54193854054775566
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2428,14 +2426,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1573608724657234}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 2.8269
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54197635977485824
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2443,14 +2441,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1554096794671964}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54201843633629918
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2458,14 +2456,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1209308295870146}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 2.8269
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54259366406543132
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2473,14 +2471,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1309608094610386}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54299011164708510
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2488,14 +2486,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1379813696236482}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54312543796718466
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2503,14 +2501,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1462416911724244}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10.4184
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54321032643344596
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2518,14 +2516,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1929259792548922}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54342138354723346
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2533,14 +2531,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1017710921436928}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54344304414784586
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2548,14 +2546,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1812961607989264}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54354004758541940
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2563,14 +2561,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1998309202323528}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.42119998
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54355319826217354
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2578,14 +2576,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1340399967101798}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54356633891744620
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2593,14 +2591,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1565455949294230}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54357918653615160
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2608,14 +2606,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1526362091962416}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54365126744145126
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2638,14 +2636,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1104058815172208}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54400378577855786
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2653,14 +2651,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1368983944314470}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54405863605716942
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2668,14 +2666,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1973424375980286}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54417872071861686
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2683,14 +2681,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1506208747775710}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54441753501917956
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2698,14 +2696,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1490888360634036}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.9576
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54500491130697710
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2713,14 +2711,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1953201574040264}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.42119998
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54521194892649080
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2728,14 +2726,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1833543836346092}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 1.08
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54539388219966078
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2743,14 +2741,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1734902148389808}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 4.2552004
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54576061527181880
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2758,14 +2756,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1285274266455750}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54611921741376646
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2773,14 +2771,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1932456534877156}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 1.08
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54624000145570886
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2788,14 +2786,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1466553705508946}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54644316483634340
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2803,14 +2801,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1783090764647476}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54655480792283116
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2833,14 +2831,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1971320474172956}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54679877125094748
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2848,14 +2846,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1467821296325044}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 8.510401
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54696302823743716
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2863,14 +2861,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1495577037319250}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54702231126464050
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2878,14 +2876,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1262624173123316}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 2.8269
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54705476441721330
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2893,14 +2891,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1438866914841396}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54734242005473876
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2908,14 +2906,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1956250004043276}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54741851885422118
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2923,14 +2921,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1784210959026062}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 3.2904
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54745572332600014
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2938,14 +2936,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1968811542360268}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54786126365368098
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2953,14 +2951,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1822646696888098}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54799093380620072
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2968,14 +2966,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1638243586729470}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54823507963879732
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2983,14 +2981,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1542188416577370}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54870751307607094
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -3000,12 +2998,12 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54880426336479004
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -3013,14 +3011,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1657198162915764}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 4.2552004
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54988156308074068
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -3028,14 +3026,14 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1954087211067768}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 0.02
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54989507027982880
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -3045,12 +3043,12 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_AngularDrag: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &65040298033206204
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3061,8 +3059,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.3, y: 0.11945045, z: 0.27162713}
-  m_Center: {x: 0.0014068037, y: 0.050646484, z: 0.014186438}
+  m_Size: {x: 0.3, y: 0.11945045, z: 0.26284906}
+  m_Center: {x: 0.0014068037, y: 0.050646484, z: 0.018575478}
 --- !u!65 &65105213745917364
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -3177,19 +3175,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114495634754177270
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1178600443478736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _userAvatar: {fileID: 0}
-  _avatarManager: {fileID: 0}
 --- !u!135 &135000696647588890
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -3212,8 +3197,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.11
-  m_Center: {x: 0.07, y: 0, z: 0}
+  m_Radius: 0.094901115
+  m_Center: {x: 0.05490111, y: -4.119075e-20, z: 1.5238119e-18}
 --- !u!135 &135164774838642458
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -3356,8 +3341,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.11
-  m_Center: {x: -0.07, y: 0, z: 0}
+  m_Radius: 0.094901115
+  m_Center: {x: -0.05490111, y: -4.119075e-20, z: 1.5238119e-18}
 --- !u!136 &136007902791329354
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -3680,9 +3665,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.06278627
-  m_Height: 0.36225364
+  m_Height: 0.28971097
   m_Direction: 0
-  m_Center: {x: 0.1222097, y: 0.0009327233, z: -0.0037189946}
+  m_Center: {x: 0.15848102, y: 0.0009327233, z: -0.0037189946}
 --- !u!136 &136838157149339412
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -3784,9 +3769,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.06278627
-  m_Height: 0.36225364
+  m_Height: 0.28971097
   m_Direction: 0
-  m_Center: {x: -0.12220968, y: 0.0009327233, z: -0.0037189946}
+  m_Center: {x: -0.158481, y: 0.0009327233, z: -0.0037189946}
 --- !u!137 &137151397721155064
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -4076,7 +4061,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153028628722306132
@@ -4170,7 +4155,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153029183227458762
@@ -4264,7 +4249,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153060031551034982
@@ -4273,19 +4258,19 @@ ConfigurableJoint:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1573608724657234}
-  m_ConnectedBody: {fileID: 54022160949446724}
+  m_ConnectedBody: {fileID: 54539388219966078}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.00000089048825, y: 0.13360202, z: -0.016264595}
+  m_ConnectedAnchor: {x: 0.0000004886649, y: 0.34929103, z: -0.042761356}
   serializedVersion: 2
-  m_SecondaryAxis: {x: 0, y: 1, z: 0}
+  m_SecondaryAxis: {x: 0, y: 0, z: 1}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
-  m_AngularXMotion: 0
-  m_AngularYMotion: 0
-  m_AngularZMotion: 0
+  m_AngularXMotion: 1
+  m_AngularYMotion: 1
+  m_AngularZMotion: 1
   m_LinearLimitSpring:
     spring: 0
     damper: 0
@@ -4297,54 +4282,54 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: 0
+    limit: -15
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 0
+    limit: 29
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
     spring: 0
     damper: 0
   m_AngularYLimit:
-    limit: 0
+    limit: 14.206236
     bounciness: 0
     contactDistance: 0
   m_AngularZLimit:
-    limit: 0
+    limit: 40
     bounciness: 0
     contactDistance: 0
   m_TargetPosition: {x: 0, y: 0, z: 0}
   m_TargetVelocity: {x: 0, y: 0, z: 0}
   m_XDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_ZDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_TargetAngularVelocity: {x: 0, y: 0, z: 0}
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -4358,7 +4343,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153085799559295738
@@ -4452,7 +4437,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153100475285422260
@@ -4546,7 +4531,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153116061650440466
@@ -4640,7 +4625,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153135366317122254
@@ -4734,7 +4719,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153151687421733864
@@ -4828,7 +4813,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153192277609503588
@@ -4922,7 +4907,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153220951643094026
@@ -5016,7 +5001,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153255122487156806
@@ -5029,7 +5014,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.036754448, y: -0.021220008, z: 0.021220116}
+  m_ConnectedAnchor: {x: -0.03675449, y: -0.021219937, z: 0.021220116}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -5110,7 +5095,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153276524305022386
@@ -5204,7 +5189,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153293487038805878
@@ -5298,7 +5283,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153326291858727260
@@ -5392,7 +5377,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153338331777125978
@@ -5580,7 +5565,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153391387271467408
@@ -5674,7 +5659,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153395417568865810
@@ -5768,7 +5753,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153405870391342862
@@ -5862,7 +5847,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153428594303094828
@@ -5956,7 +5941,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153441778167517456
@@ -6050,7 +6035,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153448885319945492
@@ -6144,7 +6129,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153466729642266144
@@ -6238,7 +6223,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153468079969204186
@@ -6332,7 +6317,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153470756962939460
@@ -6426,7 +6411,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153474876945601202
@@ -6520,7 +6505,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153477216006046716
@@ -6614,7 +6599,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153522716104396484
@@ -6623,19 +6608,19 @@ ConfigurableJoint:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1657198162915764}
-  m_ConnectedBody: {fileID: 0}
+  m_ConnectedBody: {fileID: 54539388219966078}
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.00000006031229, y: 1.097154, z: -0.01227287}
+  m_ConnectedAnchor: {x: 0.0000000086649905, y: 0.09923464, z: -0.012273349}
   serializedVersion: 2
-  m_SecondaryAxis: {x: 0, y: 1, z: 0}
+  m_SecondaryAxis: {x: 0, y: 0, z: 1}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
-  m_AngularXMotion: 0
-  m_AngularYMotion: 0
-  m_AngularZMotion: 0
+  m_AngularXMotion: 1
+  m_AngularYMotion: 1
+  m_AngularZMotion: 1
   m_LinearLimitSpring:
     spring: 0
     damper: 0
@@ -6647,54 +6632,54 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: 0
+    limit: -15
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 0
+    limit: 29
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
     spring: 0
     damper: 0
   m_AngularYLimit:
-    limit: 0
+    limit: 14.206236
     bounciness: 0
     contactDistance: 0
   m_AngularZLimit:
-    limit: 0
+    limit: 40
     bounciness: 0
     contactDistance: 0
   m_TargetPosition: {x: 0, y: 0, z: 0}
   m_TargetVelocity: {x: 0, y: 0, z: 0}
   m_XDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_YDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_ZDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
   m_TargetAngularVelocity: {x: 0, y: 0, z: 0}
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 0
-    positionDamper: 0
-    maximumForce: 3.4028233e+38
+    positionSpring: 2500
+    positionDamper: 600
+    maximumForce: 10000
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -6708,7 +6693,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153531466732970176
@@ -6802,7 +6787,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153579098635931154
@@ -6896,7 +6881,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153601183630955664
@@ -7084,7 +7069,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153613466751153074
@@ -7272,7 +7257,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153646422142724828
@@ -7554,7 +7539,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153690342644618876
@@ -7648,7 +7633,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153788054318329362
@@ -7742,7 +7727,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153789895714910418
@@ -7836,7 +7821,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153793013265805786
@@ -7930,7 +7915,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153804847841737128
@@ -8024,7 +8009,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153806038848139504
@@ -8118,7 +8103,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153824098912325252
@@ -8212,7 +8197,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153852660793057546
@@ -8306,7 +8291,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153853248719670226
@@ -8400,7 +8385,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153864898798000800
@@ -8494,7 +8479,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153881644354558738
@@ -8588,7 +8573,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153904981152116120
@@ -8682,7 +8667,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153939212139107506
@@ -8776,7 +8761,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153946179769165834
@@ -8870,7 +8855,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153952524962462958
@@ -8883,7 +8868,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.052999675, y: -0.060169145, z: 0.04262961}
+  m_ConnectedAnchor: {x: 0.052999794, y: -0.06017141, z: 0.042627547}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -8964,7 +8949,7 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
 --- !u!153 &153973074121426108
@@ -9058,6 +9043,6 @@ ConfigurableJoint:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
-  m_EnablePreprocessing: 1
+  m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
