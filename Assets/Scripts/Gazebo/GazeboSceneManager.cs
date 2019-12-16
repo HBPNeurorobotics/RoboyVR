@@ -317,11 +317,11 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
                 return mesh_gameobject;
             }
         }
-        catch (KeyNotFoundException e)
+        catch (KeyNotFoundException)
         {
             Debug.Log("CreateMeshFromJSON() - model subpath for '" + model_name + "' is not in dictionary");
         }
-        catch (Exception e)
+        catch (Exception)
         {
             Debug.Log("CreateMeshFromJSON() - model subpath for '" + model_name + "' is not in dictionary");
         }
