@@ -240,6 +240,26 @@ public class UserAvatarService : Singleton<UserAvatarService>
                 euler_angles = euler_angles * Mathf.Deg2Rad;
                 ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
             }
+            else if (child.name.Contains("LeftHandIndex1"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+                ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
+            }
+            else if (child.name.Contains("LeftHandIndex2"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+                ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
+            }
+            else if (child.name.Contains("LeftHandIndex3"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+                ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
+            }
+            else if (child.name.Contains("LeftHandIndex4"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+                ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
+            }
             else if (child.name.Contains("UpLeg") || child.name.Contains("Leg") || child.name.Contains("Foot"))
             {
                 euler_angles = euler_angles * Mathf.Deg2Rad;
@@ -329,6 +349,34 @@ public class UserAvatarService : Singleton<UserAvatarService>
                 if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
                 joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
             }
+            else if (child.name.Contains("LeftHandIndex1"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+
+                if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
+                joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+            }
+            else if (child.name.Contains("LeftHandIndex2"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+
+                if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
+                joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+            }
+            else if (child.name.Contains("LeftHandIndex3"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+
+                if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
+                joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+            }
+            else if (child.name.Contains("LeftHandIndex4"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+
+                if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
+                joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+            }
             else if (child.name.Contains("UpLeg") || child.name.Contains("Leg") || child.name.Contains("Foot") || child.name.Contains("Shoulder"))
             {
                 euler_angles = euler_angles * Mathf.Deg2Rad;
@@ -399,6 +447,34 @@ public class UserAvatarService : Singleton<UserAvatarService>
                 euler_angles = new Vector3(euler_angles.y, euler_angles.x, euler_angles.z);
                 euler_angles = euler_angles * Mathf.Deg2Rad;
                 //ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(euler_angles.x, euler_angles.y, euler_angles.z));
+
+                if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
+                joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+            }
+            else if (child.name.Contains("LeftHandIndex1"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+
+                if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
+                joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+            }
+            else if (child.name.Contains("LeftHandIndex2"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+
+                if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
+                joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+            }
+            else if (child.name.Contains("LeftHandIndex3"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
+
+                if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
+                joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
+            }
+            else if (child.name.Contains("LeftHandIndex4"))
+            {
+                euler_angles = euler_angles * Mathf.Deg2Rad;
 
                 if (!joint_pid_position_targets_.ContainsKey(joint_name)) joint_pid_position_targets_.Add(joint_name, new Vector3());
                 joint_pid_position_targets_[joint_name] = new Vector3(euler_angles.x, euler_angles.y, euler_angles.z);
