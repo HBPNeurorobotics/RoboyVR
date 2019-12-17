@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class UserAvatarIKControl : MonoBehaviour {
 
-    [SerializeField] private bool ikActive = true;
-    [SerializeField] private IKTargetManager ikTargetManager;
+    [SerializeField] public bool ikActive = true;
+    [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
 
     protected Animator animator;
 
@@ -19,13 +19,8 @@ public class UserAvatarIKControl : MonoBehaviour {
     private Transform rightFootTarget = null;
 
     private Transform lookAtObj = null;
-
-    public Vector3 bodyTargetOffset = new Vector3(0, -0.75f, 0);
+    
     public Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
-    [SerializeField]Vector3 footLeftOffset = new Vector3(0.08f, 0,0);
-    [SerializeField] Vector3 footRightOffset = new Vector3(-0.08f, 0, 0);
-    [SerializeField] Vector3 footLeftRotation = new Vector3(0, 90, 0);
-    [SerializeField] Vector3 footRightRotation = new Vector3(0, -90, 0);
 
     // Bachelor Thesis VRHand
     private Transform leftThumb1 = null;
@@ -184,18 +179,18 @@ public class UserAvatarIKControl : MonoBehaviour {
     //a callback for calculating IK
     void OnAnimatorIK()
     {
-        if (animator && ikTargetManager.IsReady())
+        if (animator)
         {
-            if (headTarget == null)
+            // initialize
+            if (ikActive && trackingIKTargetManager.IsReady() && headTarget == null)
             {
-                headTarget = ikTargetManager.GetIKTargetHead();
-                lookAtObj = ikTargetManager.GetIKTargetLookAt();
-                bodyTarget = ikTargetManager.GetIKTargetBody();
-                leftHandTarget = ikTargetManager.GetIKTargetLeftHand();
-                rightHandTarget = ikTargetManager.GetIKTargetRightHand();
-                leftFootTarget = ikTargetManager.GetIKTargetLeftFoot();
-                rightFootTarget = ikTargetManager.GetIKTargetRightFoot();
-                
+                headTarget = trackingIKTargetManager.GetIKTargetHead();
+                lookAtObj = trackingIKTargetManager.GetIKTargetLookAt();
+                bodyTarget = trackingIKTargetManager.GetIKTargetBody();
+                leftHandTarget = trackingIKTargetManager.GetIKTargetLeftHand();
+                rightHandTarget = trackingIKTargetManager.GetIKTargetRightHand();
+                leftFootTarget = trackingIKTargetManager.GetIKTargetLeftFoot();
+                rightFootTarget = trackingIKTargetManager.GetIKTargetRightFoot();
 
                 UserAvatarService.Instance.SpawnYBot();
             }
@@ -206,7 +201,7 @@ public class UserAvatarIKControl : MonoBehaviour {
                 // position body
                 if (bodyTarget != null)
                 {
-                    this.transform.position = bodyTarget.position + bodyTargetOffset;
+                    this.transform.position = bodyTarget.position;
                     this.transform.rotation = bodyTarget.rotation;
                 }
                 // no body target, but head and feet targets
@@ -273,9 +268,9 @@ public class UserAvatarIKControl : MonoBehaviour {
                     //rightFootTarget.up = Vector3.up;
                     animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position + footRightOffset);
-                    Quaternion rightQuaternion = Quaternion.Euler(rightFootTarget.eulerAngles + footRightRotation);
-                    animator.SetIKRotation(AvatarIKGoal.RightFoot, rightQuaternion);
+                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position);
+                    //Quaternion rightQuaternion = Quaternion.Euler(rightFootTarget.eulerAngles);
+                    animator.SetIKRotation(AvatarIKGoal.RightFoot, /*rightQuaternion*/rightFootTarget.rotation);
                 }
                 
                 if (leftFootTarget != null)
@@ -283,9 +278,9 @@ public class UserAvatarIKControl : MonoBehaviour {
                     //leftFootTarget.up = Vector3.up;
                     animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
                     animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position + footLeftOffset);
-                    Quaternion leftQuaternion = Quaternion.Euler(leftFootTarget.eulerAngles + footLeftRotation);
-                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftQuaternion);
+                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position);
+                    //Quaternion leftQuaternion = Quaternion.Euler(leftFootTarget.eulerAngles);
+                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, /*leftQuaternion*/leftFootTarget.rotation);
                 }
             }
         }
@@ -293,7 +288,7 @@ public class UserAvatarIKControl : MonoBehaviour {
 
     private void LateUpdate()
     {
-        if (ikTargetManager.IsReady())
+        if (trackingIKTargetManager.IsReady())
         {
             getFingerTargetLeft();
             getFingerTargetRight();
@@ -306,58 +301,58 @@ public class UserAvatarIKControl : MonoBehaviour {
 
     private void getFingerTargetLeft()
     {
-        leftThumb1 = ikTargetManager.GetTargetThumb1();
-        leftThumb2 = ikTargetManager.GetTargetThumb2();
-        leftThumb3 = ikTargetManager.GetTargetThumb3();
-        leftThumb4 = ikTargetManager.GetTargetThumb4();
+        leftThumb1 = trackingIKTargetManager.GetTargetThumb1();
+        leftThumb2 = trackingIKTargetManager.GetTargetThumb2();
+        leftThumb3 = trackingIKTargetManager.GetTargetThumb3();
+        leftThumb4 = trackingIKTargetManager.GetTargetThumb4();
 
-        leftIndex1 = ikTargetManager.GetTargetIndex1();
-        leftIndex2 = ikTargetManager.GetTargetIndex2();
-        leftIndex3 = ikTargetManager.GetTargetIndex3();
-        leftIndex4 = ikTargetManager.GetTargetIndex4();
+        leftIndex1 = trackingIKTargetManager.GetTargetIndex1();
+        leftIndex2 = trackingIKTargetManager.GetTargetIndex2();
+        leftIndex3 = trackingIKTargetManager.GetTargetIndex3();
+        leftIndex4 = trackingIKTargetManager.GetTargetIndex4();
 
-        leftMiddle1 = ikTargetManager.GetTargetMiddle1();
-        leftMiddle2 = ikTargetManager.GetTargetMiddle2();
-        leftMiddle3 = ikTargetManager.GetTargetMiddle3();
-        leftMiddle4 = ikTargetManager.GetTargetMiddle4();
+        leftMiddle1 = trackingIKTargetManager.GetTargetMiddle1();
+        leftMiddle2 = trackingIKTargetManager.GetTargetMiddle2();
+        leftMiddle3 = trackingIKTargetManager.GetTargetMiddle3();
+        leftMiddle4 = trackingIKTargetManager.GetTargetMiddle4();
 
-        leftRing1 = ikTargetManager.GetTargetRing1();
-        leftRing2 = ikTargetManager.GetTargetRing2();
-        leftRing3 = ikTargetManager.GetTargetRing3();
-        leftRing4 = ikTargetManager.GetTargetRing4();
+        leftRing1 = trackingIKTargetManager.GetTargetRing1();
+        leftRing2 = trackingIKTargetManager.GetTargetRing2();
+        leftRing3 = trackingIKTargetManager.GetTargetRing3();
+        leftRing4 = trackingIKTargetManager.GetTargetRing4();
 
-        leftPinky1 = ikTargetManager.GetTargetPinky1();
-        leftPinky2 = ikTargetManager.GetTargetPinky2();
-        leftPinky3 = ikTargetManager.GetTargetPinky3();
-        leftPinky4 = ikTargetManager.GetTargetPinky4();
+        leftPinky1 = trackingIKTargetManager.GetTargetPinky1();
+        leftPinky2 = trackingIKTargetManager.GetTargetPinky2();
+        leftPinky3 = trackingIKTargetManager.GetTargetPinky3();
+        leftPinky4 = trackingIKTargetManager.GetTargetPinky4();
     }
 
     private void getFingerTargetRight()
     {
-        rightThumb1 = ikTargetManager.GetTargetThumb1R();
-        rightThumb2 = ikTargetManager.GetTargetThumb2R();
-        rightThumb3 = ikTargetManager.GetTargetThumb3R();
-        rightThumb4 = ikTargetManager.GetTargetThumb4R();
+        rightThumb1 = trackingIKTargetManager.GetTargetThumb1R();
+        rightThumb2 = trackingIKTargetManager.GetTargetThumb2R();
+        rightThumb3 = trackingIKTargetManager.GetTargetThumb3R();
+        rightThumb4 = trackingIKTargetManager.GetTargetThumb4R();
 
-        rightIndex1 = ikTargetManager.GetTargetIndex1R();
-        rightIndex2 = ikTargetManager.GetTargetIndex2R();
-        rightIndex3 = ikTargetManager.GetTargetIndex3R();
-        rightIndex4 = ikTargetManager.GetTargetIndex4R();
+        rightIndex1 = trackingIKTargetManager.GetTargetIndex1R();
+        rightIndex2 = trackingIKTargetManager.GetTargetIndex2R();
+        rightIndex3 = trackingIKTargetManager.GetTargetIndex3R();
+        rightIndex4 = trackingIKTargetManager.GetTargetIndex4R();
 
-        rightMiddle1 = ikTargetManager.GetTargetMiddle1R();
-        rightMiddle2 = ikTargetManager.GetTargetMiddle2R();
-        rightMiddle3 = ikTargetManager.GetTargetMiddle3R();
-        rightMiddle4 = ikTargetManager.GetTargetMiddle4R();
+        rightMiddle1 = trackingIKTargetManager.GetTargetMiddle1R();
+        rightMiddle2 = trackingIKTargetManager.GetTargetMiddle2R();
+        rightMiddle3 = trackingIKTargetManager.GetTargetMiddle3R();
+        rightMiddle4 = trackingIKTargetManager.GetTargetMiddle4R();
 
-        rightRing1 = ikTargetManager.GetTargetRing1R();
-        rightRing2 = ikTargetManager.GetTargetRing2R();
-        rightRing3 = ikTargetManager.GetTargetRing3R();
-        rightRing4 = ikTargetManager.GetTargetRing4R();
+        rightRing1 = trackingIKTargetManager.GetTargetRing1R();
+        rightRing2 = trackingIKTargetManager.GetTargetRing2R();
+        rightRing3 = trackingIKTargetManager.GetTargetRing3R();
+        rightRing4 = trackingIKTargetManager.GetTargetRing4R();
 
-        rightPinky1 = ikTargetManager.GetTargetPinky1R();
-        rightPinky2 = ikTargetManager.GetTargetPinky2R();
-        rightPinky3 = ikTargetManager.GetTargetPinky3R();
-        rightPinky4 = ikTargetManager.GetTargetPinky4R();
+        rightPinky1 = trackingIKTargetManager.GetTargetPinky1R();
+        rightPinky2 = trackingIKTargetManager.GetTargetPinky2R();
+        rightPinky3 = trackingIKTargetManager.GetTargetPinky3R();
+        rightPinky4 = trackingIKTargetManager.GetTargetPinky4R();
     }
 
     private void updateFingerTargetLeft()
