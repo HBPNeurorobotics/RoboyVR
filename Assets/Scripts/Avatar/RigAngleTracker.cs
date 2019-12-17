@@ -402,6 +402,7 @@ public class RigAngleTracker : MonoBehaviour
         X,
         Y,
         InvertedZ
+        //add cases for non-gazebo 
     }
 
     /// <summary>

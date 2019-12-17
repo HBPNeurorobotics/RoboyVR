@@ -24,7 +24,7 @@ public class ConfigJointManager : MonoBehaviour
     AvatarManager avatarManager;
     Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone = new Dictionary<HumanBodyBones, GameObject>();
     //TODO: These values should not change at runtime 
-    Dictionary<HumanBodyBones, GameObject> gameObjectsFromBoneAtStart = new Dictionary<HumanBodyBones, GameObject>();
+    Dictionary<HumanBodyBones, Quaternion> quaternionFromBoneAtStart = new Dictionary<HumanBodyBones, Quaternion>();
     Dictionary<HumanBodyBones, GameObject> templateFromBone = new Dictionary<HumanBodyBones, GameObject>();
 
     Animator templateAnimator;
@@ -321,9 +321,17 @@ public class ConfigJointManager : MonoBehaviour
     void SetConnectedBody(HumanBodyBones bone, ConfigurableJoint joint)
     {
 
-        joint.xMotion = ConfigurableJointMotion.Locked;
-        joint.yMotion = ConfigurableJointMotion.Locked;
-        joint.zMotion = ConfigurableJointMotion.Locked;
+        joint.xMotion = ConfigurableJointMotion.Limited;
+        joint.yMotion = ConfigurableJointMotion.Limited;
+        joint.zMotion = ConfigurableJointMotion.Limited;
+
+        JointDrive drive = new JointDrive();
+        drive.positionDamper = 600;
+        drive.positionSpring = 3000;
+
+        joint.xDrive = drive;
+        joint.yDrive = drive;
+        joint.zDrive = drive;
         
         /*
         if (!useIndividualAxes)
@@ -339,6 +347,9 @@ public class ConfigJointManager : MonoBehaviour
 
         joint.enableCollision = false;
         joint.enablePreprocessing = false;
+        //joint.projectionMode = JointProjectionMode.PositionAndRotation;
+        //joint.projectionAngle = 2f;
+        //joint.projectionDistance = 0.1f;
 
         switch (bone)
         {
@@ -547,6 +558,9 @@ public class ConfigJointManager : MonoBehaviour
 
             default: break;
         }
+
+        //joint.autoConfigureConnectedAnchor = false;
+        //joint.autoConfigureConnectedAnchor = false;
     }
 
     /// <summary>
@@ -600,7 +614,7 @@ public class ConfigJointManager : MonoBehaviour
 
     void AssignOriginalTransforms(HumanBodyBones bone)
     {
-        gameObjectsFromBoneAtStart = avatarManager.GetGameObjectPerBoneRemoteAvatarDictionaryAtStart();
+        quaternionFromBoneAtStart = avatarManager.GetGameObjectPerBoneRemoteAvatarDictionaryAtStart();
     }
 
     public void setMassOfBone(HumanBodyBones bone, float mass = 1)
@@ -700,7 +714,7 @@ public class ConfigJointManager : MonoBehaviour
 
         Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace) *
                                     Quaternion.Inverse(targetRotation) *
-                                    gameObjectsFromBoneAtStart[bone].transform.localRotation *
+                                    quaternionFromBoneAtStart[bone] *
                                     worldToJointSpace;
         return resultRotation;
     }

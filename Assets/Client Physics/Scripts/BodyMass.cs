@@ -150,7 +150,7 @@ public class BodyMass
                 return GetLengthOfBodySegment(bone) * GetPercentage( MID_TRUNK_F_COM, MID_TRUNK_M_COM );
             case HumanBodyBones.Spine:
             case HumanBodyBones.Hips:
-                return GetLengthOfBodySegment(bone) * GetPercentage( LOWER_TRUNK_F_COM, LOWER_TRUNK_M_COM );
+                return GetLengthOfBodySegment(bone) * GetPercentage( LOWER_TRUNK_F_COM, LOWER_TRUNK_M_COM ) ;
             case HumanBodyBones.LeftUpperArm:
             case HumanBodyBones.RightUpperArm:
                 return GetLengthOfBodySegment(bone) * GetPercentage( UPPER_ARM_F_COM, UPPER_ARM_M_COM );
@@ -205,7 +205,38 @@ public class BodyMass
                 return totalMassKg * GetPercentage( FORE_ARM_F_MASS, FORE_ARM_M_MASS );
             case HumanBodyBones.LeftHand:
             case HumanBodyBones.RightHand:
-                return totalMassKg * GetPercentage( HAND_F_MASS, HAND_M_MASS );
+                return totalMassKg * GetPercentage( HAND_F_MASS, HAND_M_MASS ) * 0.4f;
+            case HumanBodyBones.LeftIndexDistal:
+            case HumanBodyBones.LeftIndexIntermediate:
+            case HumanBodyBones.LeftIndexProximal:
+            case HumanBodyBones.LeftMiddleDistal:
+            case HumanBodyBones.LeftMiddleIntermediate:
+            case HumanBodyBones.LeftMiddleProximal:
+            case HumanBodyBones.LeftRingDistal:
+            case HumanBodyBones.LeftRingIntermediate:
+            case HumanBodyBones.LeftRingProximal:
+            case HumanBodyBones.LeftLittleDistal:
+            case HumanBodyBones.LeftLittleIntermediate:
+            case HumanBodyBones.LeftLittleProximal:
+            case HumanBodyBones.LeftThumbDistal:
+            case HumanBodyBones.LeftThumbIntermediate:
+            case HumanBodyBones.LeftThumbProximal:
+            case HumanBodyBones.RightIndexDistal:
+            case HumanBodyBones.RightIndexIntermediate:
+            case HumanBodyBones.RightIndexProximal:
+            case HumanBodyBones.RightMiddleDistal:
+            case HumanBodyBones.RightMiddleIntermediate:
+            case HumanBodyBones.RightMiddleProximal:
+            case HumanBodyBones.RightRingDistal:
+            case HumanBodyBones.RightRingIntermediate:
+            case HumanBodyBones.RightRingProximal:
+            case HumanBodyBones.RightLittleDistal:
+            case HumanBodyBones.RightLittleIntermediate:
+            case HumanBodyBones.RightLittleProximal:
+            case HumanBodyBones.RightThumbDistal:
+            case HumanBodyBones.RightThumbIntermediate:
+            case HumanBodyBones.RightThumbProximal:
+                return totalMassKg * ((GetPercentage(HAND_F_MASS, HAND_M_MASS) * 0.6f) / 15f);
             case HumanBodyBones.LeftUpperLeg:
             case HumanBodyBones.RightUpperLeg:
                 return totalMassKg * GetPercentage( THIGH_F_MASS, THIGH_M_MASS );
