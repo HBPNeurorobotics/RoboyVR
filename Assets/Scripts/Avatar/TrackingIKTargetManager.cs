@@ -51,8 +51,7 @@ public class TrackingIKTargetManager : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	void Update () {
-	}
+	void Update () {}
 
 
     private void OnEnable()
@@ -107,6 +106,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     public void OnControllerGripPress()
     {
+        Debug.Log("OnControllerGripPress");
         if (!initialized)
         {
             IdentifyTrackingTargets();
