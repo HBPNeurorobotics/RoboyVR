@@ -24,6 +24,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     [SerializeField] private Pose targetOffsetLeftHand = new Pose(new Vector3(-0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, 90f));
     [SerializeField] private Pose targetOffsetRightHand = new Pose(new Vector3(0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, -90f));
+    [SerializeField] private Vector3 bodyTargetOffset = new Vector3(0f, 0.5f, 0f);
     [SerializeField] private float feetTargetOffsetAboveGround = 0.1f;
 
     private Dictionary<uint, TrackingReferenceObject> trackingReferences = new Dictionary<uint, TrackingReferenceObject>();
@@ -34,6 +35,7 @@ public class TrackingIKTargetManager : MonoBehaviour
     private Transform trackingTargetFootLeft;
     private Transform trackingTargetFootRight;
     private Dictionary<uint, SteamVR_Input_Sources> dictSteamVRInputSources = new Dictionary<uint, SteamVR_Input_Sources>();
+    private bool inferIKTargetBody = false;
 
     private GameObject ikTargetHead;
     private GameObject ikTargetLookAt;
@@ -52,6 +54,21 @@ public class TrackingIKTargetManager : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
+        if (inferIKTargetBody && ikTargetBody != null)
+        {
+            if (ikTargetHead != null && ikTargetLeftFoot != null && ikTargetRightFoot != null)
+            {
+                Vector3 feetCenter = 0.5f * (ikTargetLeftFoot.transform.position + ikTargetRightFoot.transform.position);
+                Vector3 bodyPosition = 0.33f * (ikTargetHead.transform.position + ikTargetLeftFoot.transform.position + ikTargetRightFoot.transform.position);
+                ikTargetBody.transform.position = bodyPosition + bodyTargetOffset;
+
+                Vector3 bodyUp = (ikTargetHead.transform.position - feetCenter).normalized;
+                Vector3 bodyRight = (ikTargetHead.transform.right + ikTargetLeftFoot.transform.right + ikTargetRightFoot.transform.right).normalized;//ikTargetHead.transform.right;
+                Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp);
+                Quaternion bodyRotation = Quaternion.LookRotation(bodyForward, bodyUp);
+                ikTargetBody.transform.rotation = bodyRotation;
+            }
+        }
 	}
 
 
@@ -107,6 +124,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     public void OnControllerGripPress()
     {
+        Debug.Log("OnControllerGripPress");
         if (!initialized)
         {
             IdentifyTrackingTargets();
@@ -206,6 +224,14 @@ public class TrackingIKTargetManager : MonoBehaviour
         if (trackingTargetHandRight) SetupIKTargetHandRight(trackingTargetHandRight);
         if (trackingTargetFootLeft) SetupIKTargetFootLeft(trackingTargetFootLeft);
         if (trackingTargetFootRight) SetupIKTargetFootRight(trackingTargetFootRight);
+
+        // special case, we do not have a body tracker
+        if (trackingTargetBody == null)
+        {
+            ikTargetBody = new GameObject("IK Target Body");
+            ikTargetBody.transform.parent = this.transform;
+            inferIKTargetBody = true;
+        }
     }
 
     private void SetupIKTargetHead(Transform trackingTarget)
