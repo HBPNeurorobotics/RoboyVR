@@ -8,6 +8,8 @@ public class UserAvatarIKControl : MonoBehaviour {
 
     [SerializeField] public bool ikActive = true;
     [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
+    [SerializeField] private Vector3 inferredBodyTargetOffset = new Vector3(0f, 0.45f, 0f);
+    [SerializeField] private Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
 
     protected Animator animator;
 
@@ -19,8 +21,6 @@ public class UserAvatarIKControl : MonoBehaviour {
     private Transform rightFootTarget = null;
 
     private Transform lookAtObj = null;
-    
-    public Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
 
 
     // Use this for initialization
@@ -62,22 +62,17 @@ public class UserAvatarIKControl : MonoBehaviour {
                     this.transform.rotation = bodyTarget.rotation;
                 }
                 // no body target, but head and feet targets
-                else if (headTarget != null && rightFootTarget != null && leftFootTarget != null)
+                else if (headTarget != null && leftFootTarget != null && rightFootTarget != null)
                 {
-                    Vector3 feetCenter = 0.33f * (rightFootTarget.position + leftFootTarget.position + headTarget.position);
-                    this.transform.position = new Vector3(feetCenter.x, headTarget.position.y + bodyHeadOffset.y, feetCenter.z);
+                    Vector3 feetCenter = 0.5f * (leftFootTarget.transform.position + rightFootTarget.transform.position);
+                    Vector3 bodyPosition = 0.33f * (headTarget.transform.position + leftFootTarget.transform.position + rightFootTarget.transform.position);
+                    this.transform.position = bodyPosition + inferredBodyTargetOffset;
 
-                    Vector3 forward;
-                    if (rightHandTarget != null && leftHandTarget != null)
-                    {
-                        Vector3 vec_controllers = rightHandTarget.position - leftHandTarget.position;
-                        forward = Vector3.ProjectOnPlane(headTarget.forward, vec_controllers);
-                    }
-                    else
-                    {
-                        forward = headTarget.forward;
-                    }
-                    this.transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(forward, Vector3.up), Vector3.up);
+                    Vector3 bodyUp = (headTarget.transform.position - feetCenter).normalized;
+                    Vector3 bodyRight = (headTarget.transform.right + leftFootTarget.transform.right + rightFootTarget.transform.right).normalized;//ikTargetHead.transform.right;
+                    Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp);
+                    Quaternion bodyRotation = Quaternion.LookRotation(bodyForward, bodyUp);
+                    this.transform.rotation = bodyRotation;
                 }
                 // no body target, but head
                 else if (headTarget != null)
