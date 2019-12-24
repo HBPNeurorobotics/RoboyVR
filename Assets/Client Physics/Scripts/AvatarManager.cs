@@ -3,19 +3,26 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class AvatarManager : MonoBehaviour
 {
 
     public bool useJoints = true;
     public bool configureJointsInEditor = true;
     public bool useBodyMass = false;
-    public bool useAnglesFromAnimationTest = false;
-    public bool useIndividualAxes = true;
     [SerializeField]
-    private bool addColliders = true;
+    bool useJointsMultipleTemplate = false;
     [SerializeField]
-    private bool inputByManager = false;
+    bool splitJointTemplate = false;
+
+
+    [SerializeField]
+    bool addSimpleColliders = false;
+    [SerializeField]
+    bool addMeshColliders = true;
+    [SerializeField]
+    bool inputByManager = false;
+    [SerializeField]
+    BoneMeshContainer meshContainer;
     public float weight = 72f;
     public float PDKp = 1;
     public float PDKd = 1;
@@ -60,11 +67,20 @@ public class AvatarManager : MonoBehaviour
     {
         animatorRemoteAvatar = GetComponentInChildren<Animator>();
         animatorTarget = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
+
+        //We only support the construction of individual joints from a single one or from the multijoint template but not both at the same time
+        if (splitJointTemplate) useJointsMultipleTemplate = false;
+        if (useJointsMultipleTemplate) splitJointTemplate = false;
+
+        //
+        if (addSimpleColliders) addMeshColliders = false;
+        if (addMeshColliders) addSimpleColliders = false;
+
         InitializeBodyStructures();
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void FixedUpdate()
     {
         if (!useJoints)
         {
@@ -147,11 +163,11 @@ public class AvatarManager : MonoBehaviour
                 angularXDrive.maximumForce = angularYZDrive.maximumForce = 1000;
 
 
-                configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive, useIndividualAxes);
+                configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive, useJointsMultipleTemplate);
             }
             else
             {
-                configJointManager = new ConfigJointManager(useIndividualAxes);
+                configJointManager = new ConfigJointManager();
             }
 
             SetupOrder(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
@@ -320,12 +336,7 @@ public class AvatarManager : MonoBehaviour
                     Rigidbody targetRb = GetRigidbodyFromBone(false, tmpBone);
                     if (targetRb != null)
                     {
-                        //configJointManager.SetTagetTransform(tmpBone, gameObjectPerBoneTarget[tmpBone].transform);
-                        //Debug.Log(boneTransform.name);
-                        //gameObjectPerBoneRemoteAvatar[tmpBone].GetComponent<ConfigurableJoint>().connectedBody.freezeRotation = true;
-                        //WaitUntilRotationComplete(tmpBone, gameObjectPerBoneTarget[tmpBone].transform.rotation);
                         bonesInOrder.Add(bonesPerGameObjectRemoteAvatar[boneTransform.gameObject]);
-                        Debug.Log(tmpBone);
                     }
                 }
             }
@@ -341,7 +352,6 @@ public class AvatarManager : MonoBehaviour
     {
         foreach(HumanBodyBones bone in bonesInOrder)
         {
-            Debug.Log(bone.ToString());
             configJointManager.SetTagetTransform(bone, gameObjectPerBoneTarget[bone].transform);
         }
     }
@@ -374,11 +384,21 @@ public class AvatarManager : MonoBehaviour
         return gameObjectPerBoneTarget;
     }
 
-    public bool usesActiveInput()
+    public bool UsesActiveInput()
     {
         return inputByManager;
     }
     
+    public bool ShouldSplitJoint()
+    {
+        return splitJointTemplate;
+    }
+
+    public bool UseMultipleJointTemplate()
+    {
+        return useJointsMultipleTemplate;
+    }
+
     public BodyGroups GetBodyGroupsRemote()
     {
         return bodyGroupsRemote;
@@ -388,8 +408,12 @@ public class AvatarManager : MonoBehaviour
         return bodyGroupsTarget;
     }  
 
-    public bool ShouldAddColliders()
+    public bool ShouldAddSimpleColliders()
     {
-        return addColliders;
+        return addSimpleColliders;
+    }
+    public bool ShouldAddMeshColliders()
+    {
+        return addMeshColliders;
     }
 }

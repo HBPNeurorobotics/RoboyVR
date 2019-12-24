@@ -1,0 +1,1038 @@
+fileFormatVersion: 2
+guid: 12007c041a0127048a856344f7f28442
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Alpha_Joints
+    100002: Alpha_Surface
+    100004: Armature
+    100006: Armature.001
+    100008: Armature.002
+    100010: Armature.003
+    100012: Armature.004
+    100014: Head
+    100016: Hips
+    100018: La1
+    100020: La1.001
+    100022: La2
+    100024: La2.001
+    100026: La3
+    100028: Li1
+    100030: Li2
+    100032: Li3
+    100034: Ll1
+    100036: Ll1.001
+    100038: Ll2
+    100040: Ll2.001
+    100042: Ll3
+    100044: Ll4
+    100046: Lm1
+    100048: Lm2
+    100050: Lm3
+    100052: Lp1
+    100054: Lp2
+    100056: Lp3
+    100058: Lr1
+    100060: Lr2
+    100062: Lr3
+    100064: LShoulder
+    100066: LShoulder.001
+    100068: LShoulder.002
+    100070: Lt1
+    100072: Lt2
+    100074: Lt3
+    100076: mixamorig:Head
+    100078: mixamorig:Head 1
+    100080: mixamorig:Head 2
+    100082: mixamorig:Head 3
+    100084: mixamorig:Head 4
+    100086: mixamorig:HeadTop_End
+    100088: mixamorig:HeadTop_End 1
+    100090: mixamorig:HeadTop_End 2
+    100092: mixamorig:HeadTop_End 3
+    100094: mixamorig:HeadTop_End 4
+    100096: mixamorig:Hips
+    100098: mixamorig:Hips 1
+    100100: mixamorig:Hips 2
+    100102: mixamorig:Hips 3
+    100104: mixamorig:Hips 4
+    100106: mixamorig:LeftArm
+    100108: mixamorig:LeftArm 1
+    100110: mixamorig:LeftArm 2
+    100112: mixamorig:LeftArm 3
+    100114: mixamorig:LeftArm 4
+    100116: mixamorig:LeftEye
+    100118: mixamorig:LeftEye 1
+    100120: mixamorig:LeftEye 2
+    100122: mixamorig:LeftEye 3
+    100124: mixamorig:LeftEye 4
+    100126: mixamorig:LeftFoot
+    100128: mixamorig:LeftFoot 1
+    100130: mixamorig:LeftFoot 2
+    100132: mixamorig:LeftFoot 3
+    100134: mixamorig:LeftFoot 4
+    100136: mixamorig:LeftForeArm
+    100138: mixamorig:LeftForeArm 1
+    100140: mixamorig:LeftForeArm 2
+    100142: mixamorig:LeftForeArm 3
+    100144: mixamorig:LeftForeArm 4
+    100146: mixamorig:LeftHand
+    100148: mixamorig:LeftHand 1
+    100150: mixamorig:LeftHand 2
+    100152: mixamorig:LeftHand 3
+    100154: mixamorig:LeftHand 4
+    100156: mixamorig:LeftHandIndex1
+    100158: mixamorig:LeftHandIndex1 1
+    100160: mixamorig:LeftHandIndex1 2
+    100162: mixamorig:LeftHandIndex1 3
+    100164: mixamorig:LeftHandIndex1 4
+    100166: mixamorig:LeftHandIndex2
+    100168: mixamorig:LeftHandIndex2 1
+    100170: mixamorig:LeftHandIndex2 2
+    100172: mixamorig:LeftHandIndex2 3
+    100174: mixamorig:LeftHandIndex2 4
+    100176: mixamorig:LeftHandIndex3
+    100178: mixamorig:LeftHandIndex3 1
+    100180: mixamorig:LeftHandIndex3 2
+    100182: mixamorig:LeftHandIndex3 3
+    100184: mixamorig:LeftHandIndex3 4
+    100186: mixamorig:LeftHandIndex4
+    100188: mixamorig:LeftHandIndex4 1
+    100190: mixamorig:LeftHandIndex4 2
+    100192: mixamorig:LeftHandIndex4 3
+    100194: mixamorig:LeftHandIndex4 4
+    100196: mixamorig:LeftHandMiddle1
+    100198: mixamorig:LeftHandMiddle1 1
+    100200: mixamorig:LeftHandMiddle1 2
+    100202: mixamorig:LeftHandMiddle1 3
+    100204: mixamorig:LeftHandMiddle1 4
+    100206: mixamorig:LeftHandMiddle2
+    100208: mixamorig:LeftHandMiddle2 1
+    100210: mixamorig:LeftHandMiddle2 2
+    100212: mixamorig:LeftHandMiddle2 3
+    100214: mixamorig:LeftHandMiddle2 4
+    100216: mixamorig:LeftHandMiddle3
+    100218: mixamorig:LeftHandMiddle3 1
+    100220: mixamorig:LeftHandMiddle3 2
+    100222: mixamorig:LeftHandMiddle3 3
+    100224: mixamorig:LeftHandMiddle3 4
+    100226: mixamorig:LeftHandMiddle4
+    100228: mixamorig:LeftHandMiddle4 1
+    100230: mixamorig:LeftHandMiddle4 2
+    100232: mixamorig:LeftHandMiddle4 3
+    100234: mixamorig:LeftHandMiddle4 4
+    100236: mixamorig:LeftHandPinky1
+    100238: mixamorig:LeftHandPinky1 1
+    100240: mixamorig:LeftHandPinky1 2
+    100242: mixamorig:LeftHandPinky1 3
+    100244: mixamorig:LeftHandPinky1 4
+    100246: mixamorig:LeftHandPinky2
+    100248: mixamorig:LeftHandPinky2 1
+    100250: mixamorig:LeftHandPinky2 2
+    100252: mixamorig:LeftHandPinky2 3
+    100254: mixamorig:LeftHandPinky2 4
+    100256: mixamorig:LeftHandPinky3
+    100258: mixamorig:LeftHandPinky3 1
+    100260: mixamorig:LeftHandPinky3 2
+    100262: mixamorig:LeftHandPinky3 3
+    100264: mixamorig:LeftHandPinky3 4
+    100266: mixamorig:LeftHandPinky4
+    100268: mixamorig:LeftHandPinky4 1
+    100270: mixamorig:LeftHandPinky4 2
+    100272: mixamorig:LeftHandPinky4 3
+    100274: mixamorig:LeftHandPinky4 4
+    100276: mixamorig:LeftHandRing1
+    100278: mixamorig:LeftHandRing1 1
+    100280: mixamorig:LeftHandRing1 2
+    100282: mixamorig:LeftHandRing1 3
+    100284: mixamorig:LeftHandRing1 4
+    100286: mixamorig:LeftHandRing2
+    100288: mixamorig:LeftHandRing2 1
+    100290: mixamorig:LeftHandRing2 2
+    100292: mixamorig:LeftHandRing2 3
+    100294: mixamorig:LeftHandRing2 4
+    100296: mixamorig:LeftHandRing3
+    100298: mixamorig:LeftHandRing3 1
+    100300: mixamorig:LeftHandRing3 2
+    100302: mixamorig:LeftHandRing3 3
+    100304: mixamorig:LeftHandRing3 4
+    100306: mixamorig:LeftHandRing4
+    100308: mixamorig:LeftHandRing4 1
+    100310: mixamorig:LeftHandRing4 2
+    100312: mixamorig:LeftHandRing4 3
+    100314: mixamorig:LeftHandRing4 4
+    100316: mixamorig:LeftHandThumb1
+    100318: mixamorig:LeftHandThumb1 1
+    100320: mixamorig:LeftHandThumb1 2
+    100322: mixamorig:LeftHandThumb1 3
+    100324: mixamorig:LeftHandThumb1 4
+    100326: mixamorig:LeftHandThumb2
+    100328: mixamorig:LeftHandThumb2 1
+    100330: mixamorig:LeftHandThumb2 2
+    100332: mixamorig:LeftHandThumb2 3
+    100334: mixamorig:LeftHandThumb2 4
+    100336: mixamorig:LeftHandThumb3
+    100338: mixamorig:LeftHandThumb3 1
+    100340: mixamorig:LeftHandThumb3 2
+    100342: mixamorig:LeftHandThumb3 3
+    100344: mixamorig:LeftHandThumb3 4
+    100346: mixamorig:LeftHandThumb4
+    100348: mixamorig:LeftHandThumb4 1
+    100350: mixamorig:LeftHandThumb4 2
+    100352: mixamorig:LeftHandThumb4 3
+    100354: mixamorig:LeftHandThumb4 4
+    100356: mixamorig:LeftLeg
+    100358: mixamorig:LeftLeg 1
+    100360: mixamorig:LeftLeg 2
+    100362: mixamorig:LeftLeg 3
+    100364: mixamorig:LeftLeg 4
+    100366: mixamorig:LeftShoulder
+    100368: mixamorig:LeftShoulder 1
+    100370: mixamorig:LeftShoulder 2
+    100372: mixamorig:LeftShoulder 3
+    100374: mixamorig:LeftShoulder 4
+    100376: mixamorig:LeftToe_End
+    100378: mixamorig:LeftToe_End 1
+    100380: mixamorig:LeftToe_End 2
+    100382: mixamorig:LeftToe_End 3
+    100384: mixamorig:LeftToe_End 4
+    100386: mixamorig:LeftToeBase
+    100388: mixamorig:LeftToeBase 1
+    100390: mixamorig:LeftToeBase 2
+    100392: mixamorig:LeftToeBase 3
+    100394: mixamorig:LeftToeBase 4
+    100396: mixamorig:LeftUpLeg
+    100398: mixamorig:LeftUpLeg 1
+    100400: mixamorig:LeftUpLeg 2
+    100402: mixamorig:LeftUpLeg 3
+    100404: mixamorig:LeftUpLeg 4
+    100406: mixamorig:Neck
+    100408: mixamorig:Neck 1
+    100410: mixamorig:Neck 2
+    100412: mixamorig:Neck 3
+    100414: mixamorig:Neck 4
+    100416: mixamorig:RightArm
+    100418: mixamorig:RightArm 1
+    100420: mixamorig:RightArm 2
+    100422: mixamorig:RightArm 3
+    100424: mixamorig:RightArm 4
+    100426: mixamorig:RightEye
+    100428: mixamorig:RightEye 1
+    100430: mixamorig:RightEye 2
+    100432: mixamorig:RightEye 3
+    100434: mixamorig:RightEye 4
+    100436: mixamorig:RightFoot
+    100438: mixamorig:RightFoot 1
+    100440: mixamorig:RightFoot 2
+    100442: mixamorig:RightFoot 3
+    100444: mixamorig:RightFoot 4
+    100446: mixamorig:RightForeArm
+    100448: mixamorig:RightForeArm 1
+    100450: mixamorig:RightForeArm 2
+    100452: mixamorig:RightForeArm 3
+    100454: mixamorig:RightForeArm 4
+    100456: mixamorig:RightHand
+    100458: mixamorig:RightHand 1
+    100460: mixamorig:RightHand 2
+    100462: mixamorig:RightHand 3
+    100464: mixamorig:RightHand 4
+    100466: mixamorig:RightHandIndex1
+    100468: mixamorig:RightHandIndex1 1
+    100470: mixamorig:RightHandIndex1 2
+    100472: mixamorig:RightHandIndex1 3
+    100474: mixamorig:RightHandIndex1 4
+    100476: mixamorig:RightHandIndex2
+    100478: mixamorig:RightHandIndex2 1
+    100480: mixamorig:RightHandIndex2 2
+    100482: mixamorig:RightHandIndex2 3
+    100484: mixamorig:RightHandIndex2 4
+    100486: mixamorig:RightHandIndex3
+    100488: mixamorig:RightHandIndex3 1
+    100490: mixamorig:RightHandIndex3 2
+    100492: mixamorig:RightHandIndex3 3
+    100494: mixamorig:RightHandIndex3 4
+    100496: mixamorig:RightHandIndex4
+    100498: mixamorig:RightHandIndex4 1
+    100500: mixamorig:RightHandIndex4 2
+    100502: mixamorig:RightHandIndex4 3
+    100504: mixamorig:RightHandIndex4 4
+    100506: mixamorig:RightHandMiddle1
+    100508: mixamorig:RightHandMiddle1 1
+    100510: mixamorig:RightHandMiddle1 2
+    100512: mixamorig:RightHandMiddle1 3
+    100514: mixamorig:RightHandMiddle1 4
+    100516: mixamorig:RightHandMiddle2
+    100518: mixamorig:RightHandMiddle2 1
+    100520: mixamorig:RightHandMiddle2 2
+    100522: mixamorig:RightHandMiddle2 3
+    100524: mixamorig:RightHandMiddle2 4
+    100526: mixamorig:RightHandMiddle3
+    100528: mixamorig:RightHandMiddle3 1
+    100530: mixamorig:RightHandMiddle3 2
+    100532: mixamorig:RightHandMiddle3 3
+    100534: mixamorig:RightHandMiddle3 4
+    100536: mixamorig:RightHandMiddle4
+    100538: mixamorig:RightHandMiddle4 1
+    100540: mixamorig:RightHandMiddle4 2
+    100542: mixamorig:RightHandMiddle4 3
+    100544: mixamorig:RightHandMiddle4 4
+    100546: mixamorig:RightHandPinky1
+    100548: mixamorig:RightHandPinky1 1
+    100550: mixamorig:RightHandPinky1 2
+    100552: mixamorig:RightHandPinky1 3
+    100554: mixamorig:RightHandPinky1 4
+    100556: mixamorig:RightHandPinky2
+    100558: mixamorig:RightHandPinky2 1
+    100560: mixamorig:RightHandPinky2 2
+    100562: mixamorig:RightHandPinky2 3
+    100564: mixamorig:RightHandPinky2 4
+    100566: mixamorig:RightHandPinky3
+    100568: mixamorig:RightHandPinky3 1
+    100570: mixamorig:RightHandPinky3 2
+    100572: mixamorig:RightHandPinky3 3
+    100574: mixamorig:RightHandPinky3 4
+    100576: mixamorig:RightHandPinky4
+    100578: mixamorig:RightHandPinky4 1
+    100580: mixamorig:RightHandPinky4 2
+    100582: mixamorig:RightHandPinky4 3
+    100584: mixamorig:RightHandPinky4 4
+    100586: mixamorig:RightHandRing1
+    100588: mixamorig:RightHandRing1 1
+    100590: mixamorig:RightHandRing1 2
+    100592: mixamorig:RightHandRing1 3
+    100594: mixamorig:RightHandRing1 4
+    100596: mixamorig:RightHandRing2
+    100598: mixamorig:RightHandRing2 1
+    100600: mixamorig:RightHandRing2 2
+    100602: mixamorig:RightHandRing2 3
+    100604: mixamorig:RightHandRing2 4
+    100606: mixamorig:RightHandRing3
+    100608: mixamorig:RightHandRing3 1
+    100610: mixamorig:RightHandRing3 2
+    100612: mixamorig:RightHandRing3 3
+    100614: mixamorig:RightHandRing3 4
+    100616: mixamorig:RightHandRing4
+    100618: mixamorig:RightHandRing4 1
+    100620: mixamorig:RightHandRing4 2
+    100622: mixamorig:RightHandRing4 3
+    100624: mixamorig:RightHandRing4 4
+    100626: mixamorig:RightHandThumb1
+    100628: mixamorig:RightHandThumb1 1
+    100630: mixamorig:RightHandThumb1 2
+    100632: mixamorig:RightHandThumb1 3
+    100634: mixamorig:RightHandThumb1 4
+    100636: mixamorig:RightHandThumb2
+    100638: mixamorig:RightHandThumb2 1
+    100640: mixamorig:RightHandThumb2 2
+    100642: mixamorig:RightHandThumb2 3
+    100644: mixamorig:RightHandThumb2 4
+    100646: mixamorig:RightHandThumb3
+    100648: mixamorig:RightHandThumb3 1
+    100650: mixamorig:RightHandThumb3 2
+    100652: mixamorig:RightHandThumb3 3
+    100654: mixamorig:RightHandThumb3 4
+    100656: mixamorig:RightHandThumb4
+    100658: mixamorig:RightHandThumb4 1
+    100660: mixamorig:RightHandThumb4 2
+    100662: mixamorig:RightHandThumb4 3
+    100664: mixamorig:RightHandThumb4 4
+    100666: mixamorig:RightLeg
+    100668: mixamorig:RightLeg 1
+    100670: mixamorig:RightLeg 2
+    100672: mixamorig:RightLeg 3
+    100674: mixamorig:RightLeg 4
+    100676: mixamorig:RightShoulder
+    100678: mixamorig:RightShoulder 1
+    100680: mixamorig:RightShoulder 2
+    100682: mixamorig:RightShoulder 3
+    100684: mixamorig:RightShoulder 4
+    100686: mixamorig:RightToe_End
+    100688: mixamorig:RightToe_End 1
+    100690: mixamorig:RightToe_End 2
+    100692: mixamorig:RightToe_End 3
+    100694: mixamorig:RightToe_End 4
+    100696: mixamorig:RightToeBase
+    100698: mixamorig:RightToeBase 1
+    100700: mixamorig:RightToeBase 2
+    100702: mixamorig:RightToeBase 3
+    100704: mixamorig:RightToeBase 4
+    100706: mixamorig:RightUpLeg
+    100708: mixamorig:RightUpLeg 1
+    100710: mixamorig:RightUpLeg 2
+    100712: mixamorig:RightUpLeg 3
+    100714: mixamorig:RightUpLeg 4
+    100716: mixamorig:Spine
+    100718: mixamorig:Spine 1
+    100720: mixamorig:Spine 2
+    100722: mixamorig:Spine 3
+    100724: mixamorig:Spine 4
+    100726: mixamorig:Spine1
+    100728: mixamorig:Spine1 1
+    100730: mixamorig:Spine1 2
+    100732: mixamorig:Spine1 3
+    100734: mixamorig:Spine1 4
+    100736: mixamorig:Spine2
+    100738: mixamorig:Spine2 1
+    100740: mixamorig:Spine2 2
+    100742: mixamorig:Spine2 3
+    100744: mixamorig:Spine2 4
+    100746: Ra1
+    100748: Ra1.001
+    100750: Ra2
+    100752: Ra2.001
+    100754: Ra3
+    100756: Ri1
+    100758: Ri2
+    100760: Ri3
+    100762: Rl1
+    100764: Rl1.001
+    100766: Rl2
+    100768: Rl2.001
+    100770: Rl3
+    100772: Rl4
+    100774: Rm1
+    100776: Rm2
+    100778: Rm3
+    100780: Rp1
+    100782: Rp2
+    100784: Rp3
+    100786: Rr1
+    100788: Rr2
+    100790: Rr3
+    100792: RShoulder
+    100794: RShoulder.001
+    100796: RShoulder.002
+    100798: RShoulder.003
+    100800: Rt1
+    100802: Rt2
+    100804: Rt3
+    100806: Spine
+    100808: Spine2
+    100810: //RootNode
+    400000: Alpha_Joints
+    400002: Alpha_Surface
+    400004: Armature
+    400006: Armature.001
+    400008: Armature.002
+    400010: Armature.003
+    400012: Armature.004
+    400014: Head
+    400016: Hips
+    400018: La1
+    400020: La1.001
+    400022: La2
+    400024: La2.001
+    400026: La3
+    400028: Li1
+    400030: Li2
+    400032: Li3
+    400034: Ll1
+    400036: Ll1.001
+    400038: Ll2
+    400040: Ll2.001
+    400042: Ll3
+    400044: Ll4
+    400046: Lm1
+    400048: Lm2
+    400050: Lm3
+    400052: Lp1
+    400054: Lp2
+    400056: Lp3
+    400058: Lr1
+    400060: Lr2
+    400062: Lr3
+    400064: LShoulder
+    400066: LShoulder.001
+    400068: LShoulder.002
+    400070: Lt1
+    400072: Lt2
+    400074: Lt3
+    400076: mixamorig:Head
+    400078: mixamorig:Head 1
+    400080: mixamorig:Head 2
+    400082: mixamorig:Head 3
+    400084: mixamorig:Head 4
+    400086: mixamorig:HeadTop_End
+    400088: mixamorig:HeadTop_End 1
+    400090: mixamorig:HeadTop_End 2
+    400092: mixamorig:HeadTop_End 3
+    400094: mixamorig:HeadTop_End 4
+    400096: mixamorig:Hips
+    400098: mixamorig:Hips 1
+    400100: mixamorig:Hips 2
+    400102: mixamorig:Hips 3
+    400104: mixamorig:Hips 4
+    400106: mixamorig:LeftArm
+    400108: mixamorig:LeftArm 1
+    400110: mixamorig:LeftArm 2
+    400112: mixamorig:LeftArm 3
+    400114: mixamorig:LeftArm 4
+    400116: mixamorig:LeftEye
+    400118: mixamorig:LeftEye 1
+    400120: mixamorig:LeftEye 2
+    400122: mixamorig:LeftEye 3
+    400124: mixamorig:LeftEye 4
+    400126: mixamorig:LeftFoot
+    400128: mixamorig:LeftFoot 1
+    400130: mixamorig:LeftFoot 2
+    400132: mixamorig:LeftFoot 3
+    400134: mixamorig:LeftFoot 4
+    400136: mixamorig:LeftForeArm
+    400138: mixamorig:LeftForeArm 1
+    400140: mixamorig:LeftForeArm 2
+    400142: mixamorig:LeftForeArm 3
+    400144: mixamorig:LeftForeArm 4
+    400146: mixamorig:LeftHand
+    400148: mixamorig:LeftHand 1
+    400150: mixamorig:LeftHand 2
+    400152: mixamorig:LeftHand 3
+    400154: mixamorig:LeftHand 4
+    400156: mixamorig:LeftHandIndex1
+    400158: mixamorig:LeftHandIndex1 1
+    400160: mixamorig:LeftHandIndex1 2
+    400162: mixamorig:LeftHandIndex1 3
+    400164: mixamorig:LeftHandIndex1 4
+    400166: mixamorig:LeftHandIndex2
+    400168: mixamorig:LeftHandIndex2 1
+    400170: mixamorig:LeftHandIndex2 2
+    400172: mixamorig:LeftHandIndex2 3
+    400174: mixamorig:LeftHandIndex2 4
+    400176: mixamorig:LeftHandIndex3
+    400178: mixamorig:LeftHandIndex3 1
+    400180: mixamorig:LeftHandIndex3 2
+    400182: mixamorig:LeftHandIndex3 3
+    400184: mixamorig:LeftHandIndex3 4
+    400186: mixamorig:LeftHandIndex4
+    400188: mixamorig:LeftHandIndex4 1
+    400190: mixamorig:LeftHandIndex4 2
+    400192: mixamorig:LeftHandIndex4 3
+    400194: mixamorig:LeftHandIndex4 4
+    400196: mixamorig:LeftHandMiddle1
+    400198: mixamorig:LeftHandMiddle1 1
+    400200: mixamorig:LeftHandMiddle1 2
+    400202: mixamorig:LeftHandMiddle1 3
+    400204: mixamorig:LeftHandMiddle1 4
+    400206: mixamorig:LeftHandMiddle2
+    400208: mixamorig:LeftHandMiddle2 1
+    400210: mixamorig:LeftHandMiddle2 2
+    400212: mixamorig:LeftHandMiddle2 3
+    400214: mixamorig:LeftHandMiddle2 4
+    400216: mixamorig:LeftHandMiddle3
+    400218: mixamorig:LeftHandMiddle3 1
+    400220: mixamorig:LeftHandMiddle3 2
+    400222: mixamorig:LeftHandMiddle3 3
+    400224: mixamorig:LeftHandMiddle3 4
+    400226: mixamorig:LeftHandMiddle4
+    400228: mixamorig:LeftHandMiddle4 1
+    400230: mixamorig:LeftHandMiddle4 2
+    400232: mixamorig:LeftHandMiddle4 3
+    400234: mixamorig:LeftHandMiddle4 4
+    400236: mixamorig:LeftHandPinky1
+    400238: mixamorig:LeftHandPinky1 1
+    400240: mixamorig:LeftHandPinky1 2
+    400242: mixamorig:LeftHandPinky1 3
+    400244: mixamorig:LeftHandPinky1 4
+    400246: mixamorig:LeftHandPinky2
+    400248: mixamorig:LeftHandPinky2 1
+    400250: mixamorig:LeftHandPinky2 2
+    400252: mixamorig:LeftHandPinky2 3
+    400254: mixamorig:LeftHandPinky2 4
+    400256: mixamorig:LeftHandPinky3
+    400258: mixamorig:LeftHandPinky3 1
+    400260: mixamorig:LeftHandPinky3 2
+    400262: mixamorig:LeftHandPinky3 3
+    400264: mixamorig:LeftHandPinky3 4
+    400266: mixamorig:LeftHandPinky4
+    400268: mixamorig:LeftHandPinky4 1
+    400270: mixamorig:LeftHandPinky4 2
+    400272: mixamorig:LeftHandPinky4 3
+    400274: mixamorig:LeftHandPinky4 4
+    400276: mixamorig:LeftHandRing1
+    400278: mixamorig:LeftHandRing1 1
+    400280: mixamorig:LeftHandRing1 2
+    400282: mixamorig:LeftHandRing1 3
+    400284: mixamorig:LeftHandRing1 4
+    400286: mixamorig:LeftHandRing2
+    400288: mixamorig:LeftHandRing2 1
+    400290: mixamorig:LeftHandRing2 2
+    400292: mixamorig:LeftHandRing2 3
+    400294: mixamorig:LeftHandRing2 4
+    400296: mixamorig:LeftHandRing3
+    400298: mixamorig:LeftHandRing3 1
+    400300: mixamorig:LeftHandRing3 2
+    400302: mixamorig:LeftHandRing3 3
+    400304: mixamorig:LeftHandRing3 4
+    400306: mixamorig:LeftHandRing4
+    400308: mixamorig:LeftHandRing4 1
+    400310: mixamorig:LeftHandRing4 2
+    400312: mixamorig:LeftHandRing4 3
+    400314: mixamorig:LeftHandRing4 4
+    400316: mixamorig:LeftHandThumb1
+    400318: mixamorig:LeftHandThumb1 1
+    400320: mixamorig:LeftHandThumb1 2
+    400322: mixamorig:LeftHandThumb1 3
+    400324: mixamorig:LeftHandThumb1 4
+    400326: mixamorig:LeftHandThumb2
+    400328: mixamorig:LeftHandThumb2 1
+    400330: mixamorig:LeftHandThumb2 2
+    400332: mixamorig:LeftHandThumb2 3
+    400334: mixamorig:LeftHandThumb2 4
+    400336: mixamorig:LeftHandThumb3
+    400338: mixamorig:LeftHandThumb3 1
+    400340: mixamorig:LeftHandThumb3 2
+    400342: mixamorig:LeftHandThumb3 3
+    400344: mixamorig:LeftHandThumb3 4
+    400346: mixamorig:LeftHandThumb4
+    400348: mixamorig:LeftHandThumb4 1
+    400350: mixamorig:LeftHandThumb4 2
+    400352: mixamorig:LeftHandThumb4 3
+    400354: mixamorig:LeftHandThumb4 4
+    400356: mixamorig:LeftLeg
+    400358: mixamorig:LeftLeg 1
+    400360: mixamorig:LeftLeg 2
+    400362: mixamorig:LeftLeg 3
+    400364: mixamorig:LeftLeg 4
+    400366: mixamorig:LeftShoulder
+    400368: mixamorig:LeftShoulder 1
+    400370: mixamorig:LeftShoulder 2
+    400372: mixamorig:LeftShoulder 3
+    400374: mixamorig:LeftShoulder 4
+    400376: mixamorig:LeftToe_End
+    400378: mixamorig:LeftToe_End 1
+    400380: mixamorig:LeftToe_End 2
+    400382: mixamorig:LeftToe_End 3
+    400384: mixamorig:LeftToe_End 4
+    400386: mixamorig:LeftToeBase
+    400388: mixamorig:LeftToeBase 1
+    400390: mixamorig:LeftToeBase 2
+    400392: mixamorig:LeftToeBase 3
+    400394: mixamorig:LeftToeBase 4
+    400396: mixamorig:LeftUpLeg
+    400398: mixamorig:LeftUpLeg 1
+    400400: mixamorig:LeftUpLeg 2
+    400402: mixamorig:LeftUpLeg 3
+    400404: mixamorig:LeftUpLeg 4
+    400406: mixamorig:Neck
+    400408: mixamorig:Neck 1
+    400410: mixamorig:Neck 2
+    400412: mixamorig:Neck 3
+    400414: mixamorig:Neck 4
+    400416: mixamorig:RightArm
+    400418: mixamorig:RightArm 1
+    400420: mixamorig:RightArm 2
+    400422: mixamorig:RightArm 3
+    400424: mixamorig:RightArm 4
+    400426: mixamorig:RightEye
+    400428: mixamorig:RightEye 1
+    400430: mixamorig:RightEye 2
+    400432: mixamorig:RightEye 3
+    400434: mixamorig:RightEye 4
+    400436: mixamorig:RightFoot
+    400438: mixamorig:RightFoot 1
+    400440: mixamorig:RightFoot 2
+    400442: mixamorig:RightFoot 3
+    400444: mixamorig:RightFoot 4
+    400446: mixamorig:RightForeArm
+    400448: mixamorig:RightForeArm 1
+    400450: mixamorig:RightForeArm 2
+    400452: mixamorig:RightForeArm 3
+    400454: mixamorig:RightForeArm 4
+    400456: mixamorig:RightHand
+    400458: mixamorig:RightHand 1
+    400460: mixamorig:RightHand 2
+    400462: mixamorig:RightHand 3
+    400464: mixamorig:RightHand 4
+    400466: mixamorig:RightHandIndex1
+    400468: mixamorig:RightHandIndex1 1
+    400470: mixamorig:RightHandIndex1 2
+    400472: mixamorig:RightHandIndex1 3
+    400474: mixamorig:RightHandIndex1 4
+    400476: mixamorig:RightHandIndex2
+    400478: mixamorig:RightHandIndex2 1
+    400480: mixamorig:RightHandIndex2 2
+    400482: mixamorig:RightHandIndex2 3
+    400484: mixamorig:RightHandIndex2 4
+    400486: mixamorig:RightHandIndex3
+    400488: mixamorig:RightHandIndex3 1
+    400490: mixamorig:RightHandIndex3 2
+    400492: mixamorig:RightHandIndex3 3
+    400494: mixamorig:RightHandIndex3 4
+    400496: mixamorig:RightHandIndex4
+    400498: mixamorig:RightHandIndex4 1
+    400500: mixamorig:RightHandIndex4 2
+    400502: mixamorig:RightHandIndex4 3
+    400504: mixamorig:RightHandIndex4 4
+    400506: mixamorig:RightHandMiddle1
+    400508: mixamorig:RightHandMiddle1 1
+    400510: mixamorig:RightHandMiddle1 2
+    400512: mixamorig:RightHandMiddle1 3
+    400514: mixamorig:RightHandMiddle1 4
+    400516: mixamorig:RightHandMiddle2
+    400518: mixamorig:RightHandMiddle2 1
+    400520: mixamorig:RightHandMiddle2 2
+    400522: mixamorig:RightHandMiddle2 3
+    400524: mixamorig:RightHandMiddle2 4
+    400526: mixamorig:RightHandMiddle3
+    400528: mixamorig:RightHandMiddle3 1
+    400530: mixamorig:RightHandMiddle3 2
+    400532: mixamorig:RightHandMiddle3 3
+    400534: mixamorig:RightHandMiddle3 4
+    400536: mixamorig:RightHandMiddle4
+    400538: mixamorig:RightHandMiddle4 1
+    400540: mixamorig:RightHandMiddle4 2
+    400542: mixamorig:RightHandMiddle4 3
+    400544: mixamorig:RightHandMiddle4 4
+    400546: mixamorig:RightHandPinky1
+    400548: mixamorig:RightHandPinky1 1
+    400550: mixamorig:RightHandPinky1 2
+    400552: mixamorig:RightHandPinky1 3
+    400554: mixamorig:RightHandPinky1 4
+    400556: mixamorig:RightHandPinky2
+    400558: mixamorig:RightHandPinky2 1
+    400560: mixamorig:RightHandPinky2 2
+    400562: mixamorig:RightHandPinky2 3
+    400564: mixamorig:RightHandPinky2 4
+    400566: mixamorig:RightHandPinky3
+    400568: mixamorig:RightHandPinky3 1
+    400570: mixamorig:RightHandPinky3 2
+    400572: mixamorig:RightHandPinky3 3
+    400574: mixamorig:RightHandPinky3 4
+    400576: mixamorig:RightHandPinky4
+    400578: mixamorig:RightHandPinky4 1
+    400580: mixamorig:RightHandPinky4 2
+    400582: mixamorig:RightHandPinky4 3
+    400584: mixamorig:RightHandPinky4 4
+    400586: mixamorig:RightHandRing1
+    400588: mixamorig:RightHandRing1 1
+    400590: mixamorig:RightHandRing1 2
+    400592: mixamorig:RightHandRing1 3
+    400594: mixamorig:RightHandRing1 4
+    400596: mixamorig:RightHandRing2
+    400598: mixamorig:RightHandRing2 1
+    400600: mixamorig:RightHandRing2 2
+    400602: mixamorig:RightHandRing2 3
+    400604: mixamorig:RightHandRing2 4
+    400606: mixamorig:RightHandRing3
+    400608: mixamorig:RightHandRing3 1
+    400610: mixamorig:RightHandRing3 2
+    400612: mixamorig:RightHandRing3 3
+    400614: mixamorig:RightHandRing3 4
+    400616: mixamorig:RightHandRing4
+    400618: mixamorig:RightHandRing4 1
+    400620: mixamorig:RightHandRing4 2
+    400622: mixamorig:RightHandRing4 3
+    400624: mixamorig:RightHandRing4 4
+    400626: mixamorig:RightHandThumb1
+    400628: mixamorig:RightHandThumb1 1
+    400630: mixamorig:RightHandThumb1 2
+    400632: mixamorig:RightHandThumb1 3
+    400634: mixamorig:RightHandThumb1 4
+    400636: mixamorig:RightHandThumb2
+    400638: mixamorig:RightHandThumb2 1
+    400640: mixamorig:RightHandThumb2 2
+    400642: mixamorig:RightHandThumb2 3
+    400644: mixamorig:RightHandThumb2 4
+    400646: mixamorig:RightHandThumb3
+    400648: mixamorig:RightHandThumb3 1
+    400650: mixamorig:RightHandThumb3 2
+    400652: mixamorig:RightHandThumb3 3
+    400654: mixamorig:RightHandThumb3 4
+    400656: mixamorig:RightHandThumb4
+    400658: mixamorig:RightHandThumb4 1
+    400660: mixamorig:RightHandThumb4 2
+    400662: mixamorig:RightHandThumb4 3
+    400664: mixamorig:RightHandThumb4 4
+    400666: mixamorig:RightLeg
+    400668: mixamorig:RightLeg 1
+    400670: mixamorig:RightLeg 2
+    400672: mixamorig:RightLeg 3
+    400674: mixamorig:RightLeg 4
+    400676: mixamorig:RightShoulder
+    400678: mixamorig:RightShoulder 1
+    400680: mixamorig:RightShoulder 2
+    400682: mixamorig:RightShoulder 3
+    400684: mixamorig:RightShoulder 4
+    400686: mixamorig:RightToe_End
+    400688: mixamorig:RightToe_End 1
+    400690: mixamorig:RightToe_End 2
+    400692: mixamorig:RightToe_End 3
+    400694: mixamorig:RightToe_End 4
+    400696: mixamorig:RightToeBase
+    400698: mixamorig:RightToeBase 1
+    400700: mixamorig:RightToeBase 2
+    400702: mixamorig:RightToeBase 3
+    400704: mixamorig:RightToeBase 4
+    400706: mixamorig:RightUpLeg
+    400708: mixamorig:RightUpLeg 1
+    400710: mixamorig:RightUpLeg 2
+    400712: mixamorig:RightUpLeg 3
+    400714: mixamorig:RightUpLeg 4
+    400716: mixamorig:Spine
+    400718: mixamorig:Spine 1
+    400720: mixamorig:Spine 2
+    400722: mixamorig:Spine 3
+    400724: mixamorig:Spine 4
+    400726: mixamorig:Spine1
+    400728: mixamorig:Spine1 1
+    400730: mixamorig:Spine1 2
+    400732: mixamorig:Spine1 3
+    400734: mixamorig:Spine1 4
+    400736: mixamorig:Spine2
+    400738: mixamorig:Spine2 1
+    400740: mixamorig:Spine2 2
+    400742: mixamorig:Spine2 3
+    400744: mixamorig:Spine2 4
+    400746: Ra1
+    400748: Ra1.001
+    400750: Ra2
+    400752: Ra2.001
+    400754: Ra3
+    400756: Ri1
+    400758: Ri2
+    400760: Ri3
+    400762: Rl1
+    400764: Rl1.001
+    400766: Rl2
+    400768: Rl2.001
+    400770: Rl3
+    400772: Rl4
+    400774: Rm1
+    400776: Rm2
+    400778: Rm3
+    400780: Rp1
+    400782: Rp2
+    400784: Rp3
+    400786: Rr1
+    400788: Rr2
+    400790: Rr3
+    400792: RShoulder
+    400794: RShoulder.001
+    400796: RShoulder.002
+    400798: RShoulder.003
+    400800: Rt1
+    400802: Rt2
+    400804: Rt3
+    400806: Spine
+    400808: Spine2
+    400810: //RootNode
+    2100000: Alpha_Joints_MAT
+    2100002: Alpha_Body_MAT
+    2100004: Alpha_Body_MAT.001
+    2100006: Alpha_Body_MAT.003
+    2100008: Alpha_Body_MAT.004
+    2100010: Alpha_Body_MAT.005
+    2300000: Alpha_Surface
+    3300000: Alpha_Surface
+    4300000: Alpha_Surface
+    4300002: Alpha_Joints
+    4300004: Hips
+    4300006: Spine
+    4300008: LShoulder.002
+    4300010: La1
+    4300012: La2
+    4300014: La3
+    4300016: Lm1
+    4300018: Lm2
+    4300020: Lm3
+    4300022: Lt1
+    4300024: Lt2
+    4300026: Lt3
+    4300028: Li1
+    4300030: Li2
+    4300032: Li3
+    4300034: Lr1
+    4300036: Lr2
+    4300038: Lr3
+    4300040: Lp1
+    4300042: Lp2
+    4300044: Lp3
+    4300046: RShoulder
+    4300048: Ra1
+    4300050: Ra2
+    4300052: Ra3
+    4300054: Rm1
+    4300056: Rm2
+    4300058: Rm3
+    4300060: Rt1
+    4300062: Rt2
+    4300064: Rt3
+    4300066: Ri1
+    4300068: Ri2
+    4300070: Ri3
+    4300072: Rr1
+    4300074: Rr2
+    4300076: Rr3
+    4300078: Rp1
+    4300080: Rp2
+    4300082: Rp3
+    4300084: Rl1
+    4300086: Rl2
+    4300088: Rl3
+    4300090: Rl4
+    4300092: Ll1
+    4300094: Ll2
+    4300096: Ll3
+    4300098: Ll4
+    4300100: Spine2
+    4300102: Head
+    4300104: La1.001
+    4300106: La2.001
+    4300108: Ll2.001
+    4300110: Rl2.001
+    4300112: Rl1.001
+    4300114: Ll1.001
+    4300116: Ra1.001
+    4300118: Ra2.001
+    4300120: RShoulder.002
+    4300122: LShoulder
+    4300124: LShoulder.001
+    4300126: RShoulder.001
+    4300128: RShoulder.003
+    9500000: //RootNode
+    13700000: Alpha_Joints
+    13700002: Head
+    13700004: Hips
+    13700006: La1
+    13700008: La1.001
+    13700010: La2
+    13700012: La2.001
+    13700014: La3
+    13700016: Li1
+    13700018: Li2
+    13700020: Li3
+    13700022: Ll1
+    13700024: Ll1.001
+    13700026: Ll2
+    13700028: Ll2.001
+    13700030: Ll3
+    13700032: Ll4
+    13700034: Lm1
+    13700036: Lm2
+    13700038: Lm3
+    13700040: Lp1
+    13700042: Lp2
+    13700044: Lp3
+    13700046: Lr1
+    13700048: Lr2
+    13700050: Lr3
+    13700052: LShoulder
+    13700054: LShoulder.001
+    13700056: LShoulder.002
+    13700058: Lt1
+    13700060: Lt2
+    13700062: Lt3
+    13700064: Ra1
+    13700066: Ra1.001
+    13700068: Ra2
+    13700070: Ra2.001
+    13700072: Ra3
+    13700074: Ri1
+    13700076: Ri2
+    13700078: Ri3
+    13700080: Rl1
+    13700082: Rl1.001
+    13700084: Rl2
+    13700086: Rl2.001
+    13700088: Rl3
+    13700090: Rl4
+    13700092: Rm1
+    13700094: Rm2
+    13700096: Rm3
+    13700098: Rp1
+    13700100: Rp2
+    13700102: Rp3
+    13700104: Rr1
+    13700106: Rr2
+    13700108: Rr3
+    13700110: RShoulder
+    13700112: RShoulder.001
+    13700114: RShoulder.002
+    13700116: RShoulder.003
+    13700118: Rt1
+    13700120: Rt2
+    13700122: Rt3
+    13700124: Spine
+    13700126: Spine2
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

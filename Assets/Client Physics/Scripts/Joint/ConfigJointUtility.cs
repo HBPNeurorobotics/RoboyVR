@@ -20,7 +20,16 @@ public static class ConfigJointUtility
          * Y axis aligned with cross product between Z and X.
          * --> rotates world coordinates to align with joint coordinates
         */
-        return Quaternion.LookRotation(jointYAxis, jointZAxis);
+
+        //check whether there has been a rotation
+        if (jointYAxis == Vector3.zero && jointZAxis == Vector3.zero)
+        {
+            return Quaternion.identity;
+        }
+        else
+        {
+            return Quaternion.LookRotation(jointYAxis, jointZAxis);
+        }
     }
 
     public static void SetJointSettings(ConfigurableJoint joint, JointSettings settings)

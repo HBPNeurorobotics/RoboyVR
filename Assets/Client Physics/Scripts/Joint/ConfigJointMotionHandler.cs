@@ -21,12 +21,12 @@ public class ConfigJointMotionHandler : MonoBehaviour
     Quaternion startOrientation;
     Quaternion jointSpaceRotation;
 
-    Vector3 previousAngularVelocity;
+    Quaternion previousOrientation;
 
     ConfigurableJoint[] joints;
     Rigidbody rb;
 
-    bool useIndividualAxes;
+    bool useMultipleJointTemplate;
     AvatarManager avatarManager;
 
     // Use this for initialization
@@ -36,7 +36,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
-        useIndividualAxes = avatarManager.useIndividualAxes;
+        useMultipleJointTemplate = avatarManager.UseMultipleJointTemplate();
         /*
         xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
         xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 300;
@@ -57,7 +57,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
         }
         */
         startOrientation = transform.localRotation;
-        previousAngularVelocity = rb.angularVelocity;
+        previousOrientation = startOrientation;
         /*
         joint.angularXMotion = motion;
         joint.angularYMotion = motion;
@@ -73,30 +73,6 @@ public class ConfigJointMotionHandler : MonoBehaviour
             SetTargetRotation(joint);
             SetTargetAngularVelocity(joint);
         }
-
-        /*
-        Matrix4x4 worldToJointSpaceMatrix = Matrix4x4.Rotate(worldToJointSpace);
-
-        Vector3 directionToTarget = target.transform.localPosition - joint.connectedBody.transform.localPosition;
-
-        Matrix4x4 targetToJointTranslation = Matrix4x4.Translate(directionToTarget);
-        */
-        //Vector3 coordinateOffsetWorldToJoint = worldToJointSpaceMatrix.inverse.MultiplyPoint3x4(transform.localPosition + joint.connectedAnchor);
-
-        /*
-         * rotation results in localPosition offset
-         * --> set joint.targetPosition to a targetPositon that is relative to joint.connectedBody
-         * --> convert target.transform.localPosition into joint space
-        */
-        /*
-        Vector3 localToWorld = transform.TransformPoint(transform.localPosition + joint.connectedAnchor);
-
-        Matrix4x4 transformationMatrix = Matrix4x4.TRS(localToWorld, Quaternion.Inverse(worldToJointSpace), new Vector3(1,1,1));
-        */
-        //Vector3 jointInWorldCoordinates = transformationMatrix * transform.
-
-        //joint.targetPosition = directionToTarget;//localToWorld - target.transform.position; //worldToJointSpaceMatrix.inverse.MultiplyPoint3x4(target.transform.position);
-
     }
 
     void SetTargetRotation(ConfigurableJoint joint)
@@ -108,6 +84,10 @@ public class ConfigJointMotionHandler : MonoBehaviour
         else
         {
             Quaternion worldToJointSpace = ConfigJointUtility.GetWorldToJointRotation(joint);
+            if(worldToJointSpace == Quaternion.identity)
+            {
+                return;
+            }
             /* 
              * turn joint space to align with world
              * perform rotation in world
