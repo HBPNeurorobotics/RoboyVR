@@ -346,7 +346,7 @@ public class RigAngleTracker : MonoBehaviour
         }
         else
         {
-            _jointMappingsClient = _userAvatar._avatarManager.GetGameObjectPerBoneTargetDictionary();
+            _jointMappingsClient = _userAvatar._avatarManager.GetGameObjectPerBoneLocalAvatarDictionary();
         }
     }
 

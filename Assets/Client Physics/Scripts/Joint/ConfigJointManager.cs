@@ -5,73 +5,103 @@ using UnityEngine;
 
 public class ConfigJointManager : MonoBehaviour
 {
-    bool useMultipleTemplate;
-    bool splitJointTemplate;
+    public bool configureJointsInEditor = true;
+    public bool useBodyMass = false;
+    [Header("Split Axis")]
+    public bool useJointsMultipleTemplate = false;
+    public bool splitJointTemplate = false;
+    [Header("Add Colliders")]
+    public bool addSimpleColliders = false;
+    public bool addMeshColliders = true;
+
+    public bool inputByManager = false;
 
     List<HumanBodyBones> usesFixedJoint = new List<HumanBodyBones>();
     [SerializeField]
     Dictionary<HumanBodyBones, JointAngleContainer> jointAngleLimits = new Dictionary<HumanBodyBones, JointAngleContainer>();
 
-    [Header("Position Drives")]
-    public JointDrive xDrive;
-    public JointDrive yDrive;
-    public JointDrive zDrive;
+    public float maximumForce = 10000;
 
-    [Header("Angular Drives")]
-    public JointDrive angularXDrive;
-    public JointDrive angularYZDrive;
+    [Header("Joint Angular Drive X")]
+    public float springAngularX = 2500;
+    public float damperAngularX = 500;
+    [Header("Joint Angular Drive YZ")]
+    public float springAngularYZ = 2500;
+    public float damperAngularYZ = 500;
+
+    JointDrive angularXDrive = new JointDrive();
+    JointDrive angularYZDrive = new JointDrive();
 
     AvatarManager avatarManager;
+    JointSetup jointSetup;
 
     Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone = new Dictionary<HumanBodyBones, GameObject>();
     Dictionary<HumanBodyBones, Quaternion> quaternionFromBoneAtStart = new Dictionary<HumanBodyBones, Quaternion>();
     Dictionary<HumanBodyBones, GameObject> templateFromBone = new Dictionary<HumanBodyBones, GameObject>();
 
     Animator templateAnimator;
-    /// <summary>
-    /// Assigns ConfigurableJoints configured by the AvatarManager
-    /// </summary>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <param name="z"></param>
-    /// <param name="angX"></param>
-    /// <param name="angYZ"></param>
-    /// <param name="useIndividualAxes"></param>
-    public ConfigJointManager(JointDrive x, JointDrive y, JointDrive z, JointDrive angX, JointDrive angYZ, bool useIndividualAxes)
+
+    void Start()
     {
+        angularXDrive.maximumForce = angularYZDrive.maximumForce = maximumForce;
+
+
+        angularXDrive.positionSpring = springAngularX;
+        angularXDrive.positionDamper = damperAngularX;
+
+        angularYZDrive.positionSpring = springAngularYZ;
+        angularYZDrive.positionDamper = damperAngularYZ;
+
         usesFixedJoint.Add(HumanBodyBones.Hips);
         usesFixedJoint.Add(HumanBodyBones.Spine);
         usesFixedJoint.Add(HumanBodyBones.UpperChest);
-        usesFixedJoint.Add(HumanBodyBones.LeftShoulder);
+        usesFixedJoint.Add(HumanBodyBones.RightShoulder);
         usesFixedJoint.Add(HumanBodyBones.RightShoulder);
         usesFixedJoint.Add(HumanBodyBones.Neck);
-
-        xDrive = x;
-        yDrive = y;
-        zDrive = z;
-
-        angularXDrive = angX;
-        angularYZDrive = angYZ;
-
-        SetupJoints();
-
-    }
-    /// <summary>
-    /// Assigns ConfigurableJoints configured by the editor
-    /// </summary>
-    /// <param name="useIndividualAxes"></param>
-    public ConfigJointManager()
-    {
-        SetupJoints();
     }
 
-
-
-    void SetupJoints()
+    void Update()
     {
+
+    }
+
+    void UpdateGameObjectsFromBone()
+    {/*
+        switch (avatarManager.GetSelectedBodyGroup())
+        {
+            case BodyGroups.BODYGROUP.ALL_COMBINED: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().AllCombined(); break;
+            case BodyGroups.BODYGROUP.HEAD: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().Head(); break;
+            case BodyGroups.BODYGROUP.LEFT_ARM: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().LeftArm(); break;
+            case BodyGroups.BODYGROUP.LEFT_FOOT: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().LeftFoot(); break;
+            case BodyGroups.BODYGROUP.LEFT_HAND: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().LeftHand(); break;
+            case BodyGroups.BODYGROUP.LEFT_LEG: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().LeftLeg(); break;
+            case BodyGroups.BODYGROUP.RIGHT_ARM: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().RightArm(); break;
+            case BodyGroups.BODYGROUP.RIGHT_FOOT: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().RightFoot(); break;
+            case BodyGroups.BODYGROUP.RIGHT_HAND: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().RightHand(); break;
+            case BodyGroups.BODYGROUP.RIGHT_LEG: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().RightLeg(); break;
+            case BodyGroups.BODYGROUP.TRUNK: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().Trunk(); break;
+            case BodyGroups.BODYGROUP.TRUNK_HEAD: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().TrunkHead(); break;
+        }
+        */
+        gameObjectsFromBone = avatarManager.GetGameObjectPerBoneAvatarDictionary();
+    }
+
+    public void SetupJoints()
+    {
+
+
+
+
+        //We only support the construction of individual joints from a single one or from the multijoint template but not both at the same time
+        if (splitJointTemplate) useJointsMultipleTemplate = false;
+        if (useJointsMultipleTemplate) splitJointTemplate = false;
+
+        //
+        if (addSimpleColliders) addMeshColliders = false;
+        if (addMeshColliders) addSimpleColliders = false;
         GetAvatar();
 
-        if (useMultipleTemplate)
+        if (useJointsMultipleTemplate)
         {
             //jointAngleLimits = ReadJointAngleLimitsFromJson();
         }
@@ -79,8 +109,8 @@ public class ConfigJointManager : MonoBehaviour
         {
             InitTemplateDict();
         }
-
-        JointSetup setup = new JointSetup(gameObjectsFromBone, templateFromBone, avatarManager, this);
+        jointSetup = new JointSetup(gameObjectsFromBone, templateFromBone, this);
+        jointSetup.InitializeStructures();
 
     }
     /// <summary>
@@ -90,10 +120,8 @@ public class ConfigJointManager : MonoBehaviour
     {
         avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
         gameObjectsFromBone = avatarManager.GetGameObjectPerBoneAvatarDictionary();
-        splitJointTemplate = avatarManager.ShouldSplitJoint();
 
-        this.useMultipleTemplate = avatarManager.UseMultipleJointTemplate();
-        if (useMultipleTemplate)
+        if (useJointsMultipleTemplate)
         {
             //templateAnimator = GameObject.FindGameObjectWithTag("TemplateMultiple").GetComponent<Animator>();
         }
@@ -103,7 +131,7 @@ public class ConfigJointManager : MonoBehaviour
         }
 
     }
-  
+
     public void setMassOfBone(HumanBodyBones bone, float mass = 1)
     {
     }
@@ -230,5 +258,25 @@ public class ConfigJointManager : MonoBehaviour
     public void SetStartOrientation()
     {
         quaternionFromBoneAtStart = avatarManager.GetGameObjectPerBoneRemoteAvatarDictionaryAtStart();
+    }
+
+    public JointDrive GetAngularXDrive()
+    {
+        return angularXDrive;
+    }
+
+    public JointDrive GetAngularYZDrive()
+    {
+        return angularYZDrive;
+    }
+
+    public void SetAngularXDrive(JointDrive jointDrive)
+    {
+        angularXDrive = jointDrive;
+    }
+
+    public void SetAngularYZDrive(JointDrive jointDrive)
+    {
+        angularYZDrive = jointDrive;
     }
 }

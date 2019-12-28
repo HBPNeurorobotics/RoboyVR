@@ -27,7 +27,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
     Rigidbody rb;
 
     bool useMultipleJointTemplate;
-    AvatarManager avatarManager;
+    ConfigJointManager configJointManager;
 
     // Use this for initialization
     void Start()
@@ -35,8 +35,8 @@ public class ConfigJointMotionHandler : MonoBehaviour
         joints = GetComponents<ConfigurableJoint>();
         rb = GetComponent<Rigidbody>();
 
-        avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
-        useMultipleJointTemplate = avatarManager.UseMultipleJointTemplate();
+        configJointManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<ConfigJointManager>();
+        useMultipleJointTemplate = configJointManager.useJointsMultipleTemplate;
         /*
         xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
         xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 300;

@@ -3,50 +3,23 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+[RequireComponent(typeof(ConfigJointManager))]
+[RequireComponent(typeof(BoneMeshContainer))]
 public class AvatarManager : MonoBehaviour
 {
-
     public bool useJoints = true;
-    public bool configureJointsInEditor = true;
-    public bool useBodyMass = false;
-    [SerializeField]
-    bool useJointsMultipleTemplate = false;
-    [SerializeField]
-    bool splitJointTemplate = false;
 
-
-    [SerializeField]
-    bool addSimpleColliders = false;
-    [SerializeField]
-    bool addMeshColliders = true;
-    [SerializeField]
-    bool inputByManager = false;
-    [SerializeField]
-    BoneMeshContainer meshContainer;
-    public float weight = 72f;
+    [Header("PD Control")]
     public float PDKp = 1;
     public float PDKd = 1;
     public float Kp = 8;
     public float Ki = 0;
     public float Kd = .05f;
 
-    [Header("Joint Angular Drive X")]
-    public float springX = 2500;
-    public float damperX = 500;    
-    [Header("Joint Angular Drive YZ")]
-    public float springYZ = 2500;
-    public float damperYZ = 500;    
-    public JointDrive xDrive = new JointDrive();
-    public JointDrive yDrive = new JointDrive();
-    public JointDrive zDrive = new JointDrive();
-
-    public JointDrive angularXDrive = new JointDrive();
-    public JointDrive angularYZDrive = new JointDrive();
+    BodyGroups.BODYGROUP bodyGroup = BodyGroups.BODYGROUP.ALL_COMBINED;
 
     BodyGroups bodyGroupsRemote;
     BodyGroups bodyGroupsTarget;
-
-    public TextAsset angles;
 
     ConfigJointManager configJointManager;
 
@@ -58,7 +31,7 @@ public class AvatarManager : MonoBehaviour
     Dictionary<HumanBodyBones, Quaternion> orientationPerBoneRemoteAvatarAtStart = new Dictionary<HumanBodyBones, Quaternion>();
     Dictionary<GameObject, HumanBodyBones> bonesPerGameObjectRemoteAvatar = new Dictionary<GameObject, HumanBodyBones>();
     //The bones of the character that the remote avatar imitates
-    Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneTarget = new Dictionary<HumanBodyBones, GameObject>();
+    Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneLocalAvatar = new Dictionary<HumanBodyBones, GameObject>();
 
     List<HumanBodyBones> bonesInOrder = new List<HumanBodyBones>();
 
@@ -67,14 +40,6 @@ public class AvatarManager : MonoBehaviour
     {
         animatorRemoteAvatar = GetComponentInChildren<Animator>();
         animatorTarget = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
-
-        //We only support the construction of individual joints from a single one or from the multijoint template but not both at the same time
-        if (splitJointTemplate) useJointsMultipleTemplate = false;
-        if (useJointsMultipleTemplate) splitJointTemplate = false;
-
-        //
-        if (addSimpleColliders) addMeshColliders = false;
-        if (addMeshColliders) addSimpleColliders = false;
 
         InitializeBodyStructures();
     }
@@ -89,7 +54,7 @@ public class AvatarManager : MonoBehaviour
         else
         {
             //UpdatePDControllers();
-            if (inputByManager)
+            if (configJointManager.inputByManager)
             {
                 //UpdateJoints();
                 UpdateJointsRecursive(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
@@ -123,7 +88,7 @@ public class AvatarManager : MonoBehaviour
                 {
                     //build Dictionaries
                     gameObjectPerBoneRemoteAvatar.Add(bone, boneTransformAvatar.gameObject);
-                    gameObjectPerBoneTarget.Add(bone, boneTransformTarget.gameObject);
+                    gameObjectPerBoneLocalAvatar.Add(bone, boneTransformTarget.gameObject);
 
                     Quaternion tmp = new Quaternion();
                     tmp = boneTransformAvatar.localRotation;
@@ -145,42 +110,16 @@ public class AvatarManager : MonoBehaviour
         }   
 
         bodyGroupsRemote = new BodyGroups(gameObjectPerBoneRemoteAvatar);
-        bodyGroupsTarget = new BodyGroups(gameObjectPerBoneTarget);
+        bodyGroupsTarget = new BodyGroups(gameObjectPerBoneLocalAvatar);
 
         if (useJoints)
         {
-
-            if (!configureJointsInEditor)
-            {
-                xDrive.positionSpring = yDrive.positionSpring = zDrive.positionSpring = 2500;
-                xDrive.positionDamper = yDrive.positionDamper = zDrive.positionDamper = 600;
-                xDrive.maximumForce = yDrive.maximumForce = zDrive.maximumForce = 10000;
-
-                angularXDrive.positionSpring = springX;
-                angularYZDrive.positionSpring = springYZ;
-                angularXDrive.positionDamper = damperX;
-                angularYZDrive.positionDamper = damperYZ;
-                angularXDrive.maximumForce = angularYZDrive.maximumForce = 1000;
-
-
-                configJointManager = new ConfigJointManager(xDrive, yDrive, zDrive, angularXDrive, angularYZDrive, useJointsMultipleTemplate);
-            }
-            else
-            {
-                configJointManager = new ConfigJointManager();
-            }
+            configJointManager = GetComponent<ConfigJointManager>();
+            configJointManager.SetupJoints();
 
             SetupOrder(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
             bonesInOrder.Reverse();
-
         }
-
-        //Now set in editor window
-        if (useBodyMass)
-        {
-            //BodyMass bm = new BodyMass(weight, gameObjectPerBoneRemoteAvatar);
-        }
-
     }
 
     /// <summary>
@@ -190,7 +129,7 @@ public class AvatarManager : MonoBehaviour
     Rigidbody GetRigidbodyFromBone(bool fromAvatar, HumanBodyBones boneID)
     {
         GameObject obj;
-        if ((fromAvatar ? gameObjectPerBoneRemoteAvatar : gameObjectPerBoneTarget).TryGetValue(boneID, out obj))
+        if ((fromAvatar ? gameObjectPerBoneRemoteAvatar : gameObjectPerBoneLocalAvatar).TryGetValue(boneID, out obj))
         {
             Rigidbody rb = obj.GetComponent<Rigidbody>();
             if (rb != null)
@@ -215,8 +154,8 @@ public class AvatarManager : MonoBehaviour
         gameObjectPerBoneRemoteAvatar[bone].AddComponent<Rigidbody>();
         gameObjectPerBoneRemoteAvatar[bone].GetComponent<Rigidbody>().useGravity = false;
 
-        gameObjectPerBoneTarget[bone].AddComponent<Rigidbody>();
-        gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().useGravity = false;
+        gameObjectPerBoneLocalAvatar[bone].AddComponent<Rigidbody>();
+        gameObjectPerBoneLocalAvatar[bone].GetComponent<Rigidbody>().useGravity = false;
     }
 
     /*
@@ -231,11 +170,11 @@ public class AvatarManager : MonoBehaviour
 
     void AssignPDController(HumanBodyBones bone)
     {
-        gameObjectPerBoneRemoteAvatar[bone].AddComponent<PDController>();
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().rigidbody = gameObjectPerBoneRemoteAvatar[bone].GetComponent<Rigidbody>();
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().oldVelocity = gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().rigidbody.velocity;
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().proportionalGain = PDKp;
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().derivativeGain = PDKd;
+        PDController pd = gameObjectPerBoneRemoteAvatar[bone].AddComponent<PDController>();
+        pd.rigidbody = gameObjectPerBoneRemoteAvatar[bone].GetComponent<Rigidbody>();
+        pd.oldVelocity = gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().rigidbody.velocity;
+        pd.proportionalGain = PDKp;
+        pd.derivativeGain = PDKd;
     }
     void AssignVacuumBreatherPIDController(HumanBodyBones bone)
     {
@@ -285,7 +224,7 @@ public class AvatarManager : MonoBehaviour
         Rigidbody targetRb = GetRigidbodyFromBone(false, bone);
         if (targetRb != null)
         {
-            gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().SetDestination(gameObjectPerBoneTarget[bone].transform, targetRb.velocity);
+            gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().SetDestination(gameObjectPerBoneLocalAvatar[bone].transform, targetRb.velocity);
         }
     }
 
@@ -293,7 +232,7 @@ public class AvatarManager : MonoBehaviour
     {
         foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
         {
-            gameObjectPerBoneRemoteAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().DesiredOrientation = gameObjectPerBoneTarget[bone].transform.rotation;
+            gameObjectPerBoneRemoteAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().DesiredOrientation = gameObjectPerBoneLocalAvatar[bone].transform.rotation;
         }
     }
 
@@ -316,8 +255,8 @@ public class AvatarManager : MonoBehaviour
         foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
         {
             //gameObjectPerBoneRemoteAvatar[bone].GetComponent<Rigidbody>().freezeRotation = false;
-            Rigidbody targetRigidbody = gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>();
-            configJointManager.SetTagetTransform(bone, gameObjectPerBoneTarget[bone].transform);
+            Rigidbody targetRigidbody = gameObjectPerBoneLocalAvatar[bone].GetComponent<Rigidbody>();
+            configJointManager.SetTagetTransform(bone, gameObjectPerBoneLocalAvatar[bone].transform);
         }
     }
 
@@ -352,7 +291,7 @@ public class AvatarManager : MonoBehaviour
     {
         foreach(HumanBodyBones bone in bonesInOrder)
         {
-            configJointManager.SetTagetTransform(bone, gameObjectPerBoneTarget[bone].transform);
+            configJointManager.SetTagetTransform(bone, gameObjectPerBoneLocalAvatar[bone].transform);
         }
     }
     /*
@@ -379,24 +318,9 @@ public class AvatarManager : MonoBehaviour
         return orientationPerBoneRemoteAvatarAtStart;
     }
 
-    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneTargetDictionary()
+    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneLocalAvatarDictionary()
     {
-        return gameObjectPerBoneTarget;
-    }
-
-    public bool UsesActiveInput()
-    {
-        return inputByManager;
-    }
-    
-    public bool ShouldSplitJoint()
-    {
-        return splitJointTemplate;
-    }
-
-    public bool UseMultipleJointTemplate()
-    {
-        return useJointsMultipleTemplate;
+        return gameObjectPerBoneLocalAvatar;
     }
 
     public BodyGroups GetBodyGroupsRemote()
@@ -408,12 +332,8 @@ public class AvatarManager : MonoBehaviour
         return bodyGroupsTarget;
     }  
 
-    public bool ShouldAddSimpleColliders()
+    public BodyGroups.BODYGROUP GetSelectedBodyGroup()
     {
-        return addSimpleColliders;
-    }
-    public bool ShouldAddMeshColliders()
-    {
-        return addMeshColliders;
+        return bodyGroup;
     }
 }

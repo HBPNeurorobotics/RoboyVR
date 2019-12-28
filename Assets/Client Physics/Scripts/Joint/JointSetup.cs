@@ -7,45 +7,40 @@ public class JointSetup {
 
     Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone;
     Dictionary<HumanBodyBones, GameObject> templateFromBone;
-    AvatarManager avatarManager;
     ConfigJointManager configJointManager;
-
-    JointDrive xDrive;
-    JointDrive yDrive;
-    JointDrive zDrive;
 
     JointDrive angularXDrive;
     JointDrive angularYZDrive;
 
-    public JointSetup(Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone, Dictionary<HumanBodyBones, GameObject> templateFromBone, AvatarManager avatarManager, ConfigJointManager configJointManager)
+    public JointSetup(Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone, Dictionary<HumanBodyBones, GameObject> templateFromBone, ConfigJointManager configJointManager)
     {
         this.gameObjectsFromBone = gameObjectsFromBone;
         this.templateFromBone = templateFromBone;
-        this.avatarManager = avatarManager;
         this.configJointManager = configJointManager;
 
-        xDrive = configJointManager.xDrive;
-        yDrive = configJointManager.yDrive;
-        zDrive = configJointManager.zDrive;
+        angularXDrive = configJointManager.GetAngularXDrive();
+        angularYZDrive = configJointManager.GetAngularYZDrive();
 
-        angularXDrive = configJointManager.angularXDrive;
-        angularYZDrive = configJointManager.angularYZDrive;
+    }
 
-
+    public void InitializeStructures()
+    {
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
         {
-            AddJoint(bone);
+            if (gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() == null)
+            {
+                AddJoint(bone);
+            }
         }
 
-        if (avatarManager.ShouldAddMeshColliders())
+        if (configJointManager.addMeshColliders)
         {
             MonoBehaviour tmp = new MonoBehaviour();
             foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
             {
-               tmp.StartCoroutine(EnableCollider(bone));
-            }   
+                tmp.StartCoroutine(EnableCollider(bone));
+            }
         }
-
     }
 
 
@@ -55,7 +50,7 @@ public class JointSetup {
     /// <param name="bone">The bone that a ConfigurableJoint component should be added to. If useIndividualAxis joint angles are set from previous animation test.</param>
     void AddJoint(HumanBodyBones bone)
     {
-        if (!avatarManager.UseMultipleJointTemplate())
+        if (!configJointManager.useJointsMultipleTemplate)
         {
             AddJointFromTemplate(bone);
         }
@@ -76,13 +71,13 @@ public class JointSetup {
         CopyPasteRigidbody(bone);
 
         //Add colliders if needed
-        if (avatarManager.ShouldAddSimpleColliders())
+        if (configJointManager.addSimpleColliders)
         {
             CopyPasteColliders(bone);
         }
         else
         {
-            if (avatarManager.ShouldAddMeshColliders())
+            if (configJointManager.addMeshColliders)
             {
                 AddMeshColliders(bone);
             }
@@ -93,7 +88,7 @@ public class JointSetup {
 
     void AddMeshColliders(HumanBodyBones bone)
     {
-        List<Mesh> meshes = avatarManager.gameObject.GetComponent<BoneMeshContainer>().GetMeshesFromBone(bone);
+        List<Mesh> meshes = configJointManager.gameObject.GetComponent<BoneMeshContainer>().GetMeshesFromBone(bone);
         if (meshes != null)
         {
             foreach (Mesh mesh in meshes)
@@ -156,7 +151,7 @@ public class JointSetup {
 
     void CopyPasteJoint(HumanBodyBones bone)
     {
-        if (avatarManager.UseMultipleJointTemplate())
+        if (configJointManager.useJointsMultipleTemplate)
         {
             ConfigurableJoint[] jointsOfTemplateBone = templateFromBone[bone].GetComponents<ConfigurableJoint>();
             for (int i = 0; i < jointsOfTemplateBone.Length; i++)
@@ -181,7 +176,7 @@ public class JointSetup {
 
             SetConnectedBody(bone, newJoint);
 
-            if (avatarManager.ShouldSplitJoint())
+            if (configJointManager.splitJointTemplate)
             {
                 AddSplitJoints(newJoint, bone);
             }
@@ -334,10 +329,7 @@ public class JointSetup {
         joint.configuredInWorldSpace = false;
 
         joint.enableCollision = false;
-        joint.enablePreprocessing = false;
-        //joint.projectionMode = JointProjectionMode.PositionAndRotation;
-        //joint.projectionAngle = 2f;
-        //joint.projectionDistance = 0.1f;
+        joint.enablePreprocessing = true;
 
         switch (bone)
         {
@@ -561,10 +553,6 @@ public class JointSetup {
     {
         
         //TODO: CURRENTLY OVEWRITES EDITOR INPUT, REMOVE LATER
-        joint.xDrive = xDrive;
-        joint.yDrive = yDrive;
-        joint.zDrive = zDrive;
-
         joint.angularXDrive = angularXDrive;
         joint.angularYZDrive = angularYZDrive;
         //END TODO
@@ -574,7 +562,7 @@ public class JointSetup {
         joint.connectedBody = connectedBody;
 
         //This will only be used if there are no individual rotations/velocities assigned by the AvatarManager
-        if (!avatarManager.UsesActiveInput())
+        if (!configJointManager.inputByManager)
         {/*
             if (usesFixedJoint.Contains(bone))
             {
@@ -598,7 +586,7 @@ public class JointSetup {
         if (gameObjectsFromBone[bone].GetComponent<ConfigJointMotionHandler>() == null)
         {
             ConfigJointMotionHandler rotationHelper = gameObjectsFromBone[bone].AddComponent<ConfigJointMotionHandler>();
-            rotationHelper.target = avatarManager.GetGameObjectPerBoneTargetDictionary()[bone];
+            rotationHelper.target = configJointManager.gameObject.GetComponent<AvatarManager>().GetGameObjectPerBoneLocalAvatarDictionary()[bone];
         }
     }
 
