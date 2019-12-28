@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JointSetup {
+public class JointSetup
+{
 
     Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone;
     Dictionary<HumanBodyBones, GameObject> templateFromBone;
     ConfigJointManager configJointManager;
+
+    bool meshCollidersDone = false;
+    bool simpleCollidersDone = false;
 
     JointDrive angularXDrive;
     JointDrive angularYZDrive;
@@ -21,6 +25,67 @@ public class JointSetup {
         angularXDrive = configJointManager.GetAngularXDrive();
         angularYZDrive = configJointManager.GetAngularYZDrive();
 
+    }
+
+    public void ToggleMeshColliders(bool enabled)
+    {
+        foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
+        {
+            MeshCollider collider = gameObjectsFromBone[bone].GetComponent<MeshCollider>();
+            if (collider == null)
+            {
+                AddMeshColliders(bone);
+                collider = gameObjectsFromBone[bone].GetComponent<MeshCollider>();
+            }
+
+            if (collider != null)
+            {
+                MeshCollider[] colliders = gameObjectsFromBone[bone].GetComponents<MeshCollider>();
+                foreach (MeshCollider col in colliders)
+                {
+                    col.enabled = enabled;
+                }
+            }
+        }
+    }
+
+    public void ToggleSimpleColliders(bool enabled)
+    {
+        foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
+        {
+            Collider[] colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
+            bool hasOnlyMeshColliders = false;
+            foreach(Collider col in colliders)
+            {
+                if(col is MeshCollider)
+                {
+                    hasOnlyMeshColliders = true;
+                }
+                else
+                {
+                    hasOnlyMeshColliders = false;
+                    break;
+                }
+            }
+
+            if (colliders.Length == 0 || hasOnlyMeshColliders)
+            {
+                CopyPasteColliders(bone);
+                colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
+            }
+            
+            foreach (Collider col in colliders)
+            {
+                if (col is MeshCollider)
+                {
+
+                }
+                else
+                {
+                    col.enabled = enabled;
+                }
+            }
+        }
     }
 
     public void InitializeStructures()
@@ -112,15 +177,15 @@ public class JointSetup {
             switch (bone)
             {
                 case HumanBodyBones.LeftUpperArm:
-                case HumanBodyBones.LeftLowerArm:  gameObjectsFromBone[bone].layer = 10; break;
-                
+                case HumanBodyBones.LeftLowerArm: gameObjectsFromBone[bone].layer = 10; break;
+
                 case HumanBodyBones.RightUpperArm:
                 case HumanBodyBones.RightLowerArm: gameObjectsFromBone[bone].layer = 11; break;
 
-                case HumanBodyBones.LeftUpperLeg: 
+                case HumanBodyBones.LeftUpperLeg:
                 case HumanBodyBones.LeftLowerLeg: gameObjectsFromBone[bone].layer = 13; break;
-                
-                case HumanBodyBones.RightUpperLeg: 
+
+                case HumanBodyBones.RightUpperLeg:
                 case HumanBodyBones.RightLowerLeg: gameObjectsFromBone[bone].layer = 14; break;
 
                 case HumanBodyBones.Chest: gameObjectsFromBone[bone].layer = 12; break;
@@ -283,7 +348,6 @@ public class JointSetup {
             //We need to disable the template collider to avoid collisions and save costs
             templateFromBone[bone].GetComponent<Collider>().enabled = false;
         }
-
     }
 
     IEnumerator EnableCollider(HumanBodyBones bone)
@@ -551,12 +615,12 @@ public class JointSetup {
     /// <param name="connectedBody">The rigidbody of the Object that the joint is connected to. For example, this would be the LeftUpperArm if the bone is the LeftLowerArm, NOT the LeftHand</param>
     public void ConfigureJoint(HumanBodyBones bone, ConfigurableJoint joint, Rigidbody connectedBody)
     {
-        
+
         //TODO: CURRENTLY OVEWRITES EDITOR INPUT, REMOVE LATER
         joint.angularXDrive = angularXDrive;
         joint.angularYZDrive = angularYZDrive;
         //END TODO
-        
+
 
         //Connected Body
         joint.connectedBody = connectedBody;

@@ -12,7 +12,9 @@ public class ConfigJointManager : MonoBehaviour
     public bool splitJointTemplate = false;
     [Header("Add Colliders")]
     public bool addSimpleColliders = false;
+    private bool simpleCollidersPrev;
     public bool addMeshColliders = true;
+    private bool meshCollidersPrev;
 
     public bool inputByManager = false;
 
@@ -43,8 +45,10 @@ public class ConfigJointManager : MonoBehaviour
 
     void Start()
     {
-        angularXDrive.maximumForce = angularYZDrive.maximumForce = maximumForce;
+        meshCollidersPrev = addMeshColliders;
+        simpleCollidersPrev = addSimpleColliders;
 
+        angularXDrive.maximumForce = angularYZDrive.maximumForce = maximumForce;
 
         angularXDrive.positionSpring = springAngularX;
         angularXDrive.positionDamper = damperAngularX;
@@ -60,9 +64,22 @@ public class ConfigJointManager : MonoBehaviour
         usesFixedJoint.Add(HumanBodyBones.Neck);
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        if (addMeshColliders != meshCollidersPrev)
+        {
+            jointSetup.ToggleMeshColliders(addMeshColliders);
+        }
+        else
+        {
+            if (addSimpleColliders != simpleCollidersPrev)
+            {
+                jointSetup.ToggleSimpleColliders(addSimpleColliders);
+            }
+        }
 
+        meshCollidersPrev = addMeshColliders;
+        simpleCollidersPrev = addSimpleColliders;
     }
 
     void UpdateGameObjectsFromBone()
@@ -88,10 +105,6 @@ public class ConfigJointManager : MonoBehaviour
 
     public void SetupJoints()
     {
-
-
-
-
         //We only support the construction of individual joints from a single one or from the multijoint template but not both at the same time
         if (splitJointTemplate) useJointsMultipleTemplate = false;
         if (useJointsMultipleTemplate) splitJointTemplate = false;
