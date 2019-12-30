@@ -24,12 +24,11 @@ public static class ConfigJointUtility
         //check whether there has been a rotation
         if (jointYAxis == Vector3.zero && jointZAxis == Vector3.zero)
         {
-            return Quaternion.identity;
+            jointYAxis.y += 0.00001f;
+            jointYAxis.z += 0.00001f;
         }
-        else
-        {
+
             return Quaternion.LookRotation(jointYAxis, jointZAxis);
-        }
     }
 
     public static void SetJointSettings(ConfigurableJoint joint, JointSettings settings)

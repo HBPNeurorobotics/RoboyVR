@@ -84,10 +84,6 @@ public class ConfigJointMotionHandler : MonoBehaviour
         else
         {
             Quaternion worldToJointSpace = ConfigJointUtility.GetWorldToJointRotation(joint);
-            if(worldToJointSpace == Quaternion.identity)
-            {
-                return;
-            }
             /* 
              * turn joint space to align with world
              * perform rotation in world

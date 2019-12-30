@@ -97,15 +97,6 @@ public class JointSetup
                 AddJoint(bone);
             }
         }
-
-        if (configJointManager.addMeshColliders)
-        {
-            MonoBehaviour tmp = new MonoBehaviour();
-            foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
-            {
-                tmp.StartCoroutine(EnableCollider(bone));
-            }
-        }
     }
 
 
@@ -147,8 +138,24 @@ public class JointSetup
                 AddMeshColliders(bone);
             }
         }
+
+        //We need to disable the template collider to avoid collisions and save costs
+        DisableTemplateColliders();
+
         //Add joint(s)
         CopyPasteJoint(bone);
+    }
+
+    void DisableTemplateColliders()
+    {
+        foreach(HumanBodyBones bone in templateFromBone.Keys)
+        {
+            Collider[] colliders = templateFromBone[bone].GetComponents<Collider>();
+            foreach(Collider col in colliders)
+            {
+                col.enabled = false;
+            }
+        }
     }
 
     void AddMeshColliders(HumanBodyBones bone)
@@ -158,9 +165,9 @@ public class JointSetup
         {
             foreach (Mesh mesh in meshes)
             {
-                //We have to make sure that the origin of the mesh matches the bone position! To convert from Unity(left handed) to Blender(right handed) coordinates: x = -x, y = -z, z = y
+                //We have to make sure that the origin of the mesh matches the bone position! Convert from Unity(left handed) to Blender(right handed) coordinates: x = -x, y = -z, z = y
                 MeshCollider meshCollider = gameObjectsFromBone[bone].AddComponent<MeshCollider>();
-                meshCollider.enabled = false;
+                meshCollider.enabled = true;
 
 
                 //We need to make sure that Unity treats the assigned mesh as convex. Blender's convex hull is sometimes not valid and has to be converted into a form accepted by Unity
@@ -320,9 +327,9 @@ public class JointSetup
         jointA.angularYLimit = jointB.angularYLimit = joint.angularYLimit = lowLimit;
         jointA.angularZLimit = jointB.angularZLimit = joint.angularZLimit = lowLimit;
 
-        joint.angularXMotion = ConfigurableJointMotion.Limited;
-        joint.angularYMotion = ConfigurableJointMotion.Free;
-        joint.angularZMotion = ConfigurableJointMotion.Free;
+        joint.angularXMotion = jointA.angularXMotion = jointB.angularXMotion = ConfigurableJointMotion.Limited;
+        joint.angularYMotion = jointA.angularYMotion = jointB.angularYMotion = ConfigurableJointMotion.Free;
+        joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Free;
     }
 
     void CopyPasteColliders(HumanBodyBones bone)
@@ -344,9 +351,6 @@ public class JointSetup
 
             UnityEditorInternal.ComponentUtility.CopyComponent(templateCollider);
             UnityEditorInternal.ComponentUtility.PasteComponentValues(colliderComp);
-
-            //We need to disable the template collider to avoid collisions and save costs
-            templateFromBone[bone].GetComponent<Collider>().enabled = false;
         }
     }
 

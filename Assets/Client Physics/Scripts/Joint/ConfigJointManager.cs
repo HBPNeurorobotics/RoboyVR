@@ -55,13 +55,14 @@ public class ConfigJointManager : MonoBehaviour
 
         angularYZDrive.positionSpring = springAngularYZ;
         angularYZDrive.positionDamper = damperAngularYZ;
-
+        /*
         usesFixedJoint.Add(HumanBodyBones.Hips);
         usesFixedJoint.Add(HumanBodyBones.Spine);
         usesFixedJoint.Add(HumanBodyBones.UpperChest);
         usesFixedJoint.Add(HumanBodyBones.RightShoulder);
         usesFixedJoint.Add(HumanBodyBones.RightShoulder);
         usesFixedJoint.Add(HumanBodyBones.Neck);
+        */
     }
 
     void FixedUpdate()
@@ -233,7 +234,8 @@ public class ConfigJointManager : MonoBehaviour
          * Y axis aligned with cross product between Z and X.
          * --> rotates world coordinates to align with joint coordinates
         */
-        Quaternion worldToJointSpace = Quaternion.LookRotation(jointYAxis, jointZAxis);
+
+        Quaternion worldToJointSpace = ConfigJointUtility.GetWorldToJointRotation(joint);
         /* 
          * turn joint space to align with world
          * perform rotation in world
