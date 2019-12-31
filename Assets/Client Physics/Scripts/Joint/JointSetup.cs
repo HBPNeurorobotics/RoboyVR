@@ -197,8 +197,9 @@ public class JointSetup
 
                 case HumanBodyBones.Chest: gameObjectsFromBone[bone].layer = 12; break;
                 case HumanBodyBones.UpperChest: gameObjectsFromBone[bone].layer = 12; break;
-                case HumanBodyBones.LeftShoulder: gameObjectsFromBone[bone].layer = 12; break;
-                case HumanBodyBones.RightShoulder: gameObjectsFromBone[bone].layer = 12; break;
+
+                case HumanBodyBones.LeftShoulder: gameObjectsFromBone[bone].layer = 15; break;
+                case HumanBodyBones.RightShoulder: gameObjectsFromBone[bone].layer = 16; break;
 
                 default: break;
             }
@@ -255,7 +256,11 @@ public class JointSetup
 
         }
     }
-
+    /// <summary>
+    /// Creates 2 additional joints, that have the y/z axis of the previous joint as x axis respectively
+    /// </summary>
+    /// <param name="joint">The joint to split.</param>
+    /// <param name="bone">The bone of the body part that the joint is attached to.</param>
     void AddSplitJoints(ConfigurableJoint joint, HumanBodyBones bone)
     {
         Vector3 primaryAxisOne = Vector3.right;
@@ -372,13 +377,13 @@ public class JointSetup
     void SetConnectedBody(HumanBodyBones bone, ConfigurableJoint joint)
     {
 
-        joint.xMotion = ConfigurableJointMotion.Limited;
-        joint.yMotion = ConfigurableJointMotion.Limited;
-        joint.zMotion = ConfigurableJointMotion.Limited;
+        joint.xMotion = ConfigurableJointMotion.Locked;
+        joint.yMotion = ConfigurableJointMotion.Locked;
+        joint.zMotion = ConfigurableJointMotion.Locked;
 
         JointDrive drive = new JointDrive();
-        drive.positionDamper = 600;
-        drive.positionSpring = 3000;
+        drive.positionDamper = 0;
+        drive.positionSpring = 0;
 
         joint.xDrive = drive;
         joint.yDrive = drive;
@@ -606,9 +611,6 @@ public class JointSetup
 
             default: break;
         }
-
-        //joint.autoConfigureConnectedAnchor = false;
-        //joint.autoConfigureConnectedAnchor = false;
     }
 
     /// <summary>
