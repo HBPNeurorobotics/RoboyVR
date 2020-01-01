@@ -6,8 +6,10 @@ using UnityEngine;
 public class BoneMeshContainer : MonoBehaviour {
 
     public List<Mesh> Hips;
+    public List<Mesh> Spine;
     public List<Mesh> Chest;
     public List<Mesh> UpperChest;
+
     public List<Mesh> Head;
 
     public List<Mesh> LeftShoulder;
@@ -65,6 +67,7 @@ public class BoneMeshContainer : MonoBehaviour {
         switch (bone)
         {
             case HumanBodyBones.Hips: return Hips;
+            case HumanBodyBones.Spine: return Spine;
             case HumanBodyBones.Chest: return Chest;
             case HumanBodyBones.UpperChest: return UpperChest;
             case HumanBodyBones.Head: return Head;

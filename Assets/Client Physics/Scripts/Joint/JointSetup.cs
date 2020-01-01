@@ -181,28 +181,7 @@ public class JointSetup
             }
 
             //Disable self-collision for composite colliders
-            switch (bone)
-            {
-                case HumanBodyBones.LeftUpperArm:
-                case HumanBodyBones.LeftLowerArm: gameObjectsFromBone[bone].layer = 10; break;
-
-                case HumanBodyBones.RightUpperArm:
-                case HumanBodyBones.RightLowerArm: gameObjectsFromBone[bone].layer = 11; break;
-
-                case HumanBodyBones.LeftUpperLeg:
-                case HumanBodyBones.LeftLowerLeg: gameObjectsFromBone[bone].layer = 13; break;
-
-                case HumanBodyBones.RightUpperLeg:
-                case HumanBodyBones.RightLowerLeg: gameObjectsFromBone[bone].layer = 14; break;
-
-                case HumanBodyBones.Chest: gameObjectsFromBone[bone].layer = 12; break;
-                case HumanBodyBones.UpperChest: gameObjectsFromBone[bone].layer = 12; break;
-
-                case HumanBodyBones.LeftShoulder: gameObjectsFromBone[bone].layer = 15; break;
-                case HumanBodyBones.RightShoulder: gameObjectsFromBone[bone].layer = 16; break;
-
-                default: break;
-            }
+            gameObjectsFromBone[bone].layer = templateFromBone[bone].layer;
 
             //Colliders recalculate the center of mass and inertia tensor of the rigidbody. Since this leads to unintended behavior we have to restore default values.
             gameObjectsFromBone[bone].GetComponent<Rigidbody>().centerOfMass = Vector3.zero;
