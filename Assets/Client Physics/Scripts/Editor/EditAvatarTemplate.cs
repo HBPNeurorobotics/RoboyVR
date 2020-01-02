@@ -10,18 +10,25 @@ public class EditAvatarTemplate : EditorWindow
     float bodyWeight = 72f;
     BodyMass.MODE mode = BodyMass.MODE.AVERAGE;
     float indent = 15f;
-    string test = "test";
+
     bool useCollisions;
     bool noPreprocessing = true;
-    bool hasColliders = false;
     bool setGlobalJointSetting = false;
     bool mirror;
     bool showJointSettings = true;
     bool useGravity = true;
 
-    BodyGroups.BODYGROUP bodyGroup;
+    public float angularXDriveSpringGlobal;
+    public float angularXDriveDamperGlobal;
+    public float maxForceXGlobal;
 
-    JointSettings globalSettings = new JointSettings();
+    public float angularYZDriveSpringGlobal;
+    public float angularYZDriveDamperGlobal;
+    public float maxForceYZGlobal;
+
+    JointSettings globalSettings;
+
+    BodyGroups.BODYGROUP bodyGroup;
 
     static EditAvatarTemplate editor;
 
@@ -57,17 +64,6 @@ public class EditAvatarTemplate : EditorWindow
             bodyGroup = (BodyGroups.BODYGROUP)EditorGUILayout.EnumPopup("Body Group", bodyGroup);
             GetDictionary();
 
-            hasColliders = EditorGUILayout.Toggle("Add Colliders", hasColliders);
-            /*
-            if (hasColliders)
-            {
-                AddColliders();
-            }
-            else
-            {
-                RemoveColliders();
-            }
-            */
             useGravity = EditorGUILayout.Toggle("Enable Gravity", useGravity);
             useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
             noPreprocessing = EditorGUILayout.Toggle("Disable Preprocessing", noPreprocessing);
@@ -76,7 +72,6 @@ public class EditAvatarTemplate : EditorWindow
             if (!setGlobalJointSetting)
             {
                 mirror = EditorGUILayout.Toggle("Mirror Changes", mirror);
-
 
                 showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
 
@@ -264,14 +259,14 @@ public class EditAvatarTemplate : EditorWindow
     {
         //Angular X Drive
         settings.showAngularXDriveInEditor = EditorGUILayout.Foldout(settings.showAngularXDriveInEditor, "Angular X Drive", true);
-        if (settings.showAngularXDriveInEditor)
+        if (settings.showAngularXDriveInEditor || setGlobalJointSetting)
         {
             DisplayAngularDrivesHelper(settings, 0);
         }
 
         //Angular YZ Drive
         settings.showAngularYZDriveInEditor = EditorGUILayout.Foldout(settings.showAngularYZDriveInEditor, "Angular YZ Drive", true);
-        if (settings.showAngularYZDriveInEditor)
+        if (settings.showAngularYZDriveInEditor || setGlobalJointSetting)
         {
             DisplayAngularDrivesHelper(settings, 1);
         }
@@ -295,7 +290,7 @@ public class EditAvatarTemplate : EditorWindow
         {
             settings.angularYZDriveSpring = EditorGUILayout.FloatField("Spring", settings.angularYZDriveSpring);
             settings.angularYZDriveDamper = EditorGUILayout.FloatField("Damper", settings.angularYZDriveDamper);
-            settings.maxForceYZ= EditorGUILayout.FloatField("Maximum Force", settings.maxForceYZ);
+            settings.maxForceYZ = EditorGUILayout.FloatField("Maximum Force", settings.maxForceYZ);
         }
 
         EditorGUILayout.EndVertical();
@@ -306,19 +301,15 @@ public class EditAvatarTemplate : EditorWindow
     /// </summary>
     void DisplayGlobalJoint()
     {
-        globalSettings.showInEditor = EditorGUILayout.Foldout(globalSettings.showInEditor, "Global Joint Settings", true);
-
-        if (globalSettings.showInEditor)
-        {
+ 
             EditorGUILayout.BeginHorizontal();
-            GUILayout.Space(indent);
             EditorGUILayout.BeginVertical();
 
             DisplayJointValues(globalSettings);
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
-        }
+
     }
 
     void UpdateTemplate()
@@ -411,12 +402,20 @@ public class EditAvatarTemplate : EditorWindow
         tmp = joint.angularXDrive;
         tmp.positionSpring = setting.angularXDriveSpring;
         tmp.positionDamper = setting.angularXDriveDamper;
+        tmp.maximumForce = setting.maxForceX;
         joint.angularXDrive = tmp;
 
         tmp = joint.angularYZDrive;
         tmp.positionSpring = setting.angularYZDriveSpring;
         tmp.positionDamper = setting.angularYZDriveDamper;
+        tmp.maximumForce = setting.maxForceYZ;
         joint.angularYZDrive = tmp;
+
+        tmp.positionSpring = 0;
+        tmp.positionDamper = 0;
+        tmp.maximumForce = 0;
+
+        joint.xDrive = joint.yDrive = joint.zDrive = tmp;
     }
 
     void AddGravity(HumanBodyBones bone)
@@ -427,7 +426,7 @@ public class EditAvatarTemplate : EditorWindow
             rb.useGravity = useGravity;
         }
     }
-
+    /* Legacy
     void AddColliders()
     {
         foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
@@ -463,4 +462,5 @@ public class EditAvatarTemplate : EditorWindow
             }
         }
     }
+    */
 }

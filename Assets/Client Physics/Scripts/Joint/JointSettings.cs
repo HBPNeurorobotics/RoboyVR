@@ -8,14 +8,14 @@ public class JointSettings : MonoBehaviour
     public bool showAngularXDriveInEditor = false;
     public bool showAngularYZDriveInEditor = false;
     public HumanBodyBones bone;
-    [Header("Angular Drive X")]
+
     public float angularXDriveSpring;
     public float angularXDriveDamper;
-    public float maxForceX;
-    [Header("Angular Drive YZ")]
+    public float maxForceX = 2500;
+
     public float angularYZDriveSpring;
     public float angularYZDriveDamper; 
-    public float maxForceYZ;
+    public float maxForceYZ = 2500;
 
     public JointDrive angularXDrive;
     public JointDrive angularYZDrive;

@@ -55,6 +55,7 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
                 // no body target, but head and feet targets
                 else if (headTarget != null && rightFootTarget != null && leftFootTarget != null)
                 {
+                    Debug.Log(1);
                     Vector3 feetCenter = 0.33f * (rightFootTarget.position + leftFootTarget.position + headTarget.position);
                     this.transform.position = new Vector3(feetCenter.x, headTarget.position.y + bodyHeadOffset.y, feetCenter.z);
 
@@ -73,6 +74,7 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
                 // no body target, but head
                 else if (headTarget != null)
                 {
+                    Debug.Log(2);
                     this.transform.position = headTarget.position + bodyHeadOffset; // + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
 
                     Vector3 forward;
