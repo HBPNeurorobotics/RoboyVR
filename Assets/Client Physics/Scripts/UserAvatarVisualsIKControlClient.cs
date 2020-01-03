@@ -29,12 +29,28 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
     void Start()
     {
         animator = GetComponent<Animator>();
+
+        //added this here to temporarily solve squashed down character, now drops down instead -> no entangled body parts
+        if (animator)
+        {
+
+            //if the IK is active, set the position and rotation directly to the goal. 
+            if (ikActive)
+            {
+                // position body
+                if (bodyTarget != null)
+                {
+                    this.transform.position = bodyTarget.position + bodyTargetOffset;
+                    this.transform.rotation = bodyTarget.rotation;
+                }
+            }
+        }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-
+        
     }
 
     //a callback for calculating IK
@@ -55,7 +71,6 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
                 // no body target, but head and feet targets
                 else if (headTarget != null && rightFootTarget != null && leftFootTarget != null)
                 {
-                    Debug.Log(1);
                     Vector3 feetCenter = 0.33f * (rightFootTarget.position + leftFootTarget.position + headTarget.position);
                     this.transform.position = new Vector3(feetCenter.x, headTarget.position.y + bodyHeadOffset.y, feetCenter.z);
 
@@ -74,7 +89,6 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
                 // no body target, but head
                 else if (headTarget != null)
                 {
-                    Debug.Log(2);
                     this.transform.position = headTarget.position + bodyHeadOffset; // + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
 
                     Vector3 forward;
