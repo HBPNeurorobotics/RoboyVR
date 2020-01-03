@@ -55,9 +55,9 @@ public class JointSetup
         {
             Collider[] colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
             bool hasOnlyMeshColliders = false;
-            foreach(Collider col in colliders)
+            foreach (Collider col in colliders)
             {
-                if(col is MeshCollider)
+                if (col is MeshCollider)
                 {
                     hasOnlyMeshColliders = true;
                 }
@@ -73,7 +73,7 @@ public class JointSetup
                 CopyPasteColliders(bone);
                 colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
             }
-            
+
             foreach (Collider col in colliders)
             {
                 if (col is MeshCollider)
@@ -148,10 +148,10 @@ public class JointSetup
 
     void DisableTemplateColliders()
     {
-        foreach(HumanBodyBones bone in templateFromBone.Keys)
+        foreach (HumanBodyBones bone in templateFromBone.Keys)
         {
             Collider[] colliders = templateFromBone[bone].GetComponents<Collider>();
-            foreach(Collider col in colliders)
+            foreach (Collider col in colliders)
             {
                 col.enabled = false;
             }
@@ -257,6 +257,7 @@ public class JointSetup
 
         SoftJointLimit lowLimit = new SoftJointLimit();
 
+        //Torso, Legs
         if (((joint.axis == Vector3.right) && (joint.secondaryAxis == Vector3.forward || joint.secondaryAxis == Vector3.back || joint.secondaryAxis == Vector3.up))
            || joint.axis == Vector3.left && joint.secondaryAxis == Vector3.forward)
         {
@@ -268,23 +269,50 @@ public class JointSetup
         }
         else
         {
-            if (joint.axis == Vector3.up && (joint.secondaryAxis == Vector3.forward || joint.secondaryAxis == Vector3.back))
+            //Arms
+            if (joint.axis == Vector3.up)
             {
                 primaryAxisOne = Vector3.right;
                 secondaryAxisOne = Vector3.back;
 
                 primaryAxisTwo = Vector3.forward;
-                secondaryAxisTwo = Vector3.zero;
+
+                //right
+                if (joint.secondaryAxis == Vector3.forward)
+                {
+                    secondaryAxisTwo = Vector3.up;
+                }
+                else
+                {
+                    //left
+                    if (joint.secondaryAxis == Vector3.back)
+                    {
+                        secondaryAxisTwo = Vector3.zero;
+                    }
+                }
             }
             else
             {
-                if (((joint.axis == Vector3.forward || joint.axis == Vector3.back) && joint.secondaryAxis == Vector3.up) || (joint.axis == Vector3.forward || joint.secondaryAxis == Vector3.down))
+                //left hand
+                if (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.up)
                 {
                     primaryAxisOne = Vector3.up;
-                    secondaryAxisOne = Vector3.forward;
+                    secondaryAxisOne = Vector3.back;
 
                     primaryAxisTwo = Vector3.right;
                     secondaryAxisTwo = Vector3.back;
+                }
+                else
+                {
+                    //right hand
+                    if ((joint.axis == Vector3.back && joint.secondaryAxis == Vector3.up) || (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.down))
+                    {
+                        primaryAxisOne = Vector3.up;
+                        secondaryAxisOne = Vector3.forward;
+
+                        primaryAxisTwo = Vector3.right;
+                        secondaryAxisTwo = Vector3.back;
+                    }
                 }
             }
         }
@@ -292,16 +320,16 @@ public class JointSetup
         jointA.axis = primaryAxisOne;
         jointA.secondaryAxis = secondaryAxisOne;
 
-        jointA.highAngularXLimit = joint.angularYLimit;
-        lowLimit = joint.angularYLimit;
+        jointA.highAngularXLimit = joint.angularZLimit;
+        lowLimit = joint.angularZLimit;
         lowLimit.limit *= -1;
         jointA.lowAngularXLimit = lowLimit;
 
         jointB.axis = primaryAxisTwo;
         jointB.secondaryAxis = secondaryAxisTwo;
 
-        jointB.highAngularXLimit = joint.angularZLimit;
-        lowLimit = joint.angularZLimit;
+        jointB.highAngularXLimit = joint.angularYLimit;
+        lowLimit = joint.angularYLimit;
         lowLimit.limit *= -1;
         jointB.lowAngularXLimit = lowLimit;
 
