@@ -2,16 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class JointSetup
 {
 
     Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone;
     Dictionary<HumanBodyBones, GameObject> templateFromBone;
-    ConfigJointManager configJointManager;
 
-    bool meshCollidersDone = false;
-    bool simpleCollidersDone = false;
+    Dictionary<HumanBodyBones, List<ConfigurableJoint>> splitJointsFromBone = new Dictionary<HumanBodyBones, List<ConfigurableJoint>>();
+    //values are null!
+    public Dictionary<HumanBodyBones, ConfigurableJoint> singleJointFromBone = new Dictionary<HumanBodyBones, ConfigurableJoint>();
+
+    ConfigJointManager configJointManager;
 
     JointDrive angularXDrive;
     JointDrive angularYZDrive;
@@ -31,20 +34,25 @@ public class JointSetup
     {
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
         {
-            MeshCollider collider = gameObjectsFromBone[bone].GetComponent<MeshCollider>();
-            if (collider == null)
-            {
-                AddMeshColliders(bone);
-                collider = gameObjectsFromBone[bone].GetComponent<MeshCollider>();
-            }
+            ToggleMeshCollidersOfBone(bone, enabled);
+        }
+    }
 
-            if (collider != null)
+    public void ToggleMeshCollidersOfBone(HumanBodyBones bone, bool enabled)
+    {
+        MeshCollider collider = gameObjectsFromBone[bone].GetComponent<MeshCollider>();
+        if (collider == null)
+        {
+            AddMeshColliders(bone);
+            collider = gameObjectsFromBone[bone].GetComponent<MeshCollider>();
+        }
+
+        if (collider != null)
+        {
+            MeshCollider[] colliders = gameObjectsFromBone[bone].GetComponents<MeshCollider>();
+            foreach (MeshCollider col in colliders)
             {
-                MeshCollider[] colliders = gameObjectsFromBone[bone].GetComponents<MeshCollider>();
-                foreach (MeshCollider col in colliders)
-                {
-                    col.enabled = enabled;
-                }
+                col.enabled = enabled;
             }
         }
     }
@@ -53,39 +61,103 @@ public class JointSetup
     {
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
         {
-            Collider[] colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
-            bool hasOnlyMeshColliders = false;
-            foreach (Collider col in colliders)
+            ToggleSimpleCollidersOfBone(bone, enabled);
+        }
+    }
+
+    public void ToggleSimpleCollidersOfBone(HumanBodyBones bone, bool enabled)
+    {
+        Collider[] colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
+        bool hasOnlyMeshColliders = false;
+        foreach (Collider col in colliders)
+        {
+            if (col is MeshCollider)
             {
-                if (col is MeshCollider)
+                hasOnlyMeshColliders = true;
+            }
+            else
+            {
+                hasOnlyMeshColliders = false;
+                break;
+            }
+        }
+
+        if (colliders.Length == 0 || hasOnlyMeshColliders)
+        {
+            CopyPasteColliders(bone);
+            colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
+        }
+        
+        foreach (Collider col in colliders)
+        {
+            if (!(col is MeshCollider))
+            {
+                col.enabled = enabled;
+            }
+        }
+    }
+
+    public void ToggleSplitJoints(bool enabled)
+    {
+        foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
+        {
+            ToggleSplitJointsOfBone(bone, enabled);
+        }
+    }
+
+    public void ToggleSplitJointsOfBone(HumanBodyBones bone, bool enabled)
+    {
+        /*
+        //Assign multiple joints from split
+        if (enabled)
+        {
+            
+            //We need to be sure that there is only a single joint attached to the bone
+            if (gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>().Length == 1)
+            {
+                List<ConfigurableJoint> splitJoints = new List<ConfigurableJoint>();
+                //We already have a list of joints for the split
+                if (splitJointsFromBone.TryGetValue(bone, out splitJoints))
                 {
-                    hasOnlyMeshColliders = true;
+                    //remove previous single joint
+                    UnityEngine.Object.Destroy(gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>());
+
+                    foreach (ConfigurableJoint savedJoint in splitJoints)
+                    {
+                        ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
+
+                        ConfigJointUtility.CopyPasteComponent(newJoint, savedJoint);
+                    }
                 }
+                //we need to split the single joint first
                 else
                 {
-                    hasOnlyMeshColliders = false;
-                    break;
-                }
-            }
-
-            if (colliders.Length == 0 || hasOnlyMeshColliders)
-            {
-                CopyPasteColliders(bone);
-                colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
-            }
-
-            foreach (Collider col in colliders)
-            {
-                if (col is MeshCollider)
-                {
-
-                }
-                else
-                {
-                    col.enabled = enabled;
+                    AddSplitJoints(gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>(), bone, true);
                 }
             }
         }
+        //restore single joint
+        else
+        {
+            //remove all split joint components
+            foreach (ConfigurableJoint joint in gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>())
+            {
+                UnityEngine.Object.Destroy(joint);
+            }
+            //add original, single joint
+
+            ConfigurableJoint savedJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
+            ConfigJointUtility.CopyPasteComponent(savedJoint, singleJointFromBone[bone]);
+
+
+        }
+        */
+        ConfigurableJoint[] joints = gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>();
+        foreach(ConfigurableJoint joint in joints)
+        {
+            UnityEngine.Object.Destroy(joint);
+        }
+        CopyPasteJoint(bone);
     }
 
     public void InitializeStructures()
@@ -195,9 +267,7 @@ public class JointSetup
         if (templateRb != null)
         {
             templateRb.useGravity = false;
-
-            UnityEditorInternal.ComponentUtility.CopyComponent(templateRb);
-            UnityEditorInternal.ComponentUtility.PasteComponentValues(gameObjectsFromBone[bone].GetComponent<Rigidbody>());
+            ConfigJointUtility.CopyPasteComponent(gameObjectsFromBone[bone].GetComponent<Rigidbody>(), templateRb);
         }
     }
 
@@ -209,13 +279,12 @@ public class JointSetup
             for (int i = 0; i < jointsOfTemplateBone.Length; i++)
             {
                 ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
-
-                UnityEditorInternal.ComponentUtility.CopyComponent(jointsOfTemplateBone[i]);
-                UnityEditorInternal.ComponentUtility.PasteComponentValues(newJoint);
+                ConfigJointUtility.CopyPasteComponent(newJoint, jointsOfTemplateBone[i]);
 
                 //Set Connected Rigidbody of Joints
                 SetConnectedBody(bone, newJoint);
             }
+
         }
         else
         {
@@ -223,8 +292,7 @@ public class JointSetup
             ConfigurableJoint joint = templateFromBone[bone].GetComponent<ConfigurableJoint>();
             ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
 
-            UnityEditorInternal.ComponentUtility.CopyComponent(joint);
-            UnityEditorInternal.ComponentUtility.PasteComponentValues(newJoint);
+            ConfigJointUtility.CopyPasteComponent(newJoint, joint);
 
             SetConnectedBody(bone, newJoint);
 
@@ -240,108 +308,123 @@ public class JointSetup
     /// </summary>
     /// <param name="joint">The joint to split.</param>
     /// <param name="bone">The bone of the body part that the joint is attached to.</param>
-    void AddSplitJoints(ConfigurableJoint joint, HumanBodyBones bone)
+    void AddSplitJoints(ConfigurableJoint joint, HumanBodyBones bone, bool calledByToggle = false)
     {
-        Vector3 primaryAxisOne = Vector3.right;
-        Vector3 secondaryAxisOne = Vector3.up;
-        Vector3 primaryAxisTwo = Vector3.right;
-        Vector3 secondaryAxisTwo = Vector3.up;
+        List<ConfigurableJoint> jointsFromSplit = new List<ConfigurableJoint>();
 
-        ConfigurableJoint jointA = joint.gameObject.AddComponent<ConfigurableJoint>();
-        ConfigurableJoint jointB = joint.gameObject.AddComponent<ConfigurableJoint>();
-
-
-        UnityEditorInternal.ComponentUtility.CopyComponent(joint);
-        UnityEditorInternal.ComponentUtility.PasteComponentValues(jointA);
-        UnityEditorInternal.ComponentUtility.PasteComponentValues(jointB);
-
-        SoftJointLimit lowLimit = new SoftJointLimit();
-
-        //Torso, Legs
-        if (((joint.axis == Vector3.right) && (joint.secondaryAxis == Vector3.forward || joint.secondaryAxis == Vector3.back || joint.secondaryAxis == Vector3.up))
-           || joint.axis == Vector3.left && joint.secondaryAxis == Vector3.forward)
+        if (!splitJointsFromBone.TryGetValue(bone, out jointsFromSplit))
         {
-            primaryAxisOne = Vector3.up;
-            secondaryAxisOne = Vector3.zero;
+            Vector3 primaryAxisOne = Vector3.right;
+            Vector3 secondaryAxisOne = Vector3.up;
+            Vector3 primaryAxisTwo = Vector3.right;
+            Vector3 secondaryAxisTwo = Vector3.up;
 
-            primaryAxisTwo = Vector3.forward;
-            secondaryAxisTwo = Vector3.right;
-        }
-        else
-        {
-            //Arms
-            if (joint.axis == Vector3.up)
+            ConfigurableJoint jointA = joint.gameObject.AddComponent<ConfigurableJoint>();
+            ConfigurableJoint jointB = joint.gameObject.AddComponent<ConfigurableJoint>();
+
+
+            UnityEditorInternal.ComponentUtility.CopyComponent(joint);
+            UnityEditorInternal.ComponentUtility.PasteComponentValues(jointA);
+            UnityEditorInternal.ComponentUtility.PasteComponentValues(jointB);
+
+            SoftJointLimit lowLimit = new SoftJointLimit();
+
+            //Torso, Legs
+            if (((joint.axis == Vector3.right) && (joint.secondaryAxis == Vector3.forward || joint.secondaryAxis == Vector3.back || joint.secondaryAxis == Vector3.up))
+               || joint.axis == Vector3.left && joint.secondaryAxis == Vector3.forward)
             {
-                primaryAxisOne = Vector3.right;
-                secondaryAxisOne = Vector3.back;
+                primaryAxisOne = Vector3.up;
+                secondaryAxisOne = Vector3.zero;
 
                 primaryAxisTwo = Vector3.forward;
-
-                //right
-                if (joint.secondaryAxis == Vector3.forward)
-                {
-                    secondaryAxisTwo = Vector3.up;
-                }
-                else
-                {
-                    //left
-                    if (joint.secondaryAxis == Vector3.back)
-                    {
-                        secondaryAxisTwo = Vector3.zero;
-                    }
-                }
+                secondaryAxisTwo = Vector3.right;
             }
             else
             {
-                //left hand
-                if (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.up)
+                //Arms
+                if (joint.axis == Vector3.up)
                 {
-                    primaryAxisOne = Vector3.up;
+                    primaryAxisOne = Vector3.right;
                     secondaryAxisOne = Vector3.back;
 
-                    primaryAxisTwo = Vector3.right;
-                    secondaryAxisTwo = Vector3.back;
+                    primaryAxisTwo = Vector3.forward;
+
+                    //right
+                    if (joint.secondaryAxis == Vector3.forward)
+                    {
+                        secondaryAxisTwo = Vector3.up;
+                    }
+                    else
+                    {
+                        //left
+                        if (joint.secondaryAxis == Vector3.back)
+                        {
+                            secondaryAxisTwo = Vector3.zero;
+                        }
+                    }
                 }
                 else
                 {
-                    //right hand
-                    if ((joint.axis == Vector3.back && joint.secondaryAxis == Vector3.up) || (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.down))
+                    //left hand
+                    if (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.up)
                     {
                         primaryAxisOne = Vector3.up;
-                        secondaryAxisOne = Vector3.forward;
+                        secondaryAxisOne = Vector3.back;
 
                         primaryAxisTwo = Vector3.right;
                         secondaryAxisTwo = Vector3.back;
                     }
+                    else
+                    {
+                        //right hand
+                        if ((joint.axis == Vector3.back && joint.secondaryAxis == Vector3.up) || (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.down))
+                        {
+                            primaryAxisOne = Vector3.up;
+                            secondaryAxisOne = Vector3.forward;
+
+                            primaryAxisTwo = Vector3.right;
+                            secondaryAxisTwo = Vector3.back;
+                        }
+                    }
                 }
             }
+
+            //assign angular limits
+            jointA.axis = primaryAxisOne;
+            jointA.secondaryAxis = secondaryAxisOne;
+
+            jointA.highAngularXLimit = joint.angularZLimit;
+            lowLimit = joint.angularZLimit;
+            lowLimit.limit *= -1;
+            jointA.lowAngularXLimit = lowLimit;
+
+            jointB.axis = primaryAxisTwo;
+            jointB.secondaryAxis = secondaryAxisTwo;
+
+            jointB.highAngularXLimit = joint.angularYLimit;
+            lowLimit = joint.angularYLimit;
+            lowLimit.limit *= -1;
+            jointB.lowAngularXLimit = lowLimit;
+
+
+            //only primary axis constrained (highest level of control)
+            lowLimit.limit = 0;
+            jointA.angularYLimit = jointB.angularYLimit = joint.angularYLimit = lowLimit;
+            jointA.angularZLimit = jointB.angularZLimit = joint.angularZLimit = lowLimit;
+
+            joint.angularXMotion = jointA.angularXMotion = jointB.angularXMotion = ConfigurableJointMotion.Limited;
+            joint.angularYMotion = jointA.angularYMotion = jointB.angularYMotion = ConfigurableJointMotion.Free;
+            joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Free;
+
+            //Save split joints for future uses
+            if (calledByToggle)
+            {
+                SaveSplitJointsOfBone(bone, joint);
+            }
+
+            SaveSplitJointsOfBone(bone, jointA);
+            SaveSplitJointsOfBone(bone, jointB);
         }
-
-        jointA.axis = primaryAxisOne;
-        jointA.secondaryAxis = secondaryAxisOne;
-
-        jointA.highAngularXLimit = joint.angularZLimit;
-        lowLimit = joint.angularZLimit;
-        lowLimit.limit *= -1;
-        jointA.lowAngularXLimit = lowLimit;
-
-        jointB.axis = primaryAxisTwo;
-        jointB.secondaryAxis = secondaryAxisTwo;
-
-        jointB.highAngularXLimit = joint.angularYLimit;
-        lowLimit = joint.angularYLimit;
-        lowLimit.limit *= -1;
-        jointB.lowAngularXLimit = lowLimit;
-
-
-        //only primary axis restricted
-        lowLimit.limit = 0;
-        jointA.angularYLimit = jointB.angularYLimit = joint.angularYLimit = lowLimit;
-        jointA.angularZLimit = jointB.angularZLimit = joint.angularZLimit = lowLimit;
-
-        joint.angularXMotion = jointA.angularXMotion = jointB.angularXMotion = ConfigurableJointMotion.Limited;
-        joint.angularYMotion = jointA.angularYMotion = jointB.angularYMotion = ConfigurableJointMotion.Free;
-        joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Free;
     }
 
     void CopyPasteColliders(HumanBodyBones bone)
@@ -361,8 +444,15 @@ public class JointSetup
             gameObjectsFromBone[bone].GetComponent<Rigidbody>().centerOfMass = Vector3.zero;
             gameObjectsFromBone[bone].GetComponent<Rigidbody>().inertiaTensor = Vector3.one;
 
-            UnityEditorInternal.ComponentUtility.CopyComponent(templateCollider);
-            UnityEditorInternal.ComponentUtility.PasteComponentValues(colliderComp);
+            ConfigJointUtility.CopyPasteComponent(colliderComp, templateCollider);
+        }
+
+        foreach (Collider col in gameObjectsFromBone[bone].GetComponents<Collider>())
+        {
+            if(!(col is MeshCollider))
+            {
+                col.enabled = configJointManager.addSimpleColliders;
+            }
         }
     }
 
@@ -380,7 +470,7 @@ public class JointSetup
     /// Sets the connectedBody property of the ConfigurableJoint in a human body.
     /// </summary>
     /// <param name="bone">The bone of the ConfigurableJoint.</param>
-    /// <param name="joint">The joined at a bone. This needs to be specified to support cases of multiple joints per bone (e.g. one for each axis).</param>
+    /// <param name="joint">The joint at a bone. This needs to be specified to support cases of multiple joints per bone (e.g. one for each axis).</param>
     void SetConnectedBody(HumanBodyBones bone, ConfigurableJoint joint)
     {
 
@@ -618,6 +708,48 @@ public class JointSetup
 
             default: break;
         }
+
+        ConfigurableJoint save = new ConfigurableJoint();
+        if (configJointManager.splitJointTemplate)
+        {        
+            //save split joints for future uses
+            SaveSplitJointsOfBone(bone, joint);
+        }
+        else
+        {
+            if (!configJointManager.useJointsMultipleTemplate)
+            {
+                ConfigurableJoint tmp = new ConfigurableJoint();
+                if (!singleJointFromBone.TryGetValue(bone, out tmp))
+                {
+                    ConfigJointUtility.CopyPasteComponent(save, joint);
+                    singleJointFromBone.Add(bone, save);
+                }
+            }
+        }
+    }
+
+    void SaveSplitJointsOfBone(HumanBodyBones bone, ConfigurableJoint joint)
+    {
+        ConfigurableJoint save = new ConfigurableJoint();
+        List<ConfigurableJoint> list;
+
+        if (splitJointsFromBone.TryGetValue(bone, out list))
+        {
+            //there are already entries in the list
+            ConfigJointUtility.CopyPasteComponent(save, joint);
+            splitJointsFromBone[bone].Add(save);
+
+        }
+        else
+        {
+            //we need to create a new list for the key in the dictionary
+            list = new List<ConfigurableJoint>();
+            ConfigJointUtility.CopyPasteComponent(save, joint);
+
+            list.Add(save);
+            splitJointsFromBone.Add(bone, list);
+        }
     }
 
     /// <summary>
@@ -633,7 +765,6 @@ public class JointSetup
         joint.angularXDrive = angularXDrive;
         joint.angularYZDrive = angularYZDrive;
         //END TODO
-
 
         //Connected Body
         joint.connectedBody = connectedBody;

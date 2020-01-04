@@ -4,6 +4,11 @@ using UnityEngine;
 
 public static class ConfigJointUtility
 {
+    public static void CopyPasteComponent(Component pasteTo, Component toCopyFrom)
+    {
+        UnityEditorInternal.ComponentUtility.CopyComponent(toCopyFrom);
+        UnityEditorInternal.ComponentUtility.PasteComponentValues(pasteTo);
+    }
 
     public static Quaternion GetWorldToJointRotation(ConfigurableJoint joint)
     {
