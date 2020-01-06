@@ -30,6 +30,20 @@ public class JointSetup
 
     }
 
+    public void ToggleBodyMass(bool enabled)
+    {
+       
+        foreach(HumanBodyBones bone in gameObjectsFromBone.Keys)
+        { 
+            float mass = 1;
+            if (enabled)
+            {
+                mass = templateFromBone[bone].GetComponent<Rigidbody>().mass;
+            }
+            gameObjectsFromBone[bone].GetComponent<Rigidbody>().mass = mass;
+        }
+    }
+
     public void ToggleMeshColliders(bool enabled)
     {
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)

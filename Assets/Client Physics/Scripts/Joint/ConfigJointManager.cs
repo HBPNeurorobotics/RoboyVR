@@ -7,6 +7,7 @@ public class ConfigJointManager : MonoBehaviour
 {
     public bool configureJointsInEditor = true;
     public bool useBodyMass = false;
+    bool useBodyMassPrev;
     [Header("Split Axis")]
     public bool useJointsMultipleTemplate = false;
     public bool splitJointTemplate = false;
@@ -49,6 +50,7 @@ public class ConfigJointManager : MonoBehaviour
         meshCollidersPrev = addMeshColliders;
         simpleCollidersPrev = addSimpleColliders;
         splitJointTemplatePrev = splitJointTemplate;
+        useBodyMassPrev = useBodyMass;
 
         angularXDrive.maximumForce = angularYZDrive.maximumForce = maximumForce;
 
@@ -86,9 +88,15 @@ public class ConfigJointManager : MonoBehaviour
             jointSetup.ToggleSplitJoints(splitJointTemplate);
         }
 
+        if(useBodyMass != useBodyMassPrev)
+        {
+            jointSetup.ToggleBodyMass(useBodyMass);
+        }
+
         meshCollidersPrev = addMeshColliders;
         simpleCollidersPrev = addSimpleColliders;
         splitJointTemplatePrev = splitJointTemplate;
+        useBodyMassPrev = useBodyMass;
     }
 
     void UpdateGameObjectsFromBone()

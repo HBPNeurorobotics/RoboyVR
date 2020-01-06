@@ -31338,7 +31338,7 @@ MonoBehaviour:
   configureJointsInEditor: 0
   useBodyMass: 1
   useJointsMultipleTemplate: 0
-  splitJointTemplate: 1
+  splitJointTemplate: 0
   addSimpleColliders: 0
   addMeshColliders: 0
   inputByManager: 1
@@ -38081,7 +38081,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2007322472}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.809, y: 0.455, z: 0.239}
+  m_LocalPosition: {x: 0.809, y: 1.359, z: 0.239}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}
