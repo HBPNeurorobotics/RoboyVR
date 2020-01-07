@@ -83,7 +83,7 @@ public class ConfigJointManager : MonoBehaviour
             }
         }
 
-        if(splitJointTemplate != splitJointTemplatePrev)
+        if(!useJointsMultipleTemplate && (splitJointTemplate != splitJointTemplatePrev))
         {
             jointSetup.ToggleSplitJoints(splitJointTemplate);
             avatarManager.RecalculateStartOrientations();
@@ -130,16 +130,10 @@ public class ConfigJointManager : MonoBehaviour
         //
         if (addSimpleColliders) addMeshColliders = false;
         if (addMeshColliders) addSimpleColliders = false;
-        GetAvatar();
 
-        if (useJointsMultipleTemplate)
-        {
-            //jointAngleLimits = ReadJointAngleLimitsFromJson();
-        }
-        else
-        {
-            InitTemplateDict();
-        }
+        GetAvatar();
+        InitTemplateDict();
+
         jointSetup = new JointSetup(gameObjectsFromBone, templateFromBone, this);
         jointSetup.InitializeStructures();
 
@@ -154,7 +148,7 @@ public class ConfigJointManager : MonoBehaviour
 
         if (useJointsMultipleTemplate)
         {
-            //templateAnimator = GameObject.FindGameObjectWithTag("TemplateMultiple").GetComponent<Animator>();
+            templateAnimator = GameObject.FindGameObjectWithTag("TemplateMultiple").GetComponent<Animator>();
         }
         else
         {

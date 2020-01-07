@@ -192,10 +192,10 @@ public class JointSetup
     /// <param name="bone">The bone that a ConfigurableJoint component should be added to. If useIndividualAxis joint angles are set from previous animation test.</param>
     void AddJoint(HumanBodyBones bone)
     {
-        if (!configJointManager.useJointsMultipleTemplate)
-        {
+        //if (!configJointManager.useJointsMultipleTemplate)
+        //{
             AddJointFromTemplate(bone);
-        }
+        //}
         /*
         else
         {
@@ -298,11 +298,9 @@ public class JointSetup
                 //Set Connected Rigidbody of Joints
                 SetConnectedBody(bone, newJoint);
             }
-
         }
         else
         {
-
             ConfigurableJoint joint = templateFromBone[bone].GetComponent<ConfigurableJoint>();
             ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
 
