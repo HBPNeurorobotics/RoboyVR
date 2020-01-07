@@ -431,6 +431,7 @@ public class JointSetup
             joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Free;
 
             //Save split joints for future uses
+            /*
             if (calledByToggle)
             {
                 SaveSplitJointsOfBone(bone, joint);
@@ -438,6 +439,7 @@ public class JointSetup
 
             SaveSplitJointsOfBone(bone, jointA);
             SaveSplitJointsOfBone(bone, jointB);
+            */
         }
     }
 
@@ -724,6 +726,7 @@ public class JointSetup
         }
 
         ConfigurableJoint save = new ConfigurableJoint();
+        /*
         if (configJointManager.splitJointTemplate)
         {        
             //save split joints for future uses
@@ -741,6 +744,7 @@ public class JointSetup
                 }
             }
         }
+        */
     }
 
     void SaveSplitJointsOfBone(HumanBodyBones bone, ConfigurableJoint joint)

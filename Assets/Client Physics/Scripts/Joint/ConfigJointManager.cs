@@ -86,6 +86,7 @@ public class ConfigJointManager : MonoBehaviour
         if(splitJointTemplate != splitJointTemplatePrev)
         {
             jointSetup.ToggleSplitJoints(splitJointTemplate);
+            avatarManager.RecalculateStartOrientations();
         }
 
         if(useBodyMass != useBodyMassPrev)
@@ -309,5 +310,10 @@ public class ConfigJointManager : MonoBehaviour
     public void SetAngularYZDrive(JointDrive jointDrive)
     {
         angularYZDrive = jointDrive;
+    }
+
+    public AvatarManager GetAvatarManager()
+    {
+        return avatarManager;
     }
 }
