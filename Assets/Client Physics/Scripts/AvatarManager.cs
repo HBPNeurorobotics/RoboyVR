@@ -24,7 +24,7 @@ public class AvatarManager : MonoBehaviour
     ConfigJointManager configJointManager;
 
     Animator animatorRemoteAvatar;
-    Animator animatorTarget;
+    Animator animatorLocalAvatar;
 
     //The bones of the character that physiscs should be applied to
     Dictionary<HumanBodyBones, GameObject> gameObjectPerBoneRemoteAvatar = new Dictionary<HumanBodyBones, GameObject>();
@@ -39,7 +39,7 @@ public class AvatarManager : MonoBehaviour
     void Start()
     {
         animatorRemoteAvatar = GetComponentInChildren<Animator>();
-        animatorTarget = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
+        animatorLocalAvatar = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
 
         InitializeBodyStructures();
     }
@@ -81,20 +81,20 @@ public class AvatarManager : MonoBehaviour
             //LastBone is not mapped to a bodypart, we need to skip it.
             if (bone != HumanBodyBones.LastBone)
             {
-                Transform boneTransformAvatar = animatorRemoteAvatar.GetBoneTransform(bone);
-                Transform boneTransformTarget = animatorTarget.GetBoneTransform(bone);
+                Transform boneTransformRemoteAvatar = animatorRemoteAvatar.GetBoneTransform(bone);
+                Transform boneTransformLocalAvatar = animatorLocalAvatar.GetBoneTransform(bone);
                 //We have to skip unassigned bodyparts.
-                if (boneTransformAvatar != null && boneTransformTarget != null)
+                if (boneTransformRemoteAvatar != null && boneTransformLocalAvatar != null)
                 {
                     //build Dictionaries
-                    gameObjectPerBoneRemoteAvatar.Add(bone, boneTransformAvatar.gameObject);
-                    gameObjectPerBoneLocalAvatar.Add(bone, boneTransformTarget.gameObject);
+                    gameObjectPerBoneRemoteAvatar.Add(bone, boneTransformRemoteAvatar.gameObject);
+                    gameObjectPerBoneLocalAvatar.Add(bone, boneTransformLocalAvatar.gameObject);
 
                     Quaternion tmp = new Quaternion();
-                    tmp = boneTransformAvatar.localRotation;
+                    tmp = boneTransformRemoteAvatar.localRotation;
                     orientationPerBoneRemoteAvatarAtStart.Add(bone, tmp);
 
-                    bonesPerGameObjectRemoteAvatar.Add(boneTransformAvatar.gameObject, bone);
+                    bonesPerGameObjectRemoteAvatar.Add(boneTransformRemoteAvatar.gameObject, bone);
 
                     AssignRigidbodys(bone);
 
@@ -307,6 +307,18 @@ public class AvatarManager : MonoBehaviour
         }
     }
     */
+
+    public void RecalculateStartOrientations()
+    {
+        foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
+        {
+            Transform boneTransformLocalAvatar = animatorLocalAvatar.GetBoneTransform(bone);
+            Quaternion tmp = new Quaternion();
+            tmp = boneTransformLocalAvatar.localRotation;
+            orientationPerBoneRemoteAvatarAtStart[bone] = tmp;
+            configJointManager.SetStartOrientation();
+        }
+    }
 
     public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneAvatarDictionary()
     {

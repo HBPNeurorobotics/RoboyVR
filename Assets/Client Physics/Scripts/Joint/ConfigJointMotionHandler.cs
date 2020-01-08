@@ -68,6 +68,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        joints = GetComponents<ConfigurableJoint>();
         foreach (ConfigurableJoint joint in joints)
         {
             SetTargetRotation(joint);

@@ -30,6 +30,20 @@ public class JointSetup
 
     }
 
+    public void ToggleBodyMass(bool enabled)
+    {
+       
+        foreach(HumanBodyBones bone in gameObjectsFromBone.Keys)
+        { 
+            float mass = 1;
+            if (enabled)
+            {
+                mass = templateFromBone[bone].GetComponent<Rigidbody>().mass;
+            }
+            gameObjectsFromBone[bone].GetComponent<Rigidbody>().mass = mass;
+        }
+    }
+
     public void ToggleMeshColliders(bool enabled)
     {
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
@@ -178,10 +192,10 @@ public class JointSetup
     /// <param name="bone">The bone that a ConfigurableJoint component should be added to. If useIndividualAxis joint angles are set from previous animation test.</param>
     void AddJoint(HumanBodyBones bone)
     {
-        if (!configJointManager.useJointsMultipleTemplate)
-        {
+        //if (!configJointManager.useJointsMultipleTemplate)
+        //{
             AddJointFromTemplate(bone);
-        }
+        //}
         /*
         else
         {
@@ -284,11 +298,9 @@ public class JointSetup
                 //Set Connected Rigidbody of Joints
                 SetConnectedBody(bone, newJoint);
             }
-
         }
         else
         {
-
             ConfigurableJoint joint = templateFromBone[bone].GetComponent<ConfigurableJoint>();
             ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
 
@@ -417,6 +429,7 @@ public class JointSetup
             joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Free;
 
             //Save split joints for future uses
+            /*
             if (calledByToggle)
             {
                 SaveSplitJointsOfBone(bone, joint);
@@ -424,6 +437,7 @@ public class JointSetup
 
             SaveSplitJointsOfBone(bone, jointA);
             SaveSplitJointsOfBone(bone, jointB);
+            */
         }
     }
 
@@ -710,6 +724,7 @@ public class JointSetup
         }
 
         ConfigurableJoint save = new ConfigurableJoint();
+        /*
         if (configJointManager.splitJointTemplate)
         {        
             //save split joints for future uses
@@ -727,6 +742,7 @@ public class JointSetup
                 }
             }
         }
+        */
     }
 
     void SaveSplitJointsOfBone(HumanBodyBones bone, ConfigurableJoint joint)

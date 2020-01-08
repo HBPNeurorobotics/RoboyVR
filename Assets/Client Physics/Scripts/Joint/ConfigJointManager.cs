@@ -7,6 +7,7 @@ public class ConfigJointManager : MonoBehaviour
 {
     public bool configureJointsInEditor = true;
     public bool useBodyMass = false;
+    bool useBodyMassPrev;
     [Header("Split Axis")]
     public bool useJointsMultipleTemplate = false;
     public bool splitJointTemplate = false;
@@ -49,6 +50,7 @@ public class ConfigJointManager : MonoBehaviour
         meshCollidersPrev = addMeshColliders;
         simpleCollidersPrev = addSimpleColliders;
         splitJointTemplatePrev = splitJointTemplate;
+        useBodyMassPrev = useBodyMass;
 
         angularXDrive.maximumForce = angularYZDrive.maximumForce = maximumForce;
 
@@ -81,14 +83,21 @@ public class ConfigJointManager : MonoBehaviour
             }
         }
 
-        if(splitJointTemplate != splitJointTemplatePrev)
+        if(!useJointsMultipleTemplate && (splitJointTemplate != splitJointTemplatePrev))
         {
             jointSetup.ToggleSplitJoints(splitJointTemplate);
+            avatarManager.RecalculateStartOrientations();
+        }
+
+        if(useBodyMass != useBodyMassPrev)
+        {
+            jointSetup.ToggleBodyMass(useBodyMass);
         }
 
         meshCollidersPrev = addMeshColliders;
         simpleCollidersPrev = addSimpleColliders;
         splitJointTemplatePrev = splitJointTemplate;
+        useBodyMassPrev = useBodyMass;
     }
 
     void UpdateGameObjectsFromBone()
@@ -121,16 +130,10 @@ public class ConfigJointManager : MonoBehaviour
         //
         if (addSimpleColliders) addMeshColliders = false;
         if (addMeshColliders) addSimpleColliders = false;
-        GetAvatar();
 
-        if (useJointsMultipleTemplate)
-        {
-            //jointAngleLimits = ReadJointAngleLimitsFromJson();
-        }
-        else
-        {
-            InitTemplateDict();
-        }
+        GetAvatar();
+        InitTemplateDict();
+
         jointSetup = new JointSetup(gameObjectsFromBone, templateFromBone, this);
         jointSetup.InitializeStructures();
 
@@ -145,7 +148,7 @@ public class ConfigJointManager : MonoBehaviour
 
         if (useJointsMultipleTemplate)
         {
-            //templateAnimator = GameObject.FindGameObjectWithTag("TemplateMultiple").GetComponent<Animator>();
+            templateAnimator = GameObject.FindGameObjectWithTag("TemplateMultiple").GetComponent<Animator>();
         }
         else
         {
@@ -301,5 +304,10 @@ public class ConfigJointManager : MonoBehaviour
     public void SetAngularYZDrive(JointDrive jointDrive)
     {
         angularYZDrive = jointDrive;
+    }
+
+    public AvatarManager GetAvatarManager()
+    {
+        return avatarManager;
     }
 }
