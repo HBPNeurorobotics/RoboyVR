@@ -35,7 +35,9 @@ public class EditAvatarTemplate : EditorWindow
     Vector2 scroll;
 
     Object template;
-    Dictionary<HumanBodyBones, GameObject> gameObjectsPerBone = new Dictionary<HumanBodyBones, GameObject>();
+    Object templateMultiple;
+    Dictionary<HumanBodyBones, GameObject> gameObjectsPerBoneTemplate = new Dictionary<HumanBodyBones, GameObject>();
+    Dictionary<HumanBodyBones, GameObject> gameObjectsPerBoneTemplateMultiple = new Dictionary<HumanBodyBones, GameObject>();
 
     Dictionary<HumanBodyBones, JointSettings> jointSettings = new Dictionary<HumanBodyBones, JointSettings>();
     Dictionary<HumanBodyBones, JointSettings> jointSettingsNoLeft = new Dictionary<HumanBodyBones, JointSettings>();
@@ -50,10 +52,11 @@ public class EditAvatarTemplate : EditorWindow
     }
     void OnGUI()
     {
-        EditorGUILayout.HelpBox("Assign the rig of AvatarTemplate", MessageType.Info);
+        EditorGUILayout.HelpBox("Assign the rig of AvatarTemplate and AvatarTemplateMultipleJoints", MessageType.Info);
 
 
         template = EditorGUILayout.ObjectField(template, typeof(GameObject), true);
+        templateMultiple = EditorGUILayout.ObjectField(templateMultiple, typeof(GameObject), true);
 
         if (template != null)
         {
@@ -86,18 +89,33 @@ public class EditAvatarTemplate : EditorWindow
             }
             EditorGUILayout.EndVertical();
 
+            if (GUILayout.Button("Copy To AvatarTemplateMultipleJoints"))
+            {
+                JointSetup setup = new JointSetup(gameObjectsPerBoneTemplateMultiple, gameObjectsPerBoneTemplate, null, true);
+                foreach(HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
+                {
+                    setup.CopyPasteTemplateRigidbody(bone);
+                    setup.CopyPasteTemplateColliders(bone);
+                    foreach(ConfigurableJoint joint in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>())
+                    {
+                        DestroyImmediate(joint);
+                    }
+                    //setup.CopyPasteTemplateJoint(bone);
+                }
+            }
+
             if (GUILayout.Button("Restore Default Mass"))
             {
-                bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone, mode);
+                bodyMass = new BodyMass(bodyWeight, gameObjectsPerBoneTemplate, mode);
                 bodyMass.RestoreOneValues();
             }
 
             //TODO
             if (GUILayout.Button("Restore All"))
             {
-                foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
+                foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
                 {
-                    PrefabUtility.ResetToPrefabState(gameObjectsPerBone[bone]);
+                    PrefabUtility.ResetToPrefabState(gameObjectsPerBoneTemplate[bone]);
                 }
                 //template = (GameObject)Instantiate(Resources.Load("Assets/Client Physics/Prefabs/AvatarTemplate.prefab"));
             }
@@ -113,6 +131,7 @@ public class EditAvatarTemplate : EditorWindow
     {
         Dictionary<HumanBodyBones, GameObject> chosenBones = new Dictionary<HumanBodyBones, GameObject>();
         Animator animator = ((GameObject)template).GetComponent<Animator>();
+        Animator animatorMultiple = ((GameObject)templateMultiple).GetComponent<Animator>();
         BodyGroups bodyGroups = new BodyGroups(animator);
         switch (bodyGroup)
         {
@@ -163,17 +182,20 @@ public class EditAvatarTemplate : EditorWindow
                 if (chosenBones.ContainsKey(bone))
                 {
                     Transform boneTransformAvatar = animator.GetBoneTransform(bone);
-                    if (boneTransformAvatar != null && !gameObjectsPerBone.ContainsKey(bone))
+                    Transform boneTransformAvatarMultiple = animatorMultiple.GetBoneTransform(bone);
+                    if (boneTransformAvatar != null && boneTransformAvatarMultiple != null && !gameObjectsPerBoneTemplate.ContainsKey(bone))
                     {
-                        gameObjectsPerBone.Add(bone, boneTransformAvatar.gameObject);
+                        gameObjectsPerBoneTemplate.Add(bone, boneTransformAvatar.gameObject);
+                        gameObjectsPerBoneTemplateMultiple.Add(bone, boneTransformAvatar.gameObject);
                         GetJointSettings(bone);
                     }
                 }
                 else
                 {
-                    if (gameObjectsPerBone.ContainsKey(bone))
+                    if (gameObjectsPerBoneTemplate.ContainsKey(bone))
                     {
-                        gameObjectsPerBone.Remove(bone);
+                        gameObjectsPerBoneTemplate.Remove(bone);
+                        gameObjectsPerBoneTemplateMultiple.Remove(bone);
                         jointSettings.Remove(bone);
                         jointSettingsNoLeft.Remove(bone);
                     }
@@ -189,7 +211,7 @@ public class EditAvatarTemplate : EditorWindow
     {
         if (!jointSettings.ContainsKey(bone))
         {
-            ConfigurableJoint joint = gameObjectsPerBone[bone].GetComponent<ConfigurableJoint>();
+            ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
             if (joint != null)
             {
                 JointSettings setting = new JointSettings(bone, joint.angularXDrive.positionSpring, joint.angularXDrive.positionDamper, joint.angularXDrive.maximumForce, joint.angularYZDrive.positionSpring, joint.angularYZDrive.positionDamper, joint.angularYZDrive.maximumForce);
@@ -315,7 +337,7 @@ public class EditAvatarTemplate : EditorWindow
     void UpdateTemplate()
     {
         //Mass
-        bodyMass = new BodyMass(bodyWeight, gameObjectsPerBone, mode);
+        bodyMass = new BodyMass(bodyWeight, gameObjectsPerBoneTemplate, mode);
         bodyMass.SetBodyMasses();
 
         //Joint Settings
@@ -328,9 +350,9 @@ public class EditAvatarTemplate : EditorWindow
     void UpdateJoints()
     {
         //TODO Safe Joint Settings
-        foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
+        foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
         {
-            ConfigurableJoint joint = gameObjectsPerBone[bone].GetComponent<ConfigurableJoint>();
+            ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
             if (joint != null)
             {
                 joint.enableCollision = useCollisions;
@@ -420,7 +442,7 @@ public class EditAvatarTemplate : EditorWindow
 
     void AddGravity(HumanBodyBones bone)
     {
-        Rigidbody rb = gameObjectsPerBone[bone].GetComponent<Rigidbody>();
+        Rigidbody rb = gameObjectsPerBoneTemplate[bone].GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.useGravity = useGravity;

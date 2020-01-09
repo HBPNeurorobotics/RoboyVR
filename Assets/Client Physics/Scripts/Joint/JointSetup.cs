@@ -16,25 +16,32 @@ public class JointSetup
 
     ConfigJointManager configJointManager;
 
+    bool editorMode;
+
     JointDrive angularXDrive;
     JointDrive angularYZDrive;
 
-    public JointSetup(Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone, Dictionary<HumanBodyBones, GameObject> templateFromBone, ConfigJointManager configJointManager)
+    public JointSetup(Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone, Dictionary<HumanBodyBones, GameObject> templateFromBone, ConfigJointManager configJointManager, bool editorMode = false)
     {
         this.gameObjectsFromBone = gameObjectsFromBone;
         this.templateFromBone = templateFromBone;
         this.configJointManager = configJointManager;
 
-        angularXDrive = configJointManager.GetAngularXDrive();
-        angularYZDrive = configJointManager.GetAngularYZDrive();
+        if (configJointManager != null)
+        {
+            angularXDrive = configJointManager.GetAngularXDrive();
+            angularYZDrive = configJointManager.GetAngularYZDrive();
+        }
+
+        this.editorMode = editorMode;
 
     }
 
     public void ToggleBodyMass(bool enabled)
     {
-       
-        foreach(HumanBodyBones bone in gameObjectsFromBone.Keys)
-        { 
+
+        foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
+        {
             float mass = 1;
             if (enabled)
             {
@@ -98,10 +105,10 @@ public class JointSetup
 
         if (colliders.Length == 0 || hasOnlyMeshColliders)
         {
-            CopyPasteColliders(bone);
+            CopyPasteTemplateColliders(bone);
             colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
         }
-        
+
         foreach (Collider col in colliders)
         {
             if (!(col is MeshCollider))
@@ -166,21 +173,27 @@ public class JointSetup
 
         }
         */
-        ConfigurableJoint[] joints = gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>();
-        foreach(ConfigurableJoint joint in joints)
+        if (!editorMode)
         {
-            UnityEngine.Object.Destroy(joint);
+            ConfigurableJoint[] joints = gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>();
+            foreach (ConfigurableJoint joint in joints)
+            {
+                UnityEngine.Object.Destroy(joint);
+            }
+            CopyPasteTemplateJoint(bone);
         }
-        CopyPasteJoint(bone);
     }
 
     public void InitializeStructures()
     {
-        foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
+        if (!editorMode)
         {
-            if (gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() == null)
+            foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
             {
-                AddJoint(bone);
+                if (gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() == null)
+                {
+                    AddJoint(bone);
+                }
             }
         }
     }
@@ -194,7 +207,7 @@ public class JointSetup
     {
         //if (!configJointManager.useJointsMultipleTemplate)
         //{
-            AddJointFromTemplate(bone);
+        AddJointFromTemplate(bone);
         //}
         /*
         else
@@ -210,12 +223,12 @@ public class JointSetup
     void AddJointFromTemplate(HumanBodyBones bone)
     {
         //Assign rigidbody 
-        CopyPasteRigidbody(bone);
+        CopyPasteTemplateRigidbody(bone);
 
         //Add colliders if needed
-        if (configJointManager.addSimpleColliders)
+        if (editorMode || configJointManager.addSimpleColliders)
         {
-            CopyPasteColliders(bone);
+            CopyPasteTemplateColliders(bone);
         }
         else
         {
@@ -229,7 +242,7 @@ public class JointSetup
         DisableTemplateColliders();
 
         //Add joint(s)
-        CopyPasteJoint(bone);
+        CopyPasteTemplateJoint(bone);
     }
 
     void DisableTemplateColliders()
@@ -275,7 +288,7 @@ public class JointSetup
         }
     }
 
-    void CopyPasteRigidbody(HumanBodyBones bone)
+    public void CopyPasteTemplateRigidbody(HumanBodyBones bone)
     {
         Rigidbody templateRb = templateFromBone[bone].gameObject.GetComponent<Rigidbody>();
         if (templateRb != null)
@@ -285,35 +298,54 @@ public class JointSetup
         }
     }
 
-    void CopyPasteJoint(HumanBodyBones bone)
+    public void CopyPasteTemplateJoint(HumanBodyBones bone)
     {
-        if (configJointManager.useJointsMultipleTemplate)
+        if (!editorMode)
         {
-            ConfigurableJoint[] jointsOfTemplateBone = templateFromBone[bone].GetComponents<ConfigurableJoint>();
-            for (int i = 0; i < jointsOfTemplateBone.Length; i++)
+            if (configJointManager.useJointsMultipleTemplate)
             {
-                ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
-                ConfigJointUtility.CopyPasteComponent(newJoint, jointsOfTemplateBone[i]);
 
-                //Set Connected Rigidbody of Joints
-                SetConnectedBody(bone, newJoint);
+                ConfigurableJoint[] jointsOfTemplateBone = templateFromBone[bone].GetComponents<ConfigurableJoint>();
+                for (int i = 0; i < jointsOfTemplateBone.Length; i++)
+                {
+                    ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
+                    ConfigJointUtility.CopyPasteComponent(newJoint, jointsOfTemplateBone[i]);
+
+                    //Set Connected Rigidbody of Joints
+                    SetConnectedBody(bone, newJoint);
+                }
+            }
+            else
+            {
+                CopyPasteSingleJoint(bone);
             }
         }
         else
         {
+            CopyPasteSingleJoint(bone);
+        }
+    }
+
+    void CopyPasteSingleJoint(HumanBodyBones bone)
+    {
             ConfigurableJoint joint = templateFromBone[bone].GetComponent<ConfigurableJoint>();
             ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
 
             ConfigJointUtility.CopyPasteComponent(newJoint, joint);
 
             SetConnectedBody(bone, newJoint);
-
+        if (!editorMode)
+        {
             if (configJointManager.splitJointTemplate)
             {
                 AddSplitJoints(newJoint, bone);
             }
-
         }
+        else
+        {
+            AddSplitJoints(newJoint, bone);
+        }
+
     }
     /// <summary>
     /// Creates 2 additional joints, that have the y/z axis of the previous joint as x axis respectively
@@ -353,7 +385,7 @@ public class JointSetup
             }
             else
             {
-                //Arms
+                //Arms (upper arm and forearm)
                 if (joint.axis == Vector3.up)
                 {
                     primaryAxisOne = Vector3.right;
@@ -377,7 +409,7 @@ public class JointSetup
                 }
                 else
                 {
-                    //left hand
+                    //left hand including fingers
                     if (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.up)
                     {
                         primaryAxisOne = Vector3.up;
@@ -388,7 +420,7 @@ public class JointSetup
                     }
                     else
                     {
-                        //right hand
+                        //right hand including fingers
                         if ((joint.axis == Vector3.back && joint.secondaryAxis == Vector3.up) || (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.down))
                         {
                             primaryAxisOne = Vector3.up;
@@ -441,10 +473,14 @@ public class JointSetup
         }
     }
 
-    void CopyPasteColliders(HumanBodyBones bone)
+    public void CopyPasteTemplateColliders(HumanBodyBones bone)
     {
-        //Assign collision layer according to template
-        gameObjectsFromBone[bone].layer = templateFromBone[bone].layer;
+        foreach (Collider col in gameObjectsFromBone[bone].GetComponents<Collider>())
+        {
+            UnityEngine.Object.DestroyImmediate(col);
+        }
+            //Assign collision layer according to template
+            gameObjectsFromBone[bone].layer = templateFromBone[bone].layer;
 
         Component colliderComp;
         //Some bones have multiple colliders to better fit the shape of the body part
@@ -460,12 +496,18 @@ public class JointSetup
 
             ConfigJointUtility.CopyPasteComponent(colliderComp, templateCollider);
         }
-
+        
+          
         foreach (Collider col in gameObjectsFromBone[bone].GetComponents<Collider>())
         {
-            if(!(col is MeshCollider))
+            if (!(col is MeshCollider) && !editorMode)
             {
                 col.enabled = configJointManager.addSimpleColliders;
+            }
+
+            if(!(col is MeshCollider) && editorMode)
+            {
+                col.enabled = false;
             }
         }
     }
@@ -785,9 +827,11 @@ public class JointSetup
         //Connected Body
         joint.connectedBody = connectedBody;
 
-        //This will only be used if there are no individual rotations/velocities assigned by the AvatarManager
-        if (!configJointManager.inputByManager)
-        {/*
+        if (!editorMode)
+        {
+            //This will only be used if there are no individual rotations/velocities assigned by the AvatarManager
+            if (!configJointManager.inputByManager)
+            {/*
             if (usesFixedJoint.Contains(bone))
             {
                 joint.angularXMotion = joint.angularYMotion = joint.angularZMotion = ConfigurableJointMotion.Locked;
@@ -797,11 +841,12 @@ public class JointSetup
                 AssignTargetToImitatePassive(bone);
             }
             */
-            AssignTargetToImitatePassive(bone);
-        }
-        else
-        {
-            AssignOriginalTransforms(bone);
+                AssignTargetToImitatePassive(bone);
+            }
+            else
+            {
+                AssignOriginalTransforms(bone);
+            }
         }
     }
 
