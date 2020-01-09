@@ -55,16 +55,17 @@ public class EditAvatarTemplate : EditorWindow
         EditorGUILayout.HelpBox("Assign the rig of AvatarTemplate and AvatarTemplateMultipleJoints", MessageType.Info);
 
 
-        template = EditorGUILayout.ObjectField(template, typeof(GameObject), true);
-        templateMultiple = EditorGUILayout.ObjectField(templateMultiple, typeof(GameObject), true);
+        template = EditorGUILayout.ObjectField("Avatar Template Rig", template, typeof(GameObject), true);
+        templateMultiple = EditorGUILayout.ObjectField("Avatar Template Multiple Joints Rig", templateMultiple, typeof(GameObject), true);
 
-        if (template != null)
+        if (template != null && templateMultiple != null)
         {
             EditorGUILayout.BeginVertical();
             bodyWeight = EditorGUILayout.FloatField("Total Body Weight", bodyWeight);
             mode = (BodyMass.MODE)EditorGUILayout.EnumPopup("Population Group of Avatar", mode);
 
             bodyGroup = (BodyGroups.BODYGROUP)EditorGUILayout.EnumPopup("Body Group", bodyGroup);
+
             GetDictionary();
 
             useGravity = EditorGUILayout.Toggle("Enable Gravity", useGravity);
@@ -89,19 +90,26 @@ public class EditAvatarTemplate : EditorWindow
             }
             EditorGUILayout.EndVertical();
 
-            if (GUILayout.Button("Copy To AvatarTemplateMultipleJoints"))
+            if (GUILayout.Button("Copy To AvatarTemplateMultipleJoints") && template != null && templateMultiple != null)
             {
+                //we have to tell the JointSetup that we are using it in the context of the editor (we have no configjointmanager)
                 JointSetup setup = new JointSetup(gameObjectsPerBoneTemplateMultiple, gameObjectsPerBoneTemplate, null, true);
+
                 foreach(HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
                 {
-                    setup.CopyPasteTemplateRigidbody(bone);
-                    setup.CopyPasteTemplateColliders(bone);
+                    //we destroy previous components of the multiple joints template to assure a clean copy of the component
                     foreach(ConfigurableJoint joint in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>())
                     {
                         DestroyImmediate(joint);
                     }
+                    foreach(Collider collider in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<Collider>())
+                    {
+                        DestroyImmediate(collider);
+                    }
                     //setup.CopyPasteTemplateJoint(bone);
+                    setup.AddJointFromTemplate(bone);
                 }
+               
             }
 
             if (GUILayout.Button("Restore Default Mass"))
@@ -183,10 +191,11 @@ public class EditAvatarTemplate : EditorWindow
                 {
                     Transform boneTransformAvatar = animator.GetBoneTransform(bone);
                     Transform boneTransformAvatarMultiple = animatorMultiple.GetBoneTransform(bone);
+
                     if (boneTransformAvatar != null && boneTransformAvatarMultiple != null && !gameObjectsPerBoneTemplate.ContainsKey(bone))
                     {
                         gameObjectsPerBoneTemplate.Add(bone, boneTransformAvatar.gameObject);
-                        gameObjectsPerBoneTemplateMultiple.Add(bone, boneTransformAvatar.gameObject);
+                        gameObjectsPerBoneTemplateMultiple.Add(bone, boneTransformAvatarMultiple.gameObject);
                         GetJointSettings(bone);
                     }
                 }

@@ -220,7 +220,7 @@ public class JointSetup
     /// Copys the ConfigurableJoint from a template avatar and pastes its values into the newly added ConfigurableJoint at the bone. 
     /// </summary>
     /// <param name="bone">The bone that the new ConfigurableJoint is added to in the remote avatar. This is also the bone that the values are copied from in the template.</param>
-    void AddJointFromTemplate(HumanBodyBones bone)
+    public void AddJointFromTemplate(HumanBodyBones bone)
     {
         //Assign rigidbody 
         CopyPasteTemplateRigidbody(bone);
@@ -254,7 +254,16 @@ public class JointSetup
             {
                 col.enabled = false;
             }
+            if (editorMode)
+            {
+                Collider[] collidersMultiple = gameObjectsFromBone[bone].GetComponents<Collider>();
+                foreach (Collider col in collidersMultiple)
+                {
+                    col.enabled = false;
+                }
+            }
         }
+
     }
 
     void AddMeshColliders(HumanBodyBones bone)
@@ -288,7 +297,7 @@ public class JointSetup
         }
     }
 
-    public void CopyPasteTemplateRigidbody(HumanBodyBones bone)
+    void CopyPasteTemplateRigidbody(HumanBodyBones bone)
     {
         Rigidbody templateRb = templateFromBone[bone].gameObject.GetComponent<Rigidbody>();
         if (templateRb != null)
@@ -298,7 +307,7 @@ public class JointSetup
         }
     }
 
-    public void CopyPasteTemplateJoint(HumanBodyBones bone)
+    void CopyPasteTemplateJoint(HumanBodyBones bone)
     {
         if (!editorMode)
         {
@@ -328,12 +337,12 @@ public class JointSetup
 
     void CopyPasteSingleJoint(HumanBodyBones bone)
     {
-            ConfigurableJoint joint = templateFromBone[bone].GetComponent<ConfigurableJoint>();
-            ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
+        ConfigurableJoint joint = templateFromBone[bone].GetComponent<ConfigurableJoint>();
+        ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
 
-            ConfigJointUtility.CopyPasteComponent(newJoint, joint);
+        ConfigJointUtility.CopyPasteComponent(newJoint, joint);
 
-            SetConnectedBody(bone, newJoint);
+        SetConnectedBody(bone, newJoint);
         if (!editorMode)
         {
             if (configJointManager.splitJointTemplate)
@@ -473,14 +482,14 @@ public class JointSetup
         }
     }
 
-    public void CopyPasteTemplateColliders(HumanBodyBones bone)
+    void CopyPasteTemplateColliders(HumanBodyBones bone)
     {
         foreach (Collider col in gameObjectsFromBone[bone].GetComponents<Collider>())
         {
             UnityEngine.Object.DestroyImmediate(col);
         }
-            //Assign collision layer according to template
-            gameObjectsFromBone[bone].layer = templateFromBone[bone].layer;
+        //Assign collision layer according to template
+        gameObjectsFromBone[bone].layer = templateFromBone[bone].layer;
 
         Component colliderComp;
         //Some bones have multiple colliders to better fit the shape of the body part
@@ -496,8 +505,8 @@ public class JointSetup
 
             ConfigJointUtility.CopyPasteComponent(colliderComp, templateCollider);
         }
-        
-          
+
+
         foreach (Collider col in gameObjectsFromBone[bone].GetComponents<Collider>())
         {
             if (!(col is MeshCollider) && !editorMode)
@@ -505,7 +514,7 @@ public class JointSetup
                 col.enabled = configJointManager.addSimpleColliders;
             }
 
-            if(!(col is MeshCollider) && editorMode)
+            if (!(col is MeshCollider) && editorMode)
             {
                 col.enabled = false;
             }
