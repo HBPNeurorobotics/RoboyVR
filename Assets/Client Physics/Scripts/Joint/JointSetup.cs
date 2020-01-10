@@ -302,7 +302,6 @@ public class JointSetup
         Rigidbody templateRb = templateFromBone[bone].gameObject.GetComponent<Rigidbody>();
         if (templateRb != null)
         {
-            templateRb.useGravity = false;
             ConfigJointUtility.CopyPasteComponent(gameObjectsFromBone[bone].GetComponent<Rigidbody>(), templateRb);
         }
     }

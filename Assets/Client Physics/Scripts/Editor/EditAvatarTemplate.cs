@@ -16,6 +16,7 @@ public class EditAvatarTemplate : EditorWindow
     bool setGlobalJointSetting = false;
     bool mirror;
     bool showJointSettings = true;
+    bool showGlobalJointSettings = true;
     bool useGravity = true;
 
     public float angularXDriveSpringGlobal;
@@ -26,9 +27,9 @@ public class EditAvatarTemplate : EditorWindow
     public float angularYZDriveDamperGlobal;
     public float maxForceYZGlobal;
 
-    JointSettings globalSettings;
-
     BodyGroups.BODYGROUP bodyGroup;
+
+    JointSettings globalSettings;
 
     static EditAvatarTemplate editor;
 
@@ -52,6 +53,7 @@ public class EditAvatarTemplate : EditorWindow
     }
     void OnGUI()
     {
+        //editor = (EditAvatarTemplate)GetWindow(typeof(EditAvatarTemplate));
         EditorGUILayout.HelpBox("Assign the rig of AvatarTemplate and AvatarTemplateMultipleJoints", MessageType.Info);
 
 
@@ -73,10 +75,15 @@ public class EditAvatarTemplate : EditorWindow
             noPreprocessing = EditorGUILayout.Toggle("Disable Preprocessing", noPreprocessing);
             setGlobalJointSetting = EditorGUILayout.Toggle("Set Global Joint Settings", setGlobalJointSetting);
 
+            
+
+
+            globalSettings = new JointSettings(HumanBodyBones.LastBone, angularXDriveSpringGlobal, angularXDriveDamperGlobal, maxForceXGlobal, angularYZDriveSpringGlobal, angularYZDriveDamperGlobal, maxForceYZGlobal);
+
+
             if (!setGlobalJointSetting)
             {
                 mirror = EditorGUILayout.Toggle("Mirror Changes", mirror);
-
                 showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
 
                 if (showJointSettings)
@@ -88,29 +95,8 @@ public class EditAvatarTemplate : EditorWindow
             {
                 DisplayGlobalJoint();
             }
+
             EditorGUILayout.EndVertical();
-
-            if (GUILayout.Button("Copy To AvatarTemplateMultipleJoints") && template != null && templateMultiple != null)
-            {
-                //we have to tell the JointSetup that we are using it in the context of the editor (we have no configjointmanager)
-                JointSetup setup = new JointSetup(gameObjectsPerBoneTemplateMultiple, gameObjectsPerBoneTemplate, null, true);
-
-                foreach(HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
-                {
-                    //we destroy previous components of the multiple joints template to assure a clean copy of the component
-                    foreach(ConfigurableJoint joint in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>())
-                    {
-                        DestroyImmediate(joint);
-                    }
-                    foreach(Collider collider in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<Collider>())
-                    {
-                        DestroyImmediate(collider);
-                    }
-                    //setup.CopyPasteTemplateJoint(bone);
-                    setup.AddJointFromTemplate(bone);
-                }
-               
-            }
 
             if (GUILayout.Button("Restore Default Mass"))
             {
@@ -128,7 +114,7 @@ public class EditAvatarTemplate : EditorWindow
                 //template = (GameObject)Instantiate(Resources.Load("Assets/Client Physics/Prefabs/AvatarTemplate.prefab"));
             }
 
-            if (GUILayout.Button("Update Template"))
+            if (GUILayout.Button("Update Templates"))
             {
                 UpdateTemplate();
             }
@@ -212,6 +198,7 @@ public class EditAvatarTemplate : EditorWindow
             }
         }
     }
+
     /// <summary>
     /// Returns the JointSettings of a specified bone. Use only if a single ConfigurableJoint is attached to the bone.
     /// </summary>
@@ -223,7 +210,7 @@ public class EditAvatarTemplate : EditorWindow
             ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
             if (joint != null)
             {
-                JointSettings setting = new JointSettings(bone, joint.angularXDrive.positionSpring, joint.angularXDrive.positionDamper, joint.angularXDrive.maximumForce, joint.angularYZDrive.positionSpring, joint.angularYZDrive.positionDamper, joint.angularYZDrive.maximumForce);
+                JointSettings setting = new JointSettings(bone, gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularXDrive, gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularYZDrive);
                 jointSettings.Add(bone, setting);
                 if (!setting.bone.ToString().StartsWith("Left"))
                 {
@@ -263,9 +250,9 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="boneSettings">The JointSettings to show.</param>
     void DisplayJointSettingsOfBone(JointSettings boneSettings)
     {
-        boneSettings.showInEditor = EditorGUILayout.Foldout(boneSettings.showInEditor, boneSettings.bone.ToString(), true);
+        boneSettings.showInEditor = EditorGUILayout.Foldout(boneSettings.showInEditor, setGlobalJointSetting ? "Global Joint" : boneSettings.bone.ToString(), true);
 
-        if (boneSettings.showInEditor)
+        if (boneSettings.showInEditor || setGlobalJointSetting)
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(indent);
@@ -283,20 +270,24 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="settings"></param>
     void DisplayJointValues(JointSettings settings)
     {
+        //More functions could be added here, if other joint parameters are to be modified in the future
         DisplayAngularDrives(settings);
     }
 
     void DisplayAngularDrives(JointSettings settings)
     {
+        string globalPrefix = "";
+        if (setGlobalJointSetting) globalPrefix = "Global ";
+
         //Angular X Drive
-        settings.showAngularXDriveInEditor = EditorGUILayout.Foldout(settings.showAngularXDriveInEditor, "Angular X Drive", true);
+        settings.showAngularXDriveInEditor = EditorGUILayout.Foldout(settings.showAngularXDriveInEditor, globalPrefix + "Angular X Drive", true);
         if (settings.showAngularXDriveInEditor || setGlobalJointSetting)
         {
             DisplayAngularDrivesHelper(settings, 0);
         }
 
         //Angular YZ Drive
-        settings.showAngularYZDriveInEditor = EditorGUILayout.Foldout(settings.showAngularYZDriveInEditor, "Angular YZ Drive", true);
+        settings.showAngularYZDriveInEditor = EditorGUILayout.Foldout(settings.showAngularYZDriveInEditor, globalPrefix + "Angular YZ Drive", true);
         if (settings.showAngularYZDriveInEditor || setGlobalJointSetting)
         {
             DisplayAngularDrivesHelper(settings, 1);
@@ -308,6 +299,8 @@ public class EditAvatarTemplate : EditorWindow
         EditorGUILayout.BeginHorizontal();
         GUILayout.Space(indent);
         EditorGUILayout.BeginVertical();
+
+
 
         //Angular X Drive
         if (index == 0)
@@ -324,6 +317,16 @@ public class EditAvatarTemplate : EditorWindow
             settings.maxForceYZ = EditorGUILayout.FloatField("Maximum Force", settings.maxForceYZ);
         }
 
+        if (setGlobalJointSetting)
+        {
+            angularXDriveSpringGlobal = settings.angularXDriveSpring;
+            angularXDriveDamperGlobal = settings.angularXDriveDamper;
+            maxForceXGlobal = settings.maxForceX;
+
+            angularYZDriveSpringGlobal = settings.angularYZDriveSpring;
+            angularYZDriveDamperGlobal = settings.angularYZDriveDamper;
+            maxForceYZGlobal = settings.maxForceYZ;
+        }
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
     }
@@ -336,7 +339,7 @@ public class EditAvatarTemplate : EditorWindow
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.BeginVertical();
 
-            DisplayJointValues(globalSettings);
+            DisplayJointSettingsOfBone(globalSettings);
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
@@ -352,8 +355,43 @@ public class EditAvatarTemplate : EditorWindow
         //Joint Settings
         UpdateJoints();
 
+        //Apply template changes to multiple joint template 
+        CopyToMultipleJointsTemplate();
+
         //Refresh Values
-        editor.Repaint();
+        RefreshJointSettings();
+        
+        //editor.Repaint();
+    }
+
+    void RefreshJointSettings()
+    {
+        foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
+        {
+            jointSettings[bone].SetAngularXDrive(gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularXDrive);
+            jointSettings[bone].SetAngularYZDrive(gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularYZDrive);
+        }
+    }
+
+    void CopyToMultipleJointsTemplate()
+    {
+        //we have to tell the JointSetup that we are using it in the context of the editor (we have no configjointmanager)
+        JointSetup setup = new JointSetup(gameObjectsPerBoneTemplateMultiple, gameObjectsPerBoneTemplate, null, true);
+
+        foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
+        {
+            //we destroy previous components of the multiple joints template to assure a clean copy of the component
+            foreach (ConfigurableJoint joint in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>())
+            {
+                DestroyImmediate(joint);
+            }
+            foreach (Collider collider in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<Collider>())
+            {
+                DestroyImmediate(collider);
+            }
+            //setup.CopyPasteTemplateJoint(bone);
+            setup.AddJointFromTemplate(bone);
+        }
     }
 
     void UpdateJoints()
@@ -366,27 +404,24 @@ public class EditAvatarTemplate : EditorWindow
             {
                 joint.enableCollision = useCollisions;
                 joint.enablePreprocessing = !noPreprocessing;
-                if (setGlobalJointSetting)
+                JointSettings settings = globalSettings;
+                if (!setGlobalJointSetting)
                 {
-                    AddGravity(bone);
-                    ApplyJointSetting(joint, globalSettings);
-                }
-                else
-                {
-                    JointSettings setting;
-                    if (jointSettings.TryGetValue(bone, out setting))
+                    JointSettings specificSettings;
+                    if (jointSettings.TryGetValue(bone, out specificSettings))
                     {
                         if (mirror)
                         {
-                            if (setting.bone.ToString().StartsWith("Left"))
+                            if (specificSettings.bone.ToString().StartsWith("Left"))
                             {
-                                setting = jointSettings[LeftToRightMapping(bone)];
+                                specificSettings = jointSettings[LeftToRightMapping(bone)];
                             }
                         }
-                        AddGravity(bone);
-                        ApplyJointSetting(joint, setting);
+                        settings = specificSettings;
                     }
                 }
+                AddGravity(bone);
+                ApplyJointSetting(joint, settings);
             }
         }
     }

@@ -29,7 +29,7 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
     void Start()
     {
         animator = GetComponent<Animator>();
-
+        
         //added this here to temporarily solve squashed down character, now drops down instead -> no entangled body parts
         if (animator)
         {
@@ -40,11 +40,13 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
                 // position body
                 if (bodyTarget != null)
                 {
-                    this.transform.position = bodyTarget.position + bodyTargetOffset;
+                    this.transform.position = bodyTarget.position;
                     this.transform.rotation = bodyTarget.rotation;
                 }
+                SetIKWeights();
             }
         }
+        
     }
 
     // Update is called once per frame
@@ -104,48 +106,53 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
                     this.transform.rotation = Quaternion.LookRotation(Vector3.ProjectOnPlane(forward, Vector3.up), Vector3.up);
                 }
 
-                if (lookAtObj != null)
-                {
-                    animator.SetLookAtWeight(1);
-                    animator.SetLookAtPosition(lookAtObj.position);
-                }
-
-                if (rightHandTarget != null)
-                {
-                    animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-                    animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
-                    animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandTarget.position);
-                    animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandTarget.rotation);
-                }
-
-                if (leftHandTarget != null)
-                {
-                    animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
-                    animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
-                    animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandTarget.position);
-                    animator.SetIKRotation(AvatarIKGoal.LeftHand, leftHandTarget.rotation);
-                }
-
-                if (rightFootTarget != null)
-                {
-                    //rightFootTarget.up = Vector3.up;
-                    animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
-                    animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position + footRightOffset);
-                    Quaternion rightQuaternion = Quaternion.Euler(rightFootTarget.eulerAngles + footRightRotation);
-                    animator.SetIKRotation(AvatarIKGoal.RightFoot, rightQuaternion);
-                }
-
-                if (leftFootTarget != null)
-                {
-                    //leftFootTarget.up = Vector3.up;
-                    animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
-                    animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
-                    animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position + footLeftOffset);
-                    Quaternion leftQuaternion = Quaternion.Euler(leftFootTarget.eulerAngles + footLeftRotation);
-                    animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftQuaternion);
-                }
+                SetIKWeights();
             }
+        }
+        
+    }
+    void SetIKWeights()
+    {
+        if (lookAtObj != null)
+        {
+            animator.SetLookAtWeight(1);
+            animator.SetLookAtPosition(lookAtObj.position);
+        }
+
+        if (rightHandTarget != null)
+        {
+            animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
+            animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
+            animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandTarget.position);
+            animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandTarget.rotation);
+        }
+
+        if (leftHandTarget != null)
+        {
+            animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
+            animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
+            animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandTarget.position);
+            animator.SetIKRotation(AvatarIKGoal.LeftHand, leftHandTarget.rotation);
+        }
+
+        if (rightFootTarget != null)
+        {
+            //rightFootTarget.up = Vector3.up;
+            animator.SetIKPositionWeight(AvatarIKGoal.RightFoot, 1);
+            animator.SetIKRotationWeight(AvatarIKGoal.RightFoot, 1);
+            animator.SetIKPosition(AvatarIKGoal.RightFoot, rightFootTarget.position + footRightOffset);
+            Quaternion rightQuaternion = Quaternion.Euler(rightFootTarget.eulerAngles + footRightRotation);
+            animator.SetIKRotation(AvatarIKGoal.RightFoot, rightQuaternion);
+        }
+
+        if (leftFootTarget != null)
+        {
+            //leftFootTarget.up = Vector3.up;
+            animator.SetIKPositionWeight(AvatarIKGoal.LeftFoot, 1);
+            animator.SetIKRotationWeight(AvatarIKGoal.LeftFoot, 1);
+            animator.SetIKPosition(AvatarIKGoal.LeftFoot, leftFootTarget.position + footLeftOffset);
+            Quaternion leftQuaternion = Quaternion.Euler(leftFootTarget.eulerAngles + footLeftRotation);
+            animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftQuaternion);
         }
     }
 }

@@ -51,7 +51,7 @@ public class UserAvatarIKControl : MonoBehaviour
                 rightHandTarget = trackingIKTargetManager.GetIKTargetRightHand();
                 leftFootTarget = trackingIKTargetManager.GetIKTargetLeftFoot();
                 rightFootTarget = trackingIKTargetManager.GetIKTargetRightFoot();
-
+                
                 UserAvatarService.Instance.SpawnYBot();
             }
 

@@ -9,12 +9,12 @@ public class JointSettings : MonoBehaviour
     public bool showAngularYZDriveInEditor = false;
     public HumanBodyBones bone;
 
-    public float angularXDriveSpring;
-    public float angularXDriveDamper;
+    public float angularXDriveSpring = 2500;
+    public float angularXDriveDamper = 600;
     public float maxForceX = 2500;
 
-    public float angularYZDriveSpring;
-    public float angularYZDriveDamper; 
+    public float angularYZDriveSpring = 2500;
+    public float angularYZDriveDamper = 600; 
     public float maxForceYZ = 2500;
 
     public JointDrive angularXDrive;
@@ -70,9 +70,25 @@ public class JointSettings : MonoBehaviour
         angularXDriveDamper = d;
     }
 
+    public void SetAngularXDrive(JointDrive drive)
+    {
+        angularXDrive = drive;
+        angularXDriveSpring = drive.positionSpring;
+        angularXDriveDamper = drive.positionDamper;
+        maxForceX = drive.maximumForce;
+    }
+
     public void SetAngularYZDriveFromPD(float p, float d)
     {
         angularYZDriveSpring = p;
         angularYZDriveDamper = d;
+    }
+
+    public void SetAngularYZDrive(JointDrive drive)
+    {
+        angularYZDrive = drive;
+        angularYZDriveSpring = drive.positionSpring;
+        angularYZDriveDamper = drive.positionDamper;
+        maxForceYZ = drive.maximumForce;
     }
 }

@@ -94,7 +94,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     
     void Start()
     {
-        if (this.local_avatar && !use_gazebo)
+        if (this.local_avatar && use_gazebo)
         {
             this.gazebo_model_pos_offset = new Vector3(0f, -local_avatar_mesh_renderer.bounds.extents.y, 0f);
 
