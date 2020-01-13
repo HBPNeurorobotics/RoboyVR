@@ -24,44 +24,22 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
     [SerializeField] Vector3 footLeftRotation = new Vector3(0, 90, 0);
     [SerializeField] Vector3 footRightRotation = new Vector3(0, -90, 0);
 
-    bool executedOnce = false;
-
 
     // Use this for initialization
     void Start()
     {
         animator = GetComponent<Animator>();
-        
-        //added this here to temporarily solve squashed down character (due to clip being empty), now drops down instead -> no entangled body parts
-        if (animator && ikActive)
-            {
-                // position body
-                if (bodyTarget != null)
-                {
-                    this.transform.position = bodyTarget.position;
-                    this.transform.rotation = bodyTarget.rotation;
-                }
-               
-            }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
     }
-    
+
     //a callback for calculating IK
     void OnAnimatorIK()
     {
 
-        IKStep();
-    }
-    
-
-    
-        
-    void IKStep()
-    {
         if (animator)
         {
 
@@ -71,8 +49,8 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
                 // position body
                 if (bodyTarget != null)
                 {
-                        this.transform.position = bodyTarget.position + bodyTargetOffset;
-                        this.transform.rotation = bodyTarget.rotation;
+                    this.transform.position = bodyTarget.position + bodyTargetOffset;
+                    this.transform.rotation = bodyTarget.rotation;
                 }
                 // no body target, but head and feet targets
                 else if (headTarget != null && rightFootTarget != null && leftFootTarget != null)
@@ -151,8 +129,6 @@ public class UserAvatarVisualsIKControlClient : MonoBehaviour {
                     Quaternion leftQuaternion = Quaternion.Euler(leftFootTarget.eulerAngles + footLeftRotation);
                     animator.SetIKRotation(AvatarIKGoal.LeftFoot, leftQuaternion);
                 }
-
-
             }
         }
     }
