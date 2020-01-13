@@ -65,8 +65,11 @@ public class UserAvatarIKControl : MonoBehaviour {
                 else if (headTarget != null && leftFootTarget != null && rightFootTarget != null)
                 {
                     Vector3 feetCenter = 0.5f * (leftFootTarget.transform.position + rightFootTarget.transform.position);
-                    Vector3 bodyPosition = 0.33f * (headTarget.transform.position + leftFootTarget.transform.position + rightFootTarget.transform.position);
-                    this.transform.position = bodyPosition + inferredBodyTargetOffset;
+                    /*Vector3 bodyPosition = 0.33f * (headTarget.transform.position + leftFootTarget.transform.position + rightFootTarget.transform.position);
+                    this.transform.position = bodyPosition + inferredBodyTargetOffset;*/
+                    this.transform.position = new Vector3(headTarget.transform.position.x, 0.65f * headTarget.transform.position.y, headTarget.transform.position.z);
+                    Vector3 headForwardOnXZ = Vector3.ProjectOnPlane(headTarget.transform.forward, Vector3.up).normalized;
+                    this.transform.position = this.transform.position - 0.2f * headForwardOnXZ;
 
                     Vector3 bodyUp = (headTarget.transform.position - feetCenter).normalized;
                     Vector3 bodyRight = (headTarget.transform.right + leftFootTarget.transform.right + rightFootTarget.transform.right).normalized;//ikTargetHead.transform.right;
