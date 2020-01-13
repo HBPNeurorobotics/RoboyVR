@@ -22,6 +22,9 @@ public class UserAvatarIKControl : MonoBehaviour {
 
     private Transform lookAtObj = null;
 
+    private Queue<Vector3> groundCenterTrajectory = new Queue<Vector3>();
+    private int groundCenterTrajectorySize = 20;
+
 
     // Use this for initialization
     void Start () {
@@ -64,15 +67,54 @@ public class UserAvatarIKControl : MonoBehaviour {
                 // no body target, but head and feet targets
                 else if (headTarget != null && leftFootTarget != null && rightFootTarget != null)
                 {
-                    Vector3 feetCenter = 0.5f * (leftFootTarget.transform.position + rightFootTarget.transform.position);
-                    /*Vector3 bodyPosition = 0.33f * (headTarget.transform.position + leftFootTarget.transform.position + rightFootTarget.transform.position);
-                    this.transform.position = bodyPosition + inferredBodyTargetOffset;*/
-                    this.transform.position = new Vector3(headTarget.transform.position.x, 0.65f * headTarget.transform.position.y, headTarget.transform.position.z);
-                    Vector3 headForwardOnXZ = Vector3.ProjectOnPlane(headTarget.transform.forward, Vector3.up).normalized;
-                    this.transform.position = this.transform.position - 0.2f * headForwardOnXZ;
+                    float leftFootHeight = leftFootTarget.position.y;
+                    float rightFootHeight = rightFootTarget.position.y;
 
-                    Vector3 bodyUp = (headTarget.transform.position - feetCenter).normalized;
-                    Vector3 bodyRight = (headTarget.transform.right + leftFootTarget.transform.right + rightFootTarget.transform.right).normalized;//ikTargetHead.transform.right;
+                    // determine ground center of stability
+                    Vector3 groundCenter;
+                    float thresholdFootOffGround = 1.5f * trackingIKTargetManager.feetTargetOffsetAboveGround;
+                    // both feet on the ground
+                    if (leftFootHeight < thresholdFootOffGround && rightFootHeight < thresholdFootOffGround)
+                    {
+                        groundCenter = 0.5f * (leftFootTarget.position + rightFootTarget.position);
+                    }
+                    // only left foot on the ground
+                    else if (leftFootHeight < thresholdFootOffGround)
+                    {
+                        groundCenter = leftFootTarget.position;
+                    }
+                    // only right foot on the ground
+                    else if (rightFootHeight < thresholdFootOffGround)
+                    {
+                        groundCenter = rightFootTarget.position;
+                    }
+                    // both feet in the air
+                    else
+                    {
+                        groundCenter = 0.5f * (leftFootTarget.position + rightFootTarget.position);
+                    }
+
+                    // smoooth out trajectory of ground center
+                    groundCenterTrajectory.Enqueue(groundCenter);
+                    while (groundCenterTrajectory.Count > groundCenterTrajectorySize)
+                    {
+                        groundCenterTrajectory.Dequeue();
+                    }
+                    groundCenter = new Vector3();
+                    foreach(Vector3 position in groundCenterTrajectory)
+                    {
+                        groundCenter += position;
+                    }
+                    groundCenter /= groundCenterTrajectory.Count;
+
+                    // set body position
+                    //TODO: apply offset back about 10cm?
+                    Vector3 bodyPosition = new Vector3(groundCenter.x, 0.65f * (headTarget.transform.position.y - groundCenter.y), groundCenter.z);
+                    this.transform.position = bodyPosition;
+
+                    // set body rotation
+                    Vector3 bodyUp = (headTarget.transform.position - this.transform.position).normalized;
+                    Vector3 bodyRight = (headTarget.transform.right + leftFootTarget.transform.right + rightFootTarget.transform.right).normalized;
                     Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp);
                     Quaternion bodyRotation = Quaternion.LookRotation(bodyForward, bodyUp);
                     this.transform.rotation = bodyRotation;
