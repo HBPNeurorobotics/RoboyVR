@@ -197,6 +197,9 @@ public class TrackingIKTargetManager : MonoBehaviour
         tThumb4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r/finger_thumb_r_end").transform;
 
         tThumb1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r").transform;
+        //Vector3 rot = tThumb1.rotation.eulerAngles;
+        //rot = new Vector3(rot.x, rot.y - 90f, rot.z);
+        //tThumb1.rotation = Quaternion.Euler(rot);
         tThumb2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r").transform;
         tThumb3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r").transform;
         tThumb4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r/finger_thumb_r_end").transform;
@@ -246,6 +249,9 @@ public class TrackingIKTargetManager : MonoBehaviour
 	void Update () {
         if (initialized)
         {
+            //Vector3 rot = tThumb1.transform.rotation.eulerAngles;
+            //rot = new Vector3(rot.x, rot.y-90f, rot.z);
+            //TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, Quaternion.Euler(rot));
             TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, tThumb1.transform.rotation);
             TargetThumb2.transform.SetPositionAndRotation(tThumb2.transform.position, tThumb2.transform.rotation);
             TargetThumb3.transform.SetPositionAndRotation(tThumb3.transform.position, tThumb3.transform.rotation);

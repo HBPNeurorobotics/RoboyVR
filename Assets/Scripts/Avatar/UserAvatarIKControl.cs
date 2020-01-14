@@ -295,6 +295,9 @@ public class UserAvatarIKControl : MonoBehaviour {
 
             updateFingerTargetLeft();
             updateFingerTargetRight();
+            //Vector3 rot = leftThumb1.rotation.eulerAngles;
+            //rot = new Vector3(rot.x, rot.y, rot.z);
+            //lModelThumb1.transform.rotation = Quaternion.Euler(rot.x, rot.y, rot.z);
         }
         
     }

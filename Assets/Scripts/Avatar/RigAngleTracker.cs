@@ -39,6 +39,57 @@ public class RigAngleTracker : MonoBehaviour
     private const string L_HAND_NAME = "mixamorig_LeftHand";
     private const string R_HAND_NAME = "mixamorig_RightHand";
 
+    // Bachelor Thesis VRHand
+    private const string L_HAND_THUMB1_NAME = "mixamorig_LeftHandThumb1";
+    private const string L_HAND_THUMB2_NAME = "mixamorig_LeftHandThumb2";
+    private const string L_HAND_THUMB3_NAME = "mixamorig_LeftHandThumb3";
+    private const string L_HAND_THUMB4_NAME = "mixamorig_LeftHandThumb4";
+
+    private const string L_HAND_INDEX1_NAME = "mixamorig_LeftHandIndex1";
+    private const string L_HAND_INDEX2_NAME = "mixamorig_LeftHandIndex2";
+    private const string L_HAND_INDEX3_NAME = "mixamorig_LeftHandIndex3";
+    private const string L_HAND_INDEX4_NAME = "mixamorig_LeftHandIndex4";
+
+    private const string L_HAND_MIDDLE1_NAME = "mixamorig_LeftHandMiddle1";
+    private const string L_HAND_MIDDLE2_NAME = "mixamorig_LeftHandMiddle2";
+    private const string L_HAND_MIDDLE3_NAME = "mixamorig_LeftHandMiddle3";
+    private const string L_HAND_MIDDLE4_NAME = "mixamorig_LeftHandMiddle4";
+
+    private const string L_HAND_RING1_NAME = "mixamorig_LeftHandRing1";
+    private const string L_HAND_RING2_NAME = "mixamorig_LeftHandRing2";
+    private const string L_HAND_RING3_NAME = "mixamorig_LeftHandRing3";
+    private const string L_HAND_RING4_NAME = "mixamorig_LeftHandRing4";
+
+    private const string L_HAND_PINKY1_NAME = "mixamorig_LeftHandPinky1";
+    private const string L_HAND_PINKY2_NAME = "mixamorig_LeftHandPinky2";
+    private const string L_HAND_PINKY3_NAME = "mixamorig_LeftHandPinky3";
+    private const string L_HAND_PINKY4_NAME = "mixamorig_LeftHandPinky4";
+
+    private const string R_HAND_THUMB1_NAME = "mixamorig_RightHandThumb1";
+    private const string R_HAND_THUMB2_NAME = "mixamorig_RightHandThumb2";
+    private const string R_HAND_THUMB3_NAME = "mixamorig_RightHandThumb3";
+    private const string R_HAND_THUMB4_NAME = "mixamorig_RightHandThumb4";
+
+    private const string R_HAND_INDEX1_NAME = "mixamorig_RightHandIndex1";
+    private const string R_HAND_INDEX2_NAME = "mixamorig_RightHandIndex2";
+    private const string R_HAND_INDEX3_NAME = "mixamorig_RightHandIndex3";
+    private const string R_HAND_INDEX4_NAME = "mixamorig_RightHandIndex4";
+
+    private const string R_HAND_MIDDLE1_NAME = "mixamorig_RightHandMiddle1";
+    private const string R_HAND_MIDDLE2_NAME = "mixamorig_RightHandMiddle2";
+    private const string R_HAND_MIDDLE3_NAME = "mixamorig_RightHandMiddle3";
+    private const string R_HAND_MIDDLE4_NAME = "mixamorig_RightHandMiddle4";
+
+    private const string R_HAND_RING1_NAME = "mixamorig_RightHandRing1";
+    private const string R_HAND_RING2_NAME = "mixamorig_RightHandRing2";
+    private const string R_HAND_RING3_NAME = "mixamorig_RightHandRing3";
+    private const string R_HAND_RING4_NAME = "mixamorig_RightHandRing4";
+
+    private const string R_HAND_PINKY1_NAME = "mixamorig_RightHandPinky1";
+    private const string R_HAND_PINKY2_NAME = "mixamorig_RightHandPinky2";
+    private const string R_HAND_PINKY3_NAME = "mixamorig_RightHandPinky3";
+    private const string R_HAND_PINKY4_NAME = "mixamorig_RightHandPinky4";
+
     private bool _initialized = false;
 
     private int _lastTrackedFrame = -1;
@@ -60,7 +111,7 @@ public class RigAngleTracker : MonoBehaviour
             UpdateJointToRadians();
             _lastTrackedFrame = Time.frameCount;
         }
-
+        
         return _jointToRadians;
     }
 
@@ -125,6 +176,18 @@ public class RigAngleTracker : MonoBehaviour
         const string R_ARM_JLINK1_NAME = "mixamorig_RightArm_JointLink1";
         const string R_ARM_JLINK2_NAME = "mixamorig_RightArm_JointLink2";
 
+        const string L_HAND_JLINK1_NAME = "mixamorig_LeftHand_JointLink1";
+        const string L_HAND_JLINK2_NAME = "mixamorig_LeftHand_JointLink2";
+
+        const string R_HAND_JLINK1_NAME = "mixamorig_RightHand_JointLink1";
+        const string R_HAND_JLINK2_NAME = "mixamorig_RightHand_JointLink2";
+
+        const string L_HAND_THUMB1_JLINK1_NAME = "mixamorig_LeftHandThumb1_JointLink1";
+        const string L_HAND_THUMB1_JLINK2_NAME = "mixamorig_LeftHandThumb1_JointLink2";
+
+        const string R_HAND_THUMB1_JLINK1_NAME = "mixamorig_RightHandThumb1_JointLink1";
+        const string R_HAND_THUMB1_JLINK2_NAME = "mixamorig_RightHandThumb1_JointLink2";
+
         Transform hips = FindChildTransformRecursive(transform, HIPS_NAME);
 
         Transform leftShoulder = FindChildTransformRecursive(transform, L_SHOULDER_NAME);
@@ -142,7 +205,12 @@ public class RigAngleTracker : MonoBehaviour
         Transform rightForeArm = FindChildTransformRecursive(transform, R_FORE_ARM_NAME);
 
         Transform leftHand = FindChildTransformRecursive(transform, L_HAND_NAME);
+        Transform leftHand_jlink1 = FindChildTransformRecursive(transform, L_HAND_JLINK1_NAME);
+        Transform leftHand_jlink2 = FindChildTransformRecursive(transform, L_HAND_JLINK2_NAME);
+
         Transform rightHand = FindChildTransformRecursive(transform, R_HAND_NAME);
+        Transform rightHand_jlink1 = FindChildTransformRecursive(transform, R_HAND_JLINK1_NAME);
+        Transform rightHand_jlink2 = FindChildTransformRecursive(transform, R_HAND_JLINK2_NAME);
 
         Transform leftUpLeg = FindChildTransformRecursive(transform, L_UP_LEG_NAME);
         Transform rightUpLeg = FindChildTransformRecursive(transform, R_UP_LEG_NAME);
@@ -152,6 +220,63 @@ public class RigAngleTracker : MonoBehaviour
 
         Transform leftFoot = FindChildTransformRecursive(transform, L_FOOT_NAME);
         Transform rightFoot = FindChildTransformRecursive(transform, R_FOOT_NAME);
+
+        // Bachelor Thesis VRHand
+        Transform leftThumb1 = FindChildTransformRecursive(transform, L_HAND_THUMB1_NAME);
+        Transform leftThumb1_jlink1 = FindChildTransformRecursive(transform, L_HAND_THUMB1_JLINK1_NAME);
+        Transform leftThumb1_jlink2 = FindChildTransformRecursive(transform, L_HAND_THUMB1_JLINK2_NAME);
+
+        Transform leftThumb2 = FindChildTransformRecursive(transform, L_HAND_THUMB2_NAME);
+        Transform leftThumb3 = FindChildTransformRecursive(transform, L_HAND_THUMB3_NAME);
+        Transform leftThumb4 = FindChildTransformRecursive(transform, L_HAND_THUMB4_NAME);
+
+        Transform leftIndex1 = FindChildTransformRecursive(transform, L_HAND_INDEX1_NAME);
+        Transform leftIndex2 = FindChildTransformRecursive(transform, L_HAND_INDEX2_NAME);
+        Transform leftIndex3 = FindChildTransformRecursive(transform, L_HAND_INDEX3_NAME);
+        Transform leftIndex4 = FindChildTransformRecursive(transform, L_HAND_INDEX4_NAME);
+
+        Transform leftMiddle1 = FindChildTransformRecursive(transform, L_HAND_MIDDLE1_NAME);
+        Transform leftMiddle2 = FindChildTransformRecursive(transform, L_HAND_MIDDLE2_NAME);
+        Transform leftMiddle3 = FindChildTransformRecursive(transform, L_HAND_MIDDLE3_NAME);
+        Transform leftMiddle4 = FindChildTransformRecursive(transform, L_HAND_MIDDLE4_NAME);
+
+        Transform leftRing1 = FindChildTransformRecursive(transform, L_HAND_RING1_NAME);
+        Transform leftRing2 = FindChildTransformRecursive(transform, L_HAND_RING2_NAME);
+        Transform leftRing3 = FindChildTransformRecursive(transform, L_HAND_RING3_NAME);
+        Transform leftRing4 = FindChildTransformRecursive(transform, L_HAND_RING4_NAME);
+
+        Transform leftPinky1 = FindChildTransformRecursive(transform, L_HAND_PINKY1_NAME);
+        Transform leftPinky2 = FindChildTransformRecursive(transform, L_HAND_PINKY2_NAME);
+        Transform leftPinky3 = FindChildTransformRecursive(transform, L_HAND_PINKY3_NAME);
+        Transform leftPinky4 = FindChildTransformRecursive(transform, L_HAND_PINKY4_NAME);
+
+        Transform rightThumb1 = FindChildTransformRecursive(transform, R_HAND_THUMB1_NAME);
+        Transform rightThumb1_jlink1 = FindChildTransformRecursive(transform, R_HAND_THUMB1_JLINK1_NAME);
+        Transform rightThumb1_jlink2 = FindChildTransformRecursive(transform, R_HAND_THUMB1_JLINK2_NAME);
+
+        Transform rightThumb2 = FindChildTransformRecursive(transform, R_HAND_THUMB2_NAME);
+        Transform rightThumb3 = FindChildTransformRecursive(transform, R_HAND_THUMB3_NAME);
+        Transform rightThumb4 = FindChildTransformRecursive(transform, R_HAND_THUMB4_NAME);
+
+        Transform rightIndex1 = FindChildTransformRecursive(transform, R_HAND_INDEX1_NAME);
+        Transform rightIndex2 = FindChildTransformRecursive(transform, R_HAND_INDEX2_NAME);
+        Transform rightIndex3 = FindChildTransformRecursive(transform, R_HAND_INDEX3_NAME);
+        Transform rightIndex4 = FindChildTransformRecursive(transform, R_HAND_INDEX4_NAME);
+
+        Transform rightMiddle1 = FindChildTransformRecursive(transform, R_HAND_MIDDLE1_NAME);
+        Transform rightMiddle2 = FindChildTransformRecursive(transform, R_HAND_MIDDLE2_NAME);
+        Transform rightMiddle3 = FindChildTransformRecursive(transform, R_HAND_MIDDLE3_NAME);
+        Transform rightMiddle4 = FindChildTransformRecursive(transform, R_HAND_MIDDLE4_NAME);
+
+        Transform rightRing1 = FindChildTransformRecursive(transform, R_HAND_RING1_NAME);
+        Transform rightRing2 = FindChildTransformRecursive(transform, R_HAND_RING2_NAME);
+        Transform rightRing3 = FindChildTransformRecursive(transform, R_HAND_RING3_NAME);
+        Transform rightRing4 = FindChildTransformRecursive(transform, R_HAND_RING4_NAME);
+
+        Transform rightPinky1 = FindChildTransformRecursive(transform, R_HAND_PINKY1_NAME);
+        Transform rightPinky2 = FindChildTransformRecursive(transform, R_HAND_PINKY2_NAME);
+        Transform rightPinky3 = FindChildTransformRecursive(transform, R_HAND_PINKY3_NAME);
+        Transform rightPinky4 = FindChildTransformRecursive(transform, R_HAND_PINKY4_NAME);
 
         // Left Arm
 
@@ -184,12 +309,170 @@ public class RigAngleTracker : MonoBehaviour
             new JointMapping(rightArm, rightForeArm, true, MappedEulerAngle.InvertedZ);
 
         // Hands
-
+        /*
         _jointMappings[L_HAND_NAME] =
             new JointMapping(leftForeArm, leftHand, true, MappedEulerAngle.Y);
-
+        */
+        /*
         _jointMappings[R_HAND_NAME] =
             new JointMapping(rightForeArm, rightHand, true, MappedEulerAngle.Y);
+        */
+
+        _jointMappings[L_HAND_NAME + "_x"] =
+            new JointMapping(leftHand_jlink1, leftHand_jlink2, true, MappedEulerAngle.X);
+
+        _jointMappings[L_HAND_NAME + "_y"] =
+            new JointMapping(leftHand_jlink2, leftHand, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_NAME + "_z"] =
+            new JointMapping(leftForeArm, leftHand_jlink1, true, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_NAME + "_x"] =
+            new JointMapping(rightHand_jlink1, rightHand_jlink2, true, MappedEulerAngle.X);
+
+        _jointMappings[R_HAND_NAME + "_y"] =
+            new JointMapping(rightHand_jlink2, rightHand, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_NAME + "_z"] =
+            new JointMapping(rightForeArm, rightHand_jlink1, true, MappedEulerAngle.InvertedZ);
+
+        // Bachelor Thesis VRHand
+        // Thumb Finger
+        _jointMappings[L_HAND_THUMB1_NAME + "_x"] =
+            new JointMapping(leftThumb1_jlink1, leftThumb1_jlink2, true, MappedEulerAngle.X);
+
+        _jointMappings[L_HAND_THUMB1_NAME + "_y"] =
+            new JointMapping(leftThumb1_jlink2, leftThumb1, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_THUMB1_NAME + "_z"] =
+            new JointMapping(leftHand, leftThumb1_jlink1, true, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_THUMB2_NAME] =
+            new JointMapping(leftThumb1, leftThumb2, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_THUMB3_NAME] =
+            new JointMapping(leftThumb2, leftThumb3, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_THUMB4_NAME] =
+            new JointMapping(leftThumb3, leftThumb4, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_THUMB1_NAME + "_x"] =
+            new JointMapping(rightThumb1_jlink1, rightThumb1_jlink2, true, MappedEulerAngle.X);
+
+        _jointMappings[R_HAND_THUMB1_NAME + "_y"] =
+            new JointMapping(rightThumb1_jlink2, rightThumb1, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_THUMB1_NAME + "_z"] =
+            new JointMapping(rightHand, rightThumb1_jlink1, true, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_THUMB2_NAME] =
+            new JointMapping(rightThumb1, rightThumb2, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_THUMB3_NAME] =
+            new JointMapping(rightThumb2, rightThumb3, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_THUMB4_NAME] =
+            new JointMapping(rightThumb3, rightThumb4, true, MappedEulerAngle.Y);
+
+        // Index Finger
+        _jointMappings[L_HAND_INDEX1_NAME] =
+            new JointMapping(leftHand, leftIndex1, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_INDEX2_NAME] =
+            new JointMapping(leftIndex1, leftIndex2, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_INDEX3_NAME] =
+            new JointMapping(leftIndex2, leftIndex3, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_INDEX4_NAME] =
+            new JointMapping(leftIndex3, leftIndex4, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_INDEX1_NAME] =
+            new JointMapping(rightHand, rightIndex1, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_INDEX2_NAME] =
+            new JointMapping(rightIndex1, rightIndex2, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_INDEX3_NAME] =
+            new JointMapping(rightIndex2, rightIndex3, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_INDEX4_NAME] =
+            new JointMapping(rightIndex3, rightIndex4, true, MappedEulerAngle.Y);
+
+        // Middle Finger
+        _jointMappings[L_HAND_MIDDLE1_NAME] =
+            new JointMapping(leftHand, leftMiddle1, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_MIDDLE2_NAME] =
+            new JointMapping(leftMiddle1, leftMiddle2, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_MIDDLE3_NAME] =
+            new JointMapping(leftMiddle2, leftMiddle3, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_MIDDLE4_NAME] =
+            new JointMapping(leftMiddle3, leftMiddle4, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_MIDDLE1_NAME] =
+            new JointMapping(rightHand, rightMiddle1, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_MIDDLE2_NAME] =
+            new JointMapping(rightMiddle1, rightMiddle2, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_MIDDLE3_NAME] =
+            new JointMapping(rightMiddle2, rightMiddle3, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_MIDDLE4_NAME] =
+            new JointMapping(rightMiddle3, rightMiddle4, true, MappedEulerAngle.Y);
+
+        // Ring Finger
+        _jointMappings[L_HAND_RING1_NAME] =
+            new JointMapping(leftHand, leftRing1, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_RING2_NAME] =
+            new JointMapping(leftRing1, leftRing2, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_RING3_NAME] =
+            new JointMapping(leftRing2, leftRing3, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_RING4_NAME] =
+            new JointMapping(leftRing3, leftRing4, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_RING1_NAME] =
+            new JointMapping(rightHand, rightRing1, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_RING2_NAME] =
+            new JointMapping(rightRing1, rightRing2, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_RING3_NAME] =
+            new JointMapping(rightRing2, rightRing3, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_RING4_NAME] =
+            new JointMapping(rightRing3, rightRing4, true, MappedEulerAngle.Y);
+
+        // Pinky Finger
+        _jointMappings[L_HAND_PINKY1_NAME] =
+            new JointMapping(leftHand, leftPinky1, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_PINKY2_NAME] =
+            new JointMapping(leftPinky1, leftPinky2, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_PINKY3_NAME] =
+            new JointMapping(leftPinky2, leftPinky3, true, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_PINKY4_NAME] =
+            new JointMapping(leftPinky3, leftPinky4, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_PINKY1_NAME] =
+            new JointMapping(rightHand, rightPinky1, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_PINKY2_NAME] =
+            new JointMapping(rightPinky1, rightPinky2, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_PINKY3_NAME] =
+            new JointMapping(rightPinky2, rightPinky3, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_PINKY4_NAME] =
+            new JointMapping(rightPinky3, rightPinky4, true, MappedEulerAngle.Y);
 
         // Upper Legs
 
@@ -252,6 +535,57 @@ public class RigAngleTracker : MonoBehaviour
         Transform leftFoot = FindChildTransformRecursive(transform, L_FOOT_NAME);
         Transform rightFoot = FindChildTransformRecursive(transform, R_FOOT_NAME);
 
+        // Bachelor Thesis VRHand
+        Transform leftThumb1 = FindChildTransformRecursive(transform, L_HAND_THUMB1_NAME);
+        Transform leftThumb2 = FindChildTransformRecursive(transform, L_HAND_THUMB2_NAME);
+        Transform leftThumb3 = FindChildTransformRecursive(transform, L_HAND_THUMB3_NAME);
+        Transform leftThumb4 = FindChildTransformRecursive(transform, L_HAND_THUMB4_NAME);
+
+        Transform leftIndex1 = FindChildTransformRecursive(transform, L_HAND_INDEX1_NAME);
+        Transform leftIndex2 = FindChildTransformRecursive(transform, L_HAND_INDEX2_NAME);
+        Transform leftIndex3 = FindChildTransformRecursive(transform, L_HAND_INDEX3_NAME);
+        Transform leftIndex4 = FindChildTransformRecursive(transform, L_HAND_INDEX4_NAME);
+
+        Transform leftMiddle1 = FindChildTransformRecursive(transform, L_HAND_MIDDLE1_NAME);
+        Transform leftMiddle2 = FindChildTransformRecursive(transform, L_HAND_MIDDLE2_NAME);
+        Transform leftMiddle3 = FindChildTransformRecursive(transform, L_HAND_MIDDLE3_NAME);
+        Transform leftMiddle4 = FindChildTransformRecursive(transform, L_HAND_MIDDLE4_NAME);
+
+        Transform leftRing1 = FindChildTransformRecursive(transform, L_HAND_RING1_NAME);
+        Transform leftRing2 = FindChildTransformRecursive(transform, L_HAND_RING2_NAME);
+        Transform leftRing3 = FindChildTransformRecursive(transform, L_HAND_RING3_NAME);
+        Transform leftRing4 = FindChildTransformRecursive(transform, L_HAND_RING4_NAME);
+
+        Transform leftPinky1 = FindChildTransformRecursive(transform, L_HAND_PINKY1_NAME);
+        Transform leftPinky2 = FindChildTransformRecursive(transform, L_HAND_PINKY2_NAME);
+        Transform leftPinky3 = FindChildTransformRecursive(transform, L_HAND_PINKY3_NAME);
+        Transform leftPinky4 = FindChildTransformRecursive(transform, L_HAND_PINKY4_NAME);
+
+        Transform rightThumb1 = FindChildTransformRecursive(transform, R_HAND_THUMB1_NAME);
+        Transform rightThumb2 = FindChildTransformRecursive(transform, R_HAND_THUMB2_NAME);
+        Transform rightThumb3 = FindChildTransformRecursive(transform, R_HAND_THUMB3_NAME);
+        Transform rightThumb4 = FindChildTransformRecursive(transform, R_HAND_THUMB4_NAME);
+
+        Transform rightIndex1 = FindChildTransformRecursive(transform, R_HAND_INDEX1_NAME);
+        Transform rightIndex2 = FindChildTransformRecursive(transform, R_HAND_INDEX2_NAME);
+        Transform rightIndex3 = FindChildTransformRecursive(transform, R_HAND_INDEX3_NAME);
+        Transform rightIndex4 = FindChildTransformRecursive(transform, R_HAND_INDEX4_NAME);
+
+        Transform rightMiddle1 = FindChildTransformRecursive(transform, R_HAND_MIDDLE1_NAME);
+        Transform rightMiddle2 = FindChildTransformRecursive(transform, R_HAND_MIDDLE2_NAME);
+        Transform rightMiddle3 = FindChildTransformRecursive(transform, R_HAND_MIDDLE3_NAME);
+        Transform rightMiddle4 = FindChildTransformRecursive(transform, R_HAND_MIDDLE4_NAME);
+
+        Transform rightRing1 = FindChildTransformRecursive(transform, R_HAND_RING1_NAME);
+        Transform rightRing2 = FindChildTransformRecursive(transform, R_HAND_RING2_NAME);
+        Transform rightRing3 = FindChildTransformRecursive(transform, R_HAND_RING3_NAME);
+        Transform rightRing4 = FindChildTransformRecursive(transform, R_HAND_RING4_NAME);
+
+        Transform rightPinky1 = FindChildTransformRecursive(transform, R_HAND_PINKY1_NAME);
+        Transform rightPinky2 = FindChildTransformRecursive(transform, R_HAND_PINKY2_NAME);
+        Transform rightPinky3 = FindChildTransformRecursive(transform, R_HAND_PINKY3_NAME);
+        Transform rightPinky4 = FindChildTransformRecursive(transform, R_HAND_PINKY4_NAME);
+
         // Update Functions. These were extracted from UserAvatarService "GetJointPIDPositionTargetsJointStatesMsg"
 
         // Left Arm
@@ -284,9 +618,127 @@ public class RigAngleTracker : MonoBehaviour
 
         // Hands
 
-        _jointMappings[L_HAND_NAME] = new JointMapping(leftForeArm, leftHand, false, MappedEulerAngle.InvertedZ);
+        //_jointMappings[L_HAND_NAME] = new JointMapping(leftForeArm, leftHand, false, MappedEulerAngle.InvertedZ);
 
-        _jointMappings[R_HAND_NAME] = new JointMapping(rightForeArm, rightHand, false, MappedEulerAngle.InvertedZ);
+        _jointMappings[L_HAND_NAME + "_x"] =
+            new JointMapping(leftForeArm, leftHand, false, MappedEulerAngle.X);
+
+        _jointMappings[L_HAND_NAME + "_y"] =
+            new JointMapping(leftForeArm, leftHand, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_NAME + "_z"] =
+            new JointMapping(leftForeArm, leftHand, false, MappedEulerAngle.Y);
+
+        //_jointMappings[R_HAND_NAME] = new JointMapping(rightForeArm, rightHand, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_NAME + "_x"] =
+            new JointMapping(rightForeArm, rightHand, false, MappedEulerAngle.X);
+
+        _jointMappings[R_HAND_NAME + "_y"] =
+            new JointMapping(rightForeArm, rightHand, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_NAME + "_z"] =
+            new JointMapping(rightForeArm, rightHand, false, MappedEulerAngle.Y);
+
+        // Bachelor Thesis VRHand
+        // Thumb Finger
+        _jointMappings[L_HAND_THUMB1_NAME + "_x"] =
+            new JointMapping(leftHand, leftThumb1, false, MappedEulerAngle.X);
+
+        _jointMappings[L_HAND_THUMB1_NAME + "_y"] =
+            new JointMapping(leftHand, leftThumb1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_THUMB1_NAME + "_z"] =
+            new JointMapping(leftHand, leftThumb1, false, MappedEulerAngle.Y);
+
+        _jointMappings[L_HAND_THUMB2_NAME] = new JointMapping(leftThumb1, leftThumb2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_THUMB3_NAME] = new JointMapping(leftThumb2, leftThumb3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_THUMB4_NAME] = new JointMapping(leftThumb3, leftThumb4, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_THUMB1_NAME + "_x"] =
+            new JointMapping(rightHand, rightThumb1, false, MappedEulerAngle.X);
+
+        _jointMappings[R_HAND_THUMB1_NAME + "_y"] =
+            new JointMapping(rightHand, rightThumb1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_THUMB1_NAME + "_z"] =
+            new JointMapping(rightHand, rightThumb1, false, MappedEulerAngle.Y);
+
+        _jointMappings[R_HAND_THUMB2_NAME] = new JointMapping(rightThumb1, rightThumb2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_THUMB3_NAME] = new JointMapping(rightThumb2, rightThumb3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_THUMB4_NAME] = new JointMapping(rightThumb3, rightThumb4, false, MappedEulerAngle.InvertedZ);
+
+        // Index Finger
+        _jointMappings[L_HAND_INDEX1_NAME] = new JointMapping(leftHand, leftIndex1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_INDEX2_NAME] = new JointMapping(leftIndex1, leftIndex2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_INDEX3_NAME] = new JointMapping(leftIndex2, leftIndex3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_INDEX4_NAME] = new JointMapping(leftIndex3, leftIndex4, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_INDEX1_NAME] = new JointMapping(rightHand, rightIndex1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_INDEX2_NAME] = new JointMapping(rightIndex1, rightIndex2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_INDEX3_NAME] = new JointMapping(rightIndex2, rightIndex3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_INDEX4_NAME] = new JointMapping(rightIndex3, rightIndex4, false, MappedEulerAngle.InvertedZ);
+
+        // Middle Finger
+        _jointMappings[L_HAND_MIDDLE1_NAME] = new JointMapping(leftHand, leftMiddle1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_MIDDLE2_NAME] = new JointMapping(leftMiddle1, leftMiddle2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_MIDDLE3_NAME] = new JointMapping(leftMiddle2, leftMiddle3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_MIDDLE4_NAME] = new JointMapping(leftMiddle3, leftMiddle4, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_MIDDLE1_NAME] = new JointMapping(rightHand, rightMiddle1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_MIDDLE2_NAME] = new JointMapping(rightMiddle1, rightMiddle2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_MIDDLE3_NAME] = new JointMapping(rightMiddle2, rightMiddle3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_MIDDLE4_NAME] = new JointMapping(rightMiddle3, rightMiddle4, false, MappedEulerAngle.InvertedZ);
+
+        // Ring Finger
+        _jointMappings[L_HAND_RING1_NAME] = new JointMapping(leftHand, leftRing1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_RING2_NAME] = new JointMapping(leftRing1, leftRing2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_RING3_NAME] = new JointMapping(leftRing2, leftRing3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_RING4_NAME] = new JointMapping(leftRing3, leftRing4, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_RING1_NAME] = new JointMapping(rightHand, rightRing1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_RING2_NAME] = new JointMapping(rightRing1, rightRing2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_RING3_NAME] = new JointMapping(rightRing2, rightRing3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_RING4_NAME] = new JointMapping(rightRing3, rightRing4, false, MappedEulerAngle.InvertedZ);
+
+        // Pinky Finger
+        _jointMappings[L_HAND_PINKY1_NAME] = new JointMapping(leftHand, leftPinky1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_PINKY2_NAME] = new JointMapping(leftPinky1, leftPinky2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_PINKY3_NAME] = new JointMapping(leftPinky2, leftPinky3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[L_HAND_PINKY4_NAME] = new JointMapping(leftPinky3, leftPinky4, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_PINKY1_NAME] = new JointMapping(rightHand, rightPinky1, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_PINKY2_NAME] = new JointMapping(rightPinky1, rightPinky2, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_PINKY3_NAME] = new JointMapping(rightPinky2, rightPinky3, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_HAND_PINKY4_NAME] = new JointMapping(rightPinky3, rightPinky4, false, MappedEulerAngle.InvertedZ);
 
         // Upper Legs
 
