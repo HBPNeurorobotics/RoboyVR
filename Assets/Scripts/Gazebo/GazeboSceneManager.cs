@@ -157,12 +157,12 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
 
     public void OnRequestMsg(GzRequestMsg request_msg)
     {
-        Debug.Log("GazeboSceneManager.OnRequestMsg: " + request_msg.ToString());
+        //Debug.Log("GazeboSceneManager.OnRequestMsg: " + request_msg.ToString());
 
         if (request_msg.GetRequest() == "entity_delete")
         {
             //TODO: implement
-            Debug.Log("deleting ... " + request_msg.GetData());
+            //Debug.Log("deleting ... " + request_msg.GetData());
         }
     }
 

@@ -24,7 +24,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     [SerializeField] private Pose targetOffsetLeftHand = new Pose(new Vector3(-0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, 90f));
     [SerializeField] private Pose targetOffsetRightHand = new Pose(new Vector3(0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, -90f));
-    [SerializeField] private float feetTargetOffsetAboveGround = 0.1f;
+    [SerializeField] public float feetTargetOffsetAboveGround = 0.1f;
 
     private Dictionary<uint, TrackingReferenceObject> trackingReferences = new Dictionary<uint, TrackingReferenceObject>();
     private Transform trackingTargetHead;
@@ -357,6 +357,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     public void OnControllerGripPress()
     {
+        Debug.Log("OnControllerGripPress");
         if (!initialized)
         {
             IdentifyTrackingTargets();
