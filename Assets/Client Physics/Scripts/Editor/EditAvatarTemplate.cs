@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using System.IO;
 
 [ExecuteInEditMode]
 public class EditAvatarTemplate : EditorWindow
@@ -37,6 +38,11 @@ public class EditAvatarTemplate : EditorWindow
 
     Object template;
     Object templateMultiple;
+
+    TextAsset savedEditor;
+    bool loadFromFile;
+    bool gatheredTemplateSettings;
+
     Dictionary<HumanBodyBones, GameObject> gameObjectsPerBoneTemplate = new Dictionary<HumanBodyBones, GameObject>();
     Dictionary<HumanBodyBones, GameObject> gameObjectsPerBoneTemplateMultiple = new Dictionary<HumanBodyBones, GameObject>();
 
@@ -55,13 +61,50 @@ public class EditAvatarTemplate : EditorWindow
     {
         //editor = (EditAvatarTemplate)GetWindow(typeof(EditAvatarTemplate));
         EditorGUILayout.HelpBox("Assign the rig of AvatarTemplate and AvatarTemplateMultipleJoints", MessageType.Info);
-
-
         template = EditorGUILayout.ObjectField("Avatar Template Rig", template, typeof(GameObject), true);
         templateMultiple = EditorGUILayout.ObjectField("Avatar Template Multiple Joints Rig", templateMultiple, typeof(GameObject), true);
 
+        EditorGUILayout.HelpBox("Assign a previously saved joint settings file to continue working on it. Reset to \"None\" to use the values in the assigned AvatarTemplate.", MessageType.Info);
+
+        #region Load & Save
+        savedEditor = (TextAsset)EditorGUILayout.ObjectField("Avatar Template Multiple Joints Rig", savedEditor, typeof(TextAsset), true);
+
+        EditorGUILayout.BeginHorizontal();
+        if (savedEditor == null)
+        {
+            GUI.enabled = false;
+            loadFromFile = false;
+            //if not done so already, empty previously loaded settings (we do not want to execute in every editor update)
+            if (!gatheredTemplateSettings)
+            {
+                //set clean dictionaries
+                ClearDictionaries();
+                gatheredTemplateSettings = true;
+            }
+            GUILayout.Button("Load from Json");
+        }
+        else
+        {
+            GUI.enabled = true;
+            if (GUILayout.Button("Load from Json"))
+            {
+                loadFromFile = true;
+                jointSettings = RecoverJointSettingsFromJson(savedEditor.text);
+                gatheredTemplateSettings = false;
+            }
+        }
+
+        GUI.enabled = true;
+        if (GUILayout.Button("Save to new Json"))
+        {
+            SaveAsJson();
+        }
+        EditorGUILayout.EndHorizontal();
+        #endregion
+
         if (template != null && templateMultiple != null)
         {
+            #region Editor Parameters
             EditorGUILayout.BeginVertical();
             bodyWeight = EditorGUILayout.FloatField("Total Body Weight", bodyWeight);
             mode = (BodyMass.MODE)EditorGUILayout.EnumPopup("Population Group of Avatar", mode);
@@ -73,13 +116,10 @@ public class EditAvatarTemplate : EditorWindow
             useGravity = EditorGUILayout.Toggle("Enable Gravity", useGravity);
             useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
             noPreprocessing = EditorGUILayout.Toggle("Disable Preprocessing", noPreprocessing);
+
+            //Global Joints Settings will apply to all joints
             setGlobalJointSetting = EditorGUILayout.Toggle("Set Global Joint Settings", setGlobalJointSetting);
-
-            
-
-
             globalSettings = new JointSettings(HumanBodyBones.LastBone, angularXDriveSpringGlobal, angularXDriveDamperGlobal, maxForceXGlobal, angularYZDriveSpringGlobal, angularYZDriveDamperGlobal, maxForceYZGlobal);
-
 
             if (!setGlobalJointSetting)
             {
@@ -97,7 +137,9 @@ public class EditAvatarTemplate : EditorWindow
             }
 
             EditorGUILayout.EndVertical();
+            #endregion
 
+            #region Buttons at bottom
             if (GUILayout.Button("Restore Default Mass"))
             {
                 bodyMass = new BodyMass(bodyWeight, gameObjectsPerBoneTemplate, mode);
@@ -111,12 +153,36 @@ public class EditAvatarTemplate : EditorWindow
                 {
                     PrefabUtility.ResetToPrefabState(gameObjectsPerBoneTemplate[bone]);
                 }
-                //template = (GameObject)Instantiate(Resources.Load("Assets/Client Physics/Prefabs/AvatarTemplate.prefab"));
             }
 
             if (GUILayout.Button("Update Templates"))
             {
                 UpdateTemplate();
+            }
+            #endregion
+        }
+    }
+
+    void ClearDictionaries()
+    {
+        List<HumanBodyBones> jointSettingsKeys = jointSettings.Keys.ToList();
+        foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
+        {
+            if (jointSettings.ContainsKey(bone))
+            {
+                jointSettings.Remove(bone);
+            }
+            if (jointSettingsNoLeft.ContainsKey(bone))
+            {
+                jointSettingsNoLeft.Remove(bone);
+            }
+            if (gameObjectsPerBoneTemplate.ContainsKey(bone))
+            {
+                gameObjectsPerBoneTemplate.Remove(bone);
+            }
+            if (gameObjectsPerBoneTemplateMultiple.ContainsKey(bone))
+            {
+                gameObjectsPerBoneTemplateMultiple.Remove(bone);
             }
         }
     }
@@ -143,58 +209,41 @@ public class EditAvatarTemplate : EditorWindow
             case BodyGroups.BODYGROUP.TRUNK_HEAD: chosenBones = bodyGroups.TrunkHead(); break;
             default: break;
         }
-        //TODO: Clear bones of not selected groups
-        //gameObjectsPerBone.Keys.ToList().Clear();
-        //gameObjectsPerBone.Values.ToList().Clear();
-        //gameObjectsPerBone.Keys.ToList().AddRange(chosenBones.Keys);
-        /*
-        foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
+
+        if (!loadFromFile)
         {
-            //LastBone is not mapped to a bodypart, we need to skip it.
-            if (bone != HumanBodyBones.LastBone && !gameObjectsPerBone.ContainsKey(bone))
+            foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
             {
-                if (chosenBones.ContainsKey(bone))
+                if (!bone.Equals(HumanBodyBones.LastBone))
                 {
-                    Transform boneTransformAvatar = animator.GetBoneTransform(bone);
-                    if (boneTransformAvatar != null)
-                    {
-                        gameObjectsPerBone.Add(bone, boneTransformAvatar.gameObject);
-                        GetJointSettings(bone);
-                    }
-                }
-                else
-                {
-                    gameObjectsPerBone.Remove(bone);
+                    AddJointSettings(bone, animator, animatorMultiple, chosenBones);
                 }
             }
         }
-        */
-        foreach(HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
-        {
-            if (!bone.Equals(HumanBodyBones.LastBone))
-            {
-                if (chosenBones.ContainsKey(bone))
-                {
-                    Transform boneTransformAvatar = animator.GetBoneTransform(bone);
-                    Transform boneTransformAvatarMultiple = animatorMultiple.GetBoneTransform(bone);
+    }
 
-                    if (boneTransformAvatar != null && boneTransformAvatarMultiple != null && !gameObjectsPerBoneTemplate.ContainsKey(bone))
-                    {
-                        gameObjectsPerBoneTemplate.Add(bone, boneTransformAvatar.gameObject);
-                        gameObjectsPerBoneTemplateMultiple.Add(bone, boneTransformAvatarMultiple.gameObject);
-                        GetJointSettings(bone);
-                    }
-                }
-                else
-                {
-                    if (gameObjectsPerBoneTemplate.ContainsKey(bone))
-                    {
-                        gameObjectsPerBoneTemplate.Remove(bone);
-                        gameObjectsPerBoneTemplateMultiple.Remove(bone);
-                        jointSettings.Remove(bone);
-                        jointSettingsNoLeft.Remove(bone);
-                    }
-                }
+    void AddJointSettings(HumanBodyBones bone, Animator animator, Animator animatorMultiple, Dictionary<HumanBodyBones, GameObject> chosenBones)
+    {
+        if (chosenBones.ContainsKey(bone))
+        {
+            Transform boneTransformAvatar = animator.GetBoneTransform(bone);
+            Transform boneTransformAvatarMultiple = animatorMultiple.GetBoneTransform(bone);
+
+            if (boneTransformAvatar != null && boneTransformAvatarMultiple != null && !gameObjectsPerBoneTemplate.ContainsKey(bone))
+            {
+                gameObjectsPerBoneTemplate.Add(bone, boneTransformAvatar.gameObject);
+                gameObjectsPerBoneTemplateMultiple.Add(bone, boneTransformAvatarMultiple.gameObject);
+                GetJointSettings(bone);
+            }
+        }
+        else
+        {
+            if (gameObjectsPerBoneTemplate.ContainsKey(bone))
+            {
+                gameObjectsPerBoneTemplate.Remove(bone);
+                gameObjectsPerBoneTemplateMultiple.Remove(bone);
+                jointSettings.Remove(bone);
+                jointSettingsNoLeft.Remove(bone);
             }
         }
     }
@@ -211,6 +260,7 @@ public class EditAvatarTemplate : EditorWindow
             if (joint != null)
             {
                 JointSettings setting = new JointSettings(bone, gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularXDrive, gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularYZDrive);
+
                 jointSettings.Add(bone, setting);
                 if (!setting.bone.ToString().StartsWith("Left"))
                 {
@@ -335,14 +385,14 @@ public class EditAvatarTemplate : EditorWindow
     /// </summary>
     void DisplayGlobalJoint()
     {
- 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.BeginVertical();
 
-            DisplayJointSettingsOfBone(globalSettings);
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.BeginVertical();
 
-            EditorGUILayout.EndVertical();
-            EditorGUILayout.EndHorizontal();
+        DisplayJointSettingsOfBone(globalSettings);
+
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
 
     }
 
@@ -360,7 +410,7 @@ public class EditAvatarTemplate : EditorWindow
 
         //Refresh Values
         RefreshJointSettings();
-        
+
         //editor.Repaint();
     }
 
@@ -492,6 +542,33 @@ public class EditAvatarTemplate : EditorWindow
             rb.useGravity = useGravity;
         }
     }
+
+    void SaveAsJson()
+    {
+        Leguar.TotalJSON.JSON json = new Leguar.TotalJSON.JSON(ConfigJointUtility.ConvertHumanBodyBonesKeyToStringJson(jointSettings));
+
+        string values = json.CreatePrettyString();
+        string path = "Assets/Client Physics/Scripts/Editor/Saved Settings/";
+
+        path += "settings_" + ((System.DateTime.Now.ToString()).Replace('/', '_')).Replace(' ', '_').Replace(':', '_') + ".txt";
+
+        File.WriteAllText(path, values);
+        AssetDatabase.ImportAsset(path);
+    }
+
+    Dictionary<HumanBodyBones, JointSettings> RecoverJointSettingsFromJson(string savedInfo)
+    {
+        Leguar.TotalJSON.JSON json = Leguar.TotalJSON.JSON.ParseString(savedInfo);
+        Dictionary<string, string> recoverdStringDictionary = json.Deserialize<Dictionary<string, string>>();
+        Dictionary<HumanBodyBones, JointSettings> jointSettingsFromJson = new Dictionary<HumanBodyBones, JointSettings>();
+
+        foreach (string key in recoverdStringDictionary.Keys)
+        {
+            jointSettingsFromJson.Add((HumanBodyBones)int.Parse(key), JsonUtility.FromJson<JointSettings>(recoverdStringDictionary[key]));
+        }
+        return jointSettingsFromJson;
+    }
+
     /* Legacy
     void AddColliders()
     {

@@ -155,4 +155,20 @@ public static class ConfigJointUtility
             default: return HumanBodyBones.Hips;
         }
     }
+
+    public static Dictionary<string, string> ConvertHumanBodyBonesKeyToStringJson<T>(Dictionary<HumanBodyBones, T> dictionary)
+    {
+        Dictionary<string, string> convertedToStringJson = new Dictionary<string, string>();
+        foreach(HumanBodyBones bone in dictionary.Keys)
+        {
+            convertedToStringJson.Add(""+(int)bone, JsonUtility.ToJson(dictionary[bone]));
+        }
+        return convertedToStringJson;
+    }
+
+    public static HumanBodyBones GetBoneFromIndex(string index)
+    {
+        return (HumanBodyBones)int.Parse(index);
+    }
+
 }

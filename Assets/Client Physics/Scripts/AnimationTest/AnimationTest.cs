@@ -56,7 +56,7 @@ public class AnimationTest : MonoBehaviour {
         writer.Write(GetAnglesPerBone());
         writer.Close();
 
-        AssetDatabase.ImportAsset(path);
+        //AssetDatabase.ImportAsset(path);
     }
 
     string GetAnglesPerBone()

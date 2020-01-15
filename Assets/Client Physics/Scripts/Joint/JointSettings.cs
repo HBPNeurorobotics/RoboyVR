@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
+using System;
 /// <summary>
 /// Can be used to store key values of Unity ConfigurableJoint
 /// </summary>
-public class JointSettings : MonoBehaviour
+
+[Serializable]
+public class JointSettings
 {
     public bool showInEditor = false;
     public bool showAngularXDriveInEditor = false;
@@ -16,11 +19,10 @@ public class JointSettings : MonoBehaviour
     public float angularYZDriveSpring = 2500;
     public float angularYZDriveDamper = 600; 
     public float maxForceYZ = 2500;
-
+    [NonSerialized]
     public JointDrive angularXDrive;
+    [NonSerialized]
     public JointDrive angularYZDrive;
-
-
 
     public JointSettings(HumanBodyBones bone, float angularXDriveSpring, float angularXDriveDamper, float maxForceX, float angularYZDriveSpring, float angularYZDriveDamper, float maxForceYZ)
     {
@@ -41,8 +43,16 @@ public class JointSettings : MonoBehaviour
     public JointSettings(HumanBodyBones bone, JointDrive angularXDrive, JointDrive angularYZDrive)
     {
         this.bone = bone;
+
         this.angularXDrive = angularXDrive;
+        this.angularXDrive.positionDamper = angularXDrive.positionDamper;
+        this.angularXDrive.positionSpring = angularXDrive.positionSpring;
+        this.angularXDrive.maximumForce = angularXDrive.maximumForce;
+
         this.angularYZDrive = angularYZDrive;
+        this.angularYZDrive.positionDamper = angularYZDrive.positionDamper;
+        this.angularYZDrive.positionSpring = angularYZDrive.positionSpring;
+        this.angularYZDrive.maximumForce = angularYZDrive.maximumForce;
     }
     public JointSettings(JointSettings copy)
     {
