@@ -17,7 +17,6 @@ public class EditAvatarTemplate : EditorWindow
     bool setGlobalJointSetting = false;
     bool mirror;
     bool showJointSettings = true;
-    bool showGlobalJointSettings = true;
     bool useGravity = true;
 
     public float angularXDriveSpringGlobal;
@@ -40,6 +39,7 @@ public class EditAvatarTemplate : EditorWindow
     Object templateMultiple;
 
     TextAsset savedEditor;
+    string fileName = "";
     bool loadFromFile;
     bool gatheredTemplateSettings;
 
@@ -68,6 +68,7 @@ public class EditAvatarTemplate : EditorWindow
 
         #region Load & Save
         savedEditor = (TextAsset)EditorGUILayout.ObjectField("Avatar Template Multiple Joints Rig", savedEditor, typeof(TextAsset), true);
+        fileName = EditorGUILayout.TextField("Optional New Name", fileName);
 
         EditorGUILayout.BeginHorizontal();
         if (savedEditor == null)
@@ -104,7 +105,9 @@ public class EditAvatarTemplate : EditorWindow
 
         if (template != null && templateMultiple != null)
         {
+            scroll = EditorGUILayout.BeginScrollView(scroll);
             #region Editor Parameters
+
             EditorGUILayout.BeginVertical();
             bodyWeight = EditorGUILayout.FloatField("Total Body Weight", bodyWeight);
             mode = (BodyMass.MODE)EditorGUILayout.EnumPopup("Population Group of Avatar", mode);
@@ -140,12 +143,35 @@ public class EditAvatarTemplate : EditorWindow
             #endregion
 
             #region Buttons at bottom
-            if (GUILayout.Button("Restore Default Mass"))
+            GUILayout.BeginHorizontal();
+            if(GUILayout.Button("Set BodyMass"))
+            {
+                bodyMass = new BodyMass(bodyWeight, gameObjectsPerBoneTemplate, mode);
+                bodyMass.SetBodyMasses();
+
+                foreach(HumanBodyBones bone in jointSettings.Keys)
+                {
+                    if (gameObjectsPerBoneTemplate.ContainsKey(bone))
+                    {
+                        jointSettings[bone].mass = gameObjectsPerBoneTemplate[bone].GetComponent<Rigidbody>().mass;
+                    }
+                }
+            }
+
+            if (GUILayout.Button("Restore 1 Mass"))
             {
                 bodyMass = new BodyMass(bodyWeight, gameObjectsPerBoneTemplate, mode);
                 bodyMass.RestoreOneValues();
-            }
 
+                foreach (HumanBodyBones bone in jointSettings.Keys)
+                {
+                    if (gameObjectsPerBoneTemplate.ContainsKey(bone))
+                    {
+                        jointSettings[bone].mass = gameObjectsPerBoneTemplate[bone].GetComponent<Rigidbody>().mass;
+                    }
+                }
+            }
+            GUILayout.EndHorizontal();
             //TODO
             if (GUILayout.Button("Restore All"))
             {
@@ -160,6 +186,7 @@ public class EditAvatarTemplate : EditorWindow
                 UpdateTemplate();
             }
             #endregion
+            EditorGUILayout.EndScrollView();
         }
     }
 
@@ -259,7 +286,7 @@ public class EditAvatarTemplate : EditorWindow
             ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
             if (joint != null)
             {
-                JointSettings setting = new JointSettings(bone, joint.angularXDrive, joint.angularYZDrive, joint.lowAngularXLimit.limit, joint.highAngularXLimit.limit, joint.angularYLimit.limit, joint.angularZLimit.limit);
+                JointSettings setting = new JointSettings(bone, joint);
 
                 jointSettings.Add(bone, setting);
                 if (!setting.bone.ToString().StartsWith("Left"))
@@ -274,7 +301,6 @@ public class EditAvatarTemplate : EditorWindow
     /// </summary>
     void DisplayJointSettings()
     {
-        scroll = EditorGUILayout.BeginScrollView(scroll);
         Dictionary<HumanBodyBones, JointSettings> dict;
 
         dict = mirror ? jointSettingsNoLeft : jointSettings;
@@ -292,7 +318,7 @@ public class EditAvatarTemplate : EditorWindow
             EditorGUILayout.EndHorizontal();
 
         }
-        EditorGUILayout.EndScrollView();
+
     }
     /// <summary>
     /// Shows single JointSettings in Editor.
@@ -338,7 +364,6 @@ public class EditAvatarTemplate : EditorWindow
             settings.angularLimitHighX = EditorGUILayout.FloatField("High X Limit", settings.angularLimitHighX);
             settings.angularLimitY = EditorGUILayout.FloatField("Y Limit", settings.angularLimitY);
             settings.angularLimitZ = EditorGUILayout.FloatField("Z Limit", settings.angularLimitZ);
-
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
@@ -419,10 +444,6 @@ public class EditAvatarTemplate : EditorWindow
 
     void UpdateTemplate()
     {
-        //Mass
-        bodyMass = new BodyMass(bodyWeight, gameObjectsPerBoneTemplate, mode);
-        bodyMass.SetBodyMasses();
-
         //Joint Settings
         UpdateJoints();
 
@@ -533,6 +554,14 @@ public class EditAvatarTemplate : EditorWindow
 
     void ApplyJointSetting(ConfigurableJoint joint, JointSettings setting)
     {
+        Rigidbody rb = joint.gameObject.GetComponent<Rigidbody>();
+        if(rb != null)
+        {
+            rb.mass = setting.mass;
+            rb.useGravity = setting.gravity;
+            rb.centerOfMass = setting.centerOfMass;
+            rb.inertiaTensor = setting.inertiaTensor;
+        }
         //angular limits
         SoftJointLimit tmpLimit;
 
@@ -591,7 +620,7 @@ public class EditAvatarTemplate : EditorWindow
         string values = json.CreatePrettyString();
         string path = "Assets/Client Physics/Scripts/Editor/Saved Settings/";
 
-        path += "settings_" + ((System.DateTime.Now.ToString()).Replace('/', '_')).Replace(' ', '_').Replace(':', '_') + ".txt";
+        path += (fileName.Length == 0 ? ("settings_" +  System.DateTime.Now.ToString()) : fileName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
 
         File.WriteAllText(path, values);
         AssetDatabase.ImportAsset(path);

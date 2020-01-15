@@ -9328,21 +9328,26 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 153563241285790598, guid: b418af0ebdf618349a73938c9e8c17ee,
+    - target: {fileID: 54044877700339264, guid: b418af0ebdf618349a73938c9e8c17ee,
         type: 2}
-      propertyPath: m_ConnectedBody
-      value: 
-      objectReference: {fileID: 268151562}
-    - target: {fileID: 153612419583597356, guid: b418af0ebdf618349a73938c9e8c17ee,
+      propertyPath: m_Mass
+      value: 0.95760006
+      objectReference: {fileID: 0}
+    - target: {fileID: 54407686462165196, guid: b418af0ebdf618349a73938c9e8c17ee,
         type: 2}
-      propertyPath: m_ConnectedBody
-      value: 
-      objectReference: {fileID: 268151562}
-    - target: {fileID: 153128749086114426, guid: b418af0ebdf618349a73938c9e8c17ee,
+      propertyPath: m_Mass
+      value: 3.2903998
+      objectReference: {fileID: 0}
+    - target: {fileID: 54198148153216576, guid: b418af0ebdf618349a73938c9e8c17ee,
         type: 2}
-      propertyPath: m_ConnectedBody
-      value: 
-      objectReference: {fileID: 268151562}
+      propertyPath: m_Mass
+      value: 3.2903998
+      objectReference: {fileID: 0}
+    - target: {fileID: 54997501648582770, guid: b418af0ebdf618349a73938c9e8c17ee,
+        type: 2}
+      propertyPath: m_Mass
+      value: 0.95760006
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 153563241285790598, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
     - {fileID: 153612419583597356, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
@@ -21183,11 +21188,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -140
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 0
+    limit: 140
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -21482,7 +21487,7 @@ ConfigurableJoint:
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 145
+    limit: 140
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -23832,7 +23837,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -41
+    limit: -46
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -25010,7 +25015,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -40
+    limit: -46
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -39717,26 +39722,6 @@ Prefab:
     - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153666078359251504, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 2500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153060031551034982, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 2500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153293487038805878, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 2500
-      objectReference: {fileID: 0}
-    - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}

@@ -7,11 +7,12 @@ using System;
 [Serializable]
 public class JointSettings
 {
+    public HumanBodyBones bone;
+
     public bool showInEditor = false;
     public bool showAngularXDriveInEditor = false;
     public bool showAngularYZDriveInEditor = false;
     public bool showAngularLimitsInEditor = false;
-    public HumanBodyBones bone;
 
     public float angularXDriveSpring = 2500;
     public float angularXDriveDamper = 600;
@@ -25,6 +26,15 @@ public class JointSettings
     public float angularLimitHighX;
     public float angularLimitY;
     public float angularLimitZ;
+
+    public Vector3 primaryAxis;
+    public Vector3 secondaryAxis;
+
+    //Rigidbody
+    public bool gravity = true;
+    public float mass = 0;
+    public Vector3 centerOfMass = Vector3.zero;
+    public Vector3 inertiaTensor = Vector3.one;
 
     [NonSerialized]
     public JointDrive angularXDrive;
@@ -43,29 +53,42 @@ public class JointSettings
     }
 
     /// <summary>
-    /// A container for all important ConfigurableJoint parameters for tuning purposes.
+    /// A container for the most important ConfigurableJoint and Rigidbody parameters.
     /// </summary>
     /// <param name="bone">The HumanBodyBone of the body part of the joint.</param>
     /// <param name="angularXDrive"></param>
     /// <param name="angularYZDrive"></param>
-    public JointSettings(HumanBodyBones bone, JointDrive angularXDrive, JointDrive angularYZDrive, float angularLimitLowX, float angularLimitHighX, float angularLimitY, float angularLimitZ)
+    public JointSettings(HumanBodyBones bone, ConfigurableJoint joint)//JointDrive angularXDrive, JointDrive angularYZDrive, float angularLimitLowX, float angularLimitHighX, float angularLimitY, float angularLimitZ)
     {
         this.bone = bone;
 
-        this.angularXDrive = angularXDrive;
-        this.angularXDrive.positionDamper = angularXDrive.positionDamper;
-        this.angularXDrive.positionSpring = angularXDrive.positionSpring;
-        this.angularXDrive.maximumForce = angularXDrive.maximumForce;
+        angularXDrive = joint.angularXDrive;
+        angularXDrive.positionDamper = joint.angularXDrive.positionDamper;
+        angularXDrive.positionSpring = joint.angularXDrive.positionSpring;
+        angularXDrive.maximumForce = joint.angularXDrive.maximumForce;
 
-        this.angularYZDrive = angularYZDrive;
-        this.angularYZDrive.positionDamper = angularYZDrive.positionDamper;
-        this.angularYZDrive.positionSpring = angularYZDrive.positionSpring;
-        this.angularYZDrive.maximumForce = angularYZDrive.maximumForce;
+        angularYZDrive = joint.angularYZDrive;
+        angularYZDrive.positionDamper = joint.angularYZDrive.positionDamper;
+        angularYZDrive.positionSpring = joint.angularYZDrive.positionSpring;
+        angularYZDrive.maximumForce = joint.angularYZDrive.maximumForce;
 
-        this.angularLimitLowX = angularLimitLowX;
-        this.angularLimitHighX = angularLimitHighX;
-        this.angularLimitY = angularLimitY;
-        this.angularLimitZ = angularLimitZ;
+        angularLimitLowX = joint.lowAngularXLimit.limit;
+        angularLimitHighX = joint.highAngularXLimit.limit;
+        angularLimitY = joint.angularYLimit.limit;
+        angularLimitZ = joint.angularZLimit.limit;
+
+        primaryAxis = joint.axis;
+        secondaryAxis = joint.secondaryAxis;
+
+        Rigidbody rb = joint.gameObject.GetComponent<Rigidbody>();
+        if(rb != null)
+        {
+            gravity = rb.useGravity;
+            mass = rb.mass;
+            centerOfMass = rb.centerOfMass;
+            inertiaTensor = rb.inertiaTensor;
+        }
+       
     }
     public JointSettings(JointSettings copy)
     {
