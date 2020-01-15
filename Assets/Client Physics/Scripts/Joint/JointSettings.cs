@@ -10,6 +10,7 @@ public class JointSettings
     public bool showInEditor = false;
     public bool showAngularXDriveInEditor = false;
     public bool showAngularYZDriveInEditor = false;
+    public bool showAngularLimitsInEditor = false;
     public HumanBodyBones bone;
 
     public float angularXDriveSpring = 2500;
@@ -19,6 +20,12 @@ public class JointSettings
     public float angularYZDriveSpring = 2500;
     public float angularYZDriveDamper = 600; 
     public float maxForceYZ = 2500;
+
+    public float angularLimitLowX;
+    public float angularLimitHighX;
+    public float angularLimitY;
+    public float angularLimitZ;
+
     [NonSerialized]
     public JointDrive angularXDrive;
     [NonSerialized]
@@ -34,13 +41,14 @@ public class JointSettings
         this.angularYZDriveSpring = angularYZDriveSpring;
         this.maxForceYZ = maxForceYZ;
     }
+
     /// <summary>
     /// A container for all important ConfigurableJoint parameters for tuning purposes.
     /// </summary>
     /// <param name="bone">The HumanBodyBone of the body part of the joint.</param>
     /// <param name="angularXDrive"></param>
     /// <param name="angularYZDrive"></param>
-    public JointSettings(HumanBodyBones bone, JointDrive angularXDrive, JointDrive angularYZDrive)
+    public JointSettings(HumanBodyBones bone, JointDrive angularXDrive, JointDrive angularYZDrive, float angularLimitLowX, float angularLimitHighX, float angularLimitY, float angularLimitZ)
     {
         this.bone = bone;
 
@@ -53,12 +61,17 @@ public class JointSettings
         this.angularYZDrive.positionDamper = angularYZDrive.positionDamper;
         this.angularYZDrive.positionSpring = angularYZDrive.positionSpring;
         this.angularYZDrive.maximumForce = angularYZDrive.maximumForce;
+
+        this.angularLimitLowX = angularLimitLowX;
+        this.angularLimitHighX = angularLimitHighX;
+        this.angularLimitY = angularLimitY;
+        this.angularLimitZ = angularLimitZ;
     }
     public JointSettings(JointSettings copy)
     {
-        this.bone = copy.bone;
-        this.angularXDrive = copy.angularXDrive;
-        this.angularYZDrive = copy.angularYZDrive;
+        bone = copy.bone;
+        angularXDrive = copy.angularXDrive;
+        angularYZDrive = copy.angularYZDrive;
     }
 
     public JointSettings()

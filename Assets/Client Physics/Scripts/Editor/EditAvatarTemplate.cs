@@ -259,7 +259,7 @@ public class EditAvatarTemplate : EditorWindow
             ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
             if (joint != null)
             {
-                JointSettings setting = new JointSettings(bone, gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularXDrive, gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularYZDrive);
+                JointSettings setting = new JointSettings(bone, joint.angularXDrive, joint.angularYZDrive, joint.lowAngularXLimit.limit, joint.highAngularXLimit.limit, joint.angularYLimit.limit, joint.angularZLimit.limit);
 
                 jointSettings.Add(bone, setting);
                 if (!setting.bone.ToString().StartsWith("Left"))
@@ -320,8 +320,29 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="settings"></param>
     void DisplayJointValues(JointSettings settings)
     {
+        DisplayAngularLimits(settings);
         //More functions could be added here, if other joint parameters are to be modified in the future
         DisplayAngularDrives(settings);
+    }
+
+    void DisplayAngularLimits(JointSettings settings)
+    {
+        settings.showAngularLimitsInEditor = EditorGUILayout.Foldout(settings.showAngularLimitsInEditor, "Angular Joint Limits", true);
+        if (settings.showAngularLimitsInEditor)
+        {
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Space(indent);
+            EditorGUILayout.BeginVertical();
+
+            settings.angularLimitLowX = EditorGUILayout.FloatField("Low X Limit", settings.angularLimitLowX);
+            settings.angularLimitHighX = EditorGUILayout.FloatField("High X Limit", settings.angularLimitHighX);
+            settings.angularLimitY = EditorGUILayout.FloatField("Y Limit", settings.angularLimitY);
+            settings.angularLimitZ = EditorGUILayout.FloatField("Z Limit", settings.angularLimitZ);
+
+
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
+        }
     }
 
     void DisplayAngularDrives(JointSettings settings)
@@ -446,7 +467,6 @@ public class EditAvatarTemplate : EditorWindow
 
     void UpdateJoints()
     {
-        //TODO Safe Joint Settings
         foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
         {
             ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
@@ -513,25 +533,45 @@ public class EditAvatarTemplate : EditorWindow
 
     void ApplyJointSetting(ConfigurableJoint joint, JointSettings setting)
     {
-        JointDrive tmp;
+        //angular limits
+        SoftJointLimit tmpLimit;
 
-        tmp = joint.angularXDrive;
-        tmp.positionSpring = setting.angularXDriveSpring;
-        tmp.positionDamper = setting.angularXDriveDamper;
-        tmp.maximumForce = setting.maxForceX;
-        joint.angularXDrive = tmp;
+        tmpLimit = joint.lowAngularXLimit;
+        tmpLimit.limit = setting.angularLimitLowX;
+        joint.lowAngularXLimit = tmpLimit;
 
-        tmp = joint.angularYZDrive;
-        tmp.positionSpring = setting.angularYZDriveSpring;
-        tmp.positionDamper = setting.angularYZDriveDamper;
-        tmp.maximumForce = setting.maxForceYZ;
-        joint.angularYZDrive = tmp;
+        tmpLimit = joint.highAngularXLimit;
+        tmpLimit.limit = setting.angularLimitHighX;
+        joint.highAngularXLimit = tmpLimit;
 
-        tmp.positionSpring = 0;
-        tmp.positionDamper = 0;
-        tmp.maximumForce = 0;
+        tmpLimit = joint.angularYLimit;
+        tmpLimit.limit = setting.angularLimitY;
+        joint.angularYLimit = tmpLimit;
 
-        joint.xDrive = joint.yDrive = joint.zDrive = tmp;
+        tmpLimit = joint.angularZLimit;
+        tmpLimit.limit = setting.angularLimitZ;
+        joint.angularZLimit = tmpLimit;
+
+        //joint drives
+        JointDrive tmpDrive;
+
+        tmpDrive = joint.angularXDrive;
+        tmpDrive.positionSpring = setting.angularXDriveSpring;
+        tmpDrive.positionDamper = setting.angularXDriveDamper;
+        tmpDrive.maximumForce = setting.maxForceX;
+        joint.angularXDrive = tmpDrive;
+
+        tmpDrive = joint.angularYZDrive;
+        tmpDrive.positionSpring = setting.angularYZDriveSpring;
+        tmpDrive.positionDamper = setting.angularYZDriveDamper;
+        tmpDrive.maximumForce = setting.maxForceYZ;
+        joint.angularYZDrive = tmpDrive;
+
+        tmpDrive.positionSpring = 0;
+        tmpDrive.positionDamper = 0;
+        tmpDrive.maximumForce = 0;
+
+        joint.xDrive = joint.yDrive = joint.zDrive = tmpDrive;
     }
 
     void AddGravity(HumanBodyBones bone)
@@ -545,6 +585,7 @@ public class EditAvatarTemplate : EditorWindow
 
     void SaveAsJson()
     {
+        //save joint settings
         Leguar.TotalJSON.JSON json = new Leguar.TotalJSON.JSON(ConfigJointUtility.ConvertHumanBodyBonesKeyToStringJson(jointSettings));
 
         string values = json.CreatePrettyString();
@@ -568,42 +609,4 @@ public class EditAvatarTemplate : EditorWindow
         }
         return jointSettingsFromJson;
     }
-
-    /* Legacy
-    void AddColliders()
-    {
-        foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
-        {
-            if (gameObjectsPerBone[bone].GetComponent<Collider>() == null)
-            {
-                switch (bone)
-                {
-                    //SphereColliders
-                    case HumanBodyBones.Head:
-                    case HumanBodyBones.LeftShoulder:
-                    case HumanBodyBones.RightShoulder: gameObjectsPerBone[bone].AddComponent<SphereCollider>(); return;
-                    //Box Colliders
-                    case HumanBodyBones.Hips:
-                    case HumanBodyBones.Spine:
-                    case HumanBodyBones.Chest:
-                    case HumanBodyBones.UpperChest: gameObjectsPerBone[bone].AddComponent<BoxCollider>(); return;
-                    //Capsule Colliders
-                    default: gameObjectsPerBone[bone].AddComponent<CapsuleCollider>(); return;
-                }
-            }
-        }
-    }
-
-    void RemoveColliders()
-    {
-        foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
-        {
-            Collider collider = gameObjectsPerBone[bone].GetComponent<Collider>();
-            if (collider != null)
-            {
-                DestroyImmediate(collider);
-            }
-        }
-    }
-    */
 }

@@ -24,13 +24,4 @@ public class EditorStorage {
     public float angularYZDriveSpringGlobal;
     public float angularYZDriveDamperGlobal;
     public float maxForceYZGlobal;
-
-    public BodyGroups.BODYGROUP bodyGroup;
-
-    public JointSettings globalSettings;
-
-    public Dictionary<HumanBodyBones, JointSettings> jointSettings = new Dictionary<HumanBodyBones, JointSettings>();
-    public Dictionary<HumanBodyBones, JointSettings> jointSettingsNoLeft = new Dictionary<HumanBodyBones, JointSettings>();
-
-    public BodyMass bodyMass;
 }

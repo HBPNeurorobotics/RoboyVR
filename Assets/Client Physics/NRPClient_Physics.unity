@@ -25010,7 +25010,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -41
+    limit: -40
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -39731,7 +39731,12 @@ Prefab:
     - target: {fileID: 153293487038805878, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularXDrive.positionSpring
-      value: 200
+      value: 2500
+      objectReference: {fileID: 0}
+    - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_LowAngularXLimit.limit
+      value: -40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
