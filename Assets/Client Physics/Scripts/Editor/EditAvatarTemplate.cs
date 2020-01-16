@@ -94,8 +94,10 @@ public class EditAvatarTemplate : EditorWindow
                 gatheredTemplateSettings = false;
             }
         }
-
-        GUI.enabled = true;
+        if (template != null && templateMultiple != null)
+        {
+            GUI.enabled = true;
+        }
         if (GUILayout.Button("Save to new Json"))
         {
             SaveAsJson();
