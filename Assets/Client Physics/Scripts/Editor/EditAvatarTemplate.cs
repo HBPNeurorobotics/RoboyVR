@@ -8,6 +8,7 @@ using System.IO;
 [ExecuteInEditMode]
 public class EditAvatarTemplate : EditorWindow
 {
+    bool initializedSettings = false;
     float bodyWeight = 72f;
     BodyMass.MODE mode = BodyMass.MODE.AVERAGE;
     float indent = 15f;
@@ -47,7 +48,9 @@ public class EditAvatarTemplate : EditorWindow
     Dictionary<HumanBodyBones, GameObject> gameObjectsPerBoneTemplateMultiple = new Dictionary<HumanBodyBones, GameObject>();
 
     Dictionary<HumanBodyBones, JointSettings> jointSettings = new Dictionary<HumanBodyBones, JointSettings>();
-    Dictionary<HumanBodyBones, JointSettings> jointSettingsNoLeft = new Dictionary<HumanBodyBones, JointSettings>();
+    HashSet<HumanBodyBones> jointsLeft = new HashSet<HumanBodyBones>();
+    HashSet<HumanBodyBones> jointsRight = new HashSet<HumanBodyBones>();
+    HashSet<HumanBodyBones> toDisplay = new HashSet<HumanBodyBones>();
 
     BodyMass bodyMass;
 
@@ -79,7 +82,7 @@ public class EditAvatarTemplate : EditorWindow
             if (!gatheredTemplateSettings)
             {
                 //set clean dictionaries
-                ClearDictionaries();
+                ClearConstructs();
                 gatheredTemplateSettings = true;
             }
             GUILayout.Button("Load from Json");
@@ -146,12 +149,12 @@ public class EditAvatarTemplate : EditorWindow
 
             #region Buttons at bottom
             GUILayout.BeginHorizontal();
-            if(GUILayout.Button("Set BodyMass"))
+            if (GUILayout.Button("Set BodyMass"))
             {
                 bodyMass = new BodyMass(bodyWeight, gameObjectsPerBoneTemplate, mode);
                 bodyMass.SetBodyMasses();
 
-                foreach(HumanBodyBones bone in jointSettings.Keys)
+                foreach (HumanBodyBones bone in jointSettings.Keys)
                 {
                     if (gameObjectsPerBoneTemplate.ContainsKey(bone))
                     {
@@ -192,7 +195,7 @@ public class EditAvatarTemplate : EditorWindow
         }
     }
 
-    void ClearDictionaries()
+    void ClearConstructs()
     {
         List<HumanBodyBones> jointSettingsKeys = jointSettings.Keys.ToList();
         foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
@@ -201,9 +204,9 @@ public class EditAvatarTemplate : EditorWindow
             {
                 jointSettings.Remove(bone);
             }
-            if (jointSettingsNoLeft.ContainsKey(bone))
+            if (jointsLeft.Contains(bone))
             {
-                jointSettingsNoLeft.Remove(bone);
+                jointsLeft.Remove(bone);
             }
             if (gameObjectsPerBoneTemplate.ContainsKey(bone))
             {
@@ -253,26 +256,30 @@ public class EditAvatarTemplate : EditorWindow
 
     void AddJointSettings(HumanBodyBones bone, Animator animator, Animator animatorMultiple, Dictionary<HumanBodyBones, GameObject> chosenBones)
     {
-        if (chosenBones.ContainsKey(bone))
-        {
-            Transform boneTransformAvatar = animator.GetBoneTransform(bone);
-            Transform boneTransformAvatarMultiple = animatorMultiple.GetBoneTransform(bone);
+        Transform boneTransformAvatar = animator.GetBoneTransform(bone);
+        Transform boneTransformAvatarMultiple = animatorMultiple.GetBoneTransform(bone);
 
-            if (boneTransformAvatar != null && boneTransformAvatarMultiple != null && !gameObjectsPerBoneTemplate.ContainsKey(bone))
+
+        if (!gameObjectsPerBoneTemplate.ContainsKey(bone) && !gameObjectsPerBoneTemplate.ContainsKey(bone))
+        {
+            if (boneTransformAvatar != null && boneTransformAvatarMultiple != null)
             {
                 gameObjectsPerBoneTemplate.Add(bone, boneTransformAvatar.gameObject);
                 gameObjectsPerBoneTemplateMultiple.Add(bone, boneTransformAvatarMultiple.gameObject);
                 GetJointSettings(bone);
             }
         }
+
+
+        if (chosenBones.ContainsKey(bone))
+        {
+            toDisplay.Add(bone);
+        }
         else
         {
-            if (gameObjectsPerBoneTemplate.ContainsKey(bone))
+            if (toDisplay.Contains(bone))
             {
-                gameObjectsPerBoneTemplate.Remove(bone);
-                gameObjectsPerBoneTemplateMultiple.Remove(bone);
-                jointSettings.Remove(bone);
-                jointSettingsNoLeft.Remove(bone);
+                toDisplay.Remove(bone);
             }
         }
     }
@@ -291,11 +298,17 @@ public class EditAvatarTemplate : EditorWindow
                 JointSettings setting = new JointSettings(bone, joint);
 
                 jointSettings.Add(bone, setting);
-                if (!setting.bone.ToString().StartsWith("Left"))
+
+                if (setting.bone.ToString().StartsWith("Left"))
                 {
-                    jointSettingsNoLeft.Add(bone, setting);
+                    jointsLeft.Add(bone);
+                }
+                if (setting.bone.ToString().StartsWith("Right"))
+                {
+                    jointsRight.Add(bone);
                 }
             }
+
         }
     }
     /// <summary>
@@ -303,12 +316,42 @@ public class EditAvatarTemplate : EditorWindow
     /// </summary>
     void DisplayJointSettings()
     {
-        Dictionary<HumanBodyBones, JointSettings> dict;
+        //Dictionary<HumanBodyBones, JointSettings> dict;
 
-        dict = mirror ? jointSettingsNoLeft : jointSettings;
+        //dict = mirror ? jointSettingsNoLeft : jointSettings;
+        HashSet<HumanBodyBones> toDisplayHelper = toDisplay;
 
+        if (mirror)
+        {
+            bool hasOnlyLeft = true;
+            bool hasOnlyRight = true;
+            foreach (HumanBodyBones bone in toDisplay)
+            {
+                if (bone.ToString().StartsWith("Right")) hasOnlyLeft = false;
+                if (bone.ToString().StartsWith("Left")) hasOnlyRight = false;
+            }
+
+            if (hasOnlyRight)
+            {
+                //only show joints on the right
+                toDisplayHelper.IntersectWith(jointsRight);
+            }
+            else if (hasOnlyLeft)
+            {
+                //only show joints on the left
+                toDisplayHelper.IntersectWith(jointsLeft);
+            }
+            else
+            {
+                //if mixed, show joints on the right
+                toDisplayHelper.ExceptWith(jointsLeft);
+            }
+        }
+
+        List<HumanBodyBones> sortedJoints = new List<HumanBodyBones>(toDisplayHelper);
+        sortedJoints.Sort();
         //Display Joint Settings
-        foreach (HumanBodyBones bone in dict.Keys)
+        foreach (HumanBodyBones bone in sortedJoints)
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(indent);
@@ -318,8 +361,8 @@ public class EditAvatarTemplate : EditorWindow
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
-
         }
+
 
     }
     /// <summary>
@@ -337,11 +380,34 @@ public class EditAvatarTemplate : EditorWindow
             EditorGUILayout.BeginVertical();
 
             DisplayJointValues(boneSettings);
+            //if(mirror) MirrorJointValues(boneSettings);
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
         }
     }
+
+    void MirrorJointValues(JointSettings settings)
+    {
+        if (settings.bone.ToString().StartsWith("Left")) MirrorJointSettingsHelper(settings, jointSettings[LeftToRightMapping(settings.bone)]);
+        if (settings.bone.ToString().StartsWith("Right")) MirrorJointSettingsHelper(settings, jointSettings[RightToLeftMapping(settings.bone)]);
+    }
+
+    void MirrorJointSettingsHelper(JointSettings settings, JointSettings mappedSettings)
+    {
+        mappedSettings.angularLimitHighX = settings.angularLimitHighX;
+        mappedSettings.angularLimitLowX = settings.angularLimitLowX;
+        mappedSettings.angularLimitY = settings.angularLimitY;
+        mappedSettings.angularLimitZ = settings.angularLimitZ;
+        mappedSettings.angularXDriveDamper = settings.angularXDriveDamper;
+        mappedSettings.angularXDriveSpring = settings.angularXDriveSpring;
+        mappedSettings.angularYZDriveDamper = settings.angularYZDriveDamper;
+        mappedSettings.angularYZDriveSpring = settings.angularYZDriveSpring;
+        mappedSettings.maxForceX = settings.maxForceX;
+        mappedSettings.maxForceYZ = settings.maxForceYZ;
+
+    }
+
     /// <summary>
     /// Shows the values of a JointSettings.
     /// </summary>
@@ -425,6 +491,7 @@ public class EditAvatarTemplate : EditorWindow
             angularYZDriveDamperGlobal = settings.angularYZDriveDamper;
             maxForceYZGlobal = settings.maxForceYZ;
         }
+
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
     }
@@ -509,6 +576,13 @@ public class EditAvatarTemplate : EditorWindow
                             {
                                 specificSettings = jointSettings[LeftToRightMapping(bone)];
                             }
+                            else
+                            {
+                                if (specificSettings.bone.ToString().StartsWith("Right"))
+                                {
+                                    specificSettings = jointSettings[RightToLeftMapping(bone)];
+                                }
+                            }
                         }
                         settings = specificSettings;
                     }
@@ -554,10 +628,46 @@ public class EditAvatarTemplate : EditorWindow
         }
     }
 
+    /// <summary>
+    /// Returns the body part on the right side for a body part on the left side.
+    /// </summary>
+    /// <param name="bone">The body part on the left side.</param>
+    /// <returns></returns>
+    HumanBodyBones RightToLeftMapping(HumanBodyBones bone)
+    {
+        switch (bone)
+        {
+            case HumanBodyBones.RightFoot: return HumanBodyBones.LeftFoot;
+            case HumanBodyBones.RightHand: return HumanBodyBones.LeftHand;
+            case HumanBodyBones.RightIndexDistal: return HumanBodyBones.LeftIndexDistal;
+            case HumanBodyBones.RightIndexIntermediate: return HumanBodyBones.LeftIndexIntermediate;
+            case HumanBodyBones.RightIndexProximal: return HumanBodyBones.LeftIndexProximal;
+            case HumanBodyBones.RightLittleDistal: return HumanBodyBones.LeftLittleDistal;
+            case HumanBodyBones.RightLittleIntermediate: return HumanBodyBones.LeftLittleIntermediate;
+            case HumanBodyBones.RightLittleProximal: return HumanBodyBones.LeftLittleProximal;
+            case HumanBodyBones.RightLowerArm: return HumanBodyBones.LeftLowerArm;
+            case HumanBodyBones.RightLowerLeg: return HumanBodyBones.LeftLowerLeg;
+            case HumanBodyBones.RightMiddleDistal: return HumanBodyBones.LeftMiddleDistal;
+            case HumanBodyBones.RightMiddleIntermediate: return HumanBodyBones.LeftMiddleIntermediate;
+            case HumanBodyBones.RightMiddleProximal: return HumanBodyBones.LeftMiddleProximal;
+            case HumanBodyBones.RightRingDistal: return HumanBodyBones.LeftRingDistal;
+            case HumanBodyBones.RightRingIntermediate: return HumanBodyBones.LeftRingIntermediate;
+            case HumanBodyBones.RightRingProximal: return HumanBodyBones.LeftRingProximal;
+            case HumanBodyBones.RightShoulder: return HumanBodyBones.LeftShoulder;
+            case HumanBodyBones.RightThumbDistal: return HumanBodyBones.LeftThumbDistal;
+            case HumanBodyBones.RightThumbIntermediate: return HumanBodyBones.LeftThumbIntermediate;
+            case HumanBodyBones.RightThumbProximal: return HumanBodyBones.LeftThumbProximal;
+            case HumanBodyBones.RightToes: return HumanBodyBones.LeftToes;
+            case HumanBodyBones.RightUpperArm: return HumanBodyBones.LeftUpperArm;
+            case HumanBodyBones.RightUpperLeg: return HumanBodyBones.LeftUpperLeg;
+            default: return bone;
+        }
+    }
+
     void ApplyJointSetting(ConfigurableJoint joint, JointSettings setting)
     {
         Rigidbody rb = joint.gameObject.GetComponent<Rigidbody>();
-        if(rb != null)
+        if (rb != null)
         {
             rb.mass = setting.mass;
             rb.useGravity = setting.gravity;
@@ -622,7 +732,7 @@ public class EditAvatarTemplate : EditorWindow
         string values = json.CreatePrettyString();
         string path = "Assets/Client Physics/Scripts/Editor/Saved Settings/";
 
-        path += (fileName.Length == 0 ? ("settings_" +  System.DateTime.Now.ToString()) : fileName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
+        path += (fileName.Length == 0 ? ("settings_" + System.DateTime.Now.ToString()) : fileName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
 
         File.WriteAllText(path, values);
         AssetDatabase.ImportAsset(path);
