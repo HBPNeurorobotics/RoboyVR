@@ -14976,11 +14976,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: 0
+    limit: -140
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 140
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -15275,7 +15275,7 @@ ConfigurableJoint:
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 140
+    limit: 145
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -23837,7 +23837,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -46
+    limit: -40
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -25015,7 +25015,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -46
+    limit: -40
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -39722,6 +39722,66 @@ Prefab:
     - target: {fileID: 4907083451133506, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 54441753501917956, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_Mass
+      value: 0.95760006
+      objectReference: {fileID: 0}
+    - target: {fileID: 54038588241418072, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_Mass
+      value: 0.95760006
+      objectReference: {fileID: 0}
+    - target: {fileID: 54001621573734136, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_Mass
+      value: 3.2903998
+      objectReference: {fileID: 0}
+    - target: {fileID: 54741851885422118, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_Mass
+      value: 3.2903998
+      objectReference: {fileID: 0}
+    - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_LowAngularXLimit.limit
+      value: -140
+      objectReference: {fileID: 0}
+    - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_HighAngularXLimit.limit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_LowAngularXLimit.limit
+      value: -40
+      objectReference: {fileID: 0}
+    - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_LowAngularXLimit.limit
+      value: -40
+      objectReference: {fileID: 0}
+    - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_HighAngularXLimit.limit
+      value: 145
+      objectReference: {fileID: 0}
+    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_LowAngularXLimit.limit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_HighAngularXLimit.limit
+      value: 140
+      objectReference: {fileID: 0}
+    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_HighAngularXLimit.limit
+      value: 140
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}

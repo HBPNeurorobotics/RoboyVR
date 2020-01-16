@@ -8,7 +8,6 @@ using System.IO;
 [ExecuteInEditMode]
 public class EditAvatarTemplate : EditorWindow
 {
-    bool initializedSettings = false;
     float bodyWeight = 72f;
     BodyMass.MODE mode = BodyMass.MODE.AVERAGE;
     float indent = 15f;
@@ -48,6 +47,7 @@ public class EditAvatarTemplate : EditorWindow
     Dictionary<HumanBodyBones, GameObject> gameObjectsPerBoneTemplateMultiple = new Dictionary<HumanBodyBones, GameObject>();
 
     Dictionary<HumanBodyBones, JointSettings> jointSettings = new Dictionary<HumanBodyBones, JointSettings>();
+
     HashSet<HumanBodyBones> jointsLeft = new HashSet<HumanBodyBones>();
     HashSet<HumanBodyBones> jointsRight = new HashSet<HumanBodyBones>();
     HashSet<HumanBodyBones> toDisplay = new HashSet<HumanBodyBones>();
@@ -71,7 +71,7 @@ public class EditAvatarTemplate : EditorWindow
 
         #region Load & Save
         savedEditor = (TextAsset)EditorGUILayout.ObjectField("Avatar Template Multiple Joints Rig", savedEditor, typeof(TextAsset), true);
-        fileName = EditorGUILayout.TextField("Optional New Name", fileName);
+        fileName = EditorGUILayout.TextField("New Name / Overwrite", fileName);
 
         EditorGUILayout.BeginHorizontal();
         if (savedEditor == null)
@@ -259,7 +259,7 @@ public class EditAvatarTemplate : EditorWindow
         Transform boneTransformAvatar = animator.GetBoneTransform(bone);
         Transform boneTransformAvatarMultiple = animatorMultiple.GetBoneTransform(bone);
 
-
+        //we have to avoid duplicates in our dictionaries
         if (!gameObjectsPerBoneTemplate.ContainsKey(bone) && !gameObjectsPerBoneTemplate.ContainsKey(bone))
         {
             if (boneTransformAvatar != null && boneTransformAvatarMultiple != null)
@@ -270,7 +270,7 @@ public class EditAvatarTemplate : EditorWindow
             }
         }
 
-
+        //chosenBones are the bones that will be displayed in the editor
         if (chosenBones.ContainsKey(bone))
         {
             toDisplay.Add(bone);
@@ -350,6 +350,7 @@ public class EditAvatarTemplate : EditorWindow
 
         List<HumanBodyBones> sortedJoints = new List<HumanBodyBones>(toDisplayHelper);
         sortedJoints.Sort();
+
         //Display Joint Settings
         foreach (HumanBodyBones bone in sortedJoints)
         {
@@ -380,7 +381,7 @@ public class EditAvatarTemplate : EditorWindow
             EditorGUILayout.BeginVertical();
 
             DisplayJointValues(boneSettings);
-            //if(mirror) MirrorJointValues(boneSettings);
+            if(mirror) MirrorJointValues(boneSettings);
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
@@ -395,6 +396,8 @@ public class EditAvatarTemplate : EditorWindow
 
     void MirrorJointSettingsHelper(JointSettings settings, JointSettings mappedSettings)
     {
+        //changing the primary/secondary axis depends on the exact bone. It is not supported right now, if needed it could be done similar to the split joint method in JointSetup
+        //we cannot just copy the settings as a whole. This would result in wrong axis orientations and wrong bone identity 
         mappedSettings.angularLimitHighX = settings.angularLimitHighX;
         mappedSettings.angularLimitLowX = settings.angularLimitLowX;
         mappedSettings.angularLimitY = settings.angularLimitY;
@@ -405,7 +408,6 @@ public class EditAvatarTemplate : EditorWindow
         mappedSettings.angularYZDriveSpring = settings.angularYZDriveSpring;
         mappedSettings.maxForceX = settings.maxForceX;
         mappedSettings.maxForceYZ = settings.maxForceYZ;
-
     }
 
     /// <summary>
@@ -463,8 +465,6 @@ public class EditAvatarTemplate : EditorWindow
         EditorGUILayout.BeginHorizontal();
         GUILayout.Space(indent);
         EditorGUILayout.BeginVertical();
-
-
 
         //Angular X Drive
         if (index == 0)
