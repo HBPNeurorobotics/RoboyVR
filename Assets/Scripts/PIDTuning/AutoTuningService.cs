@@ -24,11 +24,7 @@ namespace PIDTuning
     [RequireComponent(typeof(TestEnvSetup), typeof(AnimatorControl))]
     public class AutoTuningService : MonoBehaviour
     {
-        [SerializeField]
-        public UserAvatarService _userAvatarService;
-
-        [SerializeField]
-        private GameObject _localAvatar;
+        /*[SerializeField]*/ private GameObject _localAvatar;
 
         public ZieglerNicholsHeuristic TuningHeuristic = ZieglerNicholsHeuristic.PDControl;
 
@@ -77,7 +73,12 @@ namespace PIDTuning
 
         private void Start()
         {
-            Assert.IsNotNull(_userAvatarService);
+            Assert.IsNotNull(UserAvatarService.Instance);
+
+            _localAvatar = UserAvatarService.Instance.LocalAvatar;
+            Assert.IsNotNull(_localAvatar);
+            Assert.IsNotNull(_localAvatarAnimator = _localAvatar.GetComponent<Animator>());
+            Assert.IsNotNull(_localAvatarRig = _localAvatar.GetComponent<RigAngleTracker>());
 
 
             _gazebo = _userAvatarService.GetUseGazebo();
@@ -87,16 +88,11 @@ namespace PIDTuning
             _testEnvSetup = GetComponent<TestEnvSetup>();
             _animatorControl = GetComponent<AnimatorControl>();
             _remoteBones = _userAvatarService._avatarManager.GetGameObjectPerBoneAvatarDictionary();
-
-            Assert.IsNotNull(_localAvatar);
-            Assert.IsNotNull(_localAvatarAnimator = _localAvatar.GetComponent<Animator>());
-            Assert.IsNotNull(_localAvatarRig = _localAvatar.GetComponent<RigAngleTracker>());
         }
 
         public IEnumerator TuneAllJoints()
         {
             Assert.IsFalse(_tuningInProgress);
-            _tuningInProgress = true;
 
             if (_gazebo)
             {
@@ -233,9 +229,7 @@ namespace PIDTuning
 
         private void SetConstantForceForJoint(string joint, float force, bool gazebo)
         {
-            if (gazebo)
-            {
-                string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + joint + "/set_constant_force";
+            string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint + "/set_constant_force";
 
                 ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(force, 0f, 0f));
             }

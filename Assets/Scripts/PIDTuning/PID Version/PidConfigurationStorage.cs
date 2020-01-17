@@ -20,23 +20,18 @@ namespace PIDTuning
         [SerializeField]
         private RigAngleTracker _userAvatar;
 
-        [SerializeField]
-        private UserAvatarService _userAvatarService;
-
         private bool gazebo = false;
         private void Awake()
         {
             Assert.IsNotNull(_userAvatar);
-            Assert.IsNotNull(_userAvatarService);
+            Assert.IsNotNull(UserAvatarService.Instance);
 
             Configuration = new PidConfiguration(DateTime.UtcNow);
 
             Configuration.InitializeMapping(_userAvatar.GetJointToRadianMapping().Keys, PidParameters.FromParallelForm(
-                _userAvatarService.InitialP,
-                _userAvatarService.InitialI,
-                _userAvatarService.InitialD));
-
-            gazebo = _userAvatarService.GetUseGazebo();
+                UserAvatarService.Instance.InitialP,
+                UserAvatarService.Instance.InitialI,
+                UserAvatarService.Instance.InitialD));
         }
 
         /// <summary>
@@ -50,9 +45,7 @@ namespace PIDTuning
 
             foreach (var joint in Configuration.Mapping)
             {
-                if (gazebo)
-                {
-                    string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
+                string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
 
                     ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(joint.Value.Kp, joint.Value.Ki, joint.Value.Kd));
                 }
@@ -70,13 +63,11 @@ namespace PIDTuning
             {
                 string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
 
-                var jointConfig = Configuration.Mapping[joint];
-                ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(jointConfig.Kp, jointConfig.Ki, jointConfig.Kd));
-            }
-            else
-            {
-                
-            }
+            string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
+
+            var jointConfig = Configuration.Mapping[joint];
+
+            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(jointConfig.Kp, jointConfig.Ki, jointConfig.Kd));
         }
 
         public void ReplaceWithConfigFromJson(string json)
@@ -106,7 +97,7 @@ namespace PIDTuning
         {
             Assert.IsNotNull(Configuration);
 
-            Assert.IsTrue(_userAvatarService.IsRemoteAvatarPresent, "Cannot transmit PID config when remote avatar is not present. Did you forget to spawn it?");
+            Assert.IsTrue(UserAvatarService.Instance.IsRemoteAvatarPresent, "Cannot transmit PID config when remote avatar is not present. Did you forget to spawn it?");
         }
     }
 }

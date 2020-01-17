@@ -156,7 +156,13 @@ public class RigAngleTracker : MonoBehaviour
             const string R_ARM_JLINK1_NAME = "mixamorig_RightArm_JointLink1";
             const string R_ARM_JLINK2_NAME = "mixamorig_RightArm_JointLink2";
 
-            Transform hips = FindChildTransformRecursive(transform, HIPS_NAME);
+        const string L_UP_LEG_JLINK1_NAME = "mixamorig_LeftUpLeg_JointLink1";
+        const string L_UP_LEG_JLINK2_NAME = "mixamorig_LeftUpLeg_JointLink2";
+
+        const string R_UP_LEG_JLINK1_NAME = "mixamorig_RightUpLeg_JointLink1";
+        const string R_UP_LEG_JLINK2_NAME = "mixamorig_RightUpLeg_JointLink2";
+
+        Transform hips = FindChildTransformRecursive(transform, HIPS_NAME);
 
             Transform leftShoulder = FindChildTransformRecursive(transform, L_SHOULDER_NAME);
             Transform rightShoulder = FindChildTransformRecursive(transform, R_SHOULDER_NAME);
@@ -176,7 +182,12 @@ public class RigAngleTracker : MonoBehaviour
         Transform rightHand = FindChildTransformRecursive(transform, R_HAND_NAME);
 
         Transform leftUpLeg = FindChildTransformRecursive(transform, L_UP_LEG_NAME);
+        Transform leftUpLeg_jlink1 = FindChildTransformRecursive(transform, L_UP_LEG_JLINK1_NAME);
+        Transform leftUpLeg_jlink2 = FindChildTransformRecursive(transform, L_UP_LEG_JLINK2_NAME);
+
         Transform rightUpLeg = FindChildTransformRecursive(transform, R_UP_LEG_NAME);
+        Transform rightUpLeg_jlink1 = FindChildTransformRecursive(transform, R_UP_LEG_JLINK1_NAME);
+        Transform rightUpLeg_jlink2 = FindChildTransformRecursive(transform, R_UP_LEG_JLINK2_NAME);
 
             Transform leftLeg = FindChildTransformRecursive(transform, L_LEG_NAME);
             Transform rightLeg = FindChildTransformRecursive(transform, R_LEG_NAME);
@@ -222,13 +233,29 @@ public class RigAngleTracker : MonoBehaviour
         _jointMappings[R_HAND_NAME] =
             new JointMapping(rightForeArm, rightHand, true, MappedEulerAngle.Y);
 
-        // Upper Legs
+        // Left Upper Leg
 
-            _jointMappings[L_UP_LEG_NAME] = new JointMapping(hips, leftUpLeg, true, MappedEulerAngle.X);
+        _jointMappings[L_UP_LEG_NAME + "_x"] =
+            new JointMapping(leftUpLeg_jlink1, leftUpLeg_jlink2, true, MappedEulerAngle.X);
 
-            _jointMappings[R_UP_LEG_NAME] = new JointMapping(hips, rightUpLeg, true, MappedEulerAngle.X);
+        _jointMappings[L_UP_LEG_NAME + "_y"] =
+            new JointMapping(leftUpLeg_jlink2, leftUpLeg, true, MappedEulerAngle.Y);
 
-            // Lower Legs
+        _jointMappings[L_UP_LEG_NAME + "_z"] =
+            new JointMapping(hips, leftUpLeg_jlink1, true, MappedEulerAngle.InvertedZ);
+        
+        // Right Upper Leg
+
+        _jointMappings[R_UP_LEG_NAME + "_x"] =
+            new JointMapping(rightUpLeg_jlink1, rightUpLeg_jlink2, true, MappedEulerAngle.X);
+
+        _jointMappings[R_UP_LEG_NAME + "_y"] =
+            new JointMapping(rightUpLeg_jlink2, rightUpLeg, true, MappedEulerAngle.Y);
+
+        _jointMappings[R_UP_LEG_NAME + "_z"] =
+            new JointMapping(hips, rightUpLeg_jlink1, true, MappedEulerAngle.InvertedZ);
+
+        // Lower Legs
 
             _jointMappings[L_LEG_NAME] = new JointMapping(leftUpLeg, leftLeg, true, MappedEulerAngle.X);
 
@@ -326,13 +353,29 @@ public class RigAngleTracker : MonoBehaviour
 
         _jointMappings[R_HAND_NAME] = new JointMapping(rightForeArm, rightHand, false, MappedEulerAngle.InvertedZ);
 
-        // Upper Legs
+        // Left Upper Leg
 
-            _jointMappings[L_UP_LEG_NAME] = new JointMapping(hips, leftUpLeg, false, MappedEulerAngle.X);
+        _jointMappings[L_UP_LEG_NAME + "_x"] =
+            new JointMapping(hips, leftUpLeg, false, MappedEulerAngle.X);
 
-            _jointMappings[R_UP_LEG_NAME] = new JointMapping(hips, rightUpLeg, false, MappedEulerAngle.X);
+        _jointMappings[L_UP_LEG_NAME + "_y"] =
+            new JointMapping(hips, leftUpLeg, false, MappedEulerAngle.InvertedZ);
 
-            // Lower Legs
+        _jointMappings[L_UP_LEG_NAME + "_z"] =
+            new JointMapping(hips, leftUpLeg, false, MappedEulerAngle.Y);
+
+        // Right Upper Leg
+
+        _jointMappings[R_UP_LEG_NAME + "_x"] =
+            new JointMapping(hips, rightUpLeg, false, MappedEulerAngle.X);
+
+        _jointMappings[R_UP_LEG_NAME + "_y"] =
+            new JointMapping(hips, rightUpLeg, false, MappedEulerAngle.InvertedZ);
+
+        _jointMappings[R_UP_LEG_NAME + "_z"] =
+            new JointMapping(hips, rightUpLeg, false, MappedEulerAngle.Y);
+
+        // Lower Legs
 
             _jointMappings[L_LEG_NAME] = new JointMapping(leftUpLeg, leftLeg, false, MappedEulerAngle.X);
 

@@ -40,9 +40,6 @@ namespace PIDTuning
         [SerializeField]
         private string _testAnimationStateNames;
 
-        [SerializeField]
-        private UserAvatarService _avatarService;
-
         [SerializeField] private float _minSampleIntervalSeconds = 1f/ 60f;
 
         /// <summary>
@@ -86,7 +83,7 @@ namespace PIDTuning
         {
             State = TestRunnerState.NotReady;
 
-            Assert.IsNotNull(_avatarService);
+            Assert.IsNotNull(UserAvatarService.Instance);
 
             Assert.IsNotNull(_testEnvSetup = GetComponent<TestEnvSetup>());
             Assert.IsNotNull(_animatorControl = GetComponent<AnimatorControl>());
@@ -95,14 +92,14 @@ namespace PIDTuning
 
             _testAnimationStateList = ParseTestAnimationStatesInput();
 
-            _avatarService.OnAvatarSpawned += ResetTestRunner;
+            UserAvatarService.Instance.OnAvatarSpawned += ResetTestRunner;
         }
 
         private void OnDisable()
         {
-            if (null != _avatarService)
+            if (null != UserAvatarService.Instance)
             {
-                _avatarService.OnAvatarSpawned -= ResetTestRunner;
+                UserAvatarService.Instance.OnAvatarSpawned -= ResetTestRunner;
             }
         }
 

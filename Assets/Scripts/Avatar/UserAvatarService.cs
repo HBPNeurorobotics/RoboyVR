@@ -22,6 +22,13 @@ public class UserAvatarService : Singleton<UserAvatarService>
     }
 
     [SerializeField] private GameObject local_avatar = null;
+    public GameObject LocalAvatar
+    {
+        get
+        {
+            return this.local_avatar;
+        }
+    }
     [SerializeField] private SkinnedMeshRenderer local_avatar_mesh_renderer = null;
 
     public RigAngleTracker RigAngleTracker;
