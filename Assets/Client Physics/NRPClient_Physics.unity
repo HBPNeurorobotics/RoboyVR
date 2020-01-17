@@ -23837,7 +23837,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -40
+    limit: -41
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -25015,7 +25015,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -40
+    limit: -41
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -39723,66 +39723,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 54441753501917956, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.95760006
-      objectReference: {fileID: 0}
-    - target: {fileID: 54038588241418072, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 0.95760006
-      objectReference: {fileID: 0}
-    - target: {fileID: 54001621573734136, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 3.2903998
-      objectReference: {fileID: 0}
-    - target: {fileID: 54741851885422118, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Mass
-      value: 3.2903998
-      objectReference: {fileID: 0}
-    - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -140
-      objectReference: {fileID: 0}
-    - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: 145
-      objectReference: {fileID: 0}
-    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: 140
-      objectReference: {fileID: 0}
-    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: 140
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b487832fac6f5ed4fb631684b68bf18b, type: 2}
   m_IsPrefabAsset: 0
@@ -45379,7 +45319,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2007322472}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.809, y: 0.406, z: 2.56}
+  m_LocalPosition: {x: 0.809, y: 1.371, z: 0.381}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children: []
   m_Father: {fileID: 0}

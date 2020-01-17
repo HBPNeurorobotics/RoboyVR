@@ -9,18 +9,22 @@ public class JointSettings
 {
     public HumanBodyBones bone;
 
+    [NonSerialized]
     public bool showInEditor = false;
+    [NonSerialized]
     public bool showAngularXDriveInEditor = false;
+    [NonSerialized]
     public bool showAngularYZDriveInEditor = false;
+    [NonSerialized]
     public bool showAngularLimitsInEditor = false;
 
-    public float angularXDriveSpring = 2500;
-    public float angularXDriveDamper = 600;
-    public float maxForceX = 2500;
+    public float angularXDriveSpring;
+    public float angularXDriveDamper;
+    public float maxForceX;
 
-    public float angularYZDriveSpring = 2500;
-    public float angularYZDriveDamper = 600; 
-    public float maxForceYZ = 2500;
+    public float angularYZDriveSpring;
+    public float angularYZDriveDamper; 
+    public float maxForceYZ;
 
     public float angularLimitLowX;
     public float angularLimitHighX;
@@ -41,6 +45,16 @@ public class JointSettings
     [NonSerialized]
     public JointDrive angularYZDrive;
 
+    /// <summary>
+    /// Used for global joint settings.
+    /// </summary>
+    /// <param name="bone"></param>
+    /// <param name="angularXDriveSpring"></param>
+    /// <param name="angularXDriveDamper"></param>
+    /// <param name="maxForceX"></param>
+    /// <param name="angularYZDriveSpring"></param>
+    /// <param name="angularYZDriveDamper"></param>
+    /// <param name="maxForceYZ"></param>
     public JointSettings(HumanBodyBones bone, float angularXDriveSpring, float angularXDriveDamper, float maxForceX, float angularYZDriveSpring, float angularYZDriveDamper, float maxForceYZ)
     {
         this.bone = bone;
@@ -58,19 +72,19 @@ public class JointSettings
     /// <param name="bone">The HumanBodyBone of the body part of the joint.</param>
     /// <param name="angularXDrive"></param>
     /// <param name="angularYZDrive"></param>
-    public JointSettings(HumanBodyBones bone, ConfigurableJoint joint)//JointDrive angularXDrive, JointDrive angularYZDrive, float angularLimitLowX, float angularLimitHighX, float angularLimitY, float angularLimitZ)
+    public JointSettings(HumanBodyBones bone, ConfigurableJoint joint)
     {
         this.bone = bone;
 
         angularXDrive = joint.angularXDrive;
-        angularXDrive.positionDamper = joint.angularXDrive.positionDamper;
-        angularXDrive.positionSpring = joint.angularXDrive.positionSpring;
-        angularXDrive.maximumForce = joint.angularXDrive.maximumForce;
+        angularXDriveDamper = joint.angularXDrive.positionDamper;
+        angularXDriveSpring = joint.angularXDrive.positionSpring;
+        maxForceX = joint.angularXDrive.maximumForce;
 
         angularYZDrive = joint.angularYZDrive;
-        angularYZDrive.positionDamper = joint.angularYZDrive.positionDamper;
-        angularYZDrive.positionSpring = joint.angularYZDrive.positionSpring;
-        angularYZDrive.maximumForce = joint.angularYZDrive.maximumForce;
+        angularYZDriveDamper = joint.angularYZDrive.positionDamper;
+        angularYZDriveSpring = joint.angularYZDrive.positionSpring;
+        maxForceYZ = joint.angularYZDrive.maximumForce;
 
         angularLimitLowX = joint.lowAngularXLimit.limit;
         angularLimitHighX = joint.highAngularXLimit.limit;

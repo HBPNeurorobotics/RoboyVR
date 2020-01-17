@@ -15,6 +15,7 @@ public class EditAvatarTemplate : EditorWindow
     bool useCollisions;
     bool noPreprocessing = true;
     bool setGlobalJointSetting = false;
+    bool selectGroupConfigJoints = false;
     bool mirror;
     bool showJointSettings = true;
     bool useGravity = true;
@@ -26,10 +27,11 @@ public class EditAvatarTemplate : EditorWindow
     public float angularYZDriveSpringGlobal;
     public float angularYZDriveDamperGlobal;
     public float maxForceYZGlobal;
+    JointSettings globalSettings;
+
+    JointSettings groupSettings;
 
     BodyGroups.BODYGROUP bodyGroup;
-
-    JointSettings globalSettings;
 
     static EditAvatarTemplate editor;
 
@@ -103,7 +105,7 @@ public class EditAvatarTemplate : EditorWindow
         }
         if (GUILayout.Button("Save to new Json"))
         {
-            SaveAsJson();
+            SaveJointSettingsAsJson();
         }
         EditorGUILayout.EndHorizontal();
         #endregion
@@ -120,7 +122,7 @@ public class EditAvatarTemplate : EditorWindow
             bodyGroup = (BodyGroups.BODYGROUP)EditorGUILayout.EnumPopup("Body Group", bodyGroup);
 
             GetDictionary();
-
+            
             useGravity = EditorGUILayout.Toggle("Enable Gravity", useGravity);
             useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
             noPreprocessing = EditorGUILayout.Toggle("Disable Preprocessing", noPreprocessing);
@@ -129,26 +131,39 @@ public class EditAvatarTemplate : EditorWindow
             setGlobalJointSetting = EditorGUILayout.Toggle("Set Global Joint Settings", setGlobalJointSetting);
             globalSettings = new JointSettings(HumanBodyBones.LastBone, angularXDriveSpringGlobal, angularXDriveDamperGlobal, maxForceXGlobal, angularYZDriveSpringGlobal, angularYZDriveDamperGlobal, maxForceYZGlobal);
 
+
+            GUI.enabled = false;
             if (!setGlobalJointSetting)
             {
-                mirror = EditorGUILayout.Toggle("Mirror Changes", mirror);
-                showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
+                GUI.enabled = true;
+            }
 
+            selectGroupConfigJoints = EditorGUILayout.Toggle("Select Joints in Scene", selectGroupConfigJoints);
+            mirror = EditorGUILayout.Toggle("Mirror Settings", mirror);
+            if (selectGroupConfigJoints)
+            {
+                SelectJointsInTemplate();
+            }
+
+            GUI.enabled = true;
+            if (!setGlobalJointSetting && !selectGroupConfigJoints)
+            {
+                showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
                 if (showJointSettings)
                 {
                     DisplayJointSettings();
                 }
             }
-            else
+            else if (setGlobalJointSetting)
             {
                 DisplayGlobalJoint();
             }
-
             EditorGUILayout.EndVertical();
             #endregion
 
             #region Buttons at bottom
             GUILayout.BeginHorizontal();
+            GUI.enabled = true;
             if (GUILayout.Button("Set BodyMass"))
             {
                 bodyMass = new BodyMass(bodyWeight, gameObjectsPerBoneTemplate, mode);
@@ -231,11 +246,11 @@ public class EditAvatarTemplate : EditorWindow
             case BodyGroups.BODYGROUP.HEAD: chosenBones = bodyGroups.Head(); break;
             case BodyGroups.BODYGROUP.LEFT_ARM: chosenBones = bodyGroups.LeftArm(); break;
             case BodyGroups.BODYGROUP.LEFT_FOOT: chosenBones = bodyGroups.LeftFoot(); break;
-            case BodyGroups.BODYGROUP.LEFT_HAND: chosenBones = bodyGroups.LeftHand(); break;
+            case BodyGroups.BODYGROUP.LEFT_FINGERS: chosenBones = bodyGroups.LeftFingers(); break;
             case BodyGroups.BODYGROUP.LEFT_LEG: chosenBones = bodyGroups.LeftLeg(); break;
             case BodyGroups.BODYGROUP.RIGHT_ARM: chosenBones = bodyGroups.RightArm(); break;
             case BodyGroups.BODYGROUP.RIGHT_FOOT: chosenBones = bodyGroups.RightFoot(); break;
-            case BodyGroups.BODYGROUP.RIGHT_HAND: chosenBones = bodyGroups.RightHand(); break;
+            case BodyGroups.BODYGROUP.RIGHT_FINGERS: chosenBones = bodyGroups.RightFingers(); break;
             case BodyGroups.BODYGROUP.RIGHT_LEG: chosenBones = bodyGroups.RightLeg(); break;
             case BodyGroups.BODYGROUP.TRUNK: chosenBones = bodyGroups.Trunk(); break;
             case BodyGroups.BODYGROUP.TRUNK_HEAD: chosenBones = bodyGroups.TrunkHead(); break;
@@ -296,7 +311,6 @@ public class EditAvatarTemplate : EditorWindow
             if (joint != null)
             {
                 JointSettings setting = new JointSettings(bone, joint);
-
                 jointSettings.Add(bone, setting);
 
                 if (setting.bone.ToString().StartsWith("Left"))
@@ -381,7 +395,7 @@ public class EditAvatarTemplate : EditorWindow
             EditorGUILayout.BeginVertical();
 
             DisplayJointValues(boneSettings);
-            if(mirror) MirrorJointValues(boneSettings);
+            if (mirror) MirrorJointValues(boneSettings);
 
             EditorGUILayout.EndVertical();
             EditorGUILayout.EndHorizontal();
@@ -390,11 +404,11 @@ public class EditAvatarTemplate : EditorWindow
 
     void MirrorJointValues(JointSettings settings)
     {
-        if (settings.bone.ToString().StartsWith("Left")) MirrorJointSettingsHelper(settings, jointSettings[LeftToRightMapping(settings.bone)]);
-        if (settings.bone.ToString().StartsWith("Right")) MirrorJointSettingsHelper(settings, jointSettings[RightToLeftMapping(settings.bone)]);
+        if (settings.bone.ToString().StartsWith("Left")) CopySettings(settings, jointSettings[LeftToRightMapping(settings.bone)]);
+        if (settings.bone.ToString().StartsWith("Right")) CopySettings(settings, jointSettings[RightToLeftMapping(settings.bone)]);
     }
 
-    void MirrorJointSettingsHelper(JointSettings settings, JointSettings mappedSettings)
+    void CopySettings(JointSettings settings, JointSettings mappedSettings)
     {
         //changing the primary/secondary axis depends on the exact bone. It is not supported right now, if needed it could be done similar to the split joint method in JointSetup
         //we cannot just copy the settings as a whole. This would result in wrong axis orientations and wrong bone identity 
@@ -416,15 +430,15 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="settings"></param>
     void DisplayJointValues(JointSettings settings)
     {
-        DisplayAngularLimits(settings);
         //More functions could be added here, if other joint parameters are to be modified in the future
+        DisplayAngularLimits(settings);
         DisplayAngularDrives(settings);
     }
 
     void DisplayAngularLimits(JointSettings settings)
     {
         settings.showAngularLimitsInEditor = EditorGUILayout.Foldout(settings.showAngularLimitsInEditor, "Angular Joint Limits", true);
-        if (settings.showAngularLimitsInEditor)
+        if (settings.showAngularLimitsInEditor || setGlobalJointSetting)
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(indent);
@@ -529,8 +543,11 @@ public class EditAvatarTemplate : EditorWindow
     {
         foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
         {
-            jointSettings[bone].SetAngularXDrive(gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularXDrive);
-            jointSettings[bone].SetAngularYZDrive(gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>().angularYZDrive);
+            ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
+            if (joint != null) 
+            {
+                jointSettings[bone] = new JointSettings(bone, joint);
+            }
         }
     }
 
@@ -724,7 +741,7 @@ public class EditAvatarTemplate : EditorWindow
         }
     }
 
-    void SaveAsJson()
+    void SaveJointSettingsAsJson()
     {
         //save joint settings
         Leguar.TotalJSON.JSON json = new Leguar.TotalJSON.JSON(ConfigJointUtility.ConvertHumanBodyBonesKeyToStringJson(jointSettings));
@@ -749,5 +766,37 @@ public class EditAvatarTemplate : EditorWindow
             jointSettingsFromJson.Add((HumanBodyBones)int.Parse(key), JsonUtility.FromJson<JointSettings>(recoverdStringDictionary[key]));
         }
         return jointSettingsFromJson;
+    }
+
+    void SelectJointsInTemplate()
+    {
+        HashSet<HumanBodyBones> selection = new HashSet<HumanBodyBones>();
+
+        foreach (HumanBodyBones bone in toDisplay)
+        {
+            selection.Add(bone);
+            if (mirror)
+            {
+                //since elements hashset are unique, no further check needed
+                selection.Add(LeftToRightMapping(bone));
+                selection.Add(RightToLeftMapping(bone));
+            }
+        }
+
+        List<Object> objectsInTemplate = new List<Object>();
+
+        foreach (HumanBodyBones bone in selection)
+        {
+            if (gameObjectsPerBoneTemplate.Keys.Contains(bone))
+            {
+                ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
+                if (jointSettings.ContainsKey(bone) && joint != null)
+                {
+                    objectsInTemplate.Add(gameObjectsPerBoneTemplate[bone]);
+                    jointSettings[bone] = new JointSettings(bone, joint);
+                }
+            }
+        }
+        Selection.objects = objectsInTemplate.ToArray();
     }
 }

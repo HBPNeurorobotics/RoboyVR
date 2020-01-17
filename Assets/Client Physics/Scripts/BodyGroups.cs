@@ -22,9 +22,9 @@ namespace UnityEngine
             RIGHT_LEG,
             RIGHT_FOOT,
             LEFT_ARM,
-            LEFT_HAND,
+            LEFT_FINGERS,
             RIGHT_ARM,
-            RIGHT_HAND,
+            RIGHT_FINGERS,
             HEAD
         }
 
@@ -37,9 +37,9 @@ namespace UnityEngine
         Dictionary<HumanBodyBones, GameObject> rightLeg = new Dictionary<HumanBodyBones, GameObject>();
         Dictionary<HumanBodyBones, GameObject> rightFoot = new Dictionary<HumanBodyBones, GameObject>();
         Dictionary<HumanBodyBones, GameObject> leftArm = new Dictionary<HumanBodyBones, GameObject>();
-        Dictionary<HumanBodyBones, GameObject> leftHand = new Dictionary<HumanBodyBones, GameObject>();
+        Dictionary<HumanBodyBones, GameObject> leftFingers = new Dictionary<HumanBodyBones, GameObject>();
         Dictionary<HumanBodyBones, GameObject> rightArm = new Dictionary<HumanBodyBones, GameObject>();
-        Dictionary<HumanBodyBones, GameObject> rightHand = new Dictionary<HumanBodyBones, GameObject>();
+        Dictionary<HumanBodyBones, GameObject> rightFingers = new Dictionary<HumanBodyBones, GameObject>();
         Dictionary<HumanBodyBones, GameObject> head = new Dictionary<HumanBodyBones, GameObject>();
         Dictionary<HumanBodyBones, GameObject> trunkHead = new Dictionary<HumanBodyBones, GameObject>();
 
@@ -56,19 +56,6 @@ namespace UnityEngine
             //allCombined has to be assigned first!
             allCombined = dictionary;
             SplitAllCombinedIntoGroups();
-            /*
-            Debug.Log("Trunk Dictionary");
-            PrintoutBone(trunk);
-            Debug.Log("TrunkHead Dictionary");
-            PrintoutBone(trunkHead);
-            Debug.Log("Head Dictionary");
-            PrintoutBone(head);
-            Debug.Log("LeftArm Dictionary");
-            PrintoutBone(leftArm);
-            Debug.Log("LeftHand Dictionary");
-            PrintoutBone(leftHand);
-            */
-
         }
 
         void SplitAllCombinedIntoGroups()
@@ -80,9 +67,8 @@ namespace UnityEngine
             rightLeg = GetGroupDictionary(BODYGROUP.RIGHT_LEG);
             leftArm = GetGroupDictionary(BODYGROUP.LEFT_ARM);
             rightArm = GetGroupDictionary(BODYGROUP.RIGHT_ARM);
-            leftHand = GetGroupDictionary(BODYGROUP.LEFT_HAND);
-            rightHand = GetGroupDictionary(BODYGROUP.RIGHT_HAND);
-            rightHand = GetGroupDictionary(BODYGROUP.RIGHT_HAND);
+            leftFingers = GetGroupDictionary(BODYGROUP.LEFT_FINGERS);
+            rightFingers = GetGroupDictionary(BODYGROUP.RIGHT_FINGERS);
             head = GetGroupDictionary(BODYGROUP.HEAD);
             trunkHead = GetGroupDictionary(BODYGROUP.TRUNK_HEAD);
         }
@@ -144,11 +130,11 @@ namespace UnityEngine
             return leftArm;
         }
         /// <summary>
-        ///  Get Dictionary that includes LeftHand and fingers
+        ///  Get Dictionary that includes left fingers
         /// </summary>
-        public Dictionary<HumanBodyBones, GameObject> LeftHand()
+        public Dictionary<HumanBodyBones, GameObject> LeftFingers()
         {
-            return leftHand;
+            return leftFingers;
         }
         /// <summary>
         /// Get Dictionary that includes RightUpperArm, RightLowerArm, RightHand and fingers
@@ -158,11 +144,11 @@ namespace UnityEngine
             return rightArm;
         }
         /// <summary>
-        /// Get Dictionary that includes RightHand and fingers
+        /// Get Dictionary that includes left fingers
         /// </summary>  
-        public Dictionary<HumanBodyBones, GameObject> RightHand()
+        public Dictionary<HumanBodyBones, GameObject> RightFingers()
         {
-            return rightHand;
+            return rightFingers;
         }
         /// <summary>
         /// Get Dictionary that includes all assigned bones, returns parameter if BodyGroups(Dictionary<HumanBodyBones, GameObject> dictionary) has been used.
@@ -178,6 +164,7 @@ namespace UnityEngine
 
             switch (group)
             {
+                #region ALL_COMBINED
                 case BODYGROUP.ALL_COMBINED:
                     #region TrunkHead
                     AddBoneToDictionary(HumanBodyBones.Hips, dict);
@@ -257,9 +244,11 @@ namespace UnityEngine
                     AddBoneToDictionary(HumanBodyBones.RightLowerLeg, dict);
                     AddBoneToDictionary(HumanBodyBones.RightFoot, dict);
                     AddBoneToDictionary(HumanBodyBones.RightToes, dict);
-                    #endregion
+                    
                     break;
-
+                #endregion
+                #endregion
+                #region TRUNK
                 case BODYGROUP.TRUNK:
                     AddBoneFromAllCombined(HumanBodyBones.Hips, dict);
                     AddBoneFromAllCombined(HumanBodyBones.Spine, dict); 
@@ -268,7 +257,8 @@ namespace UnityEngine
                     AddBoneFromAllCombined(HumanBodyBones.LeftShoulder, dict);
                     AddBoneFromAllCombined(HumanBodyBones.RightShoulder, dict);
                     break;
-
+                #endregion
+                #region HEAD
                 case BODYGROUP.HEAD:
                     AddBoneFromAllCombined(HumanBodyBones.Neck, dict);
                     AddBoneFromAllCombined(HumanBodyBones.Head, dict);
@@ -278,15 +268,17 @@ namespace UnityEngine
                     AddBoneFromAllCombined(HumanBodyBones.RightEye, dict);
                     AddBoneFromAllCombined(HumanBodyBones.Jaw, dict);
                     break;
-
+                #endregion
+                #region LEFT_ARM
                 case BODYGROUP.LEFT_ARM:
                     AddBoneFromAllCombined(HumanBodyBones.LeftUpperArm, dict);
                     AddBoneFromAllCombined(HumanBodyBones.LeftLowerArm, dict);
-                    AddBodyGroupFromDictionary(BODYGROUP.LEFT_HAND, dict);
-                    break;
-                case BODYGROUP.LEFT_HAND:
                     AddBoneFromAllCombined(HumanBodyBones.LeftHand, dict);
-
+                    AddBodyGroupFromDictionary(BODYGROUP.LEFT_FINGERS, dict);
+                    break;
+                #endregion
+                #region LEFT_FINGERS
+                case BODYGROUP.LEFT_FINGERS:
                     AddBoneFromAllCombined(HumanBodyBones.LeftIndexDistal, dict);
                     AddBoneFromAllCombined(HumanBodyBones.LeftIndexIntermediate, dict);
                     AddBoneFromAllCombined(HumanBodyBones.LeftIndexProximal, dict);
@@ -306,18 +298,18 @@ namespace UnityEngine
                     AddBoneFromAllCombined(HumanBodyBones.LeftThumbDistal, dict);
                     AddBoneFromAllCombined(HumanBodyBones.LeftThumbIntermediate, dict);
                     AddBoneFromAllCombined(HumanBodyBones.LeftThumbProximal, dict);
-
                     break;
-
+                #endregion
+                #region RIGHT_ARM
                 case BODYGROUP.RIGHT_ARM:
                     AddBoneFromAllCombined(HumanBodyBones.RightUpperArm, dict);
                     AddBoneFromAllCombined(HumanBodyBones.RightLowerArm, dict);
-                    AddBodyGroupFromDictionary(BODYGROUP.RIGHT_HAND, dict);
-                    break;
-
-                case BODYGROUP.RIGHT_HAND:
                     AddBoneFromAllCombined(HumanBodyBones.RightHand, dict);
-
+                    AddBodyGroupFromDictionary(BODYGROUP.RIGHT_FINGERS, dict);
+                    break;
+                #endregion
+                #region RIGHT_FINGERS
+                case BODYGROUP.RIGHT_FINGERS:
                     AddBoneFromAllCombined(HumanBodyBones.RightIndexDistal, dict);
                     AddBoneFromAllCombined(HumanBodyBones.RightIndexIntermediate, dict);
                     AddBoneFromAllCombined(HumanBodyBones.RightIndexProximal, dict);
@@ -337,38 +329,43 @@ namespace UnityEngine
                     AddBoneFromAllCombined(HumanBodyBones.RightThumbDistal, dict);
                     AddBoneFromAllCombined(HumanBodyBones.RightThumbIntermediate, dict);
                     AddBoneFromAllCombined(HumanBodyBones.RightThumbProximal, dict);
-
                     break;
-
+                #endregion
+                #region LEFT_LEG
                 case BODYGROUP.LEFT_LEG:
                     AddBoneFromAllCombined(HumanBodyBones.LeftUpperLeg, dict);
                     AddBoneFromAllCombined(HumanBodyBones.LeftLowerLeg, dict);
                     AddBodyGroupFromDictionary(BODYGROUP.LEFT_FOOT, dict);
-
                     break;
+                #endregion
+                #region LEFT_FOOT
                 case BODYGROUP.LEFT_FOOT:
                     AddBoneFromAllCombined(HumanBodyBones.LeftFoot, dict);
                     AddBoneFromAllCombined(HumanBodyBones.LeftToes, dict);
 
                     break;
-
+                #endregion
+                #region RIGHT_LEG
                 case BODYGROUP.RIGHT_LEG:
                     AddBoneFromAllCombined(HumanBodyBones.RightUpperLeg, dict);
                     AddBoneFromAllCombined(HumanBodyBones.RightLowerLeg, dict);
                     AddBodyGroupFromDictionary(BODYGROUP.RIGHT_FOOT, dict);
 
                     break;
-
+                #endregion
+                #region RIGHT_FOOT
                 case BODYGROUP.RIGHT_FOOT:
                     AddBoneFromAllCombined(HumanBodyBones.RightFoot, dict);
                     AddBoneFromAllCombined(HumanBodyBones.RightToes, dict);
 
                     break;
-
+                #endregion
+                #region TRUNK_HEAD
                 case BODYGROUP.TRUNK_HEAD:
                     AddBodyGroupFromDictionary(BODYGROUP.TRUNK, dict);
                     AddBodyGroupFromDictionary(BODYGROUP.HEAD, dict);
                     break;
+                #endregion
                 default: break;
             }
             return dict;
