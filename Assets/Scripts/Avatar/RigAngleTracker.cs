@@ -47,7 +47,6 @@ public class RigAngleTracker : MonoBehaviour
 
     private Dictionary<string, JointMapping> _jointMappings = new Dictionary<string, JointMapping>();
 
-    public UserAvatarService _userAvatar;
     public Dictionary<string, float> GetJointToRadianMapping()
     {
         if (!_initialized)
@@ -129,7 +128,7 @@ public class RigAngleTracker : MonoBehaviour
     {
         var isRemoteAvatar = gameObject.name != "local_avatar";
 
-        if (!_userAvatar.GetUseGazebo())
+        if (!UserAvatarService.GetUseGazebo())
         {
             isRemoteAvatar = gameObject.tag.Equals("Target");
         }
@@ -146,7 +145,7 @@ public class RigAngleTracker : MonoBehaviour
 
     private void CreateMappingForRemoteAvatar()
     {
-        if (_userAvatar.GetUseGazebo())
+        if (UserAvatarService.GetUseGazebo())
         {
             // These four joint links are unique to the remote avatar. The local avatar doesn't have them
 
@@ -269,13 +268,13 @@ public class RigAngleTracker : MonoBehaviour
         }
         else
         {
-            _jointMappingsClient = _userAvatar._avatarManager.GetGameObjectPerBoneAvatarDictionary();
+            _jointMappingsClient = UserAvatarService._avatarManager.GetGameObjectPerBoneAvatarDictionary();
         }
     }
 
     private void CreateMappingForLocalAvatar()
     {
-        if (_userAvatar.GetUseGazebo())
+        if (UserAvatarService.GetUseGazebo())
         {
             // Note: With a bunch of clever string manipulation, it would be possible to get rid of all "left"/"right" distinctions here.
             // In all honesty, I  was just too lazy to do it.
@@ -389,7 +388,7 @@ public class RigAngleTracker : MonoBehaviour
         }
         else
         {
-            _jointMappingsClient = _userAvatar._avatarManager.GetGameObjectPerBoneLocalAvatarDictionary();
+            _jointMappingsClient = UserAvatarService._avatarManager.GetGameObjectPerBoneLocalAvatarDictionary();
         }
     }
 

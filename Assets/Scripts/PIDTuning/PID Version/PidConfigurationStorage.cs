@@ -45,6 +45,7 @@ namespace PIDTuning
 
             foreach (var joint in Configuration.Mapping)
             {
+                if (gazebo) { 
                 string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
 
                     ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(joint.Value.Kp, joint.Value.Ki, joint.Value.Kd));
@@ -61,13 +62,13 @@ namespace PIDTuning
             AssertServiceReady();
             if (gazebo)
             {
-                string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
 
-            string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
+                string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
 
-            var jointConfig = Configuration.Mapping[joint];
+                var jointConfig = Configuration.Mapping[joint];
 
-            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(jointConfig.Kp, jointConfig.Ki, jointConfig.Kd));
+                ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(jointConfig.Kp, jointConfig.Ki, jointConfig.Kd));
+            }
         }
 
         public void ReplaceWithConfigFromJson(string json)

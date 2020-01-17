@@ -80,14 +80,12 @@ namespace PIDTuning
             Assert.IsNotNull(_localAvatarAnimator = _localAvatar.GetComponent<Animator>());
             Assert.IsNotNull(_localAvatarRig = _localAvatar.GetComponent<RigAngleTracker>());
 
-
-            _gazebo = _userAvatarService.GetUseGazebo();
             _testRunner = GetComponent<TestRunner>();
             _pidConfigStorage = GetComponent<PidConfigurationStorage>();
             PoseErrorTracker = GetComponent<PoseErrorTracker>();
             _testEnvSetup = GetComponent<TestEnvSetup>();
             _animatorControl = GetComponent<AnimatorControl>();
-            _remoteBones = _userAvatarService._avatarManager.GetGameObjectPerBoneAvatarDictionary();
+            _remoteBones = UserAvatarService._avatarManager.GetGameObjectPerBoneAvatarDictionary();
         }
 
         public IEnumerator TuneAllJoints()
@@ -139,7 +137,7 @@ namespace PIDTuning
             // Run Bang-Bang control for a while to get oscillation data
             var bangBangStepData = new Box<PidStepData>(null);
 
-            yield return RunBangBangEvaluation(joint, bangBangStepData, _userAvatarService.GetUseGazebo());
+            yield return RunBangBangEvaluation(joint, bangBangStepData, UserAvatarService.GetUseGazebo());
 
             // Evaluate the oscillation data
             var oscillation = PeakAnalysis.AnalyzeOscillation(bangBangStepData.Value);
@@ -229,6 +227,7 @@ namespace PIDTuning
 
         private void SetConstantForceForJoint(string joint, float force, bool gazebo)
         {
+            if (gazebo) { 
             string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint + "/set_constant_force";
 
                 ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(force, 0f, 0f));
@@ -254,7 +253,7 @@ namespace PIDTuning
         ///
         /// With a Box, we can just change the inner value whenever we please.
         /// </summary>
-        private class Box<T>
+        class Box<T>
         {
             public T Value;
 

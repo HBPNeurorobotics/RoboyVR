@@ -33,7 +33,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     public RigAngleTracker RigAngleTracker;
     [SerializeField]
-    private bool use_gazebo = false;
+    private static bool use_gazebo = false;
 
     //public List<GameObject> published_links = null;
     //public bool publish_all_links = false;
@@ -74,15 +74,15 @@ public class UserAvatarService : Singleton<UserAvatarService>
     /// <summary>
     /// Provides access to dictionary of RemoteAvatar and TargetAvatar
     /// </summary>
-    public AvatarManager _avatarManager;
+    public static AvatarManager _avatarManager;
 
     [Header("Initial Joint Settings")]
     [Header("Angular Drive X")]
-    public float initialAngularXDriveSpring = 3000;
-    public float initialAngularXDriveDamper = 600;
+    public static float initialAngularXDriveSpring = 3000;
+    public static float initialAngularXDriveDamper = 600;
     [Header("Angular Drive YZ")]
-    public float initialAngularYZDriveSpring = 3000;
-    public float initialAngularYZDriveDamper = 600;
+    public static float initialAngularYZDriveSpring = 3000;
+    public static float initialAngularYZDriveDamper = 600;
 
     void Awake()
     {
@@ -435,7 +435,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
         }
 
     }
-    public bool GetUseGazebo()
+    public static bool GetUseGazebo()
     {
         return use_gazebo;
     }

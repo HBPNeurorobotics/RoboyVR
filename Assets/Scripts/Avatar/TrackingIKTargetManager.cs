@@ -51,13 +51,9 @@ public class TrackingIKTargetManager : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	void Update () {}
-
-    // Update is called once per frame
-    void Update()
+	void Update () 
     {
     }
-
 
     private void OnEnable()
     {

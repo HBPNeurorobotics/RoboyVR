@@ -16,20 +16,20 @@ public class ConfigurableJointConfigurationStorage : MonoBehaviour
     private RigAngleTracker _userAvatar;
 
     [SerializeField]
-    private UserAvatarService _userAvatarService;
+    private UserAvatarService UserAvatarService;
 
     private void Awake()
     {
         Assert.IsNotNull(_userAvatar);
-        Assert.IsNotNull(_userAvatarService);
+        Assert.IsNotNull(UserAvatarService);
 
         configuration = new ConfigurableJointConfiguration(DateTime.UtcNow);
 
-        configuration.InitializeMapping(_userAvatarService._avatarManager.GetGameObjectPerBoneLocalAvatarDictionary().Keys,
-                                        new JointSettings(_userAvatarService.initialAngularXDriveSpring,
-                                                          _userAvatarService.initialAngularXDriveDamper,
-                                                          _userAvatarService.initialAngularYZDriveSpring,
-                                                          _userAvatarService.initialAngularYZDriveDamper)
+        configuration.InitializeMapping(UserAvatarService._avatarManager.GetGameObjectPerBoneLocalAvatarDictionary().Keys,
+                                        new JointSettings(UserAvatarService.initialAngularXDriveSpring,
+                                                          UserAvatarService.initialAngularXDriveDamper,
+                                                          UserAvatarService.initialAngularYZDriveSpring,
+                                                          UserAvatarService.initialAngularYZDriveDamper)
                                         );
     }
 
@@ -46,7 +46,7 @@ public class ConfigurableJointConfigurationStorage : MonoBehaviour
         {
             TransmitSingleJointConfiguration(bone, configuration.mapping[bone]);
             /*
-            string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
+            string topic = "/" + UserAvatarService.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
 
             ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(joint.Value.Kp, joint.Value.Ki, joint.Value.Kd));
             */
@@ -58,7 +58,7 @@ public class ConfigurableJointConfigurationStorage : MonoBehaviour
         AssertServiceReady();
         configuration.mapping[bone] = settings;
         /*
-        string topic = "/" + _userAvatarService.avatar_name + "/avatar_ybot/" + bone + "/set_pid_params";
+        string topic = "/" + UserAvatarService.avatar_name + "/avatar_ybot/" + bone + "/set_pid_params";
         ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(jointConfig.Kp, jointConfig.Ki, jointConfig.Kd));
         */
     }
@@ -77,6 +77,6 @@ public class ConfigurableJointConfigurationStorage : MonoBehaviour
     {
         Assert.IsNotNull(configuration);
 
-        Assert.IsTrue(_userAvatarService.IsRemoteAvatarPresent, "Cannot transmit joint config when remote avatar is not present. Did you forget to spawn it?");
+        Assert.IsTrue(UserAvatarService.IsRemoteAvatarPresent, "Cannot transmit joint config when remote avatar is not present. Did you forget to spawn it?");
     }
 }
