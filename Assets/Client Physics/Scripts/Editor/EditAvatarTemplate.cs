@@ -744,9 +744,7 @@ public class EditAvatarTemplate : EditorWindow
     void SaveJointSettingsAsJson()
     {
         //save joint settings
-        Leguar.TotalJSON.JSON json = new Leguar.TotalJSON.JSON(ConfigJointUtility.ConvertHumanBodyBonesKeyToStringJson(jointSettings));
-
-        string values = json.CreatePrettyString();
+        string values = ConfigJointUtility.ConvertHumanBodyBonesKeyDictionaryToJson(jointSettings);
         string path = "Assets/Client Physics/Scripts/Editor/Saved Settings/";
 
         path += (fileName.Length == 0 ? ("settings_" + System.DateTime.Now.ToString()) : fileName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
@@ -757,14 +755,15 @@ public class EditAvatarTemplate : EditorWindow
 
     Dictionary<HumanBodyBones, JointSettings> RecoverJointSettingsFromJson(string savedInfo)
     {
-        Leguar.TotalJSON.JSON json = Leguar.TotalJSON.JSON.ParseString(savedInfo);
-        Dictionary<string, string> recoverdStringDictionary = json.Deserialize<Dictionary<string, string>>();
         Dictionary<HumanBodyBones, JointSettings> jointSettingsFromJson = new Dictionary<HumanBodyBones, JointSettings>();
 
-        foreach (string key in recoverdStringDictionary.Keys)
+        string[] settingsEntries = savedInfo.Split('\n');
+        foreach(string entry in settingsEntries)
         {
-            jointSettingsFromJson.Add((HumanBodyBones)int.Parse(key), JsonUtility.FromJson<JointSettings>(recoverdStringDictionary[key]));
+            JointSettings joint = JsonUtility.FromJson<JointSettings>(entry);
+            jointSettingsFromJson.Add(joint.bone, joint);
         }
+        
         return jointSettingsFromJson;
     }
 

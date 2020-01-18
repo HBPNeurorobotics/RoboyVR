@@ -156,14 +156,16 @@ public static class ConfigJointUtility
         }
     }
 
-    public static Dictionary<string, string> ConvertHumanBodyBonesKeyToStringJson<T>(Dictionary<HumanBodyBones, T> dictionary)
+    public static string ConvertHumanBodyBonesKeyDictionaryToJson<T>(Dictionary<HumanBodyBones, T> dictionary)
     {
-        Dictionary<string, string> convertedToStringJson = new Dictionary<string, string>();
-        foreach(HumanBodyBones bone in dictionary.Keys)
+        string result = "";
+        foreach (HumanBodyBones bone in dictionary.Keys)
         {
-            convertedToStringJson.Add(""+(int)bone, JsonUtility.ToJson(dictionary[bone]));
+            result += JsonUtility.ToJson(dictionary[bone]) + "\n";
         }
-        return convertedToStringJson;
+
+        //remove last line break form json to avoid null reference when converting back to T
+        return result.Substring(0, result.Length - 1);
     }
 
     public static HumanBodyBones GetBoneFromIndex(string index)

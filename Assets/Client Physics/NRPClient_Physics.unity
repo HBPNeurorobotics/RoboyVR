@@ -6735,7 +6735,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userAvatar: {fileID: 0}
 --- !u!95 &546811993
 Animator:
   serializedVersion: 3
@@ -26061,7 +26060,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _userAvatar: {fileID: 1899631921}
-  _userAvatarService: {fileID: 1035547226}
 --- !u!114 &824985316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26073,8 +26071,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb800ce14b7cff4b87b4f74f4149cd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userAvatarService: {fileID: 1035547226}
-  _localAvatar: {fileID: 1899631920}
   TuningHeuristic: 0
   RelayConstantForce: 100
   RelayTargetAngle: 0
@@ -26092,7 +26088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb08b4f55a8b27e47907b52f416ca7f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userAvatarService: {fileID: 1035547226}
   LocalRig: {fileID: 0}
 --- !u!114 &824985318
 MonoBehaviour:
@@ -26132,7 +26127,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTestLabel: initial-testing
   _testAnimationStateNames: Gesture Dance
-  _avatarService: {fileID: 1035547226}
   _minSampleIntervalSeconds: 0.01
 --- !u!1 &827510414
 GameObject:
@@ -29648,7 +29642,6 @@ MonoBehaviour:
   local_avatar: {fileID: 0}
   local_avatar_mesh_renderer: {fileID: 0}
   RigAngleTracker: {fileID: 0}
-  use_gazebo: 0
   publish_frequency: 0.25
   publish_threshold_joints: 0.01
   model_position_publish_threshold: 0.1
@@ -29656,11 +29649,6 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
-  _avatarManager: {fileID: 0}
-  initialAngularXDriveSpring: 3000
-  initialAngularXDriveDamper: 600
-  initialAngularYZDriveSpring: 3000
-  initialAngularYZDriveDamper: 600
 --- !u!114 &1028724064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29719,7 +29707,6 @@ MonoBehaviour:
   local_avatar: {fileID: 1899631920}
   local_avatar_mesh_renderer: {fileID: 1618087309}
   RigAngleTracker: {fileID: 1899631921}
-  use_gazebo: 1
   publish_frequency: 0.25
   publish_threshold_joints: 0.01
   model_position_publish_threshold: 0.1
@@ -29727,11 +29714,6 @@ MonoBehaviour:
   InitialP: 10000
   InitialI: 1000
   InitialD: 1000
-  _avatarManager: {fileID: 0}
-  initialAngularXDriveSpring: 3000
-  initialAngularXDriveDamper: 600
-  initialAngularYZDriveSpring: 3000
-  initialAngularYZDriveDamper: 600
 --- !u!1 &1038252409
 GameObject:
   m_ObjectHideFlags: 0
@@ -32412,7 +32394,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userAvatar: {fileID: 0}
 --- !u!95 &1244919177
 Animator:
   serializedVersion: 3
@@ -34761,7 +34742,6 @@ MonoBehaviour:
   local_avatar: {fileID: 0}
   local_avatar_mesh_renderer: {fileID: 0}
   RigAngleTracker: {fileID: 0}
-  use_gazebo: 0
   publish_frequency: 0.25
   publish_threshold_joints: 0.01
   model_position_publish_threshold: 0.1
@@ -34769,11 +34749,6 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
-  _avatarManager: {fileID: 0}
-  initialAngularXDriveSpring: 3000
-  initialAngularXDriveDamper: 600
-  initialAngularYZDriveSpring: 3000
-  initialAngularYZDriveDamper: 600
 --- !u!4 &1353312762
 Transform:
   m_ObjectHideFlags: 0
@@ -34986,7 +34961,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userAvatar: {fileID: 0}
 --- !u!95 &1366397134
 Animator:
   serializedVersion: 3
@@ -35595,7 +35569,6 @@ MonoBehaviour:
   local_avatar: {fileID: 0}
   local_avatar_mesh_renderer: {fileID: 0}
   RigAngleTracker: {fileID: 0}
-  use_gazebo: 0
   publish_frequency: 0.25
   publish_threshold_joints: 0.01
   model_position_publish_threshold: 0.1
@@ -35603,11 +35576,6 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
-  _avatarManager: {fileID: 0}
-  initialAngularXDriveSpring: 3000
-  initialAngularXDriveDamper: 600
-  initialAngularYZDriveSpring: 3000
-  initialAngularYZDriveDamper: 600
 --- !u!4 &1411572085 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4886962135273072, guid: b418af0ebdf618349a73938c9e8c17ee,
@@ -40771,7 +40739,6 @@ MonoBehaviour:
   local_avatar: {fileID: 0}
   local_avatar_mesh_renderer: {fileID: 0}
   RigAngleTracker: {fileID: 0}
-  use_gazebo: 0
   publish_frequency: 0.25
   publish_threshold_joints: 0.01
   model_position_publish_threshold: 0.1
@@ -40779,11 +40746,6 @@ MonoBehaviour:
   InitialP: 1000
   InitialI: 100
   InitialD: 500
-  _avatarManager: {fileID: 0}
-  initialAngularXDriveSpring: 3000
-  initialAngularXDriveDamper: 600
-  initialAngularYZDriveSpring: 3000
-  initialAngularYZDriveDamper: 600
 --- !u!1 &1721071145
 GameObject:
   m_ObjectHideFlags: 0
@@ -44042,7 +44004,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54a361ed0f266b341a1cff1f5f21739f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userAvatar: {fileID: 1035547226}
 --- !u!114 &1899631922
 MonoBehaviour:
   m_ObjectHideFlags: 0
