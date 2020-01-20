@@ -8,9 +8,17 @@ using System.IO;
 [ExecuteInEditMode]
 public class EditAvatarTemplate : EditorWindow
 {
+    #region Configurable in Editor
+    Object template;
+    Object templateMultiple;
+
+    TextAsset savedEditor;
+    
     float bodyWeight = 72f;
     BodyMass.MODE mode = BodyMass.MODE.AVERAGE;
     float indent = 15f;
+
+    BodyGroups.BODYGROUP bodyGroup;
 
     bool useCollisions;
     bool noPreprocessing = true;
@@ -19,7 +27,9 @@ public class EditAvatarTemplate : EditorWindow
     bool mirror;
     bool showJointSettings = true;
     bool useGravity = true;
+    #endregion
 
+    #region Helper variables
     public float angularXDriveSpringGlobal;
     public float angularXDriveDamperGlobal;
     public float maxForceXGlobal;
@@ -29,22 +39,18 @@ public class EditAvatarTemplate : EditorWindow
     public float maxForceYZGlobal;
     JointSettings globalSettings;
 
-    JointSettings groupSettings;
-
-    BodyGroups.BODYGROUP bodyGroup;
-
     static EditAvatarTemplate editor;
 
     Vector2 scroll;
 
-    Object template;
-    Object templateMultiple;
-
-    TextAsset savedEditor;
+    BodyMass bodyMass;
+   
     string fileName = "";
     bool loadFromFile;
     bool gatheredTemplateSettings;
+    #endregion
 
+    #region Dictionaries and HashSets
     Dictionary<HumanBodyBones, GameObject> gameObjectsPerBoneTemplate = new Dictionary<HumanBodyBones, GameObject>();
     Dictionary<HumanBodyBones, GameObject> gameObjectsPerBoneTemplateMultiple = new Dictionary<HumanBodyBones, GameObject>();
 
@@ -54,7 +60,7 @@ public class EditAvatarTemplate : EditorWindow
     HashSet<HumanBodyBones> jointsRight = new HashSet<HumanBodyBones>();
     HashSet<HumanBodyBones> toDisplay = new HashSet<HumanBodyBones>();
 
-    BodyMass bodyMass;
+    #endregion
 
     [MenuItem("Window/Edit Joint Avatar Template")]
     public static void GetWindow()
@@ -83,7 +89,7 @@ public class EditAvatarTemplate : EditorWindow
             //if not done so already, empty previously loaded settings (we do not want to execute in every editor update)
             if (!gatheredTemplateSettings)
             {
-                //set clean dictionaries
+                //set clean editor
                 ClearConstructs();
                 gatheredTemplateSettings = true;
             }
@@ -121,7 +127,7 @@ public class EditAvatarTemplate : EditorWindow
 
             bodyGroup = (BodyGroups.BODYGROUP)EditorGUILayout.EnumPopup("Body Group", bodyGroup);
 
-            GetDictionary();
+            Initialize();
             
             useGravity = EditorGUILayout.Toggle("Enable Gravity", useGravity);
             useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
@@ -233,8 +239,10 @@ public class EditAvatarTemplate : EditorWindow
             }
         }
     }
-
-    void GetDictionary()
+    /// <summary>
+    /// Initializes dictionaries and hashsets.
+    /// </summary>
+    void Initialize()
     {
         Dictionary<HumanBodyBones, GameObject> chosenBones = new Dictionary<HumanBodyBones, GameObject>();
         Animator animator = ((GameObject)template).GetComponent<Animator>();
@@ -262,13 +270,20 @@ public class EditAvatarTemplate : EditorWindow
             foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
             {
                 if (!bone.Equals(HumanBodyBones.LastBone))
-                {
+                {       
                     AddJointSettings(bone, animator, animatorMultiple, chosenBones);
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Initializes the JointSettings of bone according to values found in AvatarTemplate.
+    /// </summary>
+    /// <param name="bone"></param>
+    /// <param name="animator"></param>
+    /// <param name="animatorMultiple"></param>
+    /// <param name="chosenBones">The bones that will be displayed in the editor.</param>
     void AddJointSettings(HumanBodyBones bone, Animator animator, Animator animatorMultiple, Dictionary<HumanBodyBones, GameObject> chosenBones)
     {
         Transform boneTransformAvatar = animator.GetBoneTransform(bone);
@@ -285,7 +300,7 @@ public class EditAvatarTemplate : EditorWindow
             }
         }
 
-        //chosenBones are the bones that will be displayed in the editor
+        //handle current display
         if (chosenBones.ContainsKey(bone))
         {
             toDisplay.Add(bone);
@@ -305,6 +320,8 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="bone"></param>
     void GetJointSettings(HumanBodyBones bone)
     {
+        //JointSettings will only be set to the values in AvatarTemplate once (when both AvatarTemplate and AvatarTemplateMultipleJoint rigs have been assigned).
+        //prevents constantly overwriting the JointSettings with every tick.
         if (!jointSettings.ContainsKey(bone))
         {
             ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
@@ -326,7 +343,7 @@ public class EditAvatarTemplate : EditorWindow
         }
     }
     /// <summary>
-    /// Shows all JointSettings in Editor.
+    /// Shows all editable JointSettings in Editor.
     /// </summary>
     void DisplayJointSettings()
     {
@@ -407,7 +424,11 @@ public class EditAvatarTemplate : EditorWindow
         if (settings.bone.ToString().StartsWith("Left")) CopySettings(settings, jointSettings[LeftToRightMapping(settings.bone)]);
         if (settings.bone.ToString().StartsWith("Right")) CopySettings(settings, jointSettings[RightToLeftMapping(settings.bone)]);
     }
-
+    /// <summary>
+    /// Mapps angular limits and angular drives of one JointSettings instance to another one.
+    /// </summary>
+    /// <param name="settings">The settings to copy.</param>
+    /// <param name="mappedSettings">The settings to overwrite.</param>
     void CopySettings(JointSettings settings, JointSettings mappedSettings)
     {
         //changing the primary/secondary axis depends on the exact bone. It is not supported right now, if needed it could be done similar to the split joint method in JointSetup
@@ -538,7 +559,9 @@ public class EditAvatarTemplate : EditorWindow
 
         //editor.Repaint();
     }
-
+    /// <summary>
+    /// Makes sure that the correct applied values are assigned.
+    /// </summary>
     void RefreshJointSettings()
     {
         foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
@@ -550,7 +573,9 @@ public class EditAvatarTemplate : EditorWindow
             }
         }
     }
-
+    /// <summary>
+    /// Called on update press to copy changes made to the TemplateAvatar to the TemplateAvatarMutlipleJoints. Utilizes JointSetup functions.
+    /// </summary>
     void CopyToMultipleJointsTemplate()
     {
         //we have to tell the JointSetup that we are using it in the context of the editor (we have no configjointmanager)
@@ -571,7 +596,9 @@ public class EditAvatarTemplate : EditorWindow
             setup.AddJointFromTemplate(bone);
         }
     }
-
+    /// <summary>
+    /// Applys changes made to the ConfigurableJoints to the TemplateAvatar.
+    /// </summary>
     void UpdateJoints()
     {
         foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
@@ -584,15 +611,18 @@ public class EditAvatarTemplate : EditorWindow
                 JointSettings settings = globalSettings;
                 if (!setGlobalJointSetting)
                 {
+                    //get the correct JointSettings for the current bone
                     JointSettings specificSettings;
                     if (jointSettings.TryGetValue(bone, out specificSettings))
                     {
+                        //return bone on the right if left side
                         if (mirror)
                         {
                             if (specificSettings.bone.ToString().StartsWith("Left"))
                             {
                                 specificSettings = jointSettings[LeftToRightMapping(bone)];
                             }
+                            //return bone on the left if right side
                             else
                             {
                                 if (specificSettings.bone.ToString().StartsWith("Right"))
@@ -680,7 +710,11 @@ public class EditAvatarTemplate : EditorWindow
             default: return bone;
         }
     }
-
+    /// <summary>
+    /// Applys a JointSettings configuration to a specified joint.
+    /// </summary>
+    /// <param name="joint"></param>
+    /// <param name="setting"></param>
     void ApplyJointSetting(ConfigurableJoint joint, JointSettings setting)
     {
         Rigidbody rb = joint.gameObject.GetComponent<Rigidbody>();
@@ -740,7 +774,9 @@ public class EditAvatarTemplate : EditorWindow
             rb.useGravity = useGravity;
         }
     }
-
+    /// <summary>
+    /// Saves the current JointSettings for all bones.
+    /// </summary>
     void SaveJointSettingsAsJson()
     {
         //save joint settings
@@ -753,6 +789,11 @@ public class EditAvatarTemplate : EditorWindow
         AssetDatabase.ImportAsset(path);
     }
 
+    /// <summary>
+    /// Load JointSettings from Json.
+    /// </summary>
+    /// <param name="savedInfo">The text inside of the assigned previously saved file.</param>
+    /// <returns></returns>
     Dictionary<HumanBodyBones, JointSettings> RecoverJointSettingsFromJson(string savedInfo)
     {
         Dictionary<HumanBodyBones, JointSettings> jointSettingsFromJson = new Dictionary<HumanBodyBones, JointSettings>();
@@ -767,6 +808,9 @@ public class EditAvatarTemplate : EditorWindow
         return jointSettingsFromJson;
     }
 
+    /// <summary>
+    /// Selects the Objects of the respective joints in the TemplateAvatar to make the same changes to all of them.
+    /// </summary>
     void SelectJointsInTemplate()
     {
         HashSet<HumanBodyBones> selection = new HashSet<HumanBodyBones>();
@@ -776,7 +820,7 @@ public class EditAvatarTemplate : EditorWindow
             selection.Add(bone);
             if (mirror)
             {
-                //since elements hashset are unique, no further check needed
+                //since elements in hashsets are unique, no further check needed
                 selection.Add(LeftToRightMapping(bone));
                 selection.Add(RightToLeftMapping(bone));
             }
@@ -792,6 +836,7 @@ public class EditAvatarTemplate : EditorWindow
                 if (jointSettings.ContainsKey(bone) && joint != null)
                 {
                     objectsInTemplate.Add(gameObjectsPerBoneTemplate[bone]);
+                    //update the JointSettings to store changes in file if needed.
                     jointSettings[bone] = new JointSettings(bone, joint);
                 }
             }

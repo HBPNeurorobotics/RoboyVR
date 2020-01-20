@@ -36,7 +36,10 @@ public class JointSetup
         this.editorMode = editorMode;
 
     }
-
+    /// <summary>
+    /// Switch between mass value 1 and the value calculated by BodyMass
+    /// </summary>
+    /// <param name="enabled">Use BodyMass</param>
     public void ToggleBodyMass(bool enabled)
     {
 
@@ -50,7 +53,10 @@ public class JointSetup
             gameObjectsFromBone[bone].GetComponent<Rigidbody>().mass = mass;
         }
     }
-
+    /// <summary>
+    /// Enables / disables MeshColliders and adds them if none have already been assigned.
+    /// </summary>
+    /// <param name="enabled"></param>
     public void ToggleMeshColliders(bool enabled)
     {
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
@@ -78,6 +84,10 @@ public class JointSetup
         }
     }
 
+    /// <summary>
+    /// Enables / disables simple Colliders (Box, Sphere, Capsule) and adds them if none have already been assigned.
+    /// </summary>
+    /// <param name="enabled"></param>
     public void ToggleSimpleColliders(bool enabled)
     {
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
@@ -118,6 +128,10 @@ public class JointSetup
         }
     }
 
+    /// <summary>
+    /// Use with caution, messes up the joint orientation when called frequently.
+    /// </summary>
+    /// <param name="enabled"></param>
     public void ToggleSplitJoints(bool enabled)
     {
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
@@ -183,7 +197,9 @@ public class JointSetup
             CopyPasteTemplateJoint(bone);
         }
     }
-
+    /// <summary>
+    /// Use to add and initialize ConfigurableJoint, Rigidbody and Collider for all bones in play mode.
+    /// </summary>
     public void InitializeStructures()
     {
         if (!editorMode)
@@ -550,20 +566,12 @@ public class JointSetup
         joint.yDrive = drive;
         joint.zDrive = drive;
 
-        /*
-        if (!useIndividualAxes)
+        if (!editorMode && !configJointManager.configureJointsInEditor)
         {
-            joint.angularXMotion = ConfigurableJointMotion.Free;
-            joint.angularYMotion = ConfigurableJointMotion.Free;
-            joint.angularZMotion = ConfigurableJointMotion.Free;
+            joint.configuredInWorldSpace = false;
+            joint.enableCollision = false;
+            joint.enablePreprocessing = true;
         }
-        */
-
-
-        joint.configuredInWorldSpace = false;
-
-        joint.enableCollision = false;
-        joint.enablePreprocessing = true;
 
         switch (bone)
         {
@@ -718,7 +726,6 @@ public class JointSetup
             case HumanBodyBones.Neck:
                 ConfigureJoint(bone, joint, gameObjectsFromBone[HumanBodyBones.UpperChest].GetComponent<Rigidbody>());
                 break;
-            //TODO assign head to neck, neck is too light
             case HumanBodyBones.Head:
                 ConfigureJoint(bone, joint, gameObjectsFromBone[HumanBodyBones.Neck].GetComponent<Rigidbody>());
                 break;
@@ -772,65 +779,23 @@ public class JointSetup
 
             default: break;
         }
-
-        ConfigurableJoint save = new ConfigurableJoint();
-        /*
-        if (configJointManager.splitJointTemplate)
-        {        
-            //save split joints for future uses
-            SaveSplitJointsOfBone(bone, joint);
-        }
-        else
-        {
-            if (!configJointManager.useJointsMultipleTemplate)
-            {
-                ConfigurableJoint tmp = new ConfigurableJoint();
-                if (!singleJointFromBone.TryGetValue(bone, out tmp))
-                {
-                    ConfigJointUtility.CopyPasteComponent(save, joint);
-                    singleJointFromBone.Add(bone, save);
-                }
-            }
-        }
-        */
-    }
-
-    void SaveSplitJointsOfBone(HumanBodyBones bone, ConfigurableJoint joint)
-    {
-        ConfigurableJoint save = new ConfigurableJoint();
-        List<ConfigurableJoint> list;
-
-        if (splitJointsFromBone.TryGetValue(bone, out list))
-        {
-            //there are already entries in the list
-            ConfigJointUtility.CopyPasteComponent(save, joint);
-            splitJointsFromBone[bone].Add(save);
-
-        }
-        else
-        {
-            //we need to create a new list for the key in the dictionary
-            list = new List<ConfigurableJoint>();
-            ConfigJointUtility.CopyPasteComponent(save, joint);
-
-            list.Add(save);
-            splitJointsFromBone.Add(bone, list);
-        }
     }
 
     /// <summary>
-    /// Sets joint values (TODO remove), Sets the connected body of a ConfigurableJoint.
+    /// Sets the connected body of a ConfigurableJoint.
     /// </summary>
     /// <param name="bone"> The bone of the BodyPart that has a ConfigurableJoint Component</param>
     /// <param name="joint">A ConfigurableJoint of the bone (might be multiple in the future)</param>
     /// <param name="connectedBody">The rigidbody of the Object that the joint is connected to. For example, this would be the LeftUpperArm if the bone is the LeftLowerArm, NOT the LeftHand</param>
     public void ConfigureJoint(HumanBodyBones bone, ConfigurableJoint joint, Rigidbody connectedBody)
     {
-
-        //TODO: CURRENTLY OVEWRITES EDITOR INPUT, REMOVE LATER
-        joint.angularXDrive = angularXDrive;
-        joint.angularYZDrive = angularYZDrive;
+        if (!editorMode && !configJointManager.configureJointsInEditor)
+        {
+            joint.angularXDrive = angularXDrive;
+            joint.angularYZDrive = angularYZDrive;
+        }
         //END TODO
+        
 
         //Connected Body
         joint.connectedBody = connectedBody;
@@ -839,16 +804,7 @@ public class JointSetup
         {
             //This will only be used if there are no individual rotations/velocities assigned by the AvatarManager
             if (!configJointManager.inputByManager)
-            {/*
-            if (usesFixedJoint.Contains(bone))
             {
-                joint.angularXMotion = joint.angularYMotion = joint.angularZMotion = ConfigurableJointMotion.Locked;
-            } 
-            else
-            {
-                AssignTargetToImitatePassive(bone);
-            }
-            */
                 AssignTargetToImitatePassive(bone);
             }
             else
