@@ -173,4 +173,51 @@ public static class ConfigJointUtility
         return (HumanBodyBones)int.Parse(index);
     }
 
+    /// <summary>
+    /// A safe way to access the exact ConfigurableJoint for the axis defined in the tuning process.
+    /// </summary>
+    /// <param name="name">The name found in the tuning mappings. Format: HumanBodyBones + Axis</param>
+    /// <param name="gameObjectsOfRemoteAvatar"></param>
+    /// <returns></returns>
+    public static ConfigurableJoint GetRemoteJointOfCorrectAxisFromString(string name, Dictionary<HumanBodyBones, GameObject> gameObjectsOfRemoteAvatar)
+    {
+        char axis = name.Substring(name.Length - 1)[0];
+        HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), name.Remove(name.Length - 1));
+
+        GameObject tmp;
+        ConfigurableJoint[] joints;
+        if(gameObjectsOfRemoteAvatar.TryGetValue(bone, out tmp))
+        {
+            joints = gameObjectsOfRemoteAvatar[bone].GetComponents<ConfigurableJoint>();
+            
+            if(joints.Length != 3)
+            {
+                throw new System.Exception(bone.ToString() + " has not 3 ConfigurableJoints. Make sure to use the MultipleJoint setup for the AvatarManager when tuning.");
+            }
+
+            Vector3 primaryAxis;
+            switch (axis)
+            {
+                case 'X': primaryAxis = Vector3.right; break;
+                case 'Y': primaryAxis = Vector3.up; break;
+                case 'Z': primaryAxis = Vector3.forward; break;
+                default: throw new System.Exception("Unknown Axis. You need to check your joint naming. Only the endings X,Y,Z as last character are supported");
+            }
+
+            foreach (ConfigurableJoint joint in joints)
+            {
+                //ignore the axis orientation
+                if(joint.axis == primaryAxis || joint.axis == -primaryAxis)
+                {
+                    return joint;
+                }
+            }
+        }
+        else
+        {
+            throw new System.Exception("No joint has been found at the object of the bone " + bone.ToString() + " in the scene.");
+        }
+
+        return null;  
+    }
 }

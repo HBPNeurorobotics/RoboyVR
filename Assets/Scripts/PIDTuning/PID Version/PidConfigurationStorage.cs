@@ -20,7 +20,6 @@ namespace PIDTuning
         [SerializeField]
         private RigAngleTracker _userAvatar;
 
-        private bool gazebo = false;
         private void Awake()
         {
             Assert.IsNotNull(_userAvatar);
@@ -45,14 +44,14 @@ namespace PIDTuning
 
             foreach (var joint in Configuration.Mapping)
             {
-                if (gazebo) { 
+                if (UserAvatarService.Instance.use_gazebo) { 
                 string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
 
                     ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(joint.Value.Kp, joint.Value.Ki, joint.Value.Kd));
                 }
                 else
                 {
-
+                    TransmitSingleJointConfiguration(joint.Key);
                 }
             }
         }
@@ -60,14 +59,21 @@ namespace PIDTuning
         public void TransmitSingleJointConfiguration(string joint)
         {
             AssertServiceReady();
-            if (gazebo)
+            var jointConfig = Configuration.Mapping[joint];
+
+            if (UserAvatarService.Instance.use_gazebo)
             {
-
                 string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
-
-                var jointConfig = Configuration.Mapping[joint];
-
                 ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(jointConfig.Kp, jointConfig.Ki, jointConfig.Kd));
+            }
+            else
+            {
+                ConfigurableJoint configJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+
+                JointDrive angularDrive = new JointDrive();
+                angularDrive.positionSpring = jointConfig.Kp;
+                angularDrive.positionDamper = jointConfig.Kd;
+                configJoint.angularXDrive = configJoint.angularYZDrive = angularDrive;
             }
         }
 

@@ -32,8 +32,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     [SerializeField] private SkinnedMeshRenderer local_avatar_mesh_renderer = null;
 
     public RigAngleTracker RigAngleTracker;
-    [SerializeField]
-    private static bool use_gazebo = false;
+    public bool use_gazebo = false;
 
     //public List<GameObject> published_links = null;
     //public bool publish_all_links = false;
@@ -434,10 +433,6 @@ public class UserAvatarService : Singleton<UserAvatarService>
             model_rotation_last_published_ = local_avatar.transform.rotation;
         }
 
-    }
-    public static bool GetUseGazebo()
-    {
-        return use_gazebo;
     }
 
     #region legacy code

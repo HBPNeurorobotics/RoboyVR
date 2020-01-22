@@ -24,7 +24,8 @@ namespace PIDTuning
     [RequireComponent(typeof(TestEnvSetup), typeof(AnimatorControl))]
     public class AutoTuningService : MonoBehaviour
     {
-        /*[SerializeField]*/ private GameObject _localAvatar;
+        /*[SerializeField]*/
+        private GameObject _localAvatar;
 
         public ZieglerNicholsHeuristic TuningHeuristic = ZieglerNicholsHeuristic.PDControl;
 
@@ -58,8 +59,6 @@ namespace PIDTuning
 
         private bool _tuningInProgress;
 
-        private bool _gazebo;
-
         private Dictionary<HumanBodyBones, GameObject> _remoteBones;
 
         public TuningResult LastTuningData { private set; get; }
@@ -85,28 +84,18 @@ namespace PIDTuning
             PoseErrorTracker = GetComponent<PoseErrorTracker>();
             _testEnvSetup = GetComponent<TestEnvSetup>();
             _animatorControl = GetComponent<AnimatorControl>();
-            _remoteBones = UserAvatarService._avatarManager.GetGameObjectPerBoneAvatarDictionary();
+            _remoteBones = UserAvatarService._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
         }
 
         public IEnumerator TuneAllJoints()
         {
             Assert.IsFalse(_tuningInProgress);
 
-            if (_gazebo)
-            {
-
                 foreach (var joint in _localAvatarRig.GetJointToRadianMapping().Keys)
                 {
                     yield return TuneSingleJoint(joint);
                 }
-            }
-            else
-            {
-                foreach(var bone in _localAvatarRig.GetJointMappingsClient().Keys)
-                {
-                    yield return TuneSingleJoint(bone.ToString());
-                }
-            }
+
 
             _tuningInProgress = false;
         }
@@ -122,14 +111,9 @@ namespace PIDTuning
             _localAvatarAnimator.enabled = false;
 
             // Set starting angle of joint
-            if (_gazebo)
-            {
-                _localAvatarRig.SetJointEulerAngle(joint, RelayStartAngle);
-            }
-            else
-            {
-                //_localAvatarRig.SetJointQuaternion()
-            }
+
+            _localAvatarRig.SetJointEulerAngle(joint, RelayStartAngle);
+
 
             // Wait for sim to catch up
             yield return _testEnvSetup.RunSimulationReset();
@@ -137,7 +121,7 @@ namespace PIDTuning
             // Run Bang-Bang control for a while to get oscillation data
             var bangBangStepData = new Box<PidStepData>(null);
 
-            yield return RunBangBangEvaluation(joint, bangBangStepData, UserAvatarService.GetUseGazebo());
+            yield return RunBangBangEvaluation(joint, bangBangStepData, UserAvatarService.Instance.use_gazebo);
 
             // Evaluate the oscillation data
             var oscillation = PeakAnalysis.AnalyzeOscillation(bangBangStepData.Value);
@@ -166,6 +150,12 @@ namespace PIDTuning
 
         private IEnumerator RunBangBangEvaluation(string joint, Box<PidStepData> evaluation, bool gazebo)
         {
+            if (!gazebo)
+            {
+                //Prepare the remote avatar. We do not want any other joint force to influence the tuning process.
+                UserAvatarService._avatarManager.LockAvatarJointsExceptCurrent(ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones));
+            }
+
             // TODO: Explain all of this m8
             TimeSpan warmupSeconds = TimeSpan.FromSeconds(TestWarmupSeconds);
             TimeSpan measurementSeconds = TimeSpan.FromSeconds(TestDurationSeconds);
@@ -186,7 +176,7 @@ namespace PIDTuning
             while (DateTime.Now - startTime < warmupSeconds)
             {
                 AdjustRelayForce(joint, gazebo);
-                
+
                 yield return null;
             }
 
@@ -227,22 +217,36 @@ namespace PIDTuning
 
         private void SetConstantForceForJoint(string joint, float force, bool gazebo)
         {
-            if (gazebo) { 
-            string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint + "/set_constant_force";
+            if (gazebo)
+            {
+                string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint + "/set_constant_force";
 
                 ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(force, 0f, 0f));
             }
             else
             {
-                HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint);
-                GameObject tmp;
-                if(_remoteBones.TryGetValue(bone, out tmp)){
-                    Rigidbody rb = _remoteBones[bone].GetComponent<Rigidbody>();
-                    if(rb != null)
+                //Convert string back to HumanBodyBones. That way we can find the correct joint for the current axis in our remote avatar.
+                ConfigurableJoint configJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
+                Rigidbody rb = configJoint.gameObject.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    //apply force in direction that the joint can rotate in
+                    Vector3 direction = Vector3.zero;
+                    if (configJoint.axis == Vector3.right || configJoint.axis == Vector3.left)
                     {
-                        rb.AddForce(new Vector3(force, 0, 0));
+                        direction = Vector3.right;
                     }
-                } 
+                    else if (configJoint.axis == Vector3.up || configJoint.axis == Vector3.down)
+                    {
+                        direction = Vector3.up;
+                    }
+                    else if (configJoint.axis == Vector3.forward || configJoint.axis == Vector3.back)
+                    {
+                        direction = Vector3.forward;
+                    }
+
+                    rb.AddForce(direction * force);
+                }
             }
         }
 

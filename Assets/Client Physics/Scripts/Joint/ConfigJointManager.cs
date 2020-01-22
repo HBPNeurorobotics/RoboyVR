@@ -118,7 +118,7 @@ public class ConfigJointManager : MonoBehaviour
             case BodyGroups.BODYGROUP.TRUNK_HEAD: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().TrunkHead(); break;
         }
         */
-        gameObjectsFromBone = avatarManager.GetGameObjectPerBoneAvatarDictionary();
+        gameObjectsFromBone = avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
     }
 
     public void SetupJoints()
@@ -144,7 +144,7 @@ public class ConfigJointManager : MonoBehaviour
     void GetAvatar()
     {
         avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
-        gameObjectsFromBone = avatarManager.GetGameObjectPerBoneAvatarDictionary();
+        gameObjectsFromBone = avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
 
         if (useJointsMultipleTemplate)
         {
@@ -309,5 +309,29 @@ public class ConfigJointManager : MonoBehaviour
     public AvatarManager GetAvatarManager()
     {
         return avatarManager;
+    }
+
+    public void LockAvatarJointsExceptCurrent(ConfigurableJoint freeJoint)
+    {
+        foreach(HumanBodyBones bone in gameObjectsFromBone.Keys)
+        {
+            foreach(ConfigurableJoint joint in gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>())
+            {
+                if(freeJoint != joint)
+                {
+                    joint.angularXMotion = ConfigurableJointMotion.Locked;
+                    joint.angularYMotion = ConfigurableJointMotion.Locked;
+                    joint.angularZMotion = ConfigurableJointMotion.Locked;
+                }
+                //not really needed, but just to make sure
+                else
+                {
+                    joint.angularXMotion = ConfigurableJointMotion.Free;
+                    joint.angularYMotion = ConfigurableJointMotion.Locked;
+                    joint.angularZMotion = ConfigurableJointMotion.Locked;
+                }
+            }
+        }
+        
     }
 }

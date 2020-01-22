@@ -314,13 +314,13 @@ public class AvatarManager : MonoBehaviour
         {
             Transform boneTransformLocalAvatar = animatorLocalAvatar.GetBoneTransform(bone);
             Quaternion tmp = new Quaternion();
-            tmp = boneTransformLocalAvatar.localRotation;
+            tmp = boneTransformLocalAvatar.rotation;
             orientationPerBoneRemoteAvatarAtStart[bone] = tmp;
             configJointManager.SetStartOrientation();
         }
     }
 
-    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneAvatarDictionary()
+    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneRemoteAvatarDictionary()
     {
         return gameObjectPerBoneRemoteAvatar;
     }
@@ -347,5 +347,10 @@ public class AvatarManager : MonoBehaviour
     public BodyGroups.BODYGROUP GetSelectedBodyGroup()
     {
         return bodyGroup;
+    }
+
+    public void LockAvatarJointsExceptCurrent(ConfigurableJoint joint)
+    {
+        configJointManager.LockAvatarJointsExceptCurrent(joint);
     }
 }
