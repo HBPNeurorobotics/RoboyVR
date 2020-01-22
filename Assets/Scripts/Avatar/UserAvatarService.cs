@@ -302,11 +302,35 @@ public class UserAvatarService : Singleton<UserAvatarService>
         foreach (Transform child in children)*/
         foreach (string joint in RigAngleTracker.GetJointToRadianMapping().Keys)
         {
-            string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
-            ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(InitialP, InitialI, InitialD));
+            for (int i = 0; i < RigAngleTracker.handJointName.Length; i++)
+            {
+                if (String.Equals(joint, RigAngleTracker.handJointName[i]))
+                {
+                    string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
+                    ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(0f, 0f, 0f));
+                    //Debug.Log(RigAngleTracker.handJointName[i]);
+                }
+                else
+                {
+                    string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
+                    ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(InitialP, InitialI, InitialD));
+                }
+            }
         }
     }
-
+    
+    //private void PublishJointPIDParams()
+    //{
+    //    /*Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
+    //    Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
+    //    foreach (Transform child in children)*/
+    //    foreach (string joint in RigAngleTracker.GetJointToRadianMapping().Keys)
+    //    {
+    //        string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
+    //        ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(InitialP, InitialI, InitialD));
+    //    }
+    //}
+    
     private void PublishJointPIDPositionTargetsJointStatesTopic()
     {
         /*string[] names = new string[joint_pid_position_targets_.Count];

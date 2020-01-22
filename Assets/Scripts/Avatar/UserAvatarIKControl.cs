@@ -11,6 +11,9 @@ public class UserAvatarIKControl : MonoBehaviour {
     [SerializeField] private Vector3 inferredBodyTargetOffset = new Vector3(0f, 0.45f, 0f);
     [SerializeField] private Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
 
+    // Bachelor Thesis VRHand
+    [SerializeField] private TrackingFKManager trackingFKManager;
+
     protected Animator animator;
 
     private Transform headTarget = null;
@@ -176,7 +179,11 @@ public class UserAvatarIKControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-    
+        if (ikActive && trackingIKTargetManager.IsReady())
+        {
+            //lModelThumb1.transform.SetPositionAndRotation(leftThumb1.position, leftThumb1.rotation);
+            //lModelThumb1.transform.rotation = leftThumb1.rotation;
+        }
 	}
 
     //a callback for calculating IK
@@ -338,80 +345,90 @@ public class UserAvatarIKControl : MonoBehaviour {
             //Vector3 rot = leftThumb1.rotation.eulerAngles;
             //rot = new Vector3(rot.x, rot.y, rot.z);
             //lModelThumb1.transform.rotation = Quaternion.Euler(rot.x, rot.y, rot.z);
+
         }
         
     }
 
     private void getFingerTargetLeft()
     {
-        leftThumb1 = trackingIKTargetManager.GetTargetThumb1();
-        leftThumb2 = trackingIKTargetManager.GetTargetThumb2();
-        leftThumb3 = trackingIKTargetManager.GetTargetThumb3();
-        leftThumb4 = trackingIKTargetManager.GetTargetThumb4();
+        leftThumb1 = trackingFKManager.GetTargetThumb1();
+        leftThumb2 = trackingFKManager.GetTargetThumb2();
+        leftThumb3 = trackingFKManager.GetTargetThumb3();
+        leftThumb4 = trackingFKManager.GetTargetThumb4();
 
-        leftIndex1 = trackingIKTargetManager.GetTargetIndex1();
-        leftIndex2 = trackingIKTargetManager.GetTargetIndex2();
-        leftIndex3 = trackingIKTargetManager.GetTargetIndex3();
-        leftIndex4 = trackingIKTargetManager.GetTargetIndex4();
+        leftIndex1 = trackingFKManager.GetTargetIndex1();
+        leftIndex2 = trackingFKManager.GetTargetIndex2();
+        leftIndex3 = trackingFKManager.GetTargetIndex3();
+        leftIndex4 = trackingFKManager.GetTargetIndex4();
 
-        leftMiddle1 = trackingIKTargetManager.GetTargetMiddle1();
-        leftMiddle2 = trackingIKTargetManager.GetTargetMiddle2();
-        leftMiddle3 = trackingIKTargetManager.GetTargetMiddle3();
-        leftMiddle4 = trackingIKTargetManager.GetTargetMiddle4();
+        leftMiddle1 = trackingFKManager.GetTargetMiddle1();
+        leftMiddle2 = trackingFKManager.GetTargetMiddle2();
+        leftMiddle3 = trackingFKManager.GetTargetMiddle3();
+        leftMiddle4 = trackingFKManager.GetTargetMiddle4();
 
-        leftRing1 = trackingIKTargetManager.GetTargetRing1();
-        leftRing2 = trackingIKTargetManager.GetTargetRing2();
-        leftRing3 = trackingIKTargetManager.GetTargetRing3();
-        leftRing4 = trackingIKTargetManager.GetTargetRing4();
+        leftRing1 = trackingFKManager.GetTargetRing1();
+        leftRing2 = trackingFKManager.GetTargetRing2();
+        leftRing3 = trackingFKManager.GetTargetRing3();
+        leftRing4 = trackingFKManager.GetTargetRing4();
 
-        leftPinky1 = trackingIKTargetManager.GetTargetPinky1();
-        leftPinky2 = trackingIKTargetManager.GetTargetPinky2();
-        leftPinky3 = trackingIKTargetManager.GetTargetPinky3();
-        leftPinky4 = trackingIKTargetManager.GetTargetPinky4();
+        leftPinky1 = trackingFKManager.GetTargetPinky1();
+        leftPinky2 = trackingFKManager.GetTargetPinky2();
+        leftPinky3 = trackingFKManager.GetTargetPinky3();
+        leftPinky4 = trackingFKManager.GetTargetPinky4();
     }
 
     private void getFingerTargetRight()
     {
-        rightThumb1 = trackingIKTargetManager.GetTargetThumb1R();
-        rightThumb2 = trackingIKTargetManager.GetTargetThumb2R();
-        rightThumb3 = trackingIKTargetManager.GetTargetThumb3R();
-        rightThumb4 = trackingIKTargetManager.GetTargetThumb4R();
+        rightThumb1 = trackingFKManager.GetTargetThumb1R();
+        rightThumb2 = trackingFKManager.GetTargetThumb2R();
+        rightThumb3 = trackingFKManager.GetTargetThumb3R();
+        rightThumb4 = trackingFKManager.GetTargetThumb4R();
 
-        rightIndex1 = trackingIKTargetManager.GetTargetIndex1R();
-        rightIndex2 = trackingIKTargetManager.GetTargetIndex2R();
-        rightIndex3 = trackingIKTargetManager.GetTargetIndex3R();
-        rightIndex4 = trackingIKTargetManager.GetTargetIndex4R();
+        rightIndex1 = trackingFKManager.GetTargetIndex1R();
+        rightIndex2 = trackingFKManager.GetTargetIndex2R();
+        rightIndex3 = trackingFKManager.GetTargetIndex3R();
+        rightIndex4 = trackingFKManager.GetTargetIndex4R();
 
-        rightMiddle1 = trackingIKTargetManager.GetTargetMiddle1R();
-        rightMiddle2 = trackingIKTargetManager.GetTargetMiddle2R();
-        rightMiddle3 = trackingIKTargetManager.GetTargetMiddle3R();
-        rightMiddle4 = trackingIKTargetManager.GetTargetMiddle4R();
+        rightMiddle1 = trackingFKManager.GetTargetMiddle1R();
+        rightMiddle2 = trackingFKManager.GetTargetMiddle2R();
+        rightMiddle3 = trackingFKManager.GetTargetMiddle3R();
+        rightMiddle4 = trackingFKManager.GetTargetMiddle4R();
 
-        rightRing1 = trackingIKTargetManager.GetTargetRing1R();
-        rightRing2 = trackingIKTargetManager.GetTargetRing2R();
-        rightRing3 = trackingIKTargetManager.GetTargetRing3R();
-        rightRing4 = trackingIKTargetManager.GetTargetRing4R();
+        rightRing1 = trackingFKManager.GetTargetRing1R();
+        rightRing2 = trackingFKManager.GetTargetRing2R();
+        rightRing3 = trackingFKManager.GetTargetRing3R();
+        rightRing4 = trackingFKManager.GetTargetRing4R();
 
-        rightPinky1 = trackingIKTargetManager.GetTargetPinky1R();
-        rightPinky2 = trackingIKTargetManager.GetTargetPinky2R();
-        rightPinky3 = trackingIKTargetManager.GetTargetPinky3R();
-        rightPinky4 = trackingIKTargetManager.GetTargetPinky4R();
+        rightPinky1 = trackingFKManager.GetTargetPinky1R();
+        rightPinky2 = trackingFKManager.GetTargetPinky2R();
+        rightPinky3 = trackingFKManager.GetTargetPinky3R();
+        rightPinky4 = trackingFKManager.GetTargetPinky4R();
     }
 
     private void updateFingerTargetLeft()
     {
         //Vector3 rot = leftThumb1.rotation.eulerAngles;
         //rot = new Vector3(rot.x - 20, rot.y - 40, rot.z - 50);
-        lModelThumb1.transform.SetPositionAndRotation(leftThumb1.position, leftThumb1.rotation);
-        lModelThumb2.transform.SetPositionAndRotation(leftThumb2.position, leftThumb2.rotation);
-        lModelThumb3.transform.SetPositionAndRotation(leftThumb3.position, leftThumb3.rotation);
-        lModelThumb4.transform.SetPositionAndRotation(leftThumb4.position, leftThumb4.rotation);
+        //lModelThumb1.transform.SetPositionAndRotation(leftThumb1.position, leftThumb1.rotation);
+        lModelThumb1.transform.rotation = leftThumb1.rotation;
+        //lModelThumb2.transform.SetPositionAndRotation(leftThumb2.position, leftThumb2.rotation);
+        lModelThumb2.transform.rotation = leftThumb2.rotation;
+        //lModelThumb3.transform.SetPositionAndRotation(leftThumb3.position, leftThumb3.rotation);
+        lModelThumb3.transform.rotation = leftThumb3.rotation;
+        //lModelThumb4.transform.SetPositionAndRotation(leftThumb4.position, leftThumb4.rotation);
+        lModelThumb4.transform.rotation = leftThumb4.rotation;
 
-        lModelIndex1.transform.SetPositionAndRotation(leftIndex1.position, leftIndex1.rotation);
-        lModelIndex2.transform.SetPositionAndRotation(leftIndex2.position, leftIndex2.rotation);
-        lModelIndex3.transform.SetPositionAndRotation(leftIndex3.position, leftIndex3.rotation);
-        lModelIndex4.transform.SetPositionAndRotation(leftIndex4.position, leftIndex4.rotation);
+        //lModelIndex1.transform.SetPositionAndRotation(leftIndex1.position, leftIndex1.rotation);
+        lModelIndex1.transform.rotation = leftIndex1.rotation;
+        //lModelIndex2.transform.SetPositionAndRotation(leftIndex2.position, leftIndex2.rotation);
+        lModelIndex2.transform.rotation = leftIndex2.rotation;
+        //lModelIndex3.transform.SetPositionAndRotation(leftIndex3.position, leftIndex3.rotation);
+        lModelIndex3.transform.rotation = leftIndex3.rotation;
+        //lModelIndex4.transform.SetPositionAndRotation(leftIndex4.position, leftIndex4.rotation);
+        lModelIndex4.transform.rotation = leftIndex4.rotation;
 
+        /*
         lModelMiddle1.transform.SetPositionAndRotation(leftMiddle1.position, leftMiddle1.rotation);
         lModelMiddle2.transform.SetPositionAndRotation(leftMiddle2.position, leftMiddle2.rotation);
         lModelMiddle3.transform.SetPositionAndRotation(leftMiddle3.position, leftMiddle3.rotation);
@@ -426,15 +443,36 @@ public class UserAvatarIKControl : MonoBehaviour {
         lModelPinky2.transform.SetPositionAndRotation(leftPinky2.position, leftPinky2.rotation);
         lModelPinky3.transform.SetPositionAndRotation(leftPinky3.position, leftPinky3.rotation);
         lModelPinky4.transform.SetPositionAndRotation(leftPinky4.position, leftPinky4.rotation);
+        */
+
+        lModelMiddle1.transform.rotation = leftMiddle1.rotation;
+        lModelMiddle2.transform.rotation = leftMiddle2.rotation;
+        lModelMiddle3.transform.rotation = leftMiddle3.rotation;
+        lModelMiddle4.transform.rotation = leftMiddle4.rotation;
+
+        lModelRing1.transform.rotation = leftRing1.rotation;
+        lModelRing2.transform.rotation = leftRing2.rotation;
+        lModelRing3.transform.rotation = leftRing3.rotation;
+        lModelRing4.transform.rotation = leftRing4.rotation;
+
+        lModelPinky1.transform.rotation = leftPinky1.rotation;
+        lModelPinky2.transform.rotation = leftPinky2.rotation;
+        lModelPinky3.transform.rotation = leftPinky3.rotation;
+        lModelPinky4.transform.rotation = leftPinky4.rotation;
     }
 
     private void updateFingerTargetRight()
     {
-        rModelThumb1.transform.SetPositionAndRotation(rightThumb1.position, rightThumb1.rotation);
-        rModelThumb2.transform.SetPositionAndRotation(rightThumb2.position, rightThumb2.rotation);
-        rModelThumb3.transform.SetPositionAndRotation(rightThumb3.position, rightThumb3.rotation);
-        rModelThumb4.transform.SetPositionAndRotation(rightThumb4.position, rightThumb4.rotation);
+        //rModelThumb1.transform.SetPositionAndRotation(rightThumb1.position, rightThumb1.rotation);
+        rModelThumb1.transform.rotation = rightThumb1.rotation;
+        //rModelThumb2.transform.SetPositionAndRotation(rightThumb2.position, rightThumb2.rotation);
+        rModelThumb2.transform.rotation = rightThumb2.rotation;
+        //rModelThumb3.transform.SetPositionAndRotation(rightThumb3.position, rightThumb3.rotation);
+        rModelThumb3.transform.rotation = rightThumb3.rotation;
+        //rModelThumb4.transform.SetPositionAndRotation(rightThumb4.position, rightThumb4.rotation);
+        rModelThumb4.transform.rotation = rightThumb4.rotation;
 
+        /*
         rModelIndex1.transform.SetPositionAndRotation(rightIndex1.position, rightIndex1.rotation);
         rModelIndex2.transform.SetPositionAndRotation(rightIndex2.position, rightIndex2.rotation);
         rModelIndex3.transform.SetPositionAndRotation(rightIndex3.position, rightIndex3.rotation);
@@ -454,5 +492,26 @@ public class UserAvatarIKControl : MonoBehaviour {
         rModelPinky2.transform.SetPositionAndRotation(rightPinky2.position, rightPinky2.rotation);
         rModelPinky3.transform.SetPositionAndRotation(rightPinky3.position, rightPinky3.rotation);
         rModelPinky4.transform.SetPositionAndRotation(rightPinky4.position, rightPinky4.rotation);
+        */
+
+        rModelIndex1.transform.rotation = rightIndex1.rotation;
+        rModelIndex2.transform.rotation = rightIndex2.rotation;
+        rModelIndex3.transform.rotation = rightIndex3.rotation;
+        rModelIndex4.transform.rotation = rightIndex4.rotation;
+
+        rModelMiddle1.transform.rotation = rightMiddle1.rotation;
+        rModelMiddle2.transform.rotation = rightMiddle2.rotation;
+        rModelMiddle3.transform.rotation = rightMiddle3.rotation;
+        rModelMiddle4.transform.rotation = rightMiddle4.rotation;
+
+        rModelRing1.transform.rotation = rightRing1.rotation;
+        rModelRing2.transform.rotation = rightRing2.rotation;
+        rModelRing3.transform.rotation = rightRing3.rotation;
+        rModelRing4.transform.rotation = rightRing4.rotation;
+
+        rModelPinky1.transform.rotation = rightPinky1.rotation;
+        rModelPinky2.transform.rotation = rightPinky2.rotation;
+        rModelPinky3.transform.rotation = rightPinky3.rotation;
+        rModelPinky4.transform.rotation = rightPinky4.rotation;
     }
 }

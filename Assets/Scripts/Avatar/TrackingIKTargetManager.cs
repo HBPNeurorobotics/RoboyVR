@@ -46,6 +46,8 @@ public class TrackingIKTargetManager : MonoBehaviour
     // Bachelors Thesis VRHand
     [SerializeField] public GameObject vrHand;
     [SerializeField] public GameObject vrHandRight;
+    /*
+    private Transform tWrist;
     private Transform tThumb1;
     private Transform tThumb2;
     private Transform tThumb3;
@@ -185,12 +187,17 @@ public class TrackingIKTargetManager : MonoBehaviour
     private GameObject TargetPinky2R;
     private GameObject TargetPinky3R;
     private GameObject TargetPinky4R;
+    */
 
     private bool initialized = false;
 
     // Use this for initialization
     void Start ()
     {
+        /*
+        // TODO Auslagern in eigene Klasse
+        tWrist = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r").transform;
+
         tThumb1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r").transform;
         tThumb2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r").transform;
         tThumb3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r").transform;
@@ -243,16 +250,22 @@ public class TrackingIKTargetManager : MonoBehaviour
         tPinky2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r").transform;
         tPinky3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r").transform;
         tPinky4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r/finger_pinky_r_end").transform;
+        */
     }
 	
 	// Update is called once per frame
 	void Update () {
+        /*
         if (initialized)
         {
             //Vector3 rot = tThumb1.transform.rotation.eulerAngles;
             //rot = new Vector3(rot.x, rot.y-90f, rot.z);
             //TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, Quaternion.Euler(rot));
-            TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, tThumb1.transform.rotation);
+            //TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, tThumb1.transform.rotation);
+            //TargetThumb1.transform.position = tThumb1.transform.position;
+            TargetThumb1.transform.rotation = tThumb1.transform.rotation;
+            //Debug.Log(TargetThumb1.transform.rotation);
+
             TargetThumb2.transform.SetPositionAndRotation(tThumb2.transform.position, tThumb2.transform.rotation);
             TargetThumb3.transform.SetPositionAndRotation(tThumb3.transform.position, tThumb3.transform.rotation);
             TargetThumb4.transform.SetPositionAndRotation(tThumb4.transform.position, tThumb4.transform.rotation);
@@ -302,8 +315,8 @@ public class TrackingIKTargetManager : MonoBehaviour
             TargetPinky3R.transform.SetPositionAndRotation(tPinky3R.transform.position, tPinky3R.transform.rotation);
             TargetPinky4R.transform.SetPositionAndRotation(tPinky4R.transform.position, tPinky4R.transform.rotation);
         }
+        */
 	}
-
 
     private void OnEnable()
     {
@@ -391,6 +404,7 @@ public class TrackingIKTargetManager : MonoBehaviour
                     dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.LeftHand);
 
                     // Bachelor Thesis VRHand
+                    /*
                     trackingTargetThumb1 = trackingReference.gameObject.transform;
                     trackingTargetThumb2 = trackingReference.gameObject.transform;
                     trackingTargetThumb3 = trackingReference.gameObject.transform;
@@ -411,6 +425,10 @@ public class TrackingIKTargetManager : MonoBehaviour
                     trackingTargetPinky2 = trackingReference.gameObject.transform;
                     trackingTargetPinky3 = trackingReference.gameObject.transform;
                     trackingTargetPinky4 = trackingReference.gameObject.transform;
+                    
+                    //trackingTargetThumb1 = tThumb1;
+                    //trackingTargetThumb2 = tThumb2;
+                    */
                 }
                 else if (OpenVR.System.GetControllerRoleForTrackedDeviceIndex(deviceIndex) == ETrackedControllerRole.RightHand)
                 {
@@ -418,6 +436,7 @@ public class TrackingIKTargetManager : MonoBehaviour
                     dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.RightHand);
 
                     // Bachelor Thesis VRHand
+                    /*
                     trackingTargetThumb1R = trackingReference.gameObject.transform;
                     trackingTargetThumb2R = trackingReference.gameObject.transform;
                     trackingTargetThumb3R = trackingReference.gameObject.transform;
@@ -438,6 +457,7 @@ public class TrackingIKTargetManager : MonoBehaviour
                     trackingTargetPinky2R = trackingReference.gameObject.transform;
                     trackingTargetPinky3R = trackingReference.gameObject.transform;
                     trackingTargetPinky4R = trackingReference.gameObject.transform;
+                    */
                 }
                 
             }
@@ -500,6 +520,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         if (trackingTargetBody) SetupIKTargetBody(trackingTargetBody);
         if (trackingTargetHandLeft) SetupIKTargetHandLeft(trackingTargetHandLeft);
 
+        /*
         if (trackingTargetThumb1) SetupTargetThumb1(trackingTargetThumb1);
         if (trackingTargetThumb2) SetupTargetThumb2(trackingTargetThumb2);
         if (trackingTargetThumb3) SetupTargetThumb3(trackingTargetThumb3);
@@ -541,6 +562,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         if (trackingTargetPinky2R) SetupTargetPinky2R(trackingTargetPinky2R);
         if (trackingTargetPinky3R) SetupTargetPinky3R(trackingTargetPinky3R);
         if (trackingTargetPinky4R) SetupTargetPinky4R(trackingTargetPinky4R);
+        */
 
         if (trackingTargetHandRight) SetupIKTargetHandRight(trackingTargetHandRight);
         if (trackingTargetFootLeft) SetupIKTargetFootLeft(trackingTargetFootLeft);
@@ -578,8 +600,9 @@ public class TrackingIKTargetManager : MonoBehaviour
         ikTargetLeftHand.transform.localRotation = targetOffsetLeftHand.rotation;
     }
     */
-    // Bachelor Thesis VRHand
 
+    // Bachelor Thesis VRHand
+    
     private void SetupIKTargetHandLeft(Transform trackingTarget)
     {
         ikTargetLeftHand = new GameObject("IK Target Left Hand");
@@ -592,15 +615,18 @@ public class TrackingIKTargetManager : MonoBehaviour
         pos = new Vector3(pos.x - 0.01f, pos.y - 0.015f, pos.z - 0.035f);
         ikTargetLeftHand.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
     }
-
+    
+    /*
+    // TODO: in den legacy code und in den getter das trackingTarget ausgeben
     private void SetupTargetThumb1 (Transform trackingTarget)
     {
         TargetThumb1 = new GameObject("Target Thumb1");
         TargetThumb1.transform.parent = trackingTarget;
-        TargetThumb1.transform.localPosition = trackingTarget.position;
-        TargetThumb1.transform.localRotation = trackingTarget.rotation;
+        Debug.Log(string.Format("Target Thumb1: {0} {1} {2}", tThumb1.localPosition.x, tThumb1.localPosition.y, tThumb1.localPosition.z));
+        TargetThumb1.transform.localPosition = tThumb1.localPosition;
+        //TargetThumb1.transform.localRotation = new Quaternion();
 
-        TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, tThumb1.transform.rotation);
+        //TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, tThumb1.transform.rotation);
     }
 
     private void SetupTargetThumb2(Transform trackingTarget)
@@ -792,6 +818,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
         TargetPinky4.transform.SetPositionAndRotation(tPinky4.transform.position, tPinky4.transform.rotation);
     }
+    */
 
     private void SetupIKTargetHandRight(Transform trackingTarget)
     {
@@ -805,7 +832,8 @@ public class TrackingIKTargetManager : MonoBehaviour
         pos = new Vector3(pos.x, pos.y - 0.02f, pos.z - 0.035f);
         ikTargetRightHand.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
     }
-
+        
+    /*
     private void SetupTargetThumb1R(Transform trackingTarget)
     {
         TargetThumb1R = new GameObject("Target Thumb1");
@@ -1005,7 +1033,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
         TargetPinky4R.transform.SetPositionAndRotation(tPinky4R.transform.position, tPinky4R.transform.rotation);
     }
-
+    */
     private void SetupIKTargetFootLeft(Transform trackingTarget)
     {
         ikTargetLeftFoot = new GameObject("IK Target Left Foot");
@@ -1153,8 +1181,8 @@ public class TrackingIKTargetManager : MonoBehaviour
         return ikTargetLeftHand.transform;
     }
 
-
     // Bachelor Thesis VRHand
+    /*
     public Transform GetTargetThumb1()
     {
         return TargetThumb1.transform;
@@ -1254,12 +1282,12 @@ public class TrackingIKTargetManager : MonoBehaviour
     {
         return TargetPinky4.transform;
     }
-
+    */
     public Transform GetIKTargetRightHand()
     {
         return ikTargetRightHand.transform;
     }
-
+    /*
     public Transform GetTargetThumb1R()
     {
         return TargetThumb1R.transform;
@@ -1359,7 +1387,7 @@ public class TrackingIKTargetManager : MonoBehaviour
     {
         return TargetPinky4R.transform;
     }
-
+    */
     public Transform GetIKTargetLeftFoot()
     {
         return ikTargetLeftFoot.transform;

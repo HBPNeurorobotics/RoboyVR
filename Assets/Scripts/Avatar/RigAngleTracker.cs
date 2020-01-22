@@ -39,7 +39,8 @@ public class RigAngleTracker : MonoBehaviour
     private const string L_HAND_NAME = "mixamorig_LeftHand";
     private const string R_HAND_NAME = "mixamorig_RightHand";
 
-    // Bachelor Thesis VRHand
+    // Bachelor Thesis VRHand 
+
     private const string L_HAND_THUMB1_NAME = "mixamorig_LeftHandThumb1";
     private const string L_HAND_THUMB2_NAME = "mixamorig_LeftHandThumb2";
     private const string L_HAND_THUMB3_NAME = "mixamorig_LeftHandThumb3";
@@ -89,6 +90,23 @@ public class RigAngleTracker : MonoBehaviour
     private const string R_HAND_PINKY2_NAME = "mixamorig_RightHandPinky2";
     private const string R_HAND_PINKY3_NAME = "mixamorig_RightHandPinky3";
     private const string R_HAND_PINKY4_NAME = "mixamorig_RightHandPinky4";
+
+    // This array contains all names for the Handjoints, it is for later use in UserAvatarService
+    public string[] handJointName = new string[] {"mixamorig_LeftHand_JointLink1", "mixamorig_LeftHand_JointLink2", "mixamorig_RightHand_JointLink1", "mixamorig_RightHand_JointLink2",
+                                                    "mixamorig_LeftHandThumb1_JointLink1", "mixamorig_LeftHandThumb1_JointLink2", "mixamorig_RightHandThumb1_JointLink1", "mixamorig_RightHandThumb1_JointLink2",
+                                                    L_HAND_NAME, R_HAND_NAME,
+                                                    "mixamorig_LeftHandThumb1_x", "mixamorig_LeftHandThumb1_y", "mixamorig_LeftHandThumb1_z",
+                                                    "mixamorig_RightHandThumb1_x", "mixamorig_RightHandThumb1_y", "mixamorig_RightHandThumb1_z",
+                                                    L_HAND_THUMB1_NAME, L_HAND_THUMB2_NAME, L_HAND_THUMB3_NAME, L_HAND_THUMB4_NAME,
+                                                    L_HAND_INDEX1_NAME, L_HAND_INDEX2_NAME, L_HAND_INDEX3_NAME, L_HAND_INDEX4_NAME,
+                                                    L_HAND_MIDDLE1_NAME, L_HAND_MIDDLE2_NAME, L_HAND_MIDDLE3_NAME, L_HAND_MIDDLE4_NAME,
+                                                    L_HAND_RING1_NAME, L_HAND_RING2_NAME, L_HAND_RING3_NAME, L_HAND_RING4_NAME,
+                                                    L_HAND_PINKY1_NAME, L_HAND_PINKY2_NAME, L_HAND_PINKY3_NAME, L_HAND_PINKY4_NAME,
+                                                    R_HAND_THUMB1_NAME, R_HAND_THUMB2_NAME, R_HAND_THUMB3_NAME, R_HAND_THUMB4_NAME,
+                                                    R_HAND_INDEX1_NAME, R_HAND_INDEX2_NAME, R_HAND_INDEX3_NAME, R_HAND_INDEX4_NAME,
+                                                    R_HAND_MIDDLE1_NAME, R_HAND_MIDDLE2_NAME, R_HAND_MIDDLE3_NAME, R_HAND_MIDDLE4_NAME,
+                                                    R_HAND_RING1_NAME, R_HAND_RING2_NAME, R_HAND_RING3_NAME, R_HAND_RING4_NAME,
+                                                    R_HAND_PINKY1_NAME, R_HAND_PINKY2_NAME, R_HAND_PINKY3_NAME, R_HAND_PINKY4_NAME,};
 
     private bool _initialized = false;
 
@@ -377,7 +395,7 @@ public class RigAngleTracker : MonoBehaviour
             new JointMapping(rightHand, rightThumb1_jlink1, true, MappedEulerAngle.InvertedZ);
 
         _jointMappings[R_HAND_THUMB2_NAME] =
-            new JointMapping(rightThumb1, rightThumb2, true, MappedEulerAngle.Y);
+            new JointMapping(rightThumb1, rightThumb2, true, MappedEulerAngle.X);   // Was Y before, change back to 0 1 0 in Model.Sdf
 
         _jointMappings[R_HAND_THUMB3_NAME] =
             new JointMapping(rightThumb2, rightThumb3, true, MappedEulerAngle.Y);
