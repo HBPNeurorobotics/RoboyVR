@@ -104,6 +104,11 @@ public class RigAngleTracker : MonoBehaviour
     {
         var isRemoteAvatar = gameObject.name != "local_avatar";
 
+        if (!UserAvatarService.Instance.use_gazebo)
+        {
+            UserAvatarService.Instance._avatarManager.InitializeBodyStructures();
+        }
+
         if (isRemoteAvatar)
         {
             CreateMappingForRemoteAvatar();
@@ -111,6 +116,7 @@ public class RigAngleTracker : MonoBehaviour
         else
         {
             CreateMappingForLocalAvatar();
+            Debug.Log("Created Local Mapping");
         }
     }
 
@@ -122,7 +128,7 @@ public class RigAngleTracker : MonoBehaviour
         }
         else
         {
-            SetJointMappingsNonGazebo(UserAvatarService._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+            SetJointMappingsNonGazebo(UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary(), false);
         }
     }
 
@@ -134,7 +140,7 @@ public class RigAngleTracker : MonoBehaviour
         }
         else
         {
-            SetJointMappingsNonGazebo(UserAvatarService._avatarManager.GetGameObjectPerBoneLocalAvatarDictionary());
+            SetJointMappingsNonGazebo(UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneLocalAvatarDictionary(), true);
         }
     }
 
@@ -306,27 +312,39 @@ public class RigAngleTracker : MonoBehaviour
         }
     }
 
-    void SetJointMappingsNonGazebo(Dictionary<HumanBodyBones, GameObject> gameObjectsPerBone)
+    void SetJointMappingsNonGazebo(Dictionary<HumanBodyBones, GameObject> gameObjectsPerBone, bool isLocal)
     {
         Dictionary<string, JointMapping> mappings = new Dictionary<string, JointMapping>();
         foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
         {
-            char index = 'X';
-            for (int i = 0; i < 2; i++)
-            {
-                GameObject tmp;
-
-                if (gameObjectsPerBone.TryGetValue(bone, out tmp))
-                {
+            GameObject tmp;
+            if (gameObjectsPerBone.TryGetValue(bone, out tmp))
+            { 
+                char index = 'X';
+                for (int i = 0; i < 2; i++)
+                {   
                     ConfigurableJoint joint = tmp.GetComponent<ConfigurableJoint>();
                     if (joint != null)
                     {
                         Transform parent = joint.connectedBody.transform;
                         Transform child = tmp.transform;
 
-                        string key = bone.ToString() + (index + i);
+                        string key = bone.ToString() + (char)(index + i);
                         JointMapping value = new JointMapping(parent, child, false, (MappedEulerAngle)i);
                         mappings.Add(key, value);
+
+                    }
+                    else
+                    {
+                        if (isLocal)
+                        {
+                            Transform parent = tmp.transform.parent.transform;
+                            Transform child = tmp.transform;
+
+                            string key = bone.ToString() + (char)(index + i);
+                            JointMapping value = new JointMapping(parent, child, false, (MappedEulerAngle)i);
+                            mappings.Add(key, value);
+                        }
                     }
                 }
             }

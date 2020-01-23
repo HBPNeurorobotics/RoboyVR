@@ -84,7 +84,7 @@ namespace PIDTuning
             PoseErrorTracker = GetComponent<PoseErrorTracker>();
             _testEnvSetup = GetComponent<TestEnvSetup>();
             _animatorControl = GetComponent<AnimatorControl>();
-            _remoteBones = UserAvatarService._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
+            _remoteBones = UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
         }
 
         public IEnumerator TuneAllJoints()
@@ -153,7 +153,7 @@ namespace PIDTuning
             if (!gazebo)
             {
                 //Prepare the remote avatar. We do not want any other joint force to influence the tuning process.
-                UserAvatarService._avatarManager.LockAvatarJointsExceptCurrent(ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones));
+                UserAvatarService.Instance._avatarManager.LockAvatarJointsExceptCurrent(ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones));
             }
 
             // TODO: Explain all of this m8

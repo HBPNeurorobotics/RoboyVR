@@ -21,8 +21,6 @@ public class ConfigJointManager : MonoBehaviour
     public bool inputByManager = false;
 
     List<HumanBodyBones> usesFixedJoint = new List<HumanBodyBones>();
-    [SerializeField]
-    Dictionary<HumanBodyBones, JointAngleContainer> jointAngleLimits = new Dictionary<HumanBodyBones, JointAngleContainer>();
 
     public float maximumForce = 10000;
 
@@ -37,7 +35,7 @@ public class ConfigJointManager : MonoBehaviour
     JointDrive angularYZDrive = new JointDrive();
 
     AvatarManager avatarManager;
-    JointSetup jointSetup;
+    public JointSetup jointSetup;
 
     Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone = new Dictionary<HumanBodyBones, GameObject>();
     Dictionary<HumanBodyBones, Quaternion> quaternionFromBoneAtStart = new Dictionary<HumanBodyBones, Quaternion>();
@@ -332,6 +330,10 @@ public class ConfigJointManager : MonoBehaviour
                 }
             }
         }
-        
+    }
+
+    public Dictionary<HumanBodyBones, GameObject> GetTemplateAvatar()
+    {
+        return templateFromBone;
     }
 }

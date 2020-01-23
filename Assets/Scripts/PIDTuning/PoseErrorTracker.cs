@@ -44,7 +44,14 @@ namespace PIDTuning
             // This thing allows us to track all joint angles on the remote
             // avatar. We do the same thing with the local avatar, so we
             // can just calculate the difference to get the pose error.
-            RemoteRig = avatarService.avatar.AddComponent<RigAngleTracker>();
+            if (UserAvatarService.Instance.use_gazebo)
+            {
+                RemoteRig = avatarService.avatar.AddComponent<RigAngleTracker>();
+            }
+            else
+            {
+                RemoteRig = GameObject.Find("remote_avatar").AddComponent<RigAngleTracker>();
+            }
         }
 
         public IEnumerable<string> GetJointNames()

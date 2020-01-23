@@ -73,7 +73,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     /// <summary>
     /// Provides access to dictionary of RemoteAvatar and TargetAvatar
     /// </summary>
-    public static AvatarManager _avatarManager;
+    public  AvatarManager _avatarManager;
 
     [Header("Initial Joint Settings")]
     [Header("Angular Drive X")]
@@ -92,7 +92,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
         }
         else
         {
-            this.local_avatar = GameObject.FindGameObjectWithTag("Target");
+            local_avatar = GameObject.FindGameObjectWithTag("Target");
+            remote_avatar = GameObject.Find("remote_avatar");
             avatar_ready = true;
             OnAvatarSpawned(this);
         }

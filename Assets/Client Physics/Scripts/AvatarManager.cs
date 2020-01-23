@@ -38,9 +38,6 @@ public class AvatarManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        animatorRemoteAvatar = GetComponentInChildren<Animator>();
-        animatorLocalAvatar = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
-
         InitializeBodyStructures();
     }
 
@@ -74,51 +71,57 @@ public class AvatarManager : MonoBehaviour
     ///     Maps all HumanBodyBones (assigned in the Animator) to their GameObjects in the scene in order to get access to all components.
     ///     Adds Rigidbody to both bodies, adds PDController to the avatar if useJoints is false and a single ConfigJointManager otherwise.
     /// </summary>
-    void InitializeBodyStructures()
+    public void InitializeBodyStructures()
     {
-        foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
+
+
+        if (gameObjectPerBoneLocalAvatar.Keys.Count == 0 && gameObjectPerBoneRemoteAvatar.Keys.Count == 0)
         {
-            //LastBone is not mapped to a bodypart, we need to skip it.
-            if (bone != HumanBodyBones.LastBone)
+            animatorRemoteAvatar = GetComponentInChildren<Animator>();
+            animatorLocalAvatar = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
+            foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
             {
-                Transform boneTransformRemoteAvatar = animatorRemoteAvatar.GetBoneTransform(bone);
-                Transform boneTransformLocalAvatar = animatorLocalAvatar.GetBoneTransform(bone);
-                //We have to skip unassigned bodyparts.
-                if (boneTransformRemoteAvatar != null && boneTransformLocalAvatar != null)
+                //LastBone is not mapped to a bodypart, we need to skip it.
+                if (bone != HumanBodyBones.LastBone)
                 {
-                    //build Dictionaries
-                    gameObjectPerBoneRemoteAvatar.Add(bone, boneTransformRemoteAvatar.gameObject);
-                    gameObjectPerBoneLocalAvatar.Add(bone, boneTransformLocalAvatar.gameObject);
-
-                    Quaternion tmp = new Quaternion();
-                    tmp = boneTransformRemoteAvatar.localRotation;
-                    orientationPerBoneRemoteAvatarAtStart.Add(bone, tmp);
-
-                    bonesPerGameObjectRemoteAvatar.Add(boneTransformRemoteAvatar.gameObject, bone);
-
-                    AssignRigidbodys(bone);
-
-                    if (!useJoints)
+                    Transform boneTransformRemoteAvatar = animatorRemoteAvatar.GetBoneTransform(bone);
+                    Transform boneTransformLocalAvatar = animatorLocalAvatar.GetBoneTransform(bone);
+                    //We have to skip unassigned bodyparts.
+                    if (boneTransformRemoteAvatar != null && boneTransformLocalAvatar != null)
                     {
-                        AssignPDController(bone);
-                    }
+                        //build Dictionaries
+                        gameObjectPerBoneRemoteAvatar.Add(bone, boneTransformRemoteAvatar.gameObject);
+                        gameObjectPerBoneLocalAvatar.Add(bone, boneTransformLocalAvatar.gameObject);
 
-                    //AssignVacuumBreatherPIDController(bone);
-                    //AssignMerchVRPIDController(bone);
+                        Quaternion tmp = new Quaternion();
+                        tmp = boneTransformRemoteAvatar.localRotation;
+                        orientationPerBoneRemoteAvatarAtStart.Add(bone, tmp);
+
+                        bonesPerGameObjectRemoteAvatar.Add(boneTransformRemoteAvatar.gameObject, bone);
+
+                        AssignRigidbodys(bone);
+
+                        if (!useJoints)
+                        {
+                            AssignPDController(bone);
+                        }
+
+                        //AssignVacuumBreatherPIDController(bone);
+                        //AssignMerchVRPIDController(bone);
+                    }
                 }
             }
-        }   
 
-        bodyGroupsRemote = new BodyGroups(gameObjectPerBoneRemoteAvatar);
-        bodyGroupsTarget = new BodyGroups(gameObjectPerBoneLocalAvatar);
+            bodyGroupsRemote = new BodyGroups(gameObjectPerBoneRemoteAvatar);
+            bodyGroupsTarget = new BodyGroups(gameObjectPerBoneLocalAvatar);
 
-        if (useJoints)
-        {
-            configJointManager = GetComponent<ConfigJointManager>();
-            configJointManager.SetupJoints();
-
-            SetupOrder(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
-            bonesInOrder.Reverse();
+            if (useJoints)
+            {
+                configJointManager = GetComponent<ConfigJointManager>();
+                configJointManager.SetupJoints();
+                SetupOrder(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
+                bonesInOrder.Reverse();
+            }
         }
     }
 
@@ -271,7 +274,7 @@ public class AvatarManager : MonoBehaviour
             {
 
                 if (tmp.GetComponent<ConfigurableJoint>() != null)
-                {              
+                {
                     Rigidbody targetRb = GetRigidbodyFromBone(false, tmpBone);
                     if (targetRb != null)
                     {
@@ -286,10 +289,10 @@ public class AvatarManager : MonoBehaviour
             SetupOrder(child);
         }
     }
-    
+
     void UpdateJointsRecursive(Transform boneTransform)
     {
-        foreach(HumanBodyBones bone in bonesInOrder)
+        foreach (HumanBodyBones bone in bonesInOrder)
         {
             configJointManager.SetTagetTransform(bone, gameObjectPerBoneLocalAvatar[bone].transform);
         }
@@ -342,7 +345,7 @@ public class AvatarManager : MonoBehaviour
     public BodyGroups GetBodyGroupsTarget()
     {
         return bodyGroupsTarget;
-    }  
+    }
 
     public BodyGroups.BODYGROUP GetSelectedBodyGroup()
     {
