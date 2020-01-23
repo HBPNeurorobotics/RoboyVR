@@ -207,8 +207,9 @@ public static class ConfigJointUtility
             foreach (ConfigurableJoint joint in joints)
             {
                 //ignore the axis orientation
-                if(joint.axis == primaryAxis || joint.axis == -primaryAxis)
+                if(joint.axis.Equals(primaryAxis) || joint.axis.Equals(-primaryAxis))
                 {
+                    Debug.Log(bone);
                     return joint;
                 }
             }

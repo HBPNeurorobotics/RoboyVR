@@ -116,7 +116,6 @@ public class RigAngleTracker : MonoBehaviour
         else
         {
             CreateMappingForLocalAvatar();
-            Debug.Log("Created Local Mapping");
         }
     }
 
@@ -321,7 +320,7 @@ public class RigAngleTracker : MonoBehaviour
             if (gameObjectsPerBone.TryGetValue(bone, out tmp))
             { 
                 char index = 'X';
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 3; i++)
                 {   
                     ConfigurableJoint joint = tmp.GetComponent<ConfigurableJoint>();
                     if (joint != null)
