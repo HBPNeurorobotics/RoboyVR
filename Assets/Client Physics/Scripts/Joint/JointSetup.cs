@@ -404,7 +404,7 @@ public class JointSetup
                    || joint.axis == Vector3.left && joint.secondaryAxis == Vector3.forward)
                 {
                     primaryAxisOne = Vector3.up;
-                    secondaryAxisOne = Vector3.zero;
+                    secondaryAxisOne = Vector3.right;
 
                     primaryAxisTwo = Vector3.forward;
                     secondaryAxisTwo = Vector3.right;
