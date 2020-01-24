@@ -378,122 +378,119 @@ public class JointSetup
     /// <param name="bone">The bone of the body part that the joint is attached to.</param>
     void AddSplitJoints(ConfigurableJoint joint, HumanBodyBones bone, bool calledByToggle = false)
     {
-        List<ConfigurableJoint> jointsFromSplit = new List<ConfigurableJoint>();
-
-        if (!splitJointsFromBone.TryGetValue(bone, out jointsFromSplit))
+        //it is pointless to split a joint's rotation axes when it can't rotate in the first place 
+        if (joint.angularXMotion != ConfigurableJointMotion.Locked && joint.angularYMotion != ConfigurableJointMotion.Locked && joint.angularZMotion != ConfigurableJointMotion.Locked)
         {
-            Vector3 primaryAxisOne = Vector3.right;
-            Vector3 secondaryAxisOne = Vector3.up;
-            Vector3 primaryAxisTwo = Vector3.right;
-            Vector3 secondaryAxisTwo = Vector3.up;
+            List<ConfigurableJoint> jointsFromSplit = new List<ConfigurableJoint>();
 
-            ConfigurableJoint jointA = joint.gameObject.AddComponent<ConfigurableJoint>();
-            ConfigurableJoint jointB = joint.gameObject.AddComponent<ConfigurableJoint>();
-
-            UnityEditorInternal.ComponentUtility.CopyComponent(joint);
-            UnityEditorInternal.ComponentUtility.PasteComponentValues(jointA);
-            UnityEditorInternal.ComponentUtility.PasteComponentValues(jointB);
-
-            SoftJointLimit lowLimit = new SoftJointLimit();
-
-            //Torso, Legs
-            if (((joint.axis == Vector3.right) && (joint.secondaryAxis == Vector3.forward || joint.secondaryAxis == Vector3.back || joint.secondaryAxis == Vector3.up))
-               || joint.axis == Vector3.left && joint.secondaryAxis == Vector3.forward)
+            if (!splitJointsFromBone.TryGetValue(bone, out jointsFromSplit))
             {
-                primaryAxisOne = Vector3.up;
-                secondaryAxisOne = Vector3.zero;
+                Vector3 primaryAxisOne = Vector3.right;
+                Vector3 secondaryAxisOne = Vector3.up;
+                Vector3 primaryAxisTwo = Vector3.right;
+                Vector3 secondaryAxisTwo = Vector3.up;
 
-                primaryAxisTwo = Vector3.forward;
-                secondaryAxisTwo = Vector3.right;
-            }
-            else
-            {
-                //Arms (upper arm and forearm)
-                if (joint.axis == Vector3.up)
+                ConfigurableJoint jointA = joint.gameObject.AddComponent<ConfigurableJoint>();
+                ConfigurableJoint jointB = joint.gameObject.AddComponent<ConfigurableJoint>();
+
+                UnityEditorInternal.ComponentUtility.CopyComponent(joint);
+                UnityEditorInternal.ComponentUtility.PasteComponentValues(jointA);
+                UnityEditorInternal.ComponentUtility.PasteComponentValues(jointB);
+
+                SoftJointLimit lowLimit = new SoftJointLimit();
+
+                //Torso, Legs
+                if (((joint.axis == Vector3.right) && (joint.secondaryAxis == Vector3.forward || joint.secondaryAxis == Vector3.back || joint.secondaryAxis == Vector3.up))
+                   || joint.axis == Vector3.left && joint.secondaryAxis == Vector3.forward)
                 {
-                    primaryAxisOne = Vector3.right;
-                    secondaryAxisOne = Vector3.back;
+                    primaryAxisOne = Vector3.up;
+                    secondaryAxisOne = Vector3.zero;
 
                     primaryAxisTwo = Vector3.forward;
-
-                    //right: forward, left: back
-                    if (joint.secondaryAxis == Vector3.forward ||joint.secondaryAxis == Vector3.back)
-                    {
-                        secondaryAxisTwo = Vector3.up;
-                    }
+                    secondaryAxisTwo = Vector3.right;
                 }
                 else
                 {
-                    //left hand including fingers
-                    if (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.up)
+                    //Arms (upper arm and forearm)
+                    if (joint.axis == Vector3.up)
                     {
-                        primaryAxisOne = Vector3.up;
+                        primaryAxisOne = Vector3.right;
                         secondaryAxisOne = Vector3.back;
 
-                        primaryAxisTwo = Vector3.right;
-                        secondaryAxisTwo = Vector3.back;
+                        primaryAxisTwo = Vector3.forward;
+
+                        //right: forward, left: back
+                        if (joint.secondaryAxis == Vector3.forward || joint.secondaryAxis == Vector3.back)
+                        {
+                            secondaryAxisTwo = Vector3.up;
+                        }
                     }
                     else
                     {
-                        //right hand including fingers
-                        if ((joint.axis == Vector3.back && joint.secondaryAxis == Vector3.up) || (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.down))
+                        //left hand including fingers
+                        if (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.up)
                         {
                             primaryAxisOne = Vector3.up;
-                            secondaryAxisOne = Vector3.forward;
+                            secondaryAxisOne = Vector3.back;
 
                             primaryAxisTwo = Vector3.right;
                             secondaryAxisTwo = Vector3.back;
                         }
+                        else
+                        {
+                            //right hand including fingers
+                            if ((joint.axis == Vector3.back && joint.secondaryAxis == Vector3.up) || (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.down))
+                            {
+                                primaryAxisOne = Vector3.up;
+                                secondaryAxisOne = Vector3.forward;
+
+                                primaryAxisTwo = Vector3.right;
+                                secondaryAxisTwo = Vector3.back;
+                            }
+                        }
                     }
                 }
-            }
-            
-            //assign angular limits
-            jointA.axis = primaryAxisOne;
-            jointA.secondaryAxis = secondaryAxisOne;
 
-            jointA.highAngularXLimit = joint.angularZLimit;
-            lowLimit = joint.angularZLimit;
-            lowLimit.limit *= -1;
-            jointA.lowAngularXLimit = lowLimit;
-            
-             
-            jointB.axis = primaryAxisTwo;
-            jointB.secondaryAxis = secondaryAxisTwo;
+                //assign angular limits
+                jointA.axis = primaryAxisOne;
+                jointA.secondaryAxis = secondaryAxisOne;
 
-            jointB.highAngularXLimit = joint.angularYLimit;
-            lowLimit = joint.angularYLimit;
-            lowLimit.limit *= -1;
-            jointB.lowAngularXLimit = lowLimit;
+                jointA.highAngularXLimit = joint.angularZLimit;
+                lowLimit = joint.angularZLimit;
+                lowLimit.limit *= -1;
+                jointA.lowAngularXLimit = lowLimit;
 
-        
-            //only primary axis constrained (highest level of control)
-            lowLimit.limit = 0;
-            joint.angularYLimit = jointB.angularYLimit = lowLimit;//jointA.angularYLimit = lowLimit;
-            joint.angularZLimit = jointB.angularZLimit =lowLimit;// jointA.angularZLimit =  lowLimit;
-            if (joint.angularXMotion == ConfigurableJointMotion.Locked)
-            {
-                joint.angularXMotion = jointA.angularXMotion = jointB.angularXMotion = ConfigurableJointMotion.Locked;
-                joint.angularYMotion = jointA.angularYMotion = jointB.angularYMotion = ConfigurableJointMotion.Locked;
-                joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Locked;
 
-            }
-            else
-            {
+                jointB.axis = primaryAxisTwo;
+                jointB.secondaryAxis = secondaryAxisTwo;
+
+                jointB.highAngularXLimit = joint.angularYLimit;
+                lowLimit = joint.angularYLimit;
+                lowLimit.limit *= -1;
+                jointB.lowAngularXLimit = lowLimit;
+
+
+                //only primary axis constrained (highest level of control)
+                lowLimit.limit = 0;
+                joint.angularYLimit = jointA.angularYLimit = jointB.angularYLimit = lowLimit;
+                joint.angularZLimit = jointA.angularZLimit = jointB.angularZLimit = lowLimit;
+
+
                 joint.angularXMotion = jointA.angularXMotion = jointB.angularXMotion = ConfigurableJointMotion.Limited;
                 joint.angularYMotion = jointA.angularYMotion = jointB.angularYMotion = ConfigurableJointMotion.Free;
                 joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Free;
-            }
-            //Save split joints for future uses
-            /*
-            if (calledByToggle)
-            {
-                SaveSplitJointsOfBone(bone, joint);
-            }
 
-            SaveSplitJointsOfBone(bone, jointA);
-            SaveSplitJointsOfBone(bone, jointB);
-            */
+                //Save split joints for future uses
+                /*
+                if (calledByToggle)
+                {
+                    SaveSplitJointsOfBone(bone, joint);
+                }
+
+                SaveSplitJointsOfBone(bone, jointA);
+                SaveSplitJointsOfBone(bone, jointB);
+                */
+            }
         }
     }
 
