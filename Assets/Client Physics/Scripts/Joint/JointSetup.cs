@@ -390,7 +390,6 @@ public class JointSetup
             ConfigurableJoint jointA = joint.gameObject.AddComponent<ConfigurableJoint>();
             ConfigurableJoint jointB = joint.gameObject.AddComponent<ConfigurableJoint>();
 
-
             UnityEditorInternal.ComponentUtility.CopyComponent(joint);
             UnityEditorInternal.ComponentUtility.PasteComponentValues(jointA);
             UnityEditorInternal.ComponentUtility.PasteComponentValues(jointB);
@@ -417,18 +416,10 @@ public class JointSetup
 
                     primaryAxisTwo = Vector3.forward;
 
-                    //right
-                    if (joint.secondaryAxis == Vector3.forward)
+                    //right: forward, left: back
+                    if (joint.secondaryAxis == Vector3.forward ||joint.secondaryAxis == Vector3.back)
                     {
                         secondaryAxisTwo = Vector3.up;
-                    }
-                    else
-                    {
-                        //left
-                        if (joint.secondaryAxis == Vector3.back)
-                        {
-                            secondaryAxisTwo = Vector3.zero;
-                        }
                     }
                 }
                 else
@@ -456,7 +447,7 @@ public class JointSetup
                     }
                 }
             }
-
+            
             //assign angular limits
             jointA.axis = primaryAxisOne;
             jointA.secondaryAxis = secondaryAxisOne;
@@ -465,7 +456,8 @@ public class JointSetup
             lowLimit = joint.angularZLimit;
             lowLimit.limit *= -1;
             jointA.lowAngularXLimit = lowLimit;
-
+            
+             
             jointB.axis = primaryAxisTwo;
             jointB.secondaryAxis = secondaryAxisTwo;
 
@@ -474,16 +466,24 @@ public class JointSetup
             lowLimit.limit *= -1;
             jointB.lowAngularXLimit = lowLimit;
 
-
+        
             //only primary axis constrained (highest level of control)
             lowLimit.limit = 0;
-            jointA.angularYLimit = jointB.angularYLimit = joint.angularYLimit = lowLimit;
-            jointA.angularZLimit = jointB.angularZLimit = joint.angularZLimit = lowLimit;
+            joint.angularYLimit = jointB.angularYLimit = lowLimit;//jointA.angularYLimit = lowLimit;
+            joint.angularZLimit = jointB.angularZLimit =lowLimit;// jointA.angularZLimit =  lowLimit;
+            if (joint.angularXMotion == ConfigurableJointMotion.Locked)
+            {
+                joint.angularXMotion = jointA.angularXMotion = jointB.angularXMotion = ConfigurableJointMotion.Locked;
+                joint.angularYMotion = jointA.angularYMotion = jointB.angularYMotion = ConfigurableJointMotion.Locked;
+                joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Locked;
 
-            joint.angularXMotion = jointA.angularXMotion = jointB.angularXMotion = ConfigurableJointMotion.Limited;
-            joint.angularYMotion = jointA.angularYMotion = jointB.angularYMotion = ConfigurableJointMotion.Free;
-            joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Free;
-
+            }
+            else
+            {
+                joint.angularXMotion = jointA.angularXMotion = jointB.angularXMotion = ConfigurableJointMotion.Limited;
+                joint.angularYMotion = jointA.angularYMotion = jointB.angularYMotion = ConfigurableJointMotion.Free;
+                joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Free;
+            }
             //Save split joints for future uses
             /*
             if (calledByToggle)

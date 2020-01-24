@@ -185,10 +185,11 @@ public static class ConfigJointUtility
         HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), name.Remove(name.Length - 1));
 
         GameObject tmp;
-        ConfigurableJoint[] joints;
+
         if(gameObjectsOfRemoteAvatar.TryGetValue(bone, out tmp))
-        {
-            joints = gameObjectsOfRemoteAvatar[bone].GetComponents<ConfigurableJoint>();
+        { 
+            ConfigurableJoint[] joints;
+            joints = tmp.GetComponents<ConfigurableJoint>();
             
             if(joints.Length != 3)
             {
@@ -209,16 +210,15 @@ public static class ConfigJointUtility
                 //ignore the axis orientation
                 if(joint.axis.Equals(primaryAxis) || joint.axis.Equals(-primaryAxis))
                 {
-                    Debug.Log(bone);
                     return joint;
                 }
             }
+
+            throw new System.Exception(bone.ToString() + ": No joint axis " + primaryAxis + " found.");
         }
         else
         {
-            throw new System.Exception("No joint has been found at the object of the bone " + bone.ToString() + " in the scene.");
+            throw new System.Exception("No object for the bone " + bone.ToString() + " has been found in the scene.");
         }
-
-        return null;  
     }
 }

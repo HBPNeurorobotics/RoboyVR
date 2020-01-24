@@ -80,12 +80,13 @@ public class ConfigJointManager : MonoBehaviour
                 jointSetup.ToggleSimpleColliders(addSimpleColliders);
             }
         }
-
+        /*
         if(!useJointsMultipleTemplate && (splitJointTemplate != splitJointTemplatePrev))
         {
             jointSetup.ToggleSplitJoints(splitJointTemplate);
             avatarManager.RecalculateStartOrientations();
         }
+        */
 
         if(useBodyMass != useBodyMassPrev)
         {

@@ -55,6 +55,7 @@ public class AvatarManager : MonoBehaviour
             {
                 //UpdateJoints();
                 UpdateJointsRecursive(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
+                
             }
         }
         //UpdateVacuumBreatherPIDControllers();
