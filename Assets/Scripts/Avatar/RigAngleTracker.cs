@@ -313,36 +313,33 @@ public class RigAngleTracker : MonoBehaviour
 
     void SetJointMappingsNonGazebo(Dictionary<HumanBodyBones, GameObject> gameObjectsPerBone, bool isLocal)
     {
+        //we cannot tune a locked joint
         Dictionary<string, JointMapping> mappings = new Dictionary<string, JointMapping>();
+
         foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
         {
-            GameObject tmp;
-            if (gameObjectsPerBone.TryGetValue(bone, out tmp))
-            { 
-                char index = 'X';
-                for (int i = 0; i < 3; i++)
-                {   
-                    ConfigurableJoint joint = tmp.GetComponent<ConfigurableJoint>();
-                    if (joint != null)
+            if (!UserAvatarService.Instance._avatarManager.GetFixedJoints().Contains(bone))
+            {
+                GameObject tmp;
+                if (gameObjectsPerBone.TryGetValue(bone, out tmp))
+                {
+                    char index = 'X';
+                    for (int i = 0; i < 3; i++)
                     {
-                        Transform parent = joint.connectedBody.transform;
-                        Transform child = tmp.transform;
+                        ConfigurableJoint joint = tmp.GetComponent<ConfigurableJoint>();
 
-                        string key = bone.ToString() + (char)(index + i);
-                        JointMapping value = new JointMapping(parent, child, false, (MappedEulerAngle)i);
-                        mappings.Add(key, value);
-
-                    }
-                    else
-                    {
-                        if (isLocal)
+                        if (joint != null)
                         {
-                            Transform parent = tmp.transform.parent.transform;
-                            Transform child = tmp.transform;
-
-                            string key = bone.ToString() + (char)(index + i);
-                            JointMapping value = new JointMapping(parent, child, false, (MappedEulerAngle)i);
-                            mappings.Add(key, value);
+                            Transform parent = joint.connectedBody.transform;
+                            SetJointMappingsNonGazeboHelper(mappings, tmp, parent, bone, index, i);
+                        }
+                        else
+                        {
+                            if (isLocal)
+                            {
+                                Transform parent = tmp.transform.parent.transform;
+                                SetJointMappingsNonGazeboHelper(mappings, tmp, parent, bone, index, i);
+                            }
                         }
                     }
                 }
@@ -584,5 +581,15 @@ public class RigAngleTracker : MonoBehaviour
         _jointMappings[L_FOOT_NAME] = new JointMapping(leftLeg, leftFoot, true, MappedEulerAngle.X);
 
         _jointMappings[R_FOOT_NAME] = new JointMapping(rightLeg, rightFoot, true, MappedEulerAngle.X);
+    }
+
+    void SetJointMappingsNonGazeboHelper(Dictionary<string, JointMapping> mappings, GameObject obj,Transform jointParent, HumanBodyBones bone, int index, int iteration)
+    {
+        Transform parent = jointParent;
+        Transform child = obj.transform;
+
+        string key = bone.ToString() + (char)(index + iteration);
+        JointMapping value = new JointMapping(parent, child, false, (MappedEulerAngle)iteration);
+        mappings.Add(key, value);
     }
 }

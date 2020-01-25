@@ -41,10 +41,7 @@ namespace PIDTuning
         public void TransmitFullConfiguration()
         {
             AssertServiceReady();
-            foreach (var joint in Configuration.Mapping)
-            {
-                Debug.Log(joint.Key);
-            }
+
             foreach (var joint in Configuration.Mapping)
             {
                 if (UserAvatarService.Instance.use_gazebo) { 

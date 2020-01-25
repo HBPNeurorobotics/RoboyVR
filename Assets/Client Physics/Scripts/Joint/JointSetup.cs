@@ -21,6 +21,8 @@ public class JointSetup
     JointDrive angularXDrive;
     JointDrive angularYZDrive;
 
+    List<HumanBodyBones> fixedJoints;
+
     public JointSetup(Dictionary<HumanBodyBones, GameObject> gameObjectsFromBone, Dictionary<HumanBodyBones, GameObject> templateFromBone, ConfigJointManager configJointManager, bool editorMode = false)
     {
         this.gameObjectsFromBone = gameObjectsFromBone;
@@ -31,6 +33,7 @@ public class JointSetup
         {
             angularXDrive = configJointManager.GetAngularXDrive();
             angularYZDrive = configJointManager.GetAngularYZDrive();
+            fixedJoints = configJointManager.GetFixedJoints();
         }
 
         this.editorMode = editorMode;
@@ -379,7 +382,7 @@ public class JointSetup
     void AddSplitJoints(ConfigurableJoint joint, HumanBodyBones bone, bool calledByToggle = false)
     {
         //it is pointless to split a joint's rotation axes when it can't rotate in the first place 
-        if (joint.angularXMotion != ConfigurableJointMotion.Locked && joint.angularYMotion != ConfigurableJointMotion.Locked && joint.angularZMotion != ConfigurableJointMotion.Locked)
+        if ((joint.angularXMotion != ConfigurableJointMotion.Locked && joint.angularYMotion != ConfigurableJointMotion.Locked && joint.angularZMotion != ConfigurableJointMotion.Locked))
         {
             List<ConfigurableJoint> jointsFromSplit = new List<ConfigurableJoint>();
 
@@ -570,6 +573,11 @@ public class JointSetup
             joint.enablePreprocessing = true;
         }
 
+        if (!editorMode && fixedJoints.Contains(bone))
+        {
+            joint.angularXMotion = joint.angularYMotion = joint.angularZMotion = ConfigurableJointMotion.Locked;
+        }
+
         switch (bone)
         {
             #region Left Arm
@@ -737,7 +745,7 @@ public class JointSetup
                 break;
             case HumanBodyBones.Hips:
                 Rigidbody rb = GameObject.FindGameObjectWithTag("Anchor").GetComponent<Rigidbody>();
-                joint.angularXMotion = joint.angularYMotion = joint.angularZMotion = ConfigurableJointMotion.Locked;
+                //joint.angularXMotion = joint.angularYMotion = joint.angularZMotion = ConfigurableJointMotion.Locked;
                 ConfigureJoint(bone, joint, rb);
                 break;
 

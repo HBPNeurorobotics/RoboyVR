@@ -119,6 +119,7 @@ public class AvatarManager : MonoBehaviour
             if (useJoints)
             {
                 configJointManager = GetComponent<ConfigJointManager>();
+                configJointManager.SetFixedJoints();
                 configJointManager.SetupJoints();
                 SetupOrder(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
                 bonesInOrder.Reverse();
@@ -356,5 +357,17 @@ public class AvatarManager : MonoBehaviour
     public void LockAvatarJointsExceptCurrent(ConfigurableJoint joint)
     {
         configJointManager.LockAvatarJointsExceptCurrent(joint);
+    }
+
+    public List<HumanBodyBones> GetFixedJoints()
+    {
+        if (useJoints)
+        {
+            return configJointManager.GetFixedJoints();
+        }
+        else
+        {
+            throw new Exception("You are trying to access the ConfigurableJoints, but useJoints is set to false");
+        }
     }
 }

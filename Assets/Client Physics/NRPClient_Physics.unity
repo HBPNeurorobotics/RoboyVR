@@ -25464,7 +25464,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &824985314
 Transform:
   m_ObjectHideFlags: 0
@@ -25501,12 +25501,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cb800ce14b7cff4b87b4f74f4149cd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TuningHeuristic: 0
-  RelayConstantForce: 100
+  TuningHeuristic: 6
+  RelayConstantForce: 500
   RelayTargetAngle: 0
-  RelayStartAngle: 5
-  TestWarmupSeconds: 20
-  TestDurationSeconds: 40
+  RelayStartAngle: 15
+  TestWarmupSeconds: 30
+  TestDurationSeconds: 30
 --- !u!114 &824985317
 MonoBehaviour:
   m_ObjectHideFlags: 0

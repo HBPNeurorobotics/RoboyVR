@@ -57,14 +57,9 @@ public class ConfigJointManager : MonoBehaviour
 
         angularYZDrive.positionSpring = springAngularYZ;
         angularYZDrive.positionDamper = damperAngularYZ;
-        /*
-        usesFixedJoint.Add(HumanBodyBones.Hips);
-        usesFixedJoint.Add(HumanBodyBones.Spine);
-        usesFixedJoint.Add(HumanBodyBones.UpperChest);
-        usesFixedJoint.Add(HumanBodyBones.RightShoulder);
-        usesFixedJoint.Add(HumanBodyBones.RightShoulder);
-        usesFixedJoint.Add(HumanBodyBones.Neck);
-        */
+
+        SetFixedJoints();
+
     }
 
     void FixedUpdate()
@@ -336,5 +331,20 @@ public class ConfigJointManager : MonoBehaviour
     public Dictionary<HumanBodyBones, GameObject> GetTemplateAvatar()
     {
         return templateFromBone;
+    }
+
+    public List<HumanBodyBones> GetFixedJoints()
+    {
+        return usesFixedJoint;
+    }
+
+    public void SetFixedJoints()
+    {
+        if (usesFixedJoint.Count == 0)
+        {
+            usesFixedJoint.Add(HumanBodyBones.Hips);
+            usesFixedJoint.Add(HumanBodyBones.RightShoulder);
+            usesFixedJoint.Add(HumanBodyBones.LeftShoulder);
+        }
     }
 }
