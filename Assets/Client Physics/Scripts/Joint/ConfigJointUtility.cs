@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class ConfigJointUtility
 {
+    static int depth = 0;
     public static void CopyPasteComponent(Component pasteTo, Component toCopyFrom)
     {
         UnityEditorInternal.ComponentUtility.CopyComponent(toCopyFrom);
@@ -221,4 +222,26 @@ public static class ConfigJointUtility
             throw new System.Exception("No object for the bone " + bone.ToString() + " has been found in the scene.");
         }
     }
+
+    public static int GetDepthOfBone(Transform boneInScene, Transform rootBone)
+    {
+        depth = 0;
+        GetDepthOfBoneHelper(boneInScene, rootBone);
+        return depth;
+
+    }
+
+    static void GetDepthOfBoneHelper(Transform bone, Transform rootBone)
+    {
+
+        Transform parent = bone.parent;
+
+        if (parent != null && !parent.Equals(rootBone))
+        {
+            depth++;
+            GetDepthOfBoneHelper(parent, rootBone);
+        }
+        return;
+    }
+
 }

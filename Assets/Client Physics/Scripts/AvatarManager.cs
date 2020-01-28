@@ -8,6 +8,7 @@ using UnityEngine;
 public class AvatarManager : MonoBehaviour
 {
     public bool useJoints = true;
+    public bool tuningInProcess = false;
 
     [Header("PD Control")]
     public float PDKp = 1;

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 /// <summary>
 /// Applied to the avatar_rig GameObject. Allows us to efficiently track
@@ -46,6 +47,8 @@ public class RigAngleTracker : MonoBehaviour
     private Dictionary<string, float> _jointToRadians = new Dictionary<string, float>();
 
     private Dictionary<string, JointMapping> _jointMappings = new Dictionary<string, JointMapping>();
+
+    Dictionary<string, int> jointDepths = new Dictionary<string, int>();
 
     public Dictionary<string, float> GetJointToRadianMapping()
     {
@@ -315,7 +318,7 @@ public class RigAngleTracker : MonoBehaviour
     {
         //we cannot tune a locked joint
         Dictionary<string, JointMapping> mappings = new Dictionary<string, JointMapping>();
-
+        jointDepths.Clear();
         foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
         {
             if (!UserAvatarService.Instance._avatarManager.GetFixedJoints().Contains(bone))
@@ -331,21 +334,34 @@ public class RigAngleTracker : MonoBehaviour
                         if (joint != null)
                         {
                             Transform parent = joint.connectedBody.transform;
-                            SetJointMappingsNonGazeboHelper(mappings, tmp, parent, bone, index, i);
+                            SetJointMappingsNonGazeboHelper(mappings, tmp, parent, bone, index, i, gameObjectsPerBone[HumanBodyBones.Hips].transform);
                         }
                         else
                         {
                             if (isLocal)
                             {
                                 Transform parent = tmp.transform.parent.transform;
-                                SetJointMappingsNonGazeboHelper(mappings, tmp, parent, bone, index, i);
+                                SetJointMappingsNonGazeboHelper(mappings, tmp, parent, bone, index, i, gameObjectsPerBone[HumanBodyBones.Hips].transform);
                             }
                         }
                     }
                 }
             }
         }
-        _jointMappings = mappings;
+        _jointMappings = EnforceJointMappingsHierarchy(mappings);
+
+
+    }
+
+    Dictionary<string, JointMapping> EnforceJointMappingsHierarchy(Dictionary<string, JointMapping> mappings)
+    {
+        Dictionary<string, JointMapping> sortedMappings = new Dictionary<string, JointMapping>();
+        
+        foreach (KeyValuePair<string, int> joint in jointDepths.OrderBy(x => x.Value)) 
+        {
+            sortedMappings.Add(joint.Key, mappings[joint.Key]);
+        }
+        return sortedMappings;
     }
 
     void SetJointMappingsGazeboLocal()
@@ -583,7 +599,7 @@ public class RigAngleTracker : MonoBehaviour
         _jointMappings[R_FOOT_NAME] = new JointMapping(rightLeg, rightFoot, true, MappedEulerAngle.X);
     }
 
-    void SetJointMappingsNonGazeboHelper(Dictionary<string, JointMapping> mappings, GameObject obj,Transform jointParent, HumanBodyBones bone, int index, int iteration)
+    void SetJointMappingsNonGazeboHelper(Dictionary<string, JointMapping> mappings, GameObject obj,Transform jointParent, HumanBodyBones bone, int index, int iteration, Transform rootBone)
     {
         Transform parent = jointParent;
         Transform child = obj.transform;
@@ -591,5 +607,6 @@ public class RigAngleTracker : MonoBehaviour
         string key = bone.ToString() + (char)(index + iteration);
         JointMapping value = new JointMapping(parent, child, false, (MappedEulerAngle)iteration);
         mappings.Add(key, value);
+        jointDepths.Add(key, ConfigJointUtility.GetDepthOfBone(obj.transform, rootBone));
     }
 }

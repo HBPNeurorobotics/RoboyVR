@@ -314,16 +314,13 @@ public class ConfigJointManager : MonoBehaviour
                 if(freeJoint != joint)
                 {
                     joint.angularXMotion = ConfigurableJointMotion.Locked;
-                    joint.angularYMotion = ConfigurableJointMotion.Locked;
-                    joint.angularZMotion = ConfigurableJointMotion.Locked;
                 }
-                //not really needed, but just to make sure
                 else
                 {
                     joint.angularXMotion = ConfigurableJointMotion.Free;
-                    joint.angularYMotion = ConfigurableJointMotion.Locked;
-                    joint.angularZMotion = ConfigurableJointMotion.Locked;
                 }
+                joint.angularYMotion = ConfigurableJointMotion.Locked;
+                joint.angularZMotion = ConfigurableJointMotion.Locked;
             }
         }
     }

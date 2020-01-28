@@ -69,12 +69,13 @@ namespace PIDTuning
             }
             else
             {
-                ConfigurableJoint configJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+                ConfigurableJoint configurableJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
 
                 JointDrive angularDrive = new JointDrive();
                 angularDrive.positionSpring = jointConfig.Kp;
                 angularDrive.positionDamper = jointConfig.Kd;
-                configJoint.angularXDrive = configJoint.angularYZDrive = angularDrive;
+                angularDrive.maximumForce = configurableJoint.angularXDrive.maximumForce;
+                configurableJoint.angularXDrive = configurableJoint.angularYZDrive = angularDrive;
             }
         }
 

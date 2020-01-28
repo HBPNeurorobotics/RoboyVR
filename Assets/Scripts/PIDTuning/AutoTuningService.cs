@@ -85,6 +85,12 @@ namespace PIDTuning
             _testEnvSetup = GetComponent<TestEnvSetup>();
             _animatorControl = GetComponent<AnimatorControl>();
             _remoteBones = UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
+            UserAvatarService.Instance._avatarManager.tuningInProcess = true;
+
+            _localAvatarRig.gameObject.GetComponent<Animator>().enabled = false;
+            //gameObject.transform.position =new Vector3(0.0f, 1.046f, 0.024f);
+
+
         }
 
         public IEnumerator TuneAllJoints()
@@ -102,6 +108,7 @@ namespace PIDTuning
 
         public IEnumerator TuneSingleJoint(string joint)
         {
+            Debug.Log(joint);
             // Make sure we are only tuning one joint at a time
             Assert.IsFalse(_tuningInProgress);
             _tuningInProgress = true;
@@ -111,7 +118,7 @@ namespace PIDTuning
             _localAvatarAnimator.enabled = false;
 
             // Set starting angle of joint
-
+            Debug.Log("Set Target Angle");
             _localAvatarRig.SetJointEulerAngle(joint, RelayStartAngle);
 
 
@@ -169,6 +176,7 @@ namespace PIDTuning
 
             // Set set-point to 0 (even if the PID won't control the joint for now)
             // We are trying to reach the set-point using relay control only for the test
+            Debug.Log("Set 0 angle for avatar: " + _localAvatarRig.name);
             _localAvatarRig.SetJointEulerAngle(joint, RelayTargetAngle);
 
             var startTime = DateTime.Now;
