@@ -8,7 +8,7 @@ using UnityEngine;
 public class AvatarManager : MonoBehaviour
 {
     public bool useJoints = true;
-    public bool tuningInProcess = false;
+    public bool tuningInProgress = false;
 
     [Header("PD Control")]
     public float PDKp = 1;
@@ -52,7 +52,7 @@ public class AvatarManager : MonoBehaviour
         else
         {
             //UpdatePDControllers();
-            if (configJointManager.inputByManager)
+            if (configJointManager.inputByManager && !tuningInProgress)
             {
                 //UpdateJoints();
                 UpdateJointsRecursive(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
@@ -64,7 +64,7 @@ public class AvatarManager : MonoBehaviour
         //UpdateMerchVRPIDControllers();
         if (Input.GetKey(KeyCode.F))
         {
-            gameObjectPerBoneRemoteAvatar[HumanBodyBones.LeftLowerArm].GetComponent<Rigidbody>().AddForce(Vector3.down * 100, ForceMode.Force);
+            gameObjectPerBoneRemoteAvatar[HumanBodyBones.LeftLowerLeg].GetComponent<Rigidbody>().AddForce(Vector3.back * 2500, ForceMode.Force);
         }
 
     }
@@ -370,5 +370,10 @@ public class AvatarManager : MonoBehaviour
         {
             throw new Exception("You are trying to access the ConfigurableJoints, but useJoints is set to false");
         }
+    }
+
+    public ConfigurableJoint GetJointInTemplate(HumanBodyBones bone, Vector3 axis)
+    {
+        return configJointManager.GetJointInTemplate(bone, axis);
     }
 }

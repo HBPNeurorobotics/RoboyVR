@@ -24,6 +24,7 @@ namespace PIDTuning
     [RequireComponent(typeof(TestEnvSetup), typeof(AnimatorControl))]
     public class AutoTuningService : MonoBehaviour
     {
+        public GameObject testCube;
         /*[SerializeField]*/
         private GameObject _localAvatar;
 
@@ -54,6 +55,7 @@ namespace PIDTuning
         private Animator _localAvatarAnimator;
 
         private RigAngleTracker _localAvatarRig;
+        private RigAngleTracker _remoteAvatarRig;
 
         private AnimatorControl _animatorControl;
 
@@ -85,9 +87,9 @@ namespace PIDTuning
             _testEnvSetup = GetComponent<TestEnvSetup>();
             _animatorControl = GetComponent<AnimatorControl>();
             _remoteBones = UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
-            UserAvatarService.Instance._avatarManager.tuningInProcess = true;
 
             _localAvatarRig.gameObject.GetComponent<Animator>().enabled = false;
+            _remoteAvatarRig = PoseErrorTracker.RemoteRig;
             //gameObject.transform.position =new Vector3(0.0f, 1.046f, 0.024f);
 
 
@@ -174,16 +176,25 @@ namespace PIDTuning
             _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, 0f);
             _pidConfigStorage.TransmitFullConfiguration();
 
+            //TODO: Disable ConfigurableJoint
+            UserAvatarService.Instance._avatarManager.tuningInProgress = true;
+            ConfigurableJoint configurableJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
+            HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint.Remove(joint.Length - 1));
+            ConfigurableJoint configurableJointCopy = UserAvatarService.Instance._avatarManager.GetJointInTemplate(bone, configurableJoint.axis);
+            GameObject bodyPart = configurableJoint.gameObject;
+            //Destroy(configurableJoint);
+
             // Set set-point to 0 (even if the PID won't control the joint for now)
             // We are trying to reach the set-point using relay control only for the test
-            Debug.Log("Set 0 angle for avatar: " + _localAvatarRig.name);
+            Debug.Log("Set "+ RelayTargetAngle + " angle for avatar: " + _localAvatarRig.name);
+            
             _localAvatarRig.SetJointEulerAngle(joint, RelayTargetAngle);
 
             var startTime = DateTime.Now;
 
             while (DateTime.Now - startTime < warmupSeconds)
             {
-                AdjustRelayForce(joint, gazebo);
+                AdjustRelayForce(joint, gazebo, bodyPart, configurableJointCopy);
 
                 yield return null;
             }
@@ -195,7 +206,7 @@ namespace PIDTuning
 
             while (DateTime.Now - startTime < measurementSeconds)
             {
-                AdjustRelayForce(joint, gazebo);
+                AdjustRelayForce(joint, gazebo, bodyPart, configurableJointCopy);
 
                 yield return null;
             }
@@ -204,26 +215,38 @@ namespace PIDTuning
             evaluation.Value = _testRunner.StopManualRecord()[joint];
 
             // Get rid of any force
-            SetConstantForceForJoint(joint, 0f, gazebo);
+            SetConstantForceForJoint(joint, 0f, gazebo, bodyPart, configurableJointCopy);
 
             // Restore pre-test configurations
+
+            Rigidbody rb = bodyPart.GetComponent<Rigidbody>();
+            rb.velocity = rb.angularVelocity = Vector3.zero;
+            /*
+             * This line might look like cheating, but we have to make sure that the starting orientation of the restored ConfigurableJoint matches exactly the rotatation of the local avatar.
+             * Otherwise there will always be an offset in the movement.
+            */
+            _remoteAvatarRig.SetJointEulerAngle(joint, 0);
+            //ConfigurableJoint oldJoint = _remoteBones[bone].AddComponent<ConfigurableJoint>();
+            ConfigJointUtility.CopyPasteComponent(configurableJoint, configurableJointCopy);
+            UserAvatarService.Instance._avatarManager.tuningInProgress = false;
+
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
             _pidConfigStorage.TransmitFullConfiguration();
         }
 
-        private void AdjustRelayForce(string joint, bool gazebo)
+        private void AdjustRelayForce(string joint, bool gazebo, GameObject bodyPart, ConfigurableJoint jointInScene)
         {
             if (1f == Mathf.Sign(PoseErrorTracker.GetCurrentStepDataForJoint(joint).Measured - RelayTargetAngle))
             {
-                SetConstantForceForJoint(joint, -RelayConstantForce, gazebo);
+                SetConstantForceForJoint(joint, -RelayConstantForce, gazebo, bodyPart, jointInScene);
             }
             else
             {
-                SetConstantForceForJoint(joint, RelayConstantForce, gazebo);
+                SetConstantForceForJoint(joint, RelayConstantForce, gazebo, bodyPart, jointInScene);
             }
         }
 
-        private void SetConstantForceForJoint(string joint, float force, bool gazebo)
+        private void SetConstantForceForJoint(string joint, float force, bool gazebo, GameObject bodyPart, ConfigurableJoint jointInScene)
         {
             if (gazebo)
             {
@@ -233,27 +256,27 @@ namespace PIDTuning
             }
             else
             {
-                //Convert string back to HumanBodyBones. That way we can find the correct joint for the current axis in our remote avatar.
-                ConfigurableJoint configJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
-                Rigidbody rb = configJoint.gameObject.GetComponent<Rigidbody>();
+                Rigidbody rb = bodyPart.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
                     //apply force in direction that the joint can rotate in
                     Vector3 direction = Vector3.zero;
-                    if (configJoint.axis == Vector3.right || configJoint.axis == Vector3.left)
+                    /*
+                    if (jointInScene.axis == Vector3.right || jointInScene.axis == Vector3.left)
                     {
                         direction = Vector3.right;
                     }
-                    else if (configJoint.axis == Vector3.up || configJoint.axis == Vector3.down)
+                    else if (jointInScene.axis == Vector3.up || jointInScene.axis == Vector3.down)
                     {
                         direction = Vector3.up;
                     }
-                    else if (configJoint.axis == Vector3.forward || configJoint.axis == Vector3.back)
+                    else if (jointInScene.axis == Vector3.forward || jointInScene.axis == Vector3.back)
                     {
                         direction = Vector3.forward;
                     }
-
-                    rb.AddForce(direction * force);
+                    */
+                    Debug.Log(force * jointInScene.secondaryAxis);
+                    rb.AddTorque(Vector3.one * force, ForceMode.Force);
                 }
             }
         }

@@ -319,8 +319,10 @@ public class ConfigJointManager : MonoBehaviour
                 {
                     joint.angularXMotion = ConfigurableJointMotion.Free;
                 }
-                joint.angularYMotion = ConfigurableJointMotion.Locked;
-                joint.angularZMotion = ConfigurableJointMotion.Locked;
+                //we set the angular drives to 0, so that the joint cannot enforce the target rotation and will not counter external forces.
+                JointDrive drive = new JointDrive();
+                joint.angularXDrive = joint.angularYZDrive = drive;
+
             }
         }
     }
@@ -343,5 +345,22 @@ public class ConfigJointManager : MonoBehaviour
             usesFixedJoint.Add(HumanBodyBones.RightShoulder);
             usesFixedJoint.Add(HumanBodyBones.LeftShoulder);
         }
+    }
+
+    public ConfigurableJoint GetJointInTemplate(HumanBodyBones bone, Vector3 axis)
+    {
+        GameObject tmp;
+        if(templateFromBone.TryGetValue(bone, out tmp))
+        {
+            ConfigurableJoint[] joints = tmp.GetComponents<ConfigurableJoint>();
+            foreach(ConfigurableJoint joint in joints)
+            {
+                if(joint.axis == axis)
+                {
+                    return joint;
+                }
+            }
+        }
+        throw new Exception("No joint in template found");
     }
 }
