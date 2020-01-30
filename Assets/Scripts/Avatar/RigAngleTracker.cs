@@ -186,7 +186,7 @@ public class RigAngleTracker : MonoBehaviour
 
     private void CreateMappingForRemoteAvatar()
     {
-        // These four joint links are unique to the remote avatar. The local avatar doesn't have them
+        // These four (now 16) joint links are unique to the remote avatar. The local avatar doesn't have them
 
         const string L_ARM_JLINK1_NAME = "mixamorig_LeftArm_JointLink1";
         const string L_ARM_JLINK2_NAME = "mixamorig_LeftArm_JointLink2";
@@ -331,10 +331,10 @@ public class RigAngleTracker : MonoBehaviour
 
         // ForeArms
 
-        _jointMappings[L_FORE_ARM_NAME] = 
+        _jointMappings[L_FORE_ARM_NAME] =
             new JointMapping(leftArm, leftForeArm, true, MappedEulerAngle.InvertedZ);
 
-        _jointMappings[R_FORE_ARM_NAME] = 
+        _jointMappings[R_FORE_ARM_NAME] =
             new JointMapping(rightArm, rightForeArm, true, MappedEulerAngle.InvertedZ);
 
         // Hands
@@ -384,7 +384,7 @@ public class RigAngleTracker : MonoBehaviour
 
         _jointMappings[L_HAND_THUMB4_NAME] =
             new JointMapping(leftThumb3, leftThumb4, true, MappedEulerAngle.Y);
-
+        
         _jointMappings[R_HAND_THUMB1_NAME + "_x"] =
             new JointMapping(rightThumb1_jlink1, rightThumb1_jlink2, true, MappedEulerAngle.X);
 
@@ -395,14 +395,14 @@ public class RigAngleTracker : MonoBehaviour
             new JointMapping(rightHand, rightThumb1_jlink1, true, MappedEulerAngle.InvertedZ);
 
         _jointMappings[R_HAND_THUMB2_NAME] =
-            new JointMapping(rightThumb1, rightThumb2, true, MappedEulerAngle.X);   // Was Y before, change back to 0 1 0 in Model.Sdf
+            new JointMapping(rightThumb1, rightThumb2, true, MappedEulerAngle.Y);   // Was Y before, change back to 0 1 0 in Model.Sdf
 
         _jointMappings[R_HAND_THUMB3_NAME] =
             new JointMapping(rightThumb2, rightThumb3, true, MappedEulerAngle.Y);
 
         _jointMappings[R_HAND_THUMB4_NAME] =
             new JointMapping(rightThumb3, rightThumb4, true, MappedEulerAngle.Y);
-
+        
         // Index Finger
         _jointMappings[L_HAND_INDEX1_NAME] =
             new JointMapping(leftHand, leftIndex1, true, MappedEulerAngle.Y);
@@ -701,7 +701,7 @@ public class RigAngleTracker : MonoBehaviour
         _jointMappings[L_HAND_THUMB3_NAME] = new JointMapping(leftThumb2, leftThumb3, false, MappedEulerAngle.InvertedZ);
 
         _jointMappings[L_HAND_THUMB4_NAME] = new JointMapping(leftThumb3, leftThumb4, false, MappedEulerAngle.InvertedZ);
-
+        
         _jointMappings[R_HAND_THUMB1_NAME + "_x"] =
             new JointMapping(rightHand, rightThumb1, false, MappedEulerAngle.X);
 
@@ -716,7 +716,7 @@ public class RigAngleTracker : MonoBehaviour
         _jointMappings[R_HAND_THUMB3_NAME] = new JointMapping(rightThumb2, rightThumb3, false, MappedEulerAngle.InvertedZ);
 
         _jointMappings[R_HAND_THUMB4_NAME] = new JointMapping(rightThumb3, rightThumb4, false, MappedEulerAngle.InvertedZ);
-
+        
         // Index Finger
         _jointMappings[L_HAND_INDEX1_NAME] = new JointMapping(leftHand, leftIndex1, false, MappedEulerAngle.InvertedZ);
 
@@ -871,7 +871,10 @@ public class RigAngleTracker : MonoBehaviour
     {
         X,
         Y,
-        InvertedZ
+        InvertedZ,
+        InvertedX,
+        InvertedY,
+        Z
     }
 
     /// <summary>
@@ -933,6 +936,15 @@ public class RigAngleTracker : MonoBehaviour
 
                 case MappedEulerAngle.InvertedZ:
                     return -euler_angles.z;
+
+                case MappedEulerAngle.InvertedX:
+                    return -euler_angles.x;
+
+                case MappedEulerAngle.InvertedY:
+                    return -euler_angles.y;
+
+                case MappedEulerAngle.Z:
+                    return euler_angles.z;
 
                 default:
                     throw new NotImplementedException();

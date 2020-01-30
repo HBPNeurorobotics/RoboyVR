@@ -33,6 +33,9 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     public RigAngleTracker RigAngleTracker;
 
+    // Bachelor Thesis VRHand
+    [SerializeField] private RemoteAvatarVisuals remoteAvatarVisuals;
+
     //public List<GameObject> published_links = null;
     //public bool publish_all_links = false;
     //public bool scripted_publishing = false;
@@ -65,9 +68,14 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private Quaternion model_rotation_last_published_ = new Quaternion();
 
     [Header("Initial PID Parameters")]
-    public float InitialP = 1000f;
+    public float InitialP = 2000f;
     public float InitialI = 100f;
     public float InitialD = 500f;
+
+    [Header("Initial Hand PID Parameters")]
+    public float InitP = 1000f;
+    public float InitI = 300f;
+    public float InitD = 500f;
 
     void Awake()
     {
@@ -188,6 +196,10 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
         OnAvatarSpawned(this);
 
+        // Bachelors Thesis VRHand
+        remoteAvatarVisuals.IdentifyGameObjects();
+        remoteAvatarVisuals.SetOpacity(remoteAvatarVisuals.opacity);
+
         //this.avatar_clone = Object.Instantiate(this.user_avatar);
         //this.avatar_clone.transform.SetParent(this.transform);  // make sure this is not different from the parent of user_avatar (the "Gazebo Scene" object)
         //this.avatar_clone.name = "avatar_clone";
@@ -307,7 +319,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
                 if (String.Equals(joint, RigAngleTracker.handJointName[i]))
                 {
                     string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
-                    ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(0f, 0f, 0f));
+                    ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(InitP, InitI, InitD));
                     //Debug.Log(RigAngleTracker.handJointName[i]);
                 }
                 else

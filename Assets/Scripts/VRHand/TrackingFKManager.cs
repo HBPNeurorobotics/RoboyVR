@@ -197,7 +197,8 @@ public class TrackingFKManager : MonoBehaviour {
             TargetPinky3.transform.SetPositionAndRotation(virtualtPinky3.transform.position, virtualtPinky3.transform.rotation);
             TargetPinky4.transform.SetPositionAndRotation(virtualtPinky4.transform.position, virtualtPinky4.transform.rotation);
 
-            TargetThumb1R.transform.SetPositionAndRotation(virtualtThumb1R.transform.position, virtualtThumb1R.transform.rotation);
+            TargetThumb1R.transform.rotation = virtualtThumb1R.transform.rotation;
+            //TargetThumb1R.transform.SetPositionAndRotation(virtualtThumb1R.transform.position, virtualtThumb1R.transform.rotation);
             TargetThumb2R.transform.SetPositionAndRotation(virtualtThumb2R.transform.position, virtualtThumb2R.transform.rotation);
             TargetThumb3R.transform.SetPositionAndRotation(virtualtThumb3R.transform.position, virtualtThumb3R.transform.rotation);
             TargetThumb4R.transform.SetPositionAndRotation(virtualtThumb4R.transform.position, virtualtThumb4R.transform.rotation);
@@ -278,7 +279,6 @@ public class TrackingFKManager : MonoBehaviour {
         //Debug.Log(string.Format("Target Thumb1: {0} {1} {2}", virtualtThumb1.localPosition.x, virtualtThumb1.localPosition.y, virtualtThumb1.localPosition.z));
         TargetThumb1.transform.localPosition = virtualtThumb1.localPosition;
         //TargetThumb1.transform.localRotation = new Quaternion();
-        Debug.Log("Setup target!");
         //TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, tThumb1.transform.rotation);
     }
 
@@ -476,10 +476,9 @@ public class TrackingFKManager : MonoBehaviour {
     {
         TargetThumb1R = new GameObject("Right Target Thumb1");
         TargetThumb1R.transform.parent = trackingTarget;
-        TargetThumb1R.transform.localPosition = trackingTarget.position;
-        TargetThumb1R.transform.localRotation = trackingTarget.rotation;
+        TargetThumb1R.transform.localPosition = virtualtThumb1R.localPosition;
 
-        TargetThumb1R.transform.SetPositionAndRotation(virtualtThumb1R.transform.position, virtualtThumb1R.transform.rotation);
+        //TargetThumb1R.transform.SetPositionAndRotation(virtualtThumb1R.transform.position, virtualtThumb1R.transform.rotation);
     }
 
     private void SetupTargetThumb2R(Transform trackingTarget)
