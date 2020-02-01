@@ -34,6 +34,8 @@ public class JointSettings
     public Vector3 primaryAxis;
     public Vector3 secondaryAxis;
 
+    public string individualJoint;
+
     //Rigidbody
     public bool gravity = true;
     public float mass = 0;
@@ -114,6 +116,39 @@ public class JointSettings
     public JointSettings()
     {
 
+    }
+
+    public JointSettings(string individualJoint, ConfigurableJoint joint)
+    {
+        this.bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), individualJoint.Remove(individualJoint.Length - 1));
+        this.individualJoint = individualJoint;
+
+        angularXDrive = joint.angularXDrive;
+        angularXDriveDamper = joint.angularXDrive.positionDamper;
+        angularXDriveSpring = joint.angularXDrive.positionSpring;
+        maxForceX = joint.angularXDrive.maximumForce;
+
+        angularYZDrive = joint.angularYZDrive;
+        angularYZDriveDamper = joint.angularYZDrive.positionDamper;
+        angularYZDriveSpring = joint.angularYZDrive.positionSpring;
+        maxForceYZ = joint.angularYZDrive.maximumForce;
+
+        angularLimitLowX = joint.lowAngularXLimit.limit;
+        angularLimitHighX = joint.highAngularXLimit.limit;
+        angularLimitY = joint.angularYLimit.limit;
+        angularLimitZ = joint.angularZLimit.limit;
+
+        primaryAxis = joint.axis;
+        secondaryAxis = joint.secondaryAxis;
+
+        Rigidbody rb = joint.gameObject.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            gravity = rb.useGravity;
+            mass = rb.mass;
+            centerOfMass = rb.centerOfMass;
+            inertiaTensor = rb.inertiaTensor;
+        }
     }
 
     public JointSettings(float angularXDriveSpring, float angularXDriveDamper, float angularYZDriveSpring, float angularYZDriveDamper)

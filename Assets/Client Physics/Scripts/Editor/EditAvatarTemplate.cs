@@ -13,6 +13,7 @@ public class EditAvatarTemplate : EditorWindow
     Object templateMultiple;
 
     TextAsset savedEditor;
+    TextAsset tunedSettings;
     
     float bodyWeight = 72f;
     BodyMass.MODE mode = BodyMass.MODE.AVERAGE;
@@ -27,6 +28,7 @@ public class EditAvatarTemplate : EditorWindow
     bool mirror;
     bool showJointSettings = true;
     bool useGravity = true;
+    bool multipleTemplateFromTuning = false;
     #endregion
 
     #region Helper variables
@@ -78,7 +80,7 @@ public class EditAvatarTemplate : EditorWindow
         EditorGUILayout.HelpBox("Assign a previously saved joint settings file to continue working on it. Reset to \"None\" to use the values in the assigned AvatarTemplate.", MessageType.Info);
 
         #region Load & Save
-        savedEditor = (TextAsset)EditorGUILayout.ObjectField("Avatar Template Multiple Joints Rig", savedEditor, typeof(TextAsset), true);
+        savedEditor = (TextAsset)EditorGUILayout.ObjectField("Avatar Template Settings", savedEditor, typeof(TextAsset), true);
         fileName = EditorGUILayout.TextField("New Name / Overwrite", fileName);
 
         EditorGUILayout.BeginHorizontal();
@@ -114,7 +116,21 @@ public class EditAvatarTemplate : EditorWindow
             SaveJointSettingsAsJson();
         }
         EditorGUILayout.EndHorizontal();
+        GUI.enabled = true;
+        multipleTemplateFromTuning = EditorGUILayout.Toggle("Load from Tuning", multipleTemplateFromTuning);
+        if (multipleTemplateFromTuning)
+        {
+            GUI.enabled = true;
+        }
+        else
+        {
+            GUI.enabled = false;
+        }
+
+        tunedSettings = (TextAsset)EditorGUILayout.ObjectField("Tuned Settings", tunedSettings, typeof(TextAsset), true);
+        GUI.enabled = true;
         #endregion
+
 
         if (template != null && templateMultiple != null)
         {
@@ -548,17 +564,19 @@ public class EditAvatarTemplate : EditorWindow
 
     void UpdateTemplate()
     {
-        //Joint Settings
-        UpdateJoints();
 
-        //Apply template changes to multiple joint template 
-        CopyToMultipleJointsTemplate();
+            //Joint Settings
+            UpdateJoints();
 
-        //Refresh Values
-        RefreshJointSettings();
+            //Apply template changes to multiple joint template 
+            CopyToMultipleJointsTemplate();
+
+            //Refresh Values
+            RefreshJointSettings();
 
         //editor.Repaint();
     }
+
     /// <summary>
     /// Makes sure that the correct applied values are assigned.
     /// </summary>
@@ -580,6 +598,12 @@ public class EditAvatarTemplate : EditorWindow
     {
         //we have to tell the JointSetup that we are using it in the context of the editor (we have no configjointmanager)
         JointSetup setup = new JointSetup(gameObjectsPerBoneTemplateMultiple, gameObjectsPerBoneTemplate, null, true);
+        Dictionary<HumanBodyBones, List<JointSettings>> fromTuningRaw = null;
+
+        if (multipleTemplateFromTuning && tunedSettings != null)
+        {
+             fromTuningRaw = RecoverJointSettingsFromTuning(tunedSettings.text);
+        }
 
         foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
         {
@@ -594,6 +618,32 @@ public class EditAvatarTemplate : EditorWindow
             }
             //setup.CopyPasteTemplateJoint(bone);
             setup.AddJointFromTemplate(bone);
+
+
+            if (fromTuningRaw != null)
+            {
+                
+                List<ConfigurableJoint> untunedJoints = new List<ConfigurableJoint>();
+                foreach (ConfigurableJoint addedJoint in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>())
+                {
+                    untunedJoints.Add(addedJoint);
+                }
+
+                foreach(ConfigurableJoint toTune in untunedJoints)
+                {
+                    foreach(JointSettings copyFrom in fromTuningRaw[bone])
+                    {
+                        //Debug.Log("tuned settings for: " + bone);
+                        if (copyFrom.primaryAxis == toTune.axis)
+                        {
+                            JointDrive drive = toTune.angularXDrive;
+                            drive.positionSpring = copyFrom.angularXDriveSpring;
+                            drive.positionDamper = copyFrom.angularXDriveDamper;
+                            toTune.angularXDrive = drive;
+                        }
+                    }
+                }
+            }
         }
     }
     /// <summary>
@@ -780,7 +830,7 @@ public class EditAvatarTemplate : EditorWindow
     void SaveJointSettingsAsJson()
     {
         //save joint settings
-        string values = ConfigJointUtility.ConvertHumanBodyBonesKeyDictionaryToJson(jointSettings);
+        string values = ConfigJointUtility.ConvertDictionaryToJson(jointSettings);
         string path = "Assets/Client Physics/Scripts/Editor/Saved Settings/";
 
         path += (fileName.Length == 0 ? ("settings_" + System.DateTime.Now.ToString()) : fileName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
@@ -805,6 +855,33 @@ public class EditAvatarTemplate : EditorWindow
             jointSettingsFromJson.Add(joint.bone, joint);
         }
         
+        return jointSettingsFromJson;
+    }
+
+    Dictionary<HumanBodyBones, List<JointSettings>> RecoverJointSettingsFromTuning(string savedInfo)
+    {
+        Dictionary<HumanBodyBones, List<JointSettings>> jointSettingsFromJson = new Dictionary<HumanBodyBones, List<JointSettings>>();
+
+        //prepare Dictionary
+        foreach(HumanBodyBones bone in gameObjectsPerBoneTemplateMultiple.Keys)
+        {
+            jointSettingsFromJson.Add(bone, new List<JointSettings>());
+        }
+
+        string[] settingsEntries = savedInfo.Split('\n');
+        foreach (string entry in settingsEntries)
+        {
+            //recover JointSettings
+            JointSettings joint = JsonUtility.FromJson<JointSettings>(entry);
+
+            List<JointSettings> jointsWithSameBone;
+            if(jointSettingsFromJson.TryGetValue(joint.bone, out jointsWithSameBone))
+            {
+                Debug.Log(joint.bone + " " +joint.individualJoint);
+                jointSettingsFromJson[joint.bone].Add(joint);
+            }
+        }
+
         return jointSettingsFromJson;
     }
 

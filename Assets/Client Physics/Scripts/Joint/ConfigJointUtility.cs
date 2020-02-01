@@ -128,39 +128,11 @@ public static class ConfigJointUtility
         Object.Destroy(newMotionHandler);
     }
 
-    public static HumanBodyBones MapMixamoNameToHumanBodyBone(string joint)
-    {
-        switch (joint)
-        {
-            case "mixamorig_LeftArm_JointLink1":
-            case "mixamorig_LeftArm_JointLink2":
-            case "mixamorig_LeftArm": return HumanBodyBones.LeftUpperArm;
 
-            case "mixamorig_RightArm_JointLink1":
-            case "mixamorig_RightArm_JointLink2":
-            case "mixamorig_RightArm": return HumanBodyBones.RightUpperArm;
-
-            case "mixamorig_LeftForeArm": return HumanBodyBones.LeftLowerArm;
-            case "mixamorig_RightForeArm": return HumanBodyBones.LeftLowerArm;
-
-            case "mixamorig_LeftLeg": return HumanBodyBones.LeftLowerLeg;
-            case "mixamorig_RightLeg": return HumanBodyBones.RightLowerLeg;
-
-            case "mixamorig_LeftUpLeg": return HumanBodyBones.LeftUpperLeg;
-            case "mixamorig_RightUpLeg": return HumanBodyBones.RightUpperLeg;
-
-            case "mixamorig_LeftFoot": return HumanBodyBones.LeftFoot;
-            case "mixamorig_RightFoot": return HumanBodyBones.RightFoot;
-
-            case "mixamorig_Hips":
-            default: return HumanBodyBones.Hips;
-        }
-    }
-
-    public static string ConvertHumanBodyBonesKeyDictionaryToJson<T>(Dictionary<HumanBodyBones, T> dictionary)
+    public static string ConvertDictionaryToJson<T, S>(Dictionary<T, S> dictionary)
     {
         string result = "";
-        foreach (HumanBodyBones bone in dictionary.Keys)
+        foreach (T bone in dictionary.Keys)
         {
             result += JsonUtility.ToJson(dictionary[bone]) + "\n";
         }

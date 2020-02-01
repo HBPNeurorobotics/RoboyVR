@@ -6,6 +6,7 @@ using PIDTuning;
 using ROSBridgeLib.geometry_msgs;
 using UnityEngine;
 using UnityEngine.Assertions;
+using System.IO;
 
 namespace PIDTuning
 {
@@ -15,6 +16,7 @@ namespace PIDTuning
     /// </summary>
     public class PidConfigurationStorage : MonoBehaviour
     {
+        string sessionStart = DateTime.Now.ToString();
         public PidConfiguration Configuration { get; private set; }
 
         [SerializeField]
@@ -38,25 +40,39 @@ namespace PIDTuning
         /// an argument, the current value of the Configuration property of this component
         /// will be transmitted.
         /// </summary>
-        public void TransmitFullConfiguration()
+        public void TransmitFullConfiguration(bool save = false)
         {
             AssertServiceReady();
-
+            bool gazebo = UserAvatarService.Instance.use_gazebo;
+            Dictionary<string, JointSettings> tunedSettings = new Dictionary<string, JointSettings>();
             foreach (var joint in Configuration.Mapping)
             {
-                if (UserAvatarService.Instance.use_gazebo) { 
+                if (gazebo) { 
                 string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
 
                     ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(joint.Value.Kp, joint.Value.Ki, joint.Value.Kd));
                 }
                 else
                 {
-                    TransmitSingleJointConfiguration(joint.Key);
+                    tunedSettings.Add(joint.Key, TransmitSingleJointConfiguration(joint.Key));
                 }
             }
+
+            if(!gazebo) SafeNonGazeboTuning(tunedSettings);
         }
 
-        public void TransmitSingleJointConfiguration(string joint)
+        void SafeNonGazeboTuning(Dictionary<string, JointSettings> tunedSettings)
+        {
+            //from EditAvatarTemplate
+            string values = ConfigJointUtility.ConvertDictionaryToJson(tunedSettings);
+            string path = "Assets/Client Physics/Scripts/Editor/Tuned Settings/";
+
+            path += "tuning_" + sessionStart.Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
+
+            File.WriteAllText(path, values);
+        }
+
+        public JointSettings TransmitSingleJointConfiguration(string joint)
         {
             
             AssertServiceReady();
@@ -66,6 +82,7 @@ namespace PIDTuning
             {
                 string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
                 ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(jointConfig.Kp, jointConfig.Ki, jointConfig.Kd));
+                return null;
             }
             else
             {
@@ -76,6 +93,8 @@ namespace PIDTuning
                 angularDrive.positionDamper = jointConfig.Kd;
                 angularDrive.maximumForce = configurableJoint.angularXDrive.maximumForce;
                 configurableJoint.angularXDrive = configurableJoint.angularYZDrive = angularDrive;
+
+                return new JointSettings(joint, configurableJoint);
             }
         }
 

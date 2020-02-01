@@ -24,8 +24,6 @@ namespace PIDTuning
     [RequireComponent(typeof(TestEnvSetup), typeof(AnimatorControl))]
     public class AutoTuningService : MonoBehaviour
     {
-        public GameObject testCube;
-        /*[SerializeField]*/
         private GameObject _localAvatar;
 
         public ZieglerNicholsHeuristic TuningHeuristic = ZieglerNicholsHeuristic.PDControl;
@@ -87,18 +85,13 @@ namespace PIDTuning
             _testEnvSetup = GetComponent<TestEnvSetup>();
             _animatorControl = GetComponent<AnimatorControl>();
             _remoteBones = UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
-
-            _localAvatarRig.gameObject.GetComponent<Animator>().enabled = false;
             _remoteAvatarRig = PoseErrorTracker.RemoteRig;
-            //gameObject.transform.position =new Vector3(0.0f, 1.046f, 0.024f);
-
-
         }
 
         public IEnumerator TuneAllJoints()
         {
             Assert.IsFalse(_tuningInProgress);
-            
+
             Dictionary<string, float> safeCopy = new Dictionary<string, float>();
             foreach (var joint in _localAvatarRig.GetJointToRadianMapping())
             {
@@ -115,62 +108,75 @@ namespace PIDTuning
 
         public IEnumerator TuneSingleJoint(string joint)
         {
+            //_localAvatarRig.gameObject.GetComponent<Animator>().enabled = false;
+
             Debug.Log("Tuning " + joint);
-            // Make sure we are only tuning one joint at a time
-            Assert.IsFalse(_tuningInProgress);
-            _tuningInProgress = true;
-
-            // Disable animator so we can move joints as we please
-            var previousAnimatorState = _localAvatarAnimator.enabled;
-            _localAvatarAnimator.enabled = false;
-
-            //unlock ConfigurableJoint
-            ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones).angularXMotion = ConfigurableJointMotion.Limited;
-
-            // Set starting angle of joint
-            _localAvatarRig.SetJointEulerAngle(joint, RelayStartAngle);
-
-            // Wait for sim to catch up
-            yield return _testEnvSetup.RunSimulationReset();
-
-            // Run Bang-Bang control for a while to get oscillation data
-            var bangBangStepData = new Box<PidStepData>(null);
-
-            yield return RunBangBangEvaluation(joint, bangBangStepData, UserAvatarService.Instance.use_gazebo);
-            
-            // Evaluate the oscillation data
-            var oscillation = PeakAnalysis.AnalyzeOscillation(bangBangStepData.Value);
-            try
+            ConfigurableJoint currentJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
+            //if the joint cannot rotate (e.g y axis in the knee) we cannot tune it (no oscillation).
+            if (!UserAvatarService.Instance.use_gazebo && currentJoint.lowAngularXLimit.limit == 0 && currentJoint.lowAngularXLimit.limit == 0)
             {
-                Assert.IsTrue(oscillation.HasValue, "It seems the Bang-Bang control did not create a suitable oscillation pattern. Please modify some parameters and try again.");
-                LastTuningData = TuningResult.GenerateFromOscillation(joint, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
+                Debug.Log("Cannot tune " + joint + " because angular limit 0");
+                yield return new WaitForEndOfFrame();
             }
-            finally
+            else
             {
+                // Make sure we are only tuning one joint at a time
+                Assert.IsFalse(_tuningInProgress);
+                _tuningInProgress = true;
+
+                // Disable animator so we can move joints as we please
+                var previousAnimatorState = _localAvatarAnimator.enabled;
+                _localAvatarAnimator.enabled = false;
+
+                //unlock ConfigurableJoint
+                ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones).angularXMotion = ConfigurableJointMotion.Free;
+
+                // Set starting angle of joint
+                _localAvatarRig.SetJointEulerAngle(joint, RelayStartAngle);
+
+                // Wait for sim to catch up
+                yield return _testEnvSetup.RunSimulationReset();
+
+                // Run Bang-Bang control for a while to get oscillation data
+                var bangBangStepData = new Box<PidStepData>(null);
+
+                yield return RunBangBangEvaluation(joint, bangBangStepData, UserAvatarService.Instance.use_gazebo);
+
+                // Evaluate the oscillation data
+                var oscillation = PeakAnalysis.AnalyzeOscillation(bangBangStepData.Value);
+                try
+                {
+                    Assert.IsTrue(oscillation.HasValue, "It seems the Bang-Bang control did not create a suitable oscillation pattern. Please modify some parameters and try again.");
+                    LastTuningData = TuningResult.GenerateFromOscillation(joint, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
+                }
+                finally
+                {
+                    _tuningInProgress = false;
+                }
+
+                // Acquire the final tuned parameters
+                var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningHeuristic, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
+
+                // Apply the tuning and transmit it to the simulation
+                _pidConfigStorage.Configuration.Mapping[joint] = tunedPid;
+                _pidConfigStorage.TransmitSingleJointConfiguration(joint);
+
+                // Restore animator state
+                _localAvatarAnimator.enabled = previousAnimatorState;
                 _tuningInProgress = false;
             }
-            
-            // Acquire the final tuned parameters
-            var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningHeuristic, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
 
-            // Apply the tuning and transmit it to the simulation
-            _pidConfigStorage.Configuration.Mapping[joint] = tunedPid;
-            _pidConfigStorage.TransmitSingleJointConfiguration(joint);
-            
-            
-            // Restore animator state
-            _localAvatarAnimator.enabled = previousAnimatorState;
-            _tuningInProgress = false;
         }
 
         private IEnumerator RunBangBangEvaluation(string joint, Box<PidStepData> evaluation, bool gazebo)
         {
+
             if (!gazebo)
             {
                 //Prepare the remote avatar. We do not want any other joint force to influence the tuning process.
                 UserAvatarService.Instance._avatarManager.LockAvatarJointsExceptCurrent(ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones));
             }
-            
+
             // TODO: Explain all of this m8
             TimeSpan warmupSeconds = TimeSpan.FromSeconds(TestWarmupSeconds);
             TimeSpan measurementSeconds = TimeSpan.FromSeconds(TestDurationSeconds);
@@ -181,7 +187,7 @@ namespace PIDTuning
             // Disable PID controller
             _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, 0f);
             _pidConfigStorage.TransmitFullConfiguration();
-            
+
             //Disable ConfigurableJoint
             UserAvatarService.Instance._avatarManager.tuningInProgress = true;
             ConfigurableJoint configurableJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
@@ -199,9 +205,8 @@ namespace PIDTuning
 
             while (DateTime.Now - startTime < warmupSeconds)
             {
+                yield return gazebo ? null : new WaitForFixedUpdate();
                 AdjustRelayForce(joint, gazebo, bodyPart, configurableJointCopy);
-
-                yield return null;
             }
 
             _testRunner.ResetTestRunner();
@@ -211,17 +216,19 @@ namespace PIDTuning
 
             while (DateTime.Now - startTime < measurementSeconds)
             {
+                //We have to update in sync with the physics for better results
+                yield return gazebo ? null : new WaitForFixedUpdate();
                 AdjustRelayForce(joint, gazebo, bodyPart, configurableJointCopy);
-
-                yield return null;
             }
 
             // Stop the test and collect data
             evaluation.Value = _testRunner.StopManualRecord()[joint];
 
+            //save values for EditAvatarTemplate -> data would be lost after exiting play mode
+            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true);
+
             // Get rid of any force
             SetConstantForceForJoint(joint, 0f, gazebo, bodyPart, configurableJointCopy);
-
 
             // Restore pre-test configurations
             ConfigJointUtility.CopyPasteComponent(configurableJoint, configurableJointCopy);
@@ -230,7 +237,7 @@ namespace PIDTuning
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
             _pidConfigStorage.TransmitFullConfiguration();
 
-            yield return null;
+            yield return gazebo ? null : new WaitForFixedUpdate();
 
         }
 
@@ -270,21 +277,8 @@ namespace PIDTuning
                 {
                     if (rb != null)
                     {
-                        //apply force in direction that the joint can rotate in
-                        Vector3 direction = Vector3.zero;
-
-                        if (jointInScene.axis == Vector3.right || jointInScene.axis == Vector3.left)
-                        {
-                            direction = Vector3.right;
-                        }
-                        else if (jointInScene.axis == Vector3.up || jointInScene.axis == Vector3.down)
-                        {
-                            direction = Vector3.up;
-                        }
-                        else if (jointInScene.axis == Vector3.forward || jointInScene.axis == Vector3.back)
-                        {
-                            direction = Vector3.forward;
-                        }
+                        //apply torque in direction that the joint can rotate in
+                        Vector3 direction = jointInScene.axis;
 
                         rb.AddTorque(direction * force, ForceMode.Force);
                     }

@@ -317,7 +317,7 @@ public class ConfigJointManager : MonoBehaviour
                 }
                 else
                 {
-                    joint.angularXMotion = ConfigurableJointMotion.Limited;
+                    joint.angularXMotion = ConfigurableJointMotion.Free;
                 }
                 //we set the angular drives to 0, so that the joint cannot enforce the target rotation and will not counter external forces.
                 JointDrive drive = new JointDrive();

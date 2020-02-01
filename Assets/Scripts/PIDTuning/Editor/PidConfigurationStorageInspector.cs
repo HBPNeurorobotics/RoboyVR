@@ -39,7 +39,7 @@ namespace PIDTuning.Editor
                     Debug.LogWarning("Cannot transmit PID configuration while test is running");
                 }
 
-                configStorage.TransmitFullConfiguration();
+                configStorage.TransmitFullConfiguration(true);
             }
 
             if (GUILayout.Button("Fill from JSON"))
