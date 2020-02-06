@@ -8,6 +8,7 @@ using System;
 public class JointSettings
 {
     public HumanBodyBones bone;
+    public string jointName;
 
     // we do not want to save the foldout state in json
     [NonSerialized]
@@ -35,7 +36,6 @@ public class JointSettings
     public Vector3 primaryAxis;
     public Vector3 secondaryAxis;
 
-    public string individualJoint;
 
     //Rigidbody
     public bool gravity = true;
@@ -78,7 +78,7 @@ public class JointSettings
     public JointSettings(HumanBodyBones bone, ConfigurableJoint joint)
     {
         this.bone = bone;
-        individualJoint = bone.ToString();
+        jointName = bone.ToString();
 
         angularXDrive = joint.angularXDrive;
         angularXDriveDamper = joint.angularXDrive.positionDamper;
@@ -123,7 +123,7 @@ public class JointSettings
     public JointSettings(string individualJoint, ConfigurableJoint joint)
     {
         this.bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), individualJoint.Remove(individualJoint.Length - 1));
-        this.individualJoint = individualJoint;
+        this.jointName = individualJoint;
 
         angularXDrive = joint.angularXDrive;
         angularXDriveDamper = joint.angularXDrive.positionDamper;

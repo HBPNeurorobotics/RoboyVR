@@ -440,7 +440,7 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="boneSettings">The JointSettings to show.</param>
     void DisplayJointSettingsOfBone(JointSettings boneSettings)
     {
-        boneSettings.showInEditor = EditorGUILayout.Foldout(boneSettings.showInEditor, setGlobalJointSetting ? "Global Joint" : boneSettings.individualJoint, true);
+        boneSettings.showInEditor = EditorGUILayout.Foldout(boneSettings.showInEditor, setGlobalJointSetting ? "Global Joint" : boneSettings.jointName, true);
 
         if (boneSettings.showInEditor || setGlobalJointSetting)
         {
@@ -458,8 +458,8 @@ public class EditAvatarTemplate : EditorWindow
 
     void MirrorJointValues(JointSettings settings)
     {
-        if (settings.bone.ToString().StartsWith("Left")) CopySettings(settings, jointSettings[LeftToRightMapping(settings.bone)][settings.individualJoint.Replace("Left", "Right")]);
-        if (settings.bone.ToString().StartsWith("Right")) CopySettings(settings, jointSettings[RightToLeftMapping(settings.bone)][settings.individualJoint.Replace("Right", "Left")]);
+        if (settings.bone.ToString().StartsWith("Left")) CopySettings(settings, jointSettings[LeftToRightMapping(settings.bone)][settings.jointName.Replace("Left", "Right")]);
+        if (settings.bone.ToString().StartsWith("Right")) CopySettings(settings, jointSettings[RightToLeftMapping(settings.bone)][settings.jointName.Replace("Right", "Left")]);
     }
     /// <summary>
     /// Mapps angular limits and angular drives of one JointSettings instance to another one.
@@ -910,7 +910,7 @@ public class EditAvatarTemplate : EditorWindow
             Dictionary<string, JointSettings> jointsWithSameBone;
             if (jointSettingsFromJson.TryGetValue(joint.bone, out jointsWithSameBone))
             {
-                jointSettingsFromJson[joint.bone].Add(joint.individualJoint, joint);
+                jointSettingsFromJson[joint.bone].Add(joint.jointName, joint);
             }
         }
 

@@ -128,10 +128,17 @@ public static class ConfigJointUtility
         Object.Destroy(newMotionHandler);
     }
 
-
+    /// <summary>
+    /// A workaround since Unity cannot convert Dictionary to Json
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="S"></typeparam>
+    /// <param name="dictionary"></param>
+    /// <returns></returns>
     public static string ConvertDictionaryToJson<T, S>(Dictionary<T, S> dictionary)
     {
         string result = "";
+        Debug.Log("num of keys: " + dictionary.Keys.Count);
         foreach (T bone in dictionary.Keys)
         {
             result += JsonUtility.ToJson(dictionary[bone]) + "\n";
