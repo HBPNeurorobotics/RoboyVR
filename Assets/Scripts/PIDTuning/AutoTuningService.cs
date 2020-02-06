@@ -179,11 +179,11 @@ namespace PIDTuning
                     _pidConfigStorage.TransmitSingleJointConfiguration(joint);
 
                     // Restore animator state
+                    _localAvatarAnimator.enabled = previousAnimatorState;
                     if (!UserAvatarService.Instance.use_gazebo)
                     {
                         _animatorControl.EnableIKNonGazebo();
                     }
-                    _localAvatarAnimator.enabled = previousAnimatorState;
                     _tuningInProgress = false;
                 }
             }

@@ -307,6 +307,14 @@ public class EditAvatarTemplate : EditorWindow
         {
             jointSettings = RecoverJointSettingsFromJson(tunedSettings.text);
         }
+        else
+        {
+            jointSettings.Clear();
+            foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
+                {
+                        GetJointSettingsFromAvatarTemplate(bone);
+            }
+        }
 
     }
 
@@ -354,7 +362,7 @@ public class EditAvatarTemplate : EditorWindow
     void GetJointSettingsFromAvatarTemplate(HumanBodyBones bone)
     {
         //JointSettings will only be set to the values in AvatarTemplate once (when both AvatarTemplate and AvatarTemplateMultipleJoint rigs have been assigned).
-        //prevents constantly overwriting the JointSettings with every tick.
+        //prevents constantly overwriting the JointSettings with every editor update.
         if (!jointSettings.ContainsKey(bone))
         {
             ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
@@ -902,6 +910,7 @@ public class EditAvatarTemplate : EditorWindow
         }
 
         string[] settingsEntries = savedInfo.Split('\n');
+
         foreach (string entry in settingsEntries)
         {
             //recover JointSettings
