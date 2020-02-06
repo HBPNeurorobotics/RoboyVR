@@ -187,9 +187,6 @@ namespace PIDTuning
                     _tuningInProgress = false;
                 }
             }
-
-
-
         }
 
         private IEnumerator RunBangBangEvaluation(string joint, Box<PidStepData> evaluation, bool gazebo)
@@ -222,10 +219,10 @@ namespace PIDTuning
             UserAvatarService.Instance._avatarManager.tuningInProgress = true;
             ConfigurableJoint configurableJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
             HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint.Remove(joint.Length - 1));
+
             //We copy the joint in the avatar template to restore its values later
             ConfigurableJoint configurableJointCopy = UserAvatarService.Instance._avatarManager.GetJointInTemplate(bone, configurableJoint.axis);
             GameObject bodyPart = configurableJoint.gameObject;
-
 
             // Set set-point to 0 (even if the PID won't control the joint for now)
             // We are trying to reach the set-point using relay control only for the test

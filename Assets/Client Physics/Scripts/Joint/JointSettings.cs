@@ -9,6 +9,7 @@ public class JointSettings
 {
     public HumanBodyBones bone;
 
+    // we do not want to save the foldout state in json
     [NonSerialized]
     public bool showInEditor = false;
     [NonSerialized]
@@ -77,6 +78,7 @@ public class JointSettings
     public JointSettings(HumanBodyBones bone, ConfigurableJoint joint)
     {
         this.bone = bone;
+        individualJoint = bone.ToString();
 
         angularXDrive = joint.angularXDrive;
         angularXDriveDamper = joint.angularXDrive.positionDamper;
