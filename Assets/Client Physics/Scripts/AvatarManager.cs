@@ -64,7 +64,7 @@ public class AvatarManager : MonoBehaviour
         //UpdateMerchVRPIDControllers();
         if (Input.GetKey(KeyCode.F))
         {
-            gameObjectPerBoneRemoteAvatar[HumanBodyBones.LeftLowerLeg].GetComponent<Rigidbody>().AddForce(Vector3.back * 2500, ForceMode.Force);
+            gameObjectPerBoneRemoteAvatar[HumanBodyBones.LeftLowerLeg].GetComponent<Rigidbody>().AddForce(Vector3.back * 500, ForceMode.Force);
         }
 
     }
@@ -375,5 +375,11 @@ public class AvatarManager : MonoBehaviour
     public ConfigurableJoint GetJointInTemplate(HumanBodyBones bone, Vector3 axis)
     {
         return configJointManager.GetJointInTemplate(bone, axis);
+    }
+
+    public bool IsJointUnneeded(string joint)
+    {
+        ConfigurableJoint remoteJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, gameObjectPerBoneRemoteAvatar);
+        return remoteJoint.lowAngularXLimit.limit == 0 && remoteJoint.highAngularXLimit.limit == 0;
     }
 }

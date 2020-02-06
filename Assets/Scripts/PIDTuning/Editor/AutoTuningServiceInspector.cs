@@ -16,6 +16,8 @@ namespace PIDTuning.Editor
 
         private int jointToTuneIdx = 0;
 
+        private bool showUnneededJoints = false;
+
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
@@ -27,11 +29,13 @@ namespace PIDTuning.Editor
                 GUILayout.Label("Functionality only available in play mode");
                 return;
             }
-
+            /*
             if (null == jointNames)
             {
                 Initialize(ats);
             }
+            */
+            Initialize(ats);
 
             GUILayout.Label("WARNING! Tune all joints rudimentary implementation, should be looked at again.");
             if (GUILayout.Button("Tune all joints"))
@@ -48,9 +52,12 @@ namespace PIDTuning.Editor
                 ats.StartCoroutine(ats.TuneSingleJoint(jointNames[jointToTuneIdx]));
             }
 
+            showUnneededJoints = ats.showUnneededJoints;
+
             EditorGUILayout.Space();
 
             DisplayAvailableTunings(ats);
+
 
             Repaint();
         }
@@ -96,6 +103,21 @@ namespace PIDTuning.Editor
         private void Initialize(AutoTuningService ats)
         {
             jointNames = ats.PoseErrorTracker.GetJointNames().ToArray();
+            //Filter unneeded joints
+            if (!ats.showUnneededJoints || ats.mirror)
+            {
+                HashSet<string> filteredNames = new HashSet<string>();
+                HashSet<string> filteredNamesUnneeded = new HashSet<string>();
+                HashSet<string> filteredNamesMirror = new HashSet<string>();
+                AvatarManager avatarManager = UserAvatarService.Instance._avatarManager;
+                foreach(string joint in jointNames)
+                {
+                    if (!ats.showUnneededJoints && !avatarManager.IsJointUnneeded(joint)) filteredNamesUnneeded.Add(joint); 
+                    if (ats.mirror && joint.StartsWith("Left")) filteredNamesMirror.Add(joint); 
+                }
+
+                jointNames = (filteredNamesMirror.Count == 0 ? filteredNamesUnneeded : filteredNamesUnneeded.Count == 0 ? filteredNamesMirror : filteredNamesUnneeded.Intersect(filteredNamesMirror)).ToArray();
+            }
         }
     }
 }

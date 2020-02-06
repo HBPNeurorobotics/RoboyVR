@@ -49,8 +49,10 @@ namespace PIDTuning
             {
                 Assert.IsNotNull(_ikVisualControl);
             }
-
-            PrepareRigForPlayback();
+            if (UserAvatarService.Instance.use_gazebo)
+            {
+                PrepareRigForPlayback();
+            }
 
             Debug.LogWarning("The PIDTuningService GameObject is enabled. This will disable tracking and IK functionality.");
         }
@@ -83,7 +85,7 @@ namespace PIDTuning
             }
         }
 
-        private void PrepareRigForPlayback()
+        public void PrepareRigForPlayback()
         {
             Animator.enabled = true;
 
@@ -99,6 +101,11 @@ namespace PIDTuning
 
             // Apply time stretch to account for low simulations speeds
             Animator.speed = 1f / _timeStretchFactor;
+        }
+
+        public void EnableIKNonGazebo()
+        {
+            _ikVisualControl.ikActive = true;
         }
     }
 }

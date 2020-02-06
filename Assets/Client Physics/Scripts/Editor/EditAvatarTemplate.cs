@@ -19,6 +19,8 @@ public class EditAvatarTemplate : EditorWindow
     BodyMass.MODE mode = BodyMass.MODE.AVERAGE;
     float indent = 15f;
 
+    float maxForceTuning = 2500;
+
     BodyGroups.BODYGROUP bodyGroup;
 
     bool useCollisions;
@@ -116,7 +118,6 @@ public class EditAvatarTemplate : EditorWindow
             SaveJointSettingsAsJson();
         }
         EditorGUILayout.EndHorizontal();
-        GUI.enabled = true;
         multipleTemplateFromTuning = EditorGUILayout.Toggle("Load from Tuning", multipleTemplateFromTuning);
         if (multipleTemplateFromTuning)
         {
@@ -128,12 +129,17 @@ public class EditAvatarTemplate : EditorWindow
         }
 
         tunedSettings = (TextAsset)EditorGUILayout.ObjectField("Tuned Settings", tunedSettings, typeof(TextAsset), true);
+        maxForceTuning = EditorGUILayout.FloatField("Maximum Force", maxForceTuning);
         GUI.enabled = true;
         #endregion
 
 
         if (template != null && templateMultiple != null)
         {
+            if (multipleTemplateFromTuning)
+            {
+                GUI.enabled = false;
+            }
             scroll = EditorGUILayout.BeginScrollView(scroll);
             #region Editor Parameters
 
@@ -144,7 +150,7 @@ public class EditAvatarTemplate : EditorWindow
             bodyGroup = (BodyGroups.BODYGROUP)EditorGUILayout.EnumPopup("Body Group", bodyGroup);
 
             Initialize();
-            
+
             useGravity = EditorGUILayout.Toggle("Enable Gravity", useGravity);
             useCollisions = EditorGUILayout.Toggle("Enable Collisions Between Joints", useCollisions);
             noPreprocessing = EditorGUILayout.Toggle("Disable Preprocessing", noPreprocessing);
@@ -155,7 +161,7 @@ public class EditAvatarTemplate : EditorWindow
 
 
             GUI.enabled = false;
-            if (!setGlobalJointSetting)
+            if (!multipleTemplateFromTuning && !setGlobalJointSetting)
             {
                 GUI.enabled = true;
             }
@@ -167,7 +173,6 @@ public class EditAvatarTemplate : EditorWindow
                 SelectJointsInTemplate();
             }
 
-            GUI.enabled = true;
             if (!setGlobalJointSetting && !selectGroupConfigJoints)
             {
                 showJointSettings = EditorGUILayout.Foldout(showJointSettings, "Joint Settings", true);
@@ -185,7 +190,7 @@ public class EditAvatarTemplate : EditorWindow
 
             #region Buttons at bottom
             GUILayout.BeginHorizontal();
-            GUI.enabled = true;
+
             if (GUILayout.Button("Set BodyMass"))
             {
                 bodyMass = new BodyMass(bodyWeight, gameObjectsPerBoneTemplate, mode);
@@ -222,7 +227,7 @@ public class EditAvatarTemplate : EditorWindow
                     PrefabUtility.ResetToPrefabState(gameObjectsPerBoneTemplate[bone]);
                 }
             }
-
+            GUI.enabled = true;
             if (GUILayout.Button("Update Templates"))
             {
                 UpdateTemplate();
@@ -621,8 +626,7 @@ public class EditAvatarTemplate : EditorWindow
 
 
             if (fromTuningRaw != null)
-            {
-                
+            {  
                 List<ConfigurableJoint> untunedJoints = new List<ConfigurableJoint>();
                 foreach (ConfigurableJoint addedJoint in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>())
                 {
@@ -633,12 +637,13 @@ public class EditAvatarTemplate : EditorWindow
                 {
                     foreach(JointSettings copyFrom in fromTuningRaw[bone])
                     {
-                        //Debug.Log("tuned settings for: " + bone);
                         if (copyFrom.primaryAxis == toTune.axis)
                         {
                             JointDrive drive = toTune.angularXDrive;
+                            float scale = GetScaleOfSpringForce(copyFrom.angularXDriveSpring);
                             drive.positionSpring = copyFrom.angularXDriveSpring;
                             drive.positionDamper = copyFrom.angularXDriveDamper;
+                            drive.maximumForce = maxForceTuning;
                             toTune.angularXDrive = drive;
                         }
                     }
@@ -646,6 +651,12 @@ public class EditAvatarTemplate : EditorWindow
             }
         }
     }
+
+    float GetScaleOfSpringForce(float spring)
+    {
+        return 2 * spring / maxForceTuning;
+    }
+
     /// <summary>
     /// Applys changes made to the ConfigurableJoints to the TemplateAvatar.
     /// </summary>
@@ -877,7 +888,6 @@ public class EditAvatarTemplate : EditorWindow
             List<JointSettings> jointsWithSameBone;
             if(jointSettingsFromJson.TryGetValue(joint.bone, out jointsWithSameBone))
             {
-                Debug.Log(joint.bone + " " +joint.individualJoint);
                 jointSettingsFromJson[joint.bone].Add(joint);
             }
         }

@@ -40,25 +40,26 @@ namespace PIDTuning
         /// an argument, the current value of the Configuration property of this component
         /// will be transmitted.
         /// </summary>
-        public void TransmitFullConfiguration(bool save = false)
+        public void TransmitFullConfiguration(bool save = false, bool mirror = false)
         {
             AssertServiceReady();
             bool gazebo = UserAvatarService.Instance.use_gazebo;
             Dictionary<string, JointSettings> tunedSettings = new Dictionary<string, JointSettings>();
             foreach (var joint in Configuration.Mapping)
             {
-                if (gazebo) { 
-                string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
+                if (gazebo)
+                {
+                    string topic = "/" + UserAvatarService.Instance.avatar_name + "/avatar_ybot/" + joint.Key + "/set_pid_params";
 
                     ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(joint.Value.Kp, joint.Value.Ki, joint.Value.Kd));
                 }
                 else
                 {
-                    tunedSettings.Add(joint.Key, TransmitSingleJointConfiguration(joint.Key));
+                    tunedSettings.Add(joint.Key, TransmitSingleJointConfiguration(joint.Key, mirror));
                 }
             }
 
-            if(!gazebo) SafeNonGazeboTuning(tunedSettings);
+            if (!gazebo) SafeNonGazeboTuning(tunedSettings);
         }
 
         void SafeNonGazeboTuning(Dictionary<string, JointSettings> tunedSettings)
@@ -72,9 +73,9 @@ namespace PIDTuning
             File.WriteAllText(path, values);
         }
 
-        public JointSettings TransmitSingleJointConfiguration(string joint)
+        public JointSettings TransmitSingleJointConfiguration(string joint, bool mirror = false)
         {
-            
+
             AssertServiceReady();
             var jointConfig = Configuration.Mapping[joint];
 
@@ -87,6 +88,13 @@ namespace PIDTuning
             else
             {
                 ConfigurableJoint configurableJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+
+                //Get the joint configuration from the left side for the right side.
+                if (mirror && joint.StartsWith("Right"))
+                {
+                    string mirroredKey = joint.Replace("Right", "Left");
+                    jointConfig = Configuration.Mapping[mirroredKey];
+                }
 
                 JointDrive angularDrive = new JointDrive();
                 angularDrive.positionSpring = jointConfig.Kp;
