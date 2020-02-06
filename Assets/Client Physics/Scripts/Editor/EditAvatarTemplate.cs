@@ -373,7 +373,6 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="bone"></param>
     void GetJointSettingsFromAvatarTemplate(HumanBodyBones bone)
     {
-        Debug.Log("FromAvatar");
         //JointSettings will only be set to the values in AvatarTemplate once (when both AvatarTemplate and AvatarTemplateMultipleJoint rigs have been assigned).
         //prevents constantly overwriting the JointSettings with every editor update.
         if (!jointSettings.ContainsKey(bone))
@@ -510,7 +509,6 @@ public class EditAvatarTemplate : EditorWindow
     void DisplayJointValues(JointSettings settings)
     {
         //More functions could be added here, if other joint parameters are to be modified in the future
-        Debug.Log("DisplayJointValues " + settings.jointName);
         DisplayAngularLimits(settings);
         DisplayAngularDrives(settings);
     }
@@ -542,7 +540,6 @@ public class EditAvatarTemplate : EditorWindow
         settings.showAngularXDriveInEditor = EditorGUILayout.Foldout(settings.showAngularXDriveInEditor, globalPrefix + "Angular X Drive", true);
         if (settings.showAngularXDriveInEditor || setGlobalJointSetting)
         {
-            Debug.Log("Drive");
             DisplayAngularDrivesHelper(settings, 0);
         }
 
@@ -610,9 +607,6 @@ public class EditAvatarTemplate : EditorWindow
 
             //Joint Settings
             UpdateJoints();
-
-            //Apply template changes to multiple joint template 
-            CopyToMultipleJointsTemplate();
 
             //Refresh Values
             //RefreshJointSettings();
@@ -700,58 +694,92 @@ public class EditAvatarTemplate : EditorWindow
     }
 
     /// <summary>
-    /// Applys changes made to the ConfigurableJoints to the TemplateAvatar.
+    /// Applys changes made to the ConfigurableJoints to the TemplateAvatar and TemplateAvatarMultiple.
     /// </summary>
     void UpdateJoints()
     {
-        foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
+        if (!loadFromTuning) 
         {
-            ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
-            if (joint != null)
+            foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
             {
-                joint.enableCollision = useCollisions;
-                joint.enablePreprocessing = !noPreprocessing;
-                JointSettings settings = globalSettings;
-                if (!setGlobalJointSetting)
+                ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
+                if (joint != null)
                 {
-                    //get the correct JointSettings for the current bone
-                    Dictionary<string, JointSettings> specificSettings;
-                    if (jointSettings.TryGetValue(bone, out specificSettings))
+                    joint.enableCollision = useCollisions;
+                    joint.enablePreprocessing = !noPreprocessing;
+                    JointSettings settings = globalSettings;
+                    if (!setGlobalJointSetting)
                     {
-                        foreach (string jointName in specificSettings.Keys)
-                        {
-                            string settingsKey = jointName;
-                            //return bone on the right if left side
-                            if (mirror)
-                            {
-                                if (jointName.StartsWith("Left"))
-                                {
-                                    settingsKey = jointName.Replace("Left", "Right");
-                                    specificSettings = jointSettings[LeftToRightMapping(bone)];
-                                }
-                                //return bone on the left if right side
-                                else
-                                {
-                                    if (jointName.StartsWith("Right"))
-                                    {
-                                        settingsKey = jointName.Replace("Right", "Left");
-                                        specificSettings = jointSettings[RightToLeftMapping(bone)];
-                                    }
-                                }
-                            }
-                            settings = specificSettings[settingsKey];
-                            ApplyJointSetting(joint, settings);
-                        }
+                        //get the correct JointSettings for the current bone
+                        UpdateJoint1to1(bone, settings, joint);
                     }
+                    else
+                    {
+                        ApplyJointSetting(joint, settings);
+                    }
+                    AddGravity(bone);
                 }
-                else
+            }
+            //Apply template changes to multiple joint template 
+            CopyToMultipleJointsTemplate();
+        }
+        else
+        {
+            foreach(HumanBodyBones bone in gameObjectsPerBoneTemplateMultiple.Keys)
+            {
+                ConfigurableJoint[] jointsInMultipleTemplate = gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>();
+                foreach (ConfigurableJoint joint in jointsInMultipleTemplate)
                 {
-                    ApplyJointSetting(joint, settings);
+                    joint.enableCollision = useCollisions;
+                    joint.enablePreprocessing = !noPreprocessing;
+                    UpdateJoint1to1(bone, new JointSettings(), joint);
                 }
-                AddGravity(bone);
+
             }
         }
     }
+
+    void CopyTuningToJointsTemplate(HumanBodyBones bone, JointDrive x,  JointDrive yz)
+    {
+
+    }
+
+    void UpdateJoint1to1(HumanBodyBones bone, JointSettings settings, ConfigurableJoint joint)
+    {
+        Dictionary<string, JointSettings> specificSettings;
+        if (jointSettings.TryGetValue(bone, out specificSettings))
+        {
+            foreach (string jointName in specificSettings.Keys)
+            {
+                //apply the settings to the intended joint
+                if (jointSettings[bone][jointName].primaryAxis == joint.axis)
+                {
+                    string settingsKey = jointName;
+                    //return bone on the right if left side
+                    if (mirror)
+                    {
+                        if (jointName.StartsWith("Left"))
+                        {
+                            settingsKey = jointName.Replace("Left", "Right");
+                            specificSettings = jointSettings[LeftToRightMapping(bone)];
+                        }
+                        //return bone on the left if right side
+                        else
+                        {
+                            if (jointName.StartsWith("Right"))
+                            {
+                                settingsKey = jointName.Replace("Right", "Left");
+                                specificSettings = jointSettings[RightToLeftMapping(bone)];
+                            }
+                        }
+                    }
+                    settings = specificSettings[settingsKey];
+                    ApplyJointSetting(joint, settings);
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Returns the body part on the right side for a body part on the left side.
     /// </summary>
