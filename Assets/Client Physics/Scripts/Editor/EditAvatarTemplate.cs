@@ -52,6 +52,8 @@ public class EditAvatarTemplate : EditorWindow
     string fileName = "";
     bool loadFromFile;
     bool gatheredTemplateSettings;
+    bool gatheredTuningSettings;
+    bool restoredAvatarSettings;
     #endregion
 
     #region Dictionaries and HashSets
@@ -305,14 +307,24 @@ public class EditAvatarTemplate : EditorWindow
 
         if (loadFromTuning && tunedSettings != null)
         {
-            jointSettings = RecoverJointSettingsFromJson(tunedSettings.text);
+            if (!gatheredTuningSettings)
+            {
+                jointSettings = RecoverJointSettingsFromJson(tunedSettings.text);
+                gatheredTuningSettings = true;
+                restoredAvatarSettings = false;
+            }
         }
         else
         {
-            jointSettings.Clear();
-            foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
+            gatheredTuningSettings = false;
+            if (!restoredAvatarSettings)
+            {
+                jointSettings.Clear();
+                foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
                 {
-                        GetJointSettingsFromAvatarTemplate(bone);
+                    GetJointSettingsFromAvatarTemplate(bone);
+                }
+                restoredAvatarSettings = true;
             }
         }
 
@@ -361,6 +373,7 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="bone"></param>
     void GetJointSettingsFromAvatarTemplate(HumanBodyBones bone)
     {
+        Debug.Log("FromAvatar");
         //JointSettings will only be set to the values in AvatarTemplate once (when both AvatarTemplate and AvatarTemplateMultipleJoint rigs have been assigned).
         //prevents constantly overwriting the JointSettings with every editor update.
         if (!jointSettings.ContainsKey(bone))
@@ -497,6 +510,7 @@ public class EditAvatarTemplate : EditorWindow
     void DisplayJointValues(JointSettings settings)
     {
         //More functions could be added here, if other joint parameters are to be modified in the future
+        Debug.Log("DisplayJointValues " + settings.jointName);
         DisplayAngularLimits(settings);
         DisplayAngularDrives(settings);
     }
