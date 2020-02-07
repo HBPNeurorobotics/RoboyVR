@@ -176,7 +176,7 @@ namespace PIDTuning
 
                     // Apply the tuning and transmit it to the simulation
                     _pidConfigStorage.Configuration.Mapping[joint] = tunedPid;
-                    _pidConfigStorage.TransmitSingleJointConfiguration(joint);
+                    _pidConfigStorage.TransmitSingleJointConfiguration(joint, RelayConstantForce);
 
                     // Restore animator state
                     _localAvatarAnimator.enabled = previousAnimatorState;
@@ -213,7 +213,7 @@ namespace PIDTuning
 
             // Disable PID controller
             _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, 0f);
-            _pidConfigStorage.TransmitFullConfiguration(false, mirror);
+            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
 
             //Disable ConfigurableJoint
             UserAvatarService.Instance._avatarManager.tuningInProgress = true;
@@ -252,7 +252,7 @@ namespace PIDTuning
             evaluation.Value = _testRunner.StopManualRecord()[joint];
 
             //save values for EditAvatarTemplate -> data would be lost after exiting play mode
-            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, mirror);
+            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, RelayConstantForce, mirror);
 
             // Get rid of any force
             SetConstantForceForJoint(joint, 0f, gazebo, bodyPart, configurableJointCopy);
@@ -262,7 +262,7 @@ namespace PIDTuning
             UserAvatarService.Instance._avatarManager.tuningInProgress = false;
 
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
-            _pidConfigStorage.TransmitFullConfiguration(false, mirror);
+            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
 
             yield return gazebo ? null : new WaitForFixedUpdate();
 

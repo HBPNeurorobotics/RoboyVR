@@ -94,7 +94,7 @@ namespace PIDTuning.Editor
 
                         // We use to copy constructor here to avoid that the user can modify the original tuning
                         configStorage.Configuration.Mapping[ats.LastTuningData.Joint] = new PidParameters(variantToTuning.Value);
-                        configStorage.TransmitSingleJointConfiguration(ats.LastTuningData.Joint);
+                        configStorage.TransmitSingleJointConfiguration(ats.LastTuningData.Joint, ats.RelayConstantForce);
                     }
                 }
             }

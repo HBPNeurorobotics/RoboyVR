@@ -138,7 +138,6 @@ public static class ConfigJointUtility
     public static string ConvertDictionaryToJson<T, S>(Dictionary<T, S> dictionary)
     {
         string result = "";
-        Debug.Log(dictionary.Keys.Count);
         foreach (T bone in dictionary.Keys)
         {
             result += JsonUtility.ToJson(dictionary[bone]) + "\n";

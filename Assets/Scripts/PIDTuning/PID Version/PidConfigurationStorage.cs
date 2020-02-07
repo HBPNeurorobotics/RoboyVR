@@ -40,7 +40,7 @@ namespace PIDTuning
         /// an argument, the current value of the Configuration property of this component
         /// will be transmitted.
         /// </summary>
-        public void TransmitFullConfiguration(bool save = false, bool mirror = false)
+        public void TransmitFullConfiguration(bool save = false, float relay = 2000, bool mirror = false)
         {
             AssertServiceReady();
             bool gazebo = UserAvatarService.Instance.use_gazebo;
@@ -55,7 +55,7 @@ namespace PIDTuning
                 }
                 else
                 {
-                    tunedSettings.Add(joint.Key, TransmitSingleJointConfiguration(joint.Key, mirror));
+                    tunedSettings.Add(joint.Key, TransmitSingleJointConfiguration(joint.Key, relay, mirror));
                 }
             }
 
@@ -73,7 +73,7 @@ namespace PIDTuning
             File.WriteAllText(path, values);
         }
 
-        public JointSettings TransmitSingleJointConfiguration(string joint, bool mirror = false)
+        public JointSettings TransmitSingleJointConfiguration(string joint, float relay, bool mirror = false)
         {
 
             AssertServiceReady();
@@ -99,8 +99,8 @@ namespace PIDTuning
                 JointDrive angularDrive = new JointDrive();
                 angularDrive.positionSpring = jointConfig.Kp;
                 angularDrive.positionDamper = jointConfig.Kd;
-                angularDrive.maximumForce = configurableJoint.angularXDrive.maximumForce;
-                configurableJoint.angularXDrive = configurableJoint.angularYZDrive = angularDrive;
+                angularDrive.maximumForce = relay;
+                configurableJoint.angularXDrive = angularDrive;
 
                 return new JointSettings(joint, configurableJoint);
             }
@@ -136,4 +136,5 @@ namespace PIDTuning
             Assert.IsTrue(UserAvatarService.Instance.IsRemoteAvatarPresent, "Cannot transmit PID config when remote avatar is not present. Did you forget to spawn it?");
         }
     }
+
 }

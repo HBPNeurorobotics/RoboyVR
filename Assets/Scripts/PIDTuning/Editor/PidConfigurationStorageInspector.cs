@@ -89,7 +89,7 @@ namespace PIDTuning.Editor
 
                 if (GUILayout.Button("Transmit Joint PID"))
                 {
-                    configStorage.TransmitSingleJointConfiguration(joinToPid.Key);
+                    configStorage.TransmitSingleJointConfiguration(joinToPid.Key, configStorage.gameObject.GetComponent<AutoTuningService>().RelayConstantForce);
                 }
 
                 EditorGUILayout.Space();

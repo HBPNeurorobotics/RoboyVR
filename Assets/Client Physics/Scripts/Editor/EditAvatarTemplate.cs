@@ -19,8 +19,6 @@ public class EditAvatarTemplate : EditorWindow
     BodyMass.MODE mode = BodyMass.MODE.AVERAGE;
     float indent = 15f;
 
-    float maxForceTuning = 2500;
-
     BodyGroups.BODYGROUP bodyGroup;
 
     bool useCollisions;
@@ -134,7 +132,6 @@ public class EditAvatarTemplate : EditorWindow
         
 
         tunedSettings = (TextAsset)EditorGUILayout.ObjectField("Tuned Settings", tunedSettings, typeof(TextAsset), true);
-        maxForceTuning = EditorGUILayout.FloatField("Maximum Force", maxForceTuning);
         GUI.enabled = true;
         #endregion
 
@@ -460,7 +457,7 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="boneSettings">The JointSettings to show.</param>
     void DisplayJointSettingsOfBone(JointSettings boneSettings)
     {
-        boneSettings.showInEditor = EditorGUILayout.Foldout(boneSettings.showInEditor, setGlobalJointSetting ? "Global Joint" : boneSettings.jointName, true);
+        boneSettings.showInEditor = EditorGUILayout.Foldout(boneSettings.showInEditor, setGlobalJointSetting ? "Global Joint" : boneSettings.individualJoint, true);
 
         if (boneSettings.showInEditor || setGlobalJointSetting)
         {
@@ -478,8 +475,8 @@ public class EditAvatarTemplate : EditorWindow
 
     void MirrorJointValues(JointSettings settings)
     {
-        if (settings.bone.ToString().StartsWith("Left")) CopySettings(settings, jointSettings[LeftToRightMapping(settings.bone)][settings.jointName.Replace("Left", "Right")]);
-        if (settings.bone.ToString().StartsWith("Right")) CopySettings(settings, jointSettings[RightToLeftMapping(settings.bone)][settings.jointName.Replace("Right", "Left")]);
+        if (settings.bone.ToString().StartsWith("Left")) CopySettings(settings, jointSettings[LeftToRightMapping(settings.bone)][settings.individualJoint.Replace("Left", "Right")]);
+        if (settings.bone.ToString().StartsWith("Right")) CopySettings(settings, jointSettings[RightToLeftMapping(settings.bone)][settings.individualJoint.Replace("Right", "Left")]);
     }
     /// <summary>
     /// Mapps angular limits and angular drives of one JointSettings instance to another one.
@@ -608,8 +605,8 @@ public class EditAvatarTemplate : EditorWindow
             //Joint Settings
             UpdateJoints();
 
-            //Refresh Values
-            //RefreshJointSettings();
+        //Refresh Values
+        //RefreshJointSettings();
 
         //editor.Repaint();
     }
@@ -658,39 +655,7 @@ public class EditAvatarTemplate : EditorWindow
             }
             //setup.CopyPasteTemplateJoint(bone);
             setup.AddJointFromTemplate(bone);
-
-            /*
-            if (fromTuningRaw != null)
-            {  
-                List<ConfigurableJoint> untunedJoints = new List<ConfigurableJoint>();
-                foreach (ConfigurableJoint addedJoint in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>())
-                {
-                    untunedJoints.Add(addedJoint);
-                }
-
-                foreach(ConfigurableJoint toTune in untunedJoints)
-                {
-                    foreach(JointSettings copyFrom in fromTuningRaw[bone].Keys)
-                    {
-                        if (copyFrom.primaryAxis == toTune.axis)
-                        {
-                            JointDrive drive = toTune.angularXDrive;
-                            float scale = GetScaleOfSpringForce(copyFrom.angularXDriveSpring);
-                            drive.positionSpring = copyFrom.angularXDriveSpring;
-                            drive.positionDamper = copyFrom.angularXDriveDamper;
-                            drive.maximumForce = maxForceTuning;
-                            toTune.angularXDrive = drive;
-                        }
-                    }
-                }
-            }
-            */
         }
-    }
-
-    float GetScaleOfSpringForce(float spring)
-    {
-        return 2 * spring / maxForceTuning;
     }
 
     /// <summary>
@@ -702,6 +667,8 @@ public class EditAvatarTemplate : EditorWindow
         {
             foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
             {
+                AddGravity(bone, gameObjectsPerBoneTemplate[bone]);
+                AddGravity(bone, gameObjectsPerBoneTemplateMultiple[bone]);
                 ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
                 if (joint != null)
                 {
@@ -711,13 +678,12 @@ public class EditAvatarTemplate : EditorWindow
                     if (!setGlobalJointSetting)
                     {
                         //get the correct JointSettings for the current bone
-                        UpdateJoint1to1(bone, settings, joint);
+                        ApplySettingsToJoint(bone, settings, joint);
                     }
                     else
                     {
                         ApplyJointSetting(joint, settings);
                     }
-                    AddGravity(bone);
                 }
             }
             //Apply template changes to multiple joint template 
@@ -727,24 +693,42 @@ public class EditAvatarTemplate : EditorWindow
         {
             foreach(HumanBodyBones bone in gameObjectsPerBoneTemplateMultiple.Keys)
             {
+                AddGravity(bone, gameObjectsPerBoneTemplate[bone]);
+                AddGravity(bone, gameObjectsPerBoneTemplateMultiple[bone]);
+
                 ConfigurableJoint[] jointsInMultipleTemplate = gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>();
                 foreach (ConfigurableJoint joint in jointsInMultipleTemplate)
                 {
                     joint.enableCollision = useCollisions;
                     joint.enablePreprocessing = !noPreprocessing;
-                    UpdateJoint1to1(bone, new JointSettings(), joint);
+                    //set avatarTemplateMultiple from tuning
+                    ApplySettingsToJoint(bone, new JointSettings(), joint);
                 }
-
+                //set avatarTemplate from tuning
+                ApplyTuningToAvatarTemplate(bone);
             }
         }
     }
 
-    void CopyTuningToJointsTemplate(HumanBodyBones bone, JointDrive x,  JointDrive yz)
+    void ApplyTuningToAvatarTemplate(HumanBodyBones bone)
     {
+        ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
+        if (joint != null)
+        {
+            joint.enableCollision = useCollisions;
+            joint.enablePreprocessing = !noPreprocessing;
 
+            List<JointSettings> settings = new List<JointSettings>();
+            foreach (string subSettings in jointSettings[bone].Keys)
+            {
+                settings.Add(jointSettings[bone][subSettings]);
+            }
+
+            JointSettings.SetSingleDrivesFromTuning(joint, settings.ToArray());
+        }
     }
 
-    void UpdateJoint1to1(HumanBodyBones bone, JointSettings settings, ConfigurableJoint joint)
+    void ApplySettingsToJoint(HumanBodyBones bone, JointSettings settings, ConfigurableJoint joint)
     {
         Dictionary<string, JointSettings> specificSettings;
         if (jointSettings.TryGetValue(bone, out specificSettings))
@@ -907,9 +891,9 @@ public class EditAvatarTemplate : EditorWindow
         joint.xDrive = joint.yDrive = joint.zDrive = tmpDrive;
     }
 
-    void AddGravity(HumanBodyBones bone)
+    void AddGravity(HumanBodyBones bone, GameObject obj)
     {
-        Rigidbody rb = gameObjectsPerBoneTemplate[bone].GetComponent<Rigidbody>();
+        Rigidbody rb = obj.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.useGravity = useGravity;
@@ -961,7 +945,7 @@ public class EditAvatarTemplate : EditorWindow
             Dictionary<string, JointSettings> jointsWithSameBone;
             if (jointSettingsFromJson.TryGetValue(joint.bone, out jointsWithSameBone))
             {
-                jointSettingsFromJson[joint.bone].Add(joint.jointName, joint);
+                jointSettingsFromJson[joint.bone].Add(joint.individualJoint, joint);
             }
         }
 
