@@ -386,6 +386,7 @@ public class JointSetup
         {
             List<ConfigurableJoint> jointsFromSplit = new List<ConfigurableJoint>();
 
+            
             if (!splitJointsFromBone.TryGetValue(bone, out jointsFromSplit))
             {
                 Vector3 primaryAxisOne = Vector3.right;
@@ -433,10 +434,10 @@ public class JointSetup
                         //left hand including fingers
                         if (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.up)
                         {
-                            primaryAxisOne = Vector3.up;
+                            primaryAxisOne = Vector3.right;
                             secondaryAxisOne = Vector3.back;
 
-                            primaryAxisTwo = Vector3.right;
+                            primaryAxisTwo = Vector3.up;
                             secondaryAxisTwo = Vector3.back;
                         }
                         else
@@ -444,11 +445,11 @@ public class JointSetup
                             //right hand including fingers
                             if ((joint.axis == Vector3.back && joint.secondaryAxis == Vector3.up) || (joint.axis == Vector3.forward && joint.secondaryAxis == Vector3.down))
                             {
-                                primaryAxisOne = Vector3.up;
-                                secondaryAxisOne = Vector3.forward;
+                                primaryAxisOne = Vector3.right;
+                                secondaryAxisOne = Vector3.back;
 
-                                primaryAxisTwo = Vector3.right;
-                                secondaryAxisTwo = Vector3.back;
+                                primaryAxisTwo = Vector3.up;
+                                secondaryAxisTwo = Vector3.forward;
                             }
                         }
                     }
@@ -472,7 +473,6 @@ public class JointSetup
                 lowLimit.limit *= -1;
                 jointB.lowAngularXLimit = lowLimit;
 
-
                 //only primary axis constrained (highest level of control)
                 lowLimit.limit = 0;
                 joint.angularYLimit = jointA.angularYLimit = jointB.angularYLimit = lowLimit;
@@ -482,9 +482,10 @@ public class JointSetup
                 joint.angularXMotion = jointA.angularXMotion = jointB.angularXMotion = ConfigurableJointMotion.Limited;
                 joint.angularYMotion = jointA.angularYMotion = jointB.angularYMotion = ConfigurableJointMotion.Free;
                 joint.angularZMotion = jointA.angularZMotion = jointB.angularZMotion = ConfigurableJointMotion.Free;
-
-                //Save split joints for future uses
+                
                 /*
+                //Save split joints for future uses
+                
                 if (calledByToggle)
                 {
                     SaveSplitJointsOfBone(bone, joint);

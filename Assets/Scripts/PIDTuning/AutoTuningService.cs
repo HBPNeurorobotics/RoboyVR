@@ -259,6 +259,7 @@ namespace PIDTuning
 
             // Restore pre-test configurations
             ConfigJointUtility.CopyPasteComponent(configurableJoint, configurableJointCopy);
+            UserAvatarService.Instance._avatarManager.UnlockAvatarJoints();
             UserAvatarService.Instance._avatarManager.tuningInProgress = false;
 
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;

@@ -327,6 +327,17 @@ public class ConfigJointManager : MonoBehaviour
         }
     }
 
+    public void UnlockAvatarJoints()
+    {
+        foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
+        {
+            foreach (ConfigurableJoint joint in gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>())
+            {
+                joint.angularXMotion = ConfigurableJointMotion.Limited;
+            }
+        }
+    }
+
     public Dictionary<HumanBodyBones, GameObject> GetTemplateAvatar()
     {
         return templateFromBone;

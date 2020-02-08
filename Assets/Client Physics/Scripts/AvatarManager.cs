@@ -360,6 +360,11 @@ public class AvatarManager : MonoBehaviour
         configJointManager.LockAvatarJointsExceptCurrent(joint);
     }
 
+    public void UnlockAvatarJoints()
+    {
+        configJointManager.UnlockAvatarJoints();
+    }
+
     public List<HumanBodyBones> GetFixedJoints()
     {
         if (useJoints)

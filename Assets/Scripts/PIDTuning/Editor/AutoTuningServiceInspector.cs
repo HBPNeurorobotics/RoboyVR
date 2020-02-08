@@ -111,32 +111,17 @@ namespace PIDTuning.Editor
                 HashSet<string> filteredNamesUnneeded = new HashSet<string>();
                 HashSet<string> filteredNamesMirror = new HashSet<string>();
                 AvatarManager avatarManager = UserAvatarService.Instance._avatarManager;
+
                 foreach(string joint in jointNames)
                 {
                     if (!ats.showUnneededJoints && avatarManager.IsJointUnneeded(joint)) filteredNamesUnneeded.Add(joint); 
                     if (ats.mirror && !joint.StartsWith("Right")) filteredNamesMirror.Add(joint); 
                 }
 
-                foreach(string name in filteredNamesUnneeded)
-                {
-                    //Debug.Log("unneeded " + name);
-                }
-
-                foreach (string name in filteredNamesMirror)
-                {
-                    //Debug.Log("mirror " + name);
-                }
-
                 jointNames = filteredNamesUnneeded.Count > 0 ? jointNamesBackup.Except(filteredNamesUnneeded).ToArray() : jointNamesBackup;
                 jointNamesBackup = jointNames;
                 jointNames = filteredNamesMirror.Count > 0 ? jointNamesBackup.Intersect(filteredNamesMirror).ToArray() : jointNamesBackup;
 
-                //jointNames = (filteredNamesMirror.Count == 0 ? filteredNamesUnneeded : filteredNamesUnneeded.Count == 0 ? filteredNamesMirror : filteredNamesUnneeded.Intersect(filteredNamesMirror)).ToArray();
-
-                foreach (string name in filteredNames)
-                {
-                    //Debug.Log("result " + name);
-                }
             }
         }
     }
