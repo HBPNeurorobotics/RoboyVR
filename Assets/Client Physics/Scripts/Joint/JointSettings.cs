@@ -118,7 +118,11 @@ public class JointSettings
     {
 
     }
-
+    /// <summary>
+    /// Constructor for storing tuning results for the editor.
+    /// </summary>
+    /// <param name="individualJoint"></param>
+    /// <param name="joint"></param>
     public JointSettings(string individualJoint, ConfigurableJoint joint)
     {
         this.bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), individualJoint.Remove(individualJoint.Length - 1));

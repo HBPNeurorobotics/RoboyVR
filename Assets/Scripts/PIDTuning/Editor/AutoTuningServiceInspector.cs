@@ -103,6 +103,7 @@ namespace PIDTuning.Editor
         private void Initialize(AutoTuningService ats)
         {
             jointNames = ats.PoseErrorTracker.GetJointNames().ToArray();
+            string[] jointNamesBackup = jointNames;
             //Filter unneeded joints
             if (!ats.showUnneededJoints || ats.mirror)
             {
@@ -112,11 +113,30 @@ namespace PIDTuning.Editor
                 AvatarManager avatarManager = UserAvatarService.Instance._avatarManager;
                 foreach(string joint in jointNames)
                 {
-                    if (!ats.showUnneededJoints && !avatarManager.IsJointUnneeded(joint)) filteredNamesUnneeded.Add(joint); 
-                    if (ats.mirror && joint.StartsWith("Left")) filteredNamesMirror.Add(joint); 
+                    if (!ats.showUnneededJoints && avatarManager.IsJointUnneeded(joint)) filteredNamesUnneeded.Add(joint); 
+                    if (ats.mirror && !joint.StartsWith("Right")) filteredNamesMirror.Add(joint); 
                 }
 
-                jointNames = (filteredNamesMirror.Count == 0 ? filteredNamesUnneeded : filteredNamesUnneeded.Count == 0 ? filteredNamesMirror : filteredNamesUnneeded.Intersect(filteredNamesMirror)).ToArray();
+                foreach(string name in filteredNamesUnneeded)
+                {
+                    //Debug.Log("unneeded " + name);
+                }
+
+                foreach (string name in filteredNamesMirror)
+                {
+                    //Debug.Log("mirror " + name);
+                }
+
+                jointNames = filteredNamesUnneeded.Count > 0 ? jointNamesBackup.Except(filteredNamesUnneeded).ToArray() : jointNamesBackup;
+                jointNamesBackup = jointNames;
+                jointNames = filteredNamesMirror.Count > 0 ? jointNamesBackup.Intersect(filteredNamesMirror).ToArray() : jointNamesBackup;
+
+                //jointNames = (filteredNamesMirror.Count == 0 ? filteredNamesUnneeded : filteredNamesUnneeded.Count == 0 ? filteredNamesMirror : filteredNamesUnneeded.Intersect(filteredNamesMirror)).ToArray();
+
+                foreach (string name in filteredNames)
+                {
+                    //Debug.Log("result " + name);
+                }
             }
         }
     }
