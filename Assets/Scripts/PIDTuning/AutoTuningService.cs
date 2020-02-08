@@ -306,8 +306,8 @@ namespace PIDTuning
                     {
                         //apply torque in direction that the joint can rotate in
 
-                        //rb.AddTorque(jointInScene.axis * force, ForceMode.Force);
-
+                        rb.AddTorque(jointInScene.axis * force, ForceMode.Force);
+                        /*
                         float combinedMass = rb.mass;
                         foreach (Transform child in bodyPart.transform)
                         {
@@ -315,7 +315,7 @@ namespace PIDTuning
                         }
 
                         rb.angularVelocity += Time.fixedDeltaTime * jointInScene.axis * force / combinedMass;
-
+                        */
                     }
                 }
             }
