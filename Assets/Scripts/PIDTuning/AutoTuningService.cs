@@ -124,7 +124,7 @@ namespace PIDTuning
             //we can just copy the values for the right side from the tuning of the left side, since the values are approximately the same.
             if (!UserAvatarService.Instance.use_gazebo && fromTuneAll && mirror && joint.StartsWith("Right"))
             {
-                Debug.Log("Skipped " + joint + "because of symmetry");
+                Debug.Log("Skipped " + joint + " because of symmetry");
             }
             else
             {

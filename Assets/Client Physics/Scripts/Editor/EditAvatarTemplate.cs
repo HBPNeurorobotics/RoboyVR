@@ -228,7 +228,7 @@ public class EditAvatarTemplate : EditorWindow
                 DisplayGlobalJoint();
             }
             EditorGUILayout.EndVertical();
-            
+
             #endregion
             EditorGUILayout.EndScrollView();
             #region Buttons at bottom
@@ -622,6 +622,8 @@ public class EditAvatarTemplate : EditorWindow
 
     }
 
+
+    #endregion
     #region Update Joint Values for AvatarTemplate and AvatarTemplateMultipleJoints
     /// <summary>
     /// Wrapper function. Called on "Update Button" press
@@ -940,7 +942,6 @@ public class EditAvatarTemplate : EditorWindow
             rb.useGravity = useGravity;
         }
     }
-    #endregion
 
     /// <summary>
     /// Selects the Objects of the respective joints in the TemplateAvatar to make the same changes to all of them.
@@ -980,7 +981,6 @@ public class EditAvatarTemplate : EditorWindow
         Selection.objects = objectsInTemplate.ToArray();
     }
     #endregion
-
     #region Load and Save Functions
     /// <summary>
     /// Load JointSettings from Json.
@@ -1037,13 +1037,13 @@ public class EditAvatarTemplate : EditorWindow
         //naming and format
         if (fromTuning)
         {
-            path += (tuningsName.Length == 0 ? ("tunings_" + System.DateTime.Now.ToString()) : tuningsName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
+            path += (tuningsName.Length == 0 ? ("tuning_" + System.DateTime.Now.ToString()) : tuningsName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
         }
         else
         {
             path += (settingsName.Length == 0 ? ("settings_" + System.DateTime.Now.ToString()) : settingsName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
         }
-        
+
         File.WriteAllText(path, values);
         AssetDatabase.ImportAsset(path);
     }
