@@ -65,10 +65,10 @@ namespace PIDTuning
         void SafeNonGazeboTuning(Dictionary<string, JointSettings> tunedSettings)
         {
             //from EditAvatarTemplate
-            string values = ConfigJointUtility.ConvertDictionaryToJson(tunedSettings);
+            string values = LocalPhysicsToolkit.ConvertDictionaryToJson(tunedSettings);
             string path = "Assets/Client Physics/Scripts/Editor/Tuned Settings/";
 
-            path += "tuning_" + sessionStart.Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
+            path += sessionStart.Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
 
             File.WriteAllText(path, values);
         }
@@ -87,7 +87,7 @@ namespace PIDTuning
             }
             else
             {
-                ConfigurableJoint configurableJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+                ConfigurableJoint configurableJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
 
                 //Get the joint configuration from the left side for the right side.
                 if (mirror && joint.StartsWith("Right"))

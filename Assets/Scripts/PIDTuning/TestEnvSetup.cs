@@ -18,7 +18,7 @@ namespace PIDTuning
 
         public IEnumerator RunSimulationReset()
         {
-                yield return new WaitForSeconds(PoseResetTimeEstimate);
+            yield return new WaitForSeconds(PoseResetTimeEstimate);
         }
     }
 }

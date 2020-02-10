@@ -164,7 +164,7 @@ public class JointSetup
                     {
                         ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
 
-                        ConfigJointUtility.CopyPasteComponent(newJoint, savedJoint);
+                        LocalPhysicsToolkit.CopyPasteComponent(newJoint, savedJoint);
                     }
                 }
                 //we need to split the single joint first
@@ -185,7 +185,7 @@ public class JointSetup
             //add original, single joint
 
             ConfigurableJoint savedJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
-            ConfigJointUtility.CopyPasteComponent(savedJoint, singleJointFromBone[bone]);
+            LocalPhysicsToolkit.CopyPasteComponent(savedJoint, singleJointFromBone[bone]);
 
 
         }
@@ -321,7 +321,7 @@ public class JointSetup
         Rigidbody templateRb = templateFromBone[bone].gameObject.GetComponent<Rigidbody>();
         if (templateRb != null)
         {
-            ConfigJointUtility.CopyPasteComponent(gameObjectsFromBone[bone].GetComponent<Rigidbody>(), templateRb);
+            LocalPhysicsToolkit.CopyPasteComponent(gameObjectsFromBone[bone].GetComponent<Rigidbody>(), templateRb);
         }
     }
 
@@ -336,7 +336,7 @@ public class JointSetup
                 for (int i = 0; i < jointsOfTemplateBone.Length; i++)
                 {
                     ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
-                    ConfigJointUtility.CopyPasteComponent(newJoint, jointsOfTemplateBone[i]);
+                    LocalPhysicsToolkit.CopyPasteComponent(newJoint, jointsOfTemplateBone[i]);
 
                     //Set Connected Rigidbody of Joints
                     SetConnectedBody(bone, newJoint);
@@ -358,7 +358,7 @@ public class JointSetup
         ConfigurableJoint joint = templateFromBone[bone].GetComponent<ConfigurableJoint>();
         ConfigurableJoint newJoint = gameObjectsFromBone[bone].AddComponent<ConfigurableJoint>();
 
-        ConfigJointUtility.CopyPasteComponent(newJoint, joint);
+        LocalPhysicsToolkit.CopyPasteComponent(newJoint, joint);
 
         SetConnectedBody(bone, newJoint);
         if (!editorMode)
@@ -519,7 +519,7 @@ public class JointSetup
             gameObjectsFromBone[bone].GetComponent<Rigidbody>().centerOfMass = Vector3.zero;
             gameObjectsFromBone[bone].GetComponent<Rigidbody>().inertiaTensor = Vector3.one;
 
-            ConfigJointUtility.CopyPasteComponent(colliderComp, templateCollider);
+            LocalPhysicsToolkit.CopyPasteComponent(colliderComp, templateCollider);
         }
 
 

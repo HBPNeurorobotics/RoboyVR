@@ -240,7 +240,7 @@ public class ConfigJointManager : MonoBehaviour
          * --> rotates world coordinates to align with joint coordinates
         */
 
-        Quaternion worldToJointSpace = ConfigJointUtility.GetWorldToJointRotation(joint);
+        Quaternion worldToJointSpace = LocalPhysicsToolkit.GetWorldToJointRotation(joint);
         /* 
          * turn joint space to align with world
          * perform rotation in world

@@ -1038,7 +1038,7 @@ public class EditAvatarTemplate : EditorWindow
         {
             if (jointSettings[bone].Keys.Count > 0)
             {
-                values += ConfigJointUtility.ConvertDictionaryToJson(jointSettings[bone]) + "\n";
+                values += LocalPhysicsToolkit.ConvertDictionaryToJson(jointSettings[bone]) + "\n";
             }
         }
         values = values.Substring(0, values.Length - 1);
@@ -1048,11 +1048,11 @@ public class EditAvatarTemplate : EditorWindow
         //naming and format
         if (fromTuning)
         {
-            path += (tuningsName.Length == 0 ? ("tuning_" + System.DateTime.Now.ToString()) : tuningsName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
+            path += (tuningsName.Length == 0 ? System.DateTime.Now.ToString() : tuningsName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
         }
         else
         {
-            path += (settingsName.Length == 0 ? ("settings_" + System.DateTime.Now.ToString()) : settingsName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
+            path += (settingsName.Length == 0 ? System.DateTime.Now.ToString() : settingsName).Replace('/', '_').Replace(' ', '_').Replace(':', '_') + ".txt";
         }
 
         File.WriteAllText(path, values);

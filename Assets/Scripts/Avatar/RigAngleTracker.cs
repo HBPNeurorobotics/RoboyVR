@@ -607,6 +607,6 @@ public class RigAngleTracker : MonoBehaviour
         string key = bone.ToString() + (char)(index + iteration);
         JointMapping value = new JointMapping(parent, child, false, (MappedEulerAngle)iteration);
         mappings.Add(key, value);
-        jointDepths.Add(key, ConfigJointUtility.GetDepthOfBone(obj.transform, rootBone));
+        jointDepths.Add(key, LocalPhysicsToolkit.GetDepthOfBone(obj.transform, rootBone));
     }
 }

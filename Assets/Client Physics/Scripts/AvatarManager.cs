@@ -384,7 +384,7 @@ public class AvatarManager : MonoBehaviour
 
     public bool IsJointUnneeded(string joint)
     {
-        ConfigurableJoint remoteJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, gameObjectPerBoneRemoteAvatar);
+        ConfigurableJoint remoteJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, gameObjectPerBoneRemoteAvatar);
         return remoteJoint.lowAngularXLimit.limit == 0 && remoteJoint.highAngularXLimit.limit == 0;
     }
 }

@@ -114,7 +114,7 @@ namespace PIDTuning
             //_localAvatarRig.gameObject.GetComponent<Animator>().enabled = false;
 
             Debug.Log("Tuning " + joint);
-            ConfigurableJoint currentJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
+            ConfigurableJoint currentJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
 
             if (!UserAvatarService.Instance.use_gazebo)
             {
@@ -146,7 +146,7 @@ namespace PIDTuning
                     _localAvatarAnimator.enabled = false;
 
                     //unlock ConfigurableJoint
-                    ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones).angularXMotion = ConfigurableJointMotion.Free;
+                    LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones).angularXMotion = ConfigurableJointMotion.Free;
 
                     // Set starting angle of joint
                     _localAvatarRig.SetJointEulerAngle(joint, RelayStartAngle);
@@ -192,19 +192,21 @@ namespace PIDTuning
         private IEnumerator RunBangBangEvaluation(string joint, Box<PidStepData> evaluation, bool gazebo)
         {
             // TODO: Explain all of this m8
+            float relayConstantForce = RelayConstantForce;
             TimeSpan warmupSeconds = TimeSpan.FromSeconds(TestWarmupSeconds);
             TimeSpan measurementSeconds = TimeSpan.FromSeconds(TestDurationSeconds);
 
             if (!gazebo)
             {
                 //Prepare the remote avatar. We do not want any other joint force to influence the tuning process.
-                UserAvatarService.Instance._avatarManager.LockAvatarJointsExceptCurrent(ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones));
+                UserAvatarService.Instance._avatarManager.LockAvatarJointsExceptCurrent(LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones));
 
                 //Tuning of the torso sometimes fails, lets give them more time to measure
                 if (joint.Contains("Spine") || joint.Contains("Chest"))
                 {
-                    warmupSeconds = TimeSpan.FromSeconds(45);
-                    measurementSeconds = TimeSpan.FromSeconds(45);
+                    relayConstantForce = 4000; 
+                    //warmupSeconds = TimeSpan.FromSeconds(45);
+                    //measurementSeconds = TimeSpan.FromSeconds(45);
                 }
             }
 
@@ -212,12 +214,12 @@ namespace PIDTuning
             var oldPidParameters = _pidConfigStorage.Configuration.Mapping[joint];
 
             // Disable PID controller
-            _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, 0f);
-            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
+            _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 0.1f); //for a ConfigurableJoint we have to set the dampening value to something  greater 0 so that the target velocity will be considered
+            _pidConfigStorage.TransmitFullConfiguration(false, relayConstantForce, mirror);
 
             //Disable ConfigurableJoint
             UserAvatarService.Instance._avatarManager.tuningInProgress = true;
-            ConfigurableJoint configurableJoint = ConfigJointUtility.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
+            ConfigurableJoint configurableJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
             HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint.Remove(joint.Length - 1));
 
             //We copy the joint in the avatar template to restore its values later
@@ -233,7 +235,7 @@ namespace PIDTuning
             while (DateTime.Now - startTime < warmupSeconds)
             {
                 yield return gazebo ? null : new WaitForFixedUpdate();
-                AdjustRelayForce(joint, gazebo, bodyPart, configurableJointCopy);
+                AdjustRelayForce(joint, gazebo, relayConstantForce, bodyPart, configurableJoint);
             }
 
             _testRunner.ResetTestRunner();
@@ -245,39 +247,39 @@ namespace PIDTuning
             {
                 //We have to update in sync with the physics for better results
                 yield return gazebo ? null : new WaitForFixedUpdate();
-                AdjustRelayForce(joint, gazebo, bodyPart, configurableJointCopy);
+                AdjustRelayForce(joint, gazebo, relayConstantForce, bodyPart, configurableJoint);
             }
 
             // Stop the test and collect data
             evaluation.Value = _testRunner.StopManualRecord()[joint];
 
             //save values for EditAvatarTemplate -> data would be lost after exiting play mode
-            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, RelayConstantForce, mirror);
+            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, relayConstantForce, mirror);
 
             // Get rid of any force
-            SetConstantForceForJoint(joint, 0f, gazebo, bodyPart, configurableJointCopy);
+            SetConstantForceForJoint(joint, 0f, gazebo, bodyPart, configurableJoint);
 
             // Restore pre-test configurations
-            ConfigJointUtility.CopyPasteComponent(configurableJoint, configurableJointCopy);
+            LocalPhysicsToolkit.CopyPasteComponent(configurableJoint, configurableJointCopy);
             UserAvatarService.Instance._avatarManager.UnlockAvatarJoints();
             UserAvatarService.Instance._avatarManager.tuningInProgress = false;
 
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
-            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
+            _pidConfigStorage.TransmitFullConfiguration(false, relayConstantForce, mirror);
 
             yield return gazebo ? null : new WaitForFixedUpdate();
 
         }
 
-        private void AdjustRelayForce(string joint, bool gazebo, GameObject bodyPart, ConfigurableJoint jointInScene)
+        private void AdjustRelayForce(string joint, bool gazebo, float relay, GameObject bodyPart, ConfigurableJoint jointInScene)
         {
             if (1f == Mathf.Sign(PoseErrorTracker.GetCurrentStepDataForJoint(joint).Measured - RelayTargetAngle))
             {
-                SetConstantForceForJoint(joint, -RelayConstantForce, gazebo, bodyPart, jointInScene);
+                SetConstantForceForJoint(joint, -relay, gazebo, bodyPart, jointInScene);
             }
             else
             {
-                SetConstantForceForJoint(joint, RelayConstantForce, gazebo, bodyPart, jointInScene);
+                SetConstantForceForJoint(joint, relay, gazebo, bodyPart, jointInScene);
             }
         }
 
@@ -307,7 +309,8 @@ namespace PIDTuning
                     {
                         //apply torque in direction that the joint can rotate in
 
-                        rb.AddTorque(jointInScene.axis * force, ForceMode.Force);
+                        //rb.AddTorque(jointInScene.axis * force, ForceMode.Force);
+                        jointInScene.targetAngularVelocity = force * new Vector3(1,0,0) / (rb.mass * Time.fixedDeltaTime);
                         /*
                         float combinedMass = rb.mass;
                         foreach (Transform child in bodyPart.transform)

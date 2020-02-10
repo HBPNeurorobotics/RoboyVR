@@ -327,14 +327,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22445.459
-    positionDamper: 1816.2878
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 26539.86
-    positionDamper: 2270.7122
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -426,14 +426,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22445.459
-    positionDamper: 1816.2878
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 26539.86
-    positionDamper: 2270.7122
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -520,14 +520,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22445.459
-    positionDamper: 1816.2878
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 26539.86
-    positionDamper: 2270.7122
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -644,7 +644,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -684,14 +684,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20960.287
-    positionDamper: 832.6136
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 23154.486
-    positionDamper: 1825.1616
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -743,7 +743,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -783,14 +783,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20960.287
-    positionDamper: 832.6136
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 23154.486
-    positionDamper: 1825.1616
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -877,14 +877,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20960.287
-    positionDamper: 832.6136
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 23154.486
-    positionDamper: 1825.1616
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -960,7 +960,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -1000,14 +1000,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19406.459
-    positionDamper: 430.00082
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -1054,7 +1054,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -1094,14 +1094,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19406.459
-    positionDamper: 430.00082
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -1188,14 +1188,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19406.459
-    positionDamper: 430.00082
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -1905,14 +1905,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 25638.18
-    positionDamper: 2121.531
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19354.08
-    positionDamper: 1419.3534
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -1964,7 +1964,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -2004,14 +2004,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 25638.18
-    positionDamper: 2121.531
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19354.08
-    positionDamper: 1419.3534
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -2098,14 +2098,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 25638.18
-    positionDamper: 2121.531
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19354.08
-    positionDamper: 1419.3534
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -2170,7 +2170,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -2210,14 +2210,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 17728.547
-    positionDamper: 384.54352
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -2264,7 +2264,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -2304,14 +2304,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 17728.547
-    positionDamper: 384.54352
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -2398,14 +2398,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 17728.547
-    positionDamper: 384.54352
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -2962,7 +2962,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -3002,14 +3002,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 17728.547
-    positionDamper: 384.54352
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -3056,7 +3056,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -3096,14 +3096,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 17728.547
-    positionDamper: 384.54352
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -3190,14 +3190,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 17728.547
-    positionDamper: 384.54352
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -3395,7 +3395,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -3435,14 +3435,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 18744.959
-    positionDamper: 713.16895
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -3489,7 +3489,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -3529,14 +3529,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 18744.959
-    positionDamper: 713.16895
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -3623,14 +3623,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 18744.959
-    positionDamper: 713.16895
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -5781,14 +5781,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 13059.86
-    positionDamper: 657.03625
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 14969.398
-    positionDamper: 1150.7721
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -5875,14 +5875,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 13059.86
-    positionDamper: 657.03625
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 14969.398
-    positionDamper: 1150.7721
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -5969,14 +5969,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 13059.86
-    positionDamper: 657.03625
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 14969.398
-    positionDamper: 1150.7721
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -6333,7 +6333,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -6373,14 +6373,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19965.36
-    positionDamper: 1799.9846
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -6432,7 +6432,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -6472,14 +6472,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19965.36
-    positionDamper: 1799.9846
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -6566,14 +6566,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19965.36
-    positionDamper: 1799.9846
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -6911,14 +6911,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 41663.92
-    positionDamper: 4325.9346
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 47365.812
-    positionDamper: 5672.2295
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -7010,14 +7010,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 41663.92
-    positionDamper: 4325.9346
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 47365.812
-    positionDamper: 5672.2295
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -7104,14 +7104,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 41663.92
-    positionDamper: 4325.9346
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 47365.812
-    positionDamper: 5672.2295
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -9219,14 +9219,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 100880.59
-    positionDamper: 59091.27
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 80326.375
-    positionDamper: 24121.328
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -9318,14 +9318,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 100880.59
-    positionDamper: 59091.27
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 80326.375
-    positionDamper: 24121.328
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -9412,14 +9412,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 100880.59
-    positionDamper: 59091.27
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 80326.375
-    positionDamper: 24121.328
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -9583,14 +9583,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21790.605
-    positionDamper: 1892.9783
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19198.906
-    positionDamper: 1535.0308
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -9642,7 +9642,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -9682,14 +9682,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21790.605
-    positionDamper: 1892.9783
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19198.906
-    positionDamper: 1535.0308
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -9776,14 +9776,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21790.605
-    positionDamper: 1892.9783
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19198.906
-    positionDamper: 1535.0308
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -10086,14 +10086,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 41663.92
-    positionDamper: 4325.9346
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 47365.812
-    positionDamper: 5672.2295
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -10185,14 +10185,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 41663.92
-    positionDamper: 4325.9346
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 47365.812
-    positionDamper: 5672.2295
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -10279,14 +10279,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 41663.92
-    positionDamper: 4325.9346
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 47365.812
-    positionDamper: 5672.2295
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -11117,7 +11117,7 @@ ConfigurableJoint:
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
-  m_AngularXMotion: 1
+  m_AngularXMotion: 2
   m_AngularYMotion: 1
   m_AngularZMotion: 1
   m_LinearLimitSpring:
@@ -11270,7 +11270,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 566472865}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a98ba32a5967ceb4f80da14b050a3a6c, type: 3}
   m_Name: 
@@ -11285,7 +11285,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 566472865}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a86f868c955fb8a47ab535377a096c45, type: 3}
   m_Name: 
@@ -11560,14 +11560,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20960.287
-    positionDamper: 832.6136
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 23154.486
-    positionDamper: 1825.1616
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -11659,14 +11659,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20960.287
-    positionDamper: 832.6136
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 23154.486
-    positionDamper: 1825.1616
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -11753,14 +11753,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20960.287
-    positionDamper: 832.6136
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 23154.486
-    positionDamper: 1825.1616
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -12617,7 +12617,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -12662,9 +12662,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31383.943
-    positionDamper: 4152.5303
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -12716,7 +12716,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -12761,9 +12761,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31383.943
-    positionDamper: 4152.5303
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -12855,9 +12855,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31383.943
-    positionDamper: 4152.5303
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -12953,7 +12953,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -12993,14 +12993,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22444.156
-    positionDamper: 1886.5375
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -13052,7 +13052,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -13092,14 +13092,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22444.156
-    positionDamper: 1886.5375
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -13186,14 +13186,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22444.156
-    positionDamper: 1886.5375
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -13666,7 +13666,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -13706,14 +13706,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19443.293
-    positionDamper: 370.83353
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -13760,7 +13760,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -13800,14 +13800,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19443.293
-    positionDamper: 370.83353
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -13894,14 +13894,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19443.293
-    positionDamper: 370.83353
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -14193,403 +14193,238 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 153953946073824908, guid: b418af0ebdf618349a73938c9e8c17ee,
+    - target: {fileID: 153071523946836954, guid: b418af0ebdf618349a73938c9e8c17ee,
         type: 2}
       propertyPath: m_ConnectedBody
       value: 
       objectReference: {fileID: 268151562}
-    - target: {fileID: 153739137241298052, guid: b418af0ebdf618349a73938c9e8c17ee,
+    - target: {fileID: 54774335382460202, guid: b418af0ebdf618349a73938c9e8c17ee,
         type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 97
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 153739137241298052, guid: b418af0ebdf618349a73938c9e8c17ee,
+    - target: {fileID: 54997501648582770, guid: b418af0ebdf618349a73938c9e8c17ee,
         type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 40
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 153308153433754880, guid: b418af0ebdf618349a73938c9e8c17ee,
+    - target: {fileID: 54407686462165196, guid: b418af0ebdf618349a73938c9e8c17ee,
         type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 20
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 153526207286614992, guid: b418af0ebdf618349a73938c9e8c17ee,
+    - target: {fileID: 54180914004727216, guid: b418af0ebdf618349a73938c9e8c17ee,
         type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 153204515244350648, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153316614587277454, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 153316614587277454, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153584845295965138, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153440121662883276, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 14.206236
-      objectReference: {fileID: 0}
-    - target: {fileID: 153440121662883276, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 153595875753920278, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 153595875753920278, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 153399065673450120, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 153399065673450120, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 153385427657039782, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153385427657039782, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153515619818955962, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 153515619818955962, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153713147676883342, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 14.206236
-      objectReference: {fileID: 0}
-    - target: {fileID: 153713147676883342, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153158290163888976, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 153158290163888976, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153862734840907320, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 14.206236
-      objectReference: {fileID: 0}
-    - target: {fileID: 153862734840907320, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153535036948070306, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153889388490208168, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 153889388490208168, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153919344362999168, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 97
-      objectReference: {fileID: 0}
-    - target: {fileID: 153919344362999168, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153047944810215664, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153075483316502896, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153803100663899622, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153206998931080234, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 153631060170978538, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 153631060170978538, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 153791434338416286, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 153728463229040328, guid: b418af0ebdf618349a73938c9e8c17ee,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 20
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 153953946073824908, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136945693995450526, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153399065673450120, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153864648852354790, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153227052948368064, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136511594388113670, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153595875753920278, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153573993467077934, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153133657068704710, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136727554505932870, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153689258175888082, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153960930158572816, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153097223559180316, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136988582101480766, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153825156793579272, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153345864774191558, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153489665830441324, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136069849937360126, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153158290163888976, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153649518851041688, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153822154096537016, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 65991960687990252, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153515619818955962, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153738515913171150, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153392871334694016, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 65533005004894598, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153440121662883276, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153924114853208308, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153149925467702828, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 65965669554215512, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153862734840907320, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153966385088416932, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153820687299331574, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 65731628389604468, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153535036948070306, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153744022345002694, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153878182138891976, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135193698259698578, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153631060170978538, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153126204675212920, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153918991792544122, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135047003645029668, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153781080890256188, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135099338284215304, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153032511500063992, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135357739196440714, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153919344362999168, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153522335883060706, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153091350566248166, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136353347961056058, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153739137241298052, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153313048005729854, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153813145876377696, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136573148173801090, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153938471222998538, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153539195404683136, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153003170133472180, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136446807678743454, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153550957213299604, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153180022451780304, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153560645107851758, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136366851911311734, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153316614587277454, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153117044671634206, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153010137154424256, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 65966289670760862, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153889388490208168, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153689818932387058, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153046462340657024, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 65475207454768926, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153380402218999856, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153794785840972422, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153878883935061344, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 65322404908974406, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153204441724513340, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153733118064436458, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153732041997508214, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 65228060874286528, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153526207286614992, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153238374397870392, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153785779724135280, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135886075108828756, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135126848843966208, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153385427657039782, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153326761048044468, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153365150763935120, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135009421939511832, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135926026969372600, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153963189150213408, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153044390185861532, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153627135982100068, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135572735355125712, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153047944810215664, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153778714842684060, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153880722031175388, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136654261767906870, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153619341907564746, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153898595916504278, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153055330321218550, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136136718135010760, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153105934438275478, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153481412092922350, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153924648879331544, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136053255773707930, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153204515244350648, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153769204587219284, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153360416536330084, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136966277986828420, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153738962016733760, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153885904058361932, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153262177385699972, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136538589376192286, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153608784685892222, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153540308291143992, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153688465613485350, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136515199215989678, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153308153433754880, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153085279088915354, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153820637582128878, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136453819128288872, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153969528939889574, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153625043218802440, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153277559322377478, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136943583828046124, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153744415112424686, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153106127652354696, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153918317700918436, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136959991913468938, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153791434338416286, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153142825231930788, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153236134931325482, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136013452265560170, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153093163827858984, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153223261847139028, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153088343679807854, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136325002802290678, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153451820389910772, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153701400351405662, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153320119762300018, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136673471206350788, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153206998931080234, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153793666675757332, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153655755737581432, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135538865805258802, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135250392540287656, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153937171710289924, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153338707408420864, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153034183057548130, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135258014904163830, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135351026780637438, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153210940059273862, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153102653614984334, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153272656813951020, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 135874039323391918, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153584845295965138, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153761909259119474, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153528325979067030, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136832397697040210, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153216952160563530, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153830453760914302, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153566837042711134, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136559333391750060, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153069520940707428, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153360479125080028, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153244994183936604, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136392818096227924, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153803100663899622, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153608450829421142, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153385573887569442, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136429832443900438, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153846499731875368, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153645374659015756, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153752283123755372, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136857469207550072, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153513878469335788, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153659298948130436, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153708960087825966, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136651092656988910, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153728463229040328, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153639829795329654, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153841944425426492, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136186087125789012, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153056533259906298, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153800564939830482, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153664208875341124, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136012679026825200, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153435556562059248, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153189088799417934, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153290057909394398, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136071270799328368, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153075483316502896, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153056800424201976, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153521309195576482, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136278099393716014, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153067076315103720, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153604019339977408, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153595092020097074, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136482900603414262, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153923349922562902, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153256126329951236, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153904059024391168, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 136525990400884610, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153713147676883342, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153055786894777568, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 153260480477379452, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-    - {fileID: 65124053205148278, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153071523946836954, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136043226094242726, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153025303620197684, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153188996774682514, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153050408058733466, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136637270870221138, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153047997740060858, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153270140099516852, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153206084789436146, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136129164780022502, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153318735798491914, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153018042123005928, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153662190767588568, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136374916085413046, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153737895589919246, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153459085593135640, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153648784490866190, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136135710994870486, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153955019894691696, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153506750652049502, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153982455109278934, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 65609888619029900, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153630277477868588, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153455507810159806, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153854145494627086, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 65978199044788192, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153540133530895716, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153228415726799346, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153770258217626138, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 65996995840262342, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153850504410593996, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153989352267571446, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153669083143382918, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 65353695938457052, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153752035253227166, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153091194138433752, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153991472871834792, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135710547655219836, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153725751732341188, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153924237375512530, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153397779855940410, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135127280603122922, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153526778372343840, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135311176374004826, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153750869993257136, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135987941746554774, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153763748285938406, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153669398277505758, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153483108891220546, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136783329593207050, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153753585535301752, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153304376942258174, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153126842846906402, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136678098314339504, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153461364293704214, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153337145219177904, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153339890144038388, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136437799221421436, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153759596141218388, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153708559812814118, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153208000951759562, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136260407590756100, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153843641441614540, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153046572931489612, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153399266340029502, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 65857177543812608, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153307187158821690, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153245799490209404, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153867010299942690, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 65373641326894416, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153689220537485520, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153087399357455646, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153788409900009716, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 65579114545040882, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153322892694366626, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153408391809060518, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153950200664612728, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 65673067974292270, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153576761926895878, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153705822076243082, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153884001004428384, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135285001829608698, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135266149561987516, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153313613923894310, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153969570658903294, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153994959888594112, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135926949484066142, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135691627141598474, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153052177542976680, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153127530610431830, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153119121731062444, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135056173809775222, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153514549036944444, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153849251841901828, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153787215489788564, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136362740173486768, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153037606773004566, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153612497296284780, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153777420664059486, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136004606622856356, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153886808984825870, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153826534659141466, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153275733380095670, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136025699269017932, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153619736177767210, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153098808426401242, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153462307240674968, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136173363482459610, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153469485157502160, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153827574726995908, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153847837086915054, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136612285140220194, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153322159883611542, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153316846651410724, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153175554112182700, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136848204253339796, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153044369211668274, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153292035441194302, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153746977233942482, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136287156058833596, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153912184688521334, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153834918939867834, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153673727681955556, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136738856169216534, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153414058735604666, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153256108960077342, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153883944164559626, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136970698693189464, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153134103023751572, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153118281464022338, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153017190106858050, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136693835195758870, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153854444418966548, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153456524478911966, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153235355533975056, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136551048563847592, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153686968557235272, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153868727970582024, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153525209280054090, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136238975331497514, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153200442392196292, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153392027697768222, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153702697273188676, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135197549861558832, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135583371499305654, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153929338793471876, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153807105638945696, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153788204122394920, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135949880059384262, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135259904878872046, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153305730810711054, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153368082097653000, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153584967553034182, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 135474827096428372, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153938435130932730, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153624193090009640, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153469833239826332, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136119130903113000, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153830696759768016, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153369238084350776, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153274331977405150, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136351162765055670, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153252090947320010, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153826427776294822, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153053370546880676, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136222813030024588, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153190533552376756, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153629596446931894, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153421579444231620, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136161346062895620, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153817553973553272, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153558054560047454, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153544395946945630, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136171128883882184, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153443302998372196, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153610198211382112, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153301425990024572, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136131975113447296, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153674429711587910, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153666544895088278, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153612608854630126, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136782150084665262, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153916856874410122, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153587580940021928, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153939625360094492, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136543219718096860, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153389831958457390, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153039319415269802, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153186152430321064, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136886407926280446, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153695759201836504, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153512620579883186, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153948026079300068, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136294725623694408, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153002426818637076, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153163609510111488, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153803942049694742, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136179641225834886, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153682923235068098, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153237439791484826, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153473281748135702, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 136830737701534802, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153815289961387664, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153884461008113158, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 153184164504267020, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
+    - {fileID: 65733924045265384, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
   m_SourcePrefab: {fileID: 100100000, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
   m_IsPrefabAsset: 0
 --- !u!1 &767392875
@@ -15180,14 +15015,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 53779.844
-    positionDamper: 10450.357
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 45622.26
-    positionDamper: 5996.131
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -15279,14 +15114,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 53779.844
-    positionDamper: 10450.357
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 45622.26
-    positionDamper: 5996.131
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -15373,14 +15208,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 53779.844
-    positionDamper: 10450.357
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 45622.26
-    positionDamper: 5996.131
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -15716,7 +15551,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -15756,14 +15591,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28256.172
-    positionDamper: 2260.886
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -15815,7 +15650,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -15855,14 +15690,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28256.172
-    positionDamper: 2260.886
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -15949,14 +15784,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28256.172
-    positionDamper: 2260.886
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -16652,14 +16487,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 42292.445
-    positionDamper: 3541.0845
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31536.732
-    positionDamper: 2518.6653
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -16751,14 +16586,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 42292.445
-    positionDamper: 3541.0845
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31536.732
-    positionDamper: 2518.6653
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -16845,14 +16680,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 42292.445
-    positionDamper: 3541.0845
+    positionSpring: 0
+    positionDamper: 0
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31536.732
-    positionDamper: 2518.6653
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -18513,7 +18348,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -18558,9 +18393,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 10000
-    positionDamper: 1000
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -18607,7 +18442,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -18652,9 +18487,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 10000
-    positionDamper: 1000
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -18746,9 +18581,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 10000
-    positionDamper: 1000
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -19078,7 +18913,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -19123,9 +18958,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 10000
-    positionDamper: 1000
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -19172,7 +19007,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -19217,9 +19052,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 10000
-    positionDamper: 1000
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -19311,9 +19146,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 10000
-    positionDamper: 1000
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -20285,14 +20120,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 23946.318
-    positionDamper: 2097.5183
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 15342.745
-    positionDamper: 1444.1578
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -20344,7 +20179,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -20384,14 +20219,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 23946.318
-    positionDamper: 2097.5183
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 15342.745
-    positionDamper: 1444.1578
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -20478,14 +20313,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 23946.318
-    positionDamper: 2097.5183
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 15342.745
-    positionDamper: 1444.1578
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -20737,14 +20572,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 23946.318
-    positionDamper: 2097.5183
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 15342.745
-    positionDamper: 1444.1578
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -20796,7 +20631,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -20836,14 +20671,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 23946.318
-    positionDamper: 2097.5183
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 15342.745
-    positionDamper: 1444.1578
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -20930,14 +20765,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 23946.318
-    positionDamper: 2097.5183
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 15342.745
-    positionDamper: 1444.1578
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -21536,7 +21371,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -21576,14 +21411,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28256.172
-    positionDamper: 2260.886
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -21635,7 +21470,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -21675,14 +21510,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28256.172
-    positionDamper: 2260.886
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -21769,14 +21604,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28256.172
-    positionDamper: 2260.886
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -23034,14 +22869,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 95641.75
-    positionDamper: 27461.695
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 86513.19
-    positionDamper: 18296.984
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -23133,14 +22968,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 95641.75
-    positionDamper: 27461.695
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 86513.19
-    positionDamper: 18296.984
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -23227,14 +23062,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 95641.75
-    positionDamper: 27461.695
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 86513.19
-    positionDamper: 18296.984
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -23344,7 +23179,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -23384,14 +23219,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22153.568
-    positionDamper: 2368.2505
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -23443,7 +23278,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -23483,14 +23318,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22153.568
-    positionDamper: 2368.2505
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -23577,14 +23412,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22153.568
-    positionDamper: 2368.2505
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -24438,7 +24273,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -24478,14 +24313,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 16842.111
-    positionDamper: 524.11957
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -24532,7 +24367,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -24572,14 +24407,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 16842.111
-    positionDamper: 524.11957
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -24666,14 +24501,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 16842.111
-    positionDamper: 524.11957
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -26141,7 +25976,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -26181,14 +26016,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19443.293
-    positionDamper: 370.83353
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -26235,7 +26070,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -26275,14 +26110,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19443.293
-    positionDamper: 370.83353
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -26369,14 +26204,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19443.293
-    positionDamper: 370.83353
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -28702,14 +28537,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28179.076
-    positionDamper: 2544.1194
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 20115.08
-    positionDamper: 1632.0864
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -28761,7 +28596,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -28801,14 +28636,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28179.076
-    positionDamper: 2544.1194
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 20115.08
-    positionDamper: 1632.0864
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -28895,14 +28730,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28179.076
-    positionDamper: 2544.1194
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 20115.08
-    positionDamper: 1632.0864
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -29160,14 +28995,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 42292.445
-    positionDamper: 3541.0845
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31536.732
-    positionDamper: 2518.6653
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -29259,14 +29094,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 42292.445
-    positionDamper: 3541.0845
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31536.732
-    positionDamper: 2518.6653
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -29353,14 +29188,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 42292.445
-    positionDamper: 3541.0845
+    positionSpring: 0
+    positionDamper: 0
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31536.732
-    positionDamper: 2518.6653
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -31336,14 +31171,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 89429.34
-    positionDamper: 26405.635
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 73277.75
-    positionDamper: 24036.52
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -31435,14 +31270,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 89429.34
-    positionDamper: 26405.635
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 73277.75
-    positionDamper: 24036.52
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -31529,14 +31364,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 89429.34
-    positionDamper: 26405.635
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 73277.75
-    positionDamper: 24036.52
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -31600,7 +31435,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -31640,14 +31475,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22153.568
-    positionDamper: 2368.2505
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -31699,7 +31534,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -31739,14 +31574,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22153.568
-    positionDamper: 2368.2505
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -31833,14 +31668,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22153.568
-    positionDamper: 2368.2505
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -31905,7 +31740,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -31950,9 +31785,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31383.943
-    positionDamper: 4152.5303
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -32004,7 +31839,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -32049,9 +31884,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31383.943
-    positionDamper: 4152.5303
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -32143,9 +31978,9 @@ ConfigurableJoint:
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 31383.943
-    positionDamper: 4152.5303
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -32966,7 +32801,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -33006,14 +32841,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19965.36
-    positionDamper: 1799.9846
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -33065,7 +32900,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -33105,14 +32940,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19965.36
-    positionDamper: 1799.9846
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -33199,14 +33034,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19965.36
-    positionDamper: 1799.9846
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -33271,7 +33106,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -33311,14 +33146,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22444.156
-    positionDamper: 1886.5375
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -33370,7 +33205,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -33410,14 +33245,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22444.156
-    positionDamper: 1886.5375
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -33504,14 +33339,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22444.156
-    positionDamper: 1886.5375
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -33782,14 +33617,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 25638.18
-    positionDamper: 2121.531
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19354.08
-    positionDamper: 1419.3534
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -33841,7 +33676,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -33881,14 +33716,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 25638.18
-    positionDamper: 2121.531
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19354.08
-    positionDamper: 1419.3534
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -33975,14 +33810,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 25638.18
-    positionDamper: 2121.531
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19354.08
-    positionDamper: 1419.3534
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -34087,14 +33922,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28179.076
-    positionDamper: 2544.1194
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 20115.08
-    positionDamper: 1632.0864
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -34146,7 +33981,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -34186,14 +34021,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28179.076
-    positionDamper: 2544.1194
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 20115.08
-    positionDamper: 1632.0864
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -34280,14 +34115,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 28179.076
-    positionDamper: 2544.1194
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 20115.08
-    positionDamper: 1632.0864
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -34392,14 +34227,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22445.459
-    positionDamper: 1816.2878
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 26539.86
-    positionDamper: 2270.7122
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -34491,14 +34326,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22445.459
-    positionDamper: 1816.2878
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 26539.86
-    positionDamper: 2270.7122
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -34585,14 +34420,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 22445.459
-    positionDamper: 1816.2878
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 26539.86
-    positionDamper: 2270.7122
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -35264,66 +35099,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -140
-      objectReference: {fileID: 0}
-    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -100
-      objectReference: {fileID: 0}
-    - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: 140
-      objectReference: {fileID: 0}
-    - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -70
-      objectReference: {fileID: 0}
-    - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: -40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 153952524962462958, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
@@ -35342,12 +35117,12 @@ Prefab:
     - target: {fileID: 153864898798000800, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 26539.86
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153864898798000800, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 2270.7122
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153864898798000800, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35357,12 +35132,12 @@ Prefab:
     - target: {fileID: 153853248719670226, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 19354.08
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153853248719670226, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1419.3534
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153853248719670226, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35372,12 +35147,12 @@ Prefab:
     - target: {fileID: 153391387271467408, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 18705.133
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153391387271467408, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1272.2302
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153391387271467408, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35432,12 +35207,12 @@ Prefab:
     - target: {fileID: 153824098912325252, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 15342.745
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153824098912325252, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1444.1578
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153824098912325252, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35447,12 +35222,12 @@ Prefab:
     - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 47365.812
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 5672.2295
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35462,12 +35237,12 @@ Prefab:
     - target: {fileID: 153973074121426108, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 16873.68
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153973074121426108, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1233.5466
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153973074121426108, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35477,12 +35252,12 @@ Prefab:
     - target: {fileID: 153466729642266144, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 73277.75
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153466729642266144, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 24036.52
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153466729642266144, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35507,12 +35282,12 @@ Prefab:
     - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 31383.943
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 4152.5303
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35582,12 +35357,12 @@ Prefab:
     - target: {fileID: 153793013265805786, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 19198.906
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153793013265805786, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1535.0308
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153793013265805786, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35612,12 +35387,12 @@ Prefab:
     - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 31536.732
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 2518.6653
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35657,12 +35432,12 @@ Prefab:
     - target: {fileID: 153474876945601202, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 26539.86
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153474876945601202, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 2270.7122
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153474876945601202, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35672,12 +35447,12 @@ Prefab:
     - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 23154.486
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1825.1616
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35687,12 +35462,12 @@ Prefab:
     - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 31536.732
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 2518.6653
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35702,12 +35477,12 @@ Prefab:
     - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 23154.486
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1825.1616
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35717,12 +35492,12 @@ Prefab:
     - target: {fileID: 153395417568865810, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 16873.68
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153395417568865810, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1233.5466
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153395417568865810, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35777,12 +35552,12 @@ Prefab:
     - target: {fileID: 153029183227458762, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 19198.906
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153029183227458762, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1535.0308
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153029183227458762, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35792,33 +35567,18 @@ Prefab:
     - target: {fileID: 153276524305022386, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 20115.08
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153276524305022386, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1632.0864
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153276524305022386, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.maximumForce
       value: 2000
       objectReference: {fileID: 0}
-    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionSpring
-      value: 20115.08
-      objectReference: {fileID: 0}
-    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.positionDamper
-      value: 1632.0864
-      objectReference: {fileID: 0}
-    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYZDrive.maximumForce
-      value: 2000
-      objectReference: {fileID: 0}
     - target: {fileID: 153293487038805878, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
@@ -35830,6 +35590,21 @@ Prefab:
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153293487038805878, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularYZDrive.maximumForce
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularYZDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularYZDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.maximumForce
       value: 2000
@@ -35852,12 +35627,12 @@ Prefab:
     - target: {fileID: 153946179769165834, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 14969.398
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153946179769165834, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1150.7721
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153946179769165834, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35879,32 +35654,32 @@ Prefab:
       propertyPath: m_AngularYZDrive.maximumForce
       value: 2000
       objectReference: {fileID: 0}
-    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
+    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 19354.08
+      value: 10000
       objectReference: {fileID: 0}
-    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
+    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1419.3534
+      value: 1000
       objectReference: {fileID: 0}
-    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
+    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.maximumForce
       value: 2000
       objectReference: {fileID: 0}
-    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
+    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 15342.745
+      value: 10000
       objectReference: {fileID: 0}
-    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
+    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 1444.1578
+      value: 1000
       objectReference: {fileID: 0}
-    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
+    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.maximumForce
       value: 2000
@@ -35912,12 +35687,12 @@ Prefab:
     - target: {fileID: 153788054318329362, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 45622.26
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153788054318329362, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 5996.131
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153788054318329362, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35942,12 +35717,12 @@ Prefab:
     - target: {fileID: 153522716104396484, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 80326.375
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153522716104396484, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 24121.328
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153522716104396484, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -35957,12 +35732,12 @@ Prefab:
     - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 47365.812
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 5672.2295
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -36017,12 +35792,12 @@ Prefab:
     - target: {fileID: 153405870391342862, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 45622.26
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153405870391342862, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 5996.131
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153405870391342862, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -36032,12 +35807,12 @@ Prefab:
     - target: {fileID: 153060031551034982, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 86513.19
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153060031551034982, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 18296.984
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153060031551034982, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
@@ -36047,66 +35822,21 @@ Prefab:
     - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionSpring
-      value: 31383.943
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.positionDamper
-      value: 4152.5303
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularYZDrive.maximumForce
       value: 2000
-      objectReference: {fileID: 0}
-    - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: -41
-      objectReference: {fileID: 0}
-    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_LowAngularXLimit.limit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: 140
-      objectReference: {fileID: 0}
-    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_Axis.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_HighAngularXLimit.limit
-      value: 140
-      objectReference: {fileID: 0}
-    - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
-      value: 97
       objectReference: {fileID: 0}
     - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularZLimit.limit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularZLimit.limit
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularYLimit.limit
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
@@ -36117,129 +35847,129 @@ Prefab:
     - target: {fileID: 153952524962462958, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularXDrive.positionSpring
-      value: 18744.959
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153952524962462958, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularXDrive.positionDamper
-      value: 713.16895
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153864898798000800, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 22445.459
-      objectReference: {fileID: 0}
-    - target: {fileID: 153864898798000800, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1816.2878
-      objectReference: {fileID: 0}
-    - target: {fileID: 153853248719670226, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 25638.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 153853248719670226, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2121.531
-      objectReference: {fileID: 0}
-    - target: {fileID: 153391387271467408, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 24167.104
-      objectReference: {fileID: 0}
-    - target: {fileID: 153391387271467408, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1860.0631
-      objectReference: {fileID: 0}
-    - target: {fileID: 153601729664165422, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 17728.547
-      objectReference: {fileID: 0}
-    - target: {fileID: 153601729664165422, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 384.54352
-      objectReference: {fileID: 0}
-    - target: {fileID: 153220951643094026, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 18744.959
-      objectReference: {fileID: 0}
-    - target: {fileID: 153220951643094026, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 713.16895
-      objectReference: {fileID: 0}
-    - target: {fileID: 153192277609503588, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 16842.111
-      objectReference: {fileID: 0}
-    - target: {fileID: 153192277609503588, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 524.11957
-      objectReference: {fileID: 0}
-    - target: {fileID: 153824098912325252, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 23946.318
-      objectReference: {fileID: 0}
-    - target: {fileID: 153824098912325252, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2097.5183
-      objectReference: {fileID: 0}
-    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 41663.92
-      objectReference: {fileID: 0}
-    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 4325.9346
-      objectReference: {fileID: 0}
-    - target: {fileID: 153973074121426108, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 20599.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 153973074121426108, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1505.6243
-      objectReference: {fileID: 0}
-    - target: {fileID: 153466729642266144, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 89429.34
-      objectReference: {fileID: 0}
-    - target: {fileID: 153466729642266144, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 26405.635
-      objectReference: {fileID: 0}
-    - target: {fileID: 153690342644618876, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 19406.459
-      objectReference: {fileID: 0}
-    - target: {fileID: 153690342644618876, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 430.00082
-      objectReference: {fileID: 0}
-    - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularXDrive.positionSpring
       value: 10000
       objectReference: {fileID: 0}
-    - target: {fileID: 153531466732970176, guid: b487832fac6f5ed4fb631684b68bf18b,
+    - target: {fileID: 153864898798000800, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153853248719670226, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153853248719670226, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153391387271467408, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153391387271467408, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153601729664165422, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153601729664165422, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153220951643094026, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153220951643094026, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153192277609503588, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153192277609503588, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153824098912325252, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153824098912325252, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153338331777125978, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153973074121426108, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153973074121426108, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153466729642266144, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153466729642266144, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153690342644618876, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153690342644618876, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153326291858727260, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153326291858727260, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularXDrive.positionDamper
       value: 1000
@@ -36247,339 +35977,319 @@ Prefab:
     - target: {fileID: 153477216006046716, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularXDrive.positionSpring
-      value: 22444.156
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 153477216006046716, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularXDrive.positionDamper
-      value: 1886.5375
-      objectReference: {fileID: 0}
-    - target: {fileID: 153326291858727260, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 17728.547
-      objectReference: {fileID: 0}
-    - target: {fileID: 153326291858727260, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 384.54352
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 153116061650440466, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 22153.568
-      objectReference: {fileID: 0}
-    - target: {fileID: 153116061650440466, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2368.2505
-      objectReference: {fileID: 0}
-    - target: {fileID: 153881644354558738, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 22153.568
-      objectReference: {fileID: 0}
-    - target: {fileID: 153881644354558738, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2368.2505
-      objectReference: {fileID: 0}
-    - target: {fileID: 153793013265805786, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 21790.605
-      objectReference: {fileID: 0}
-    - target: {fileID: 153793013265805786, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1892.9783
-      objectReference: {fileID: 0}
-    - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 42292.445
-      objectReference: {fileID: 0}
-    - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 3541.0845
-      objectReference: {fileID: 0}
-    - target: {fileID: 153428594303094828, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 26901.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 153428594303094828, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2000.749
-      objectReference: {fileID: 0}
-    - target: {fileID: 153448885319945492, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 19406.459
-      objectReference: {fileID: 0}
-    - target: {fileID: 153448885319945492, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 430.00082
-      objectReference: {fileID: 0}
-    - target: {fileID: 153474876945601202, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 22445.459
-      objectReference: {fileID: 0}
-    - target: {fileID: 153474876945601202, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1816.2878
-      objectReference: {fileID: 0}
-    - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 20960.287
-      objectReference: {fileID: 0}
-    - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 832.6136
-      objectReference: {fileID: 0}
-    - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 42292.445
-      objectReference: {fileID: 0}
-    - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 3541.0845
-      objectReference: {fileID: 0}
-    - target: {fileID: 153395417568865810, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 20599.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 153395417568865810, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1505.6243
-      objectReference: {fileID: 0}
-    - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 20960.287
-      objectReference: {fileID: 0}
-    - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 832.6136
-      objectReference: {fileID: 0}
-    - target: {fileID: 153806038848139504, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 22444.156
-      objectReference: {fileID: 0}
-    - target: {fileID: 153806038848139504, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1886.5375
-      objectReference: {fileID: 0}
-    - target: {fileID: 153470756962939460, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 16842.111
-      objectReference: {fileID: 0}
-    - target: {fileID: 153470756962939460, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 524.11957
-      objectReference: {fileID: 0}
-    - target: {fileID: 153939212139107506, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 19965.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 153939212139107506, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1799.9846
-      objectReference: {fileID: 0}
-    - target: {fileID: 153029183227458762, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 21790.605
-      objectReference: {fileID: 0}
-    - target: {fileID: 153029183227458762, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1892.9783
-      objectReference: {fileID: 0}
-    - target: {fileID: 153276524305022386, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 28179.076
-      objectReference: {fileID: 0}
-    - target: {fileID: 153276524305022386, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2544.1194
-      objectReference: {fileID: 0}
-    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 28179.076
-      objectReference: {fileID: 0}
-    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2544.1194
-      objectReference: {fileID: 0}
-    - target: {fileID: 153789895714910418, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 19965.36
-      objectReference: {fileID: 0}
-    - target: {fileID: 153789895714910418, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 1799.9846
-      objectReference: {fileID: 0}
-    - target: {fileID: 153946179769165834, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 13059.86
-      objectReference: {fileID: 0}
-    - target: {fileID: 153946179769165834, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 657.03625
-      objectReference: {fileID: 0}
-    - target: {fileID: 153635163578429828, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 19443.293
-      objectReference: {fileID: 0}
-    - target: {fileID: 153635163578429828, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 370.83353
-      objectReference: {fileID: 0}
-    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 25638.18
-      objectReference: {fileID: 0}
-    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2121.531
-      objectReference: {fileID: 0}
-    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 23946.318
-      objectReference: {fileID: 0}
-    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2097.5183
-      objectReference: {fileID: 0}
-    - target: {fileID: 153788054318329362, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 53779.844
-      objectReference: {fileID: 0}
-    - target: {fileID: 153788054318329362, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 10450.357
-      objectReference: {fileID: 0}
-    - target: {fileID: 153579098635931154, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 26901.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 153579098635931154, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2000.749
-      objectReference: {fileID: 0}
-    - target: {fileID: 153522716104396484, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 100880.59
-      objectReference: {fileID: 0}
-    - target: {fileID: 153522716104396484, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 59091.27
-      objectReference: {fileID: 0}
-    - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 41663.92
-      objectReference: {fileID: 0}
-    - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 4325.9346
-      objectReference: {fileID: 0}
-    - target: {fileID: 153016810372036676, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 28256.172
-      objectReference: {fileID: 0}
-    - target: {fileID: 153016810372036676, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2260.886
-      objectReference: {fileID: 0}
-    - target: {fileID: 153678771708500556, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 19443.293
-      objectReference: {fileID: 0}
-    - target: {fileID: 153678771708500556, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 370.83353
-      objectReference: {fileID: 0}
-    - target: {fileID: 153904981152116120, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 28256.172
-      objectReference: {fileID: 0}
-    - target: {fileID: 153904981152116120, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 2260.886
-      objectReference: {fileID: 0}
-    - target: {fileID: 153405870391342862, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 53779.844
-      objectReference: {fileID: 0}
-    - target: {fileID: 153405870391342862, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 10450.357
-      objectReference: {fileID: 0}
-    - target: {fileID: 153060031551034982, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionSpring
-      value: 95641.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 153060031551034982, guid: b487832fac6f5ed4fb631684b68bf18b,
-        type: 2}
-      propertyPath: m_AngularXDrive.positionDamper
-      value: 27461.695
-      objectReference: {fileID: 0}
-    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularXDrive.positionSpring
       value: 10000
       objectReference: {fileID: 0}
-    - target: {fileID: 153468079969204186, guid: b487832fac6f5ed4fb631684b68bf18b,
+    - target: {fileID: 153116061650440466, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153881644354558738, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153881644354558738, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153793013265805786, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153793013265805786, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 153028628722306132, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 153428594303094828, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153428594303094828, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153448885319945492, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153448885319945492, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153474876945601202, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153474876945601202, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153255122487156806, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 153374387337919966, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153441778167517456, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153395417568865810, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153395417568865810, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153806038848139504, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153806038848139504, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153470756962939460, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153470756962939460, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153939212139107506, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153939212139107506, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153029183227458762, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153029183227458762, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153276524305022386, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153276524305022386, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153804847841737128, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153789895714910418, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153789895714910418, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153946179769165834, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153946179769165834, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153635163578429828, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153635163578429828, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153852660793057546, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153100475285422260, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153788054318329362, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153788054318329362, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153579098635931154, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153579098635931154, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153522716104396484, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153522716104396484, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153613466751153074, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153016810372036676, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153016810372036676, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153678771708500556, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153678771708500556, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153904981152116120, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153904981152116120, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153405870391342862, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153405870391342862, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionDamper
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153060031551034982, guid: b487832fac6f5ed4fb631684b68bf18b,
+        type: 2}
+      propertyPath: m_AngularXDrive.positionSpring
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 153060031551034982, guid: b487832fac6f5ed4fb631684b68bf18b,
         type: 2}
       propertyPath: m_AngularXDrive.positionDamper
       value: 1000
@@ -36940,14 +36650,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20599.1
-    positionDamper: 1505.6243
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 16873.68
-    positionDamper: 1233.5466
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -36999,7 +36709,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -37039,14 +36749,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20599.1
-    positionDamper: 1505.6243
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 16873.68
-    positionDamper: 1233.5466
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -37133,14 +36843,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20599.1
-    positionDamper: 1505.6243
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 16873.68
-    positionDamper: 1233.5466
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -37726,14 +37436,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21790.605
-    positionDamper: 1892.9783
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19198.906
-    positionDamper: 1535.0308
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -37785,7 +37495,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -37825,14 +37535,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21790.605
-    positionDamper: 1892.9783
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19198.906
-    positionDamper: 1535.0308
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -37919,14 +37629,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21790.605
-    positionDamper: 1892.9783
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 19198.906
-    positionDamper: 1535.0308
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -39676,7 +39386,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -39716,14 +39426,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19406.459
-    positionDamper: 430.00082
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -39770,7 +39480,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -39810,14 +39520,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19406.459
-    positionDamper: 430.00082
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -39904,14 +39614,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 19406.459
-    positionDamper: 430.00082
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -40466,7 +40176,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -40506,14 +40216,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 26901.6
-    positionDamper: 2000.749
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -40565,7 +40275,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -40605,14 +40315,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 26901.6
-    positionDamper: 2000.749
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -40699,14 +40409,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 26901.6
-    positionDamper: 2000.749
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -40771,7 +40481,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -40811,14 +40521,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 16842.111
-    positionDamper: 524.11957
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -40865,7 +40575,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -40905,14 +40615,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 16842.111
-    positionDamper: 524.11957
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -40999,14 +40709,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 16842.111
-    positionDamper: 524.11957
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -42175,7 +41885,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -42215,14 +41925,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 26901.6
-    positionDamper: 2000.749
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -42274,7 +41984,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -42314,14 +42024,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 26901.6
-    positionDamper: 2000.749
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -42408,14 +42118,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 26901.6
-    positionDamper: 2000.749
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -42897,14 +42607,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 53779.844
-    positionDamper: 10450.357
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 45622.26
-    positionDamper: 5996.131
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -42996,14 +42706,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 53779.844
-    positionDamper: 10450.357
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 45622.26
-    positionDamper: 5996.131
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -43090,14 +42800,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 53779.844
-    positionDamper: 10450.357
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 45622.26
-    positionDamper: 5996.131
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -43423,14 +43133,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20599.1
-    positionDamper: 1505.6243
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 16873.68
-    positionDamper: 1233.5466
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -43482,7 +43192,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -43522,14 +43232,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20599.1
-    positionDamper: 1505.6243
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 16873.68
-    positionDamper: 1233.5466
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -43616,14 +43326,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 20599.1
-    positionDamper: 1505.6243
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 16873.68
-    positionDamper: 1233.5466
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -45876,7 +45586,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -45916,14 +45626,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 24167.104
-    positionDamper: 1860.0631
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 18705.133
-    positionDamper: 1272.2302
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -46015,14 +45725,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 24167.104
-    positionDamper: 1860.0631
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 18705.133
-    positionDamper: 1272.2302
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -46109,14 +45819,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 24167.104
-    positionDamper: 1860.0631
+    positionSpring: 10000
+    positionDamper: 1000
     maximumForce: 2000
   m_AngularYZDrive:
     serializedVersion: 3
-    positionSpring: 18705.133
-    positionDamper: 1272.2302
-    maximumForce: 2000
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -46716,7 +46426,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -46756,14 +46466,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 18744.959
-    positionDamper: 713.16895
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -46810,7 +46520,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -0
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -46850,14 +46560,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 18744.959
-    positionDamper: 713.16895
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0
@@ -46944,14 +46654,14 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 18744.959
-    positionDamper: 713.16895
-    maximumForce: 2000
-  m_AngularYZDrive:
-    serializedVersion: 3
     positionSpring: 10000
     positionDamper: 1000
     maximumForce: 2000
+  m_AngularYZDrive:
+    serializedVersion: 3
+    positionSpring: 0
+    positionDamper: 0
+    maximumForce: 0
   m_SlerpDrive:
     serializedVersion: 3
     positionSpring: 0

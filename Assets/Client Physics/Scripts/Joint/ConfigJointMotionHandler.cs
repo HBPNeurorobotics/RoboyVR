@@ -72,7 +72,6 @@ public class ConfigJointMotionHandler : MonoBehaviour
         foreach (ConfigurableJoint joint in joints)
         {
             SetTargetRotation(joint);
-            SetTargetAngularVelocity(joint);
         }
     }
 
@@ -84,7 +83,7 @@ public class ConfigJointMotionHandler : MonoBehaviour
         }
         else
         {
-            Quaternion worldToJointSpace = ConfigJointUtility.GetWorldToJointRotation(joint);
+            Quaternion worldToJointSpace = LocalPhysicsToolkit.GetWorldToJointRotation(joint);
             /* 
              * turn joint space to align with world
              * perform rotation in world
@@ -97,22 +96,6 @@ public class ConfigJointMotionHandler : MonoBehaviour
 
             joint.targetRotation = resultRotation;
         }
-    }
-
-    void SetTargetAngularVelocity(ConfigurableJoint joint)
-    {
-        /*
-        Vector3 angularDistance = transform.localRotation.eulerAngles - previousRotation.eulerAngles;
-        Vector3 angularVelocity = angularDistance / Time.fixedDeltaTime;
-        previousRotation = transform.localRotation;
-
-        joint.targetAngularVelocity = -angularVelocity;
-        
-        if(Mathf.Sign(rb.angularVelocity.x) != Mathf.Sign(previousAngularVelocity.x) || Mathf.Sign(rb.angularVelocity.y) != Mathf.Sign(previousAngularVelocity.y) || Mathf.Sign(rb.angularVelocity.z) != Mathf.Sign(previousAngularVelocity.z))
-        {
-            rb.AddTorque(-previousAngularVelocity);
-        }
-        */
     }
 
     /// <summary>

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class ConfigJointUtility
+public static class LocalPhysicsToolkit
 {
     static int depth = 0;
     public static void CopyPasteComponent(Component pasteTo, Component toCopyFrom)
