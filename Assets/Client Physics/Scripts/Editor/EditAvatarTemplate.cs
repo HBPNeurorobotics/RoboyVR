@@ -118,7 +118,7 @@ public class EditAvatarTemplate : EditorWindow
         {
             GUI.enabled = true;
         }
-        if (GUILayout.Button("Save Settings to new Json"))
+        if (GUILayout.Button("Save Settings to Json"))
         {
             SaveAsJson(false);
         }
@@ -137,7 +137,7 @@ public class EditAvatarTemplate : EditorWindow
         //Load Button
         EditorGUILayout.BeginHorizontal();
 
-        if (!loadFromTuning && tunedSettings == null)
+        if (tunedSettings == null)
         {
             GUI.enabled = false;
             loadFromFile = false;
@@ -167,8 +167,8 @@ public class EditAvatarTemplate : EditorWindow
         }
 
         //Save Button
-        GUI.enabled = loadFromTuning && tunedSettings != null ? true : false;
-        if (GUILayout.Button("Save tuned Settings to new Json"))
+        GUI.enabled = loadFromTuning ? true : false;
+        if (GUILayout.Button("Save tuned Settings to Json"))
         {
             SaveAsJson(true);
         }
@@ -232,6 +232,17 @@ public class EditAvatarTemplate : EditorWindow
             #endregion
             EditorGUILayout.EndScrollView();
             #region Buttons at bottom
+
+            if(!loadFromTuning && GUILayout.Button("Refresh Joint Settings from Scene"))
+            {
+                loadFromTuning = false;
+                loadFromFile = false;
+                jointSettings.Clear();
+                gameObjectsPerBoneTemplate.Clear();
+                gameObjectsPerBoneTemplateMultiple.Clear();
+                Initialize();
+            }
+
             GUILayout.BeginHorizontal();
 
             if (GUILayout.Button("Set BodyMass"))

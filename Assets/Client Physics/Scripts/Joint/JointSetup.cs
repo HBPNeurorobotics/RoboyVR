@@ -416,7 +416,7 @@ public class JointSetup
                 else
                 {
                     //Arms (upper arm and forearm)
-                    if (joint.axis == Vector3.up)
+                    if (joint.axis == Vector3.up || joint.axis == Vector3.down)
                     {
                         primaryAxisOne = Vector3.right;
                         secondaryAxisOne = Vector3.back;
