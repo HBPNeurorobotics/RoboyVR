@@ -214,7 +214,7 @@ namespace PIDTuning
             var oldPidParameters = _pidConfigStorage.Configuration.Mapping[joint];
 
             // Disable PID controller
-            _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 0.1f); //for a ConfigurableJoint we have to set the dampening value to something  greater 0 so that the target velocity will be considered
+            _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 1e5f); 
             _pidConfigStorage.TransmitFullConfiguration(false, relayConstantForce, mirror);
 
             //Disable ConfigurableJoint
@@ -310,7 +310,7 @@ namespace PIDTuning
                         //apply torque in direction that the joint can rotate in
 
                         //rb.AddTorque(jointInScene.axis * force, ForceMode.Force);
-                        jointInScene.targetAngularVelocity = force * new Vector3(1,0,0) / (rb.mass * Time.fixedDeltaTime);
+                        //jointInScene.targetAngularVelocity = force * new Vector3(1,0,0) / (rb.mass * Time.fixedDeltaTime);
                         /*
                         float combinedMass = rb.mass;
                         foreach (Transform child in bodyPart.transform)
@@ -320,6 +320,8 @@ namespace PIDTuning
 
                         rb.angularVelocity += Time.fixedDeltaTime * jointInScene.axis * force / combinedMass;
                         */
+
+                        jointInScene.targetAngularVelocity = Mathf.Sign(force) * new Vector3(Mathf.Sqrt(Mathf.Abs(force)/(rb.mass * 0.1f)), 0, 0);
                     }
                 }
             }
