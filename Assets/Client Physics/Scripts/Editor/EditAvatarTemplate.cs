@@ -929,7 +929,7 @@ public class EditAvatarTemplate : EditorWindow
         tmpDrive = joint.angularXDrive;
         tmpDrive.positionSpring = setting.angularXDriveSpring;
         tmpDrive.positionDamper = setting.angularXDriveDamper;
-        tmpDrive.maximumForce = 2000;//setting.maxForceX;
+        tmpDrive.maximumForce = setting.maxForceX;
         joint.angularXDrive = tmpDrive;
 
         tmpDrive = joint.angularYZDrive;

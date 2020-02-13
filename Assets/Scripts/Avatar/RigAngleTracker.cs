@@ -316,11 +316,11 @@ public class RigAngleTracker : MonoBehaviour
 
     void SetJointMappingsNonGazebo(Dictionary<HumanBodyBones, GameObject> gameObjectsPerBone, bool isLocal)
     {
-        //we cannot tune a locked joint
         Dictionary<string, JointMapping> mappings = new Dictionary<string, JointMapping>();
         jointDepths.Clear();
         foreach (HumanBodyBones bone in gameObjectsPerBone.Keys)
         {
+            //we cannot tune a locked joint
             if (!UserAvatarService.Instance._avatarManager.GetFixedJoints().Contains(bone))
             {
                 GameObject tmp;
@@ -352,7 +352,12 @@ public class RigAngleTracker : MonoBehaviour
 
 
     }
-
+    /// <summary>
+    /// This will sort the joint mappings according to their depth inside the avatar hierarchy. The tuning will start with the upper legs and will then move to the first spine joint, back to the lower legs followed by the second spine joint etc.
+    /// This ensures that each limb has been tuned from the torso towards the extremeties.
+    /// </summary>
+    /// <param name="mappings"></param>
+    /// <returns></returns>
     Dictionary<string, JointMapping> EnforceJointMappingsHierarchy(Dictionary<string, JointMapping> mappings)
     {
         Dictionary<string, JointMapping> sortedMappings = new Dictionary<string, JointMapping>();
@@ -607,6 +612,7 @@ public class RigAngleTracker : MonoBehaviour
         string key = bone.ToString() + (char)(index + iteration);
         JointMapping value = new JointMapping(parent, child, false, (MappedEulerAngle)iteration);
         mappings.Add(key, value);
+        //we store at what relative depth inside of the avatar hierarchy the joint is located
         jointDepths.Add(key, LocalPhysicsToolkit.GetDepthOfBone(obj.transform, rootBone));
     }
 }

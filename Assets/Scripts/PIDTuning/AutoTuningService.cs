@@ -112,8 +112,6 @@ namespace PIDTuning
         public IEnumerator TuneSingleJoint(string joint, bool fromTuneAll = false)
         {
             //_localAvatarRig.gameObject.GetComponent<Animator>().enabled = false;
-
-            Debug.Log("Tuning " + joint);
             ConfigurableJoint currentJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
 
             if (!UserAvatarService.Instance.use_gazebo)
@@ -157,7 +155,7 @@ namespace PIDTuning
                     // Run Bang-Bang control for a while to get oscillation data
                     var bangBangStepData = new Box<PidStepData>(null);
 
-                    yield return RunBangBangEvaluation(joint, bangBangStepData, UserAvatarService.Instance.use_gazebo);
+                    yield return RunBangBangEvaluation(joint, bangBangStepData, UserAvatarService.Instance.use_gazebo, fromTuneAll);
 
                     // Evaluate the oscillation data
                     var oscillation = PeakAnalysis.AnalyzeOscillation(bangBangStepData.Value);
@@ -170,6 +168,7 @@ namespace PIDTuning
                     {
                         _tuningInProgress = false;
                     }
+
 
                     // Acquire the final tuned parameters
                     var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningHeuristic, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
@@ -189,7 +188,7 @@ namespace PIDTuning
             }
         }
 
-        private IEnumerator RunBangBangEvaluation(string joint, Box<PidStepData> evaluation, bool gazebo)
+        private IEnumerator RunBangBangEvaluation(string joint, Box<PidStepData> evaluation, bool gazebo, bool fromTuneAll)
         {
             // TODO: Explain all of this m8
             float relayConstantForce = RelayConstantForce;
@@ -200,21 +199,22 @@ namespace PIDTuning
             {
                 //Prepare the remote avatar. We do not want any other joint force to influence the tuning process.
                 UserAvatarService.Instance._avatarManager.LockAvatarJointsExceptCurrent(LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones));
-
+                /*
                 //Tuning of the torso sometimes fails, lets give them more time to measure
                 if (joint.Contains("Spine") || joint.Contains("Chest"))
                 {
-                    relayConstantForce = 4000; 
+                    //relayConstantForce = 4000; 
                     //warmupSeconds = TimeSpan.FromSeconds(45);
                     //measurementSeconds = TimeSpan.FromSeconds(45);
                 }
+                */
             }
 
             // Save PID configuration to restore it later
             var oldPidParameters = _pidConfigStorage.Configuration.Mapping[joint];
 
             // Disable PID controller
-            _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 1e5f); 
+            _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 1e10f); 
             _pidConfigStorage.TransmitFullConfiguration(false, relayConstantForce, mirror);
 
             //Disable ConfigurableJoint
@@ -238,20 +238,37 @@ namespace PIDTuning
                 AdjustRelayForce(joint, gazebo, relayConstantForce, bodyPart, configurableJoint);
             }
 
-            _testRunner.ResetTestRunner();
-            _testRunner.StartManualRecord();
+            bool valueFound = false;
+            int iteration = 1;
 
-            startTime = DateTime.Now;
-
-            while (DateTime.Now - startTime < measurementSeconds)
+            while (!valueFound)
             {
-                //We have to update in sync with the physics for better results
-                yield return gazebo ? null : new WaitForFixedUpdate();
-                AdjustRelayForce(joint, gazebo, relayConstantForce, bodyPart, configurableJoint);
-            }
+                Debug.Log("Tuning " + joint + ", iteration #"+  iteration);
+                _testRunner.ResetTestRunner();
+                _testRunner.StartManualRecord();
 
-            // Stop the test and collect data
-            evaluation.Value = _testRunner.StopManualRecord()[joint];
+                startTime = DateTime.Now;
+
+                while (DateTime.Now - startTime < measurementSeconds)
+                {
+                    //We have to update in sync with the physics for better results
+                    yield return gazebo ? null : new WaitForFixedUpdate();
+                    AdjustRelayForce(joint, gazebo, relayConstantForce, bodyPart, configurableJoint);
+                }
+
+                // Stop the test and collect data
+                evaluation.Value = _testRunner.StopManualRecord()[joint];
+                if (fromTuneAll)
+                {
+                    var oscillation = PeakAnalysis.AnalyzeOscillation(evaluation.Value);
+                    valueFound = oscillation.HasValue;
+                }
+                else
+                {
+                    valueFound = true;
+                }
+                iteration++;
+            }
 
             //save values for EditAvatarTemplate -> data would be lost after exiting play mode
             if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, relayConstantForce, mirror);
@@ -320,23 +337,40 @@ namespace PIDTuning
 
                         rb.angularVelocity += Time.fixedDeltaTime * jointInScene.axis * force / combinedMass;
                         */
-
-                        jointInScene.targetAngularVelocity = Mathf.Sign(force) * new Vector3(Mathf.Sqrt(Mathf.Abs(force)/(rb.mass * 0.1f)), 0, 0);
+                        float combinedMass = 0;
+                        foreach (Transform child in bodyPart.transform)
+                        {
+                           combinedMass += MassAdder(child, rb.mass);
+                        }
+                        
+                        jointInScene.targetAngularVelocity = Mathf.Sign(force) * new Vector3(Mathf.Sqrt(Mathf.Abs(force)/(combinedMass * 0.1f)), 0, 0);
                     }
                 }
             }
         }
 
-        void MassAdder(Transform parent, float mass)
+        float MassAdder(Transform parent, float mass)
         {
+            Rigidbody rbParent = parent.gameObject.GetComponent<Rigidbody>();
+            if (rbParent != null)
+            {
+                mass += rbParent.mass;
+            }
+            else
+            {
+                return 0;
+            }
+
             foreach (Transform child in parent.transform)
             {
                 Rigidbody rb = child.gameObject.GetComponent<Rigidbody>();
                 if (rb != null)
                 {
-                    MassAdder(child, mass + rb.mass);
+                   mass = MassAdder(child, mass);
                 }
             }
+
+            return mass;
         }
 
         /// <summary>

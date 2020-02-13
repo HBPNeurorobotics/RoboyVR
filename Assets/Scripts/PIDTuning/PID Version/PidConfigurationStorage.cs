@@ -97,9 +97,10 @@ namespace PIDTuning
                 }
 
                 JointDrive angularDrive = new JointDrive();
+                configurableJoint.angularYZDrive = angularDrive;
                 angularDrive.positionSpring = jointConfig.Kp;
                 angularDrive.positionDamper = jointConfig.Kd;
-                angularDrive.maximumForce = relay;
+                angularDrive.maximumForce = Mathf.Abs(relay);
                 configurableJoint.angularXDrive = angularDrive;
 
                 return new JointSettings(joint, configurableJoint);

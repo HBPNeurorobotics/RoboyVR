@@ -20,7 +20,7 @@ public class ConfigJointManager : MonoBehaviour
 
     public bool inputByManager = false;
 
-    List<HumanBodyBones> usesFixedJoint = new List<HumanBodyBones>();
+    List<HumanBodyBones> usesLockedJoint = new List<HumanBodyBones>();
 
     public float maximumForce = 10000;
 
@@ -157,7 +157,7 @@ public class ConfigJointManager : MonoBehaviour
 
     public void SetTagetTransform(HumanBodyBones bone, Transform target)
     {
-        if (!usesFixedJoint.Contains(bone) && gameObjectsFromBone.ContainsKey(bone) && gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() != null)
+        if (!usesLockedJoint.Contains(bone) && gameObjectsFromBone.ContainsKey(bone) && gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() != null)
         {
             ConfigurableJoint[] joints = gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>();
 
@@ -377,16 +377,16 @@ public class ConfigJointManager : MonoBehaviour
 
     public List<HumanBodyBones> GetFixedJoints()
     {
-        return usesFixedJoint;
+        return usesLockedJoint;
     }
 
     public void SetFixedJoints()
     {
-        if (usesFixedJoint.Count == 0)
+        if (usesLockedJoint.Count == 0)
         {
-            usesFixedJoint.Add(HumanBodyBones.Hips);
-            usesFixedJoint.Add(HumanBodyBones.RightShoulder);
-            usesFixedJoint.Add(HumanBodyBones.LeftShoulder);
+            usesLockedJoint.Add(HumanBodyBones.Hips);
+            usesLockedJoint.Add(HumanBodyBones.RightShoulder);
+            usesLockedJoint.Add(HumanBodyBones.LeftShoulder);
         }
     }
 
