@@ -257,15 +257,15 @@ public class UserAvatarIKControl : MonoBehaviour {
                     }
                     groundCenter /= groundCenterTrajectory.Count;
 
+                    Vector3 bodyUp = (headTarget.transform.position - this.transform.position).normalized;
+                    Vector3 bodyRight = (headTarget.transform.right + leftFootTarget.transform.right + rightFootTarget.transform.right).normalized;
+                    Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp).normalized;
+
                     // set body position
-                    //TODO: apply offset back about 10cm?
-                    Vector3 bodyPosition = new Vector3(groundCenter.x, 0.65f * (headTarget.transform.position.y - groundCenter.y), groundCenter.z);
+                    Vector3 bodyPosition = new Vector3(groundCenter.x, 0.65f * (headTarget.transform.position.y - groundCenter.y), groundCenter.z) - 0.1f * bodyForward;
                     this.transform.position = bodyPosition;
 
                     // set body rotation
-                    Vector3 bodyUp = (headTarget.transform.position - this.transform.position).normalized;
-                    Vector3 bodyRight = (headTarget.transform.right + leftFootTarget.transform.right + rightFootTarget.transform.right).normalized;
-                    Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp);
                     Quaternion bodyRotation = Quaternion.LookRotation(bodyForward, bodyUp);
                     this.transform.rotation = bodyRotation;
                 }
