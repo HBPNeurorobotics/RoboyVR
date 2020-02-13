@@ -198,7 +198,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
         // Bachelors Thesis VRHand
         remoteAvatarVisuals.IdentifyGameObjects();
-        remoteAvatarVisuals.SetOpacity(remoteAvatarVisuals.opacity);
+        //remoteAvatarVisuals.SetOpacity(remoteAvatarVisuals.opacity);
+        remoteAvatarVisuals.SetOpacity(0.2f);
 
         //this.avatar_clone = Object.Instantiate(this.user_avatar);
         //this.avatar_clone.transform.SetParent(this.transform);  // make sure this is not different from the parent of user_avatar (the "Gazebo Scene" object)
