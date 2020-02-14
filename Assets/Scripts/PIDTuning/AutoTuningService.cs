@@ -127,10 +127,10 @@ namespace PIDTuning
             else
             {
                 //if the joint cannot rotate (e.g y axis in the knee) we do not tune it (for quicker results in autotuning)
-                if (!UserAvatarService.Instance.use_gazebo && fromTuneAll && currentJoint.lowAngularXLimit.limit == 0 && currentJoint.lowAngularXLimit.limit == 0)
+                if (!UserAvatarService.Instance.use_gazebo && fromTuneAll && currentJoint.lowAngularXLimit.limit == 0 && currentJoint.highAngularXLimit.limit == 0)
                 {
-                    Debug.Log("Cannot tune " + joint + " because angular limit 0");
-                    yield return new WaitForEndOfFrame();
+                    Debug.Log("Skipped " + joint + " because of angular limit 0");
+                    yield return new WaitForFixedUpdate();
                 }
                 else
                 {
@@ -234,7 +234,7 @@ namespace PIDTuning
 
             while (DateTime.Now - startTime < warmupSeconds)
             {
-                yield return gazebo ? null : new WaitForFixedUpdate();
+                yield return null;//gazebo ? null : new WaitForFixedUpdate();
                 AdjustRelayForce(joint, gazebo, relayConstantForce, bodyPart, configurableJoint);
             }
 
@@ -252,7 +252,7 @@ namespace PIDTuning
                 while (DateTime.Now - startTime < measurementSeconds)
                 {
                     //We have to update in sync with the physics for better results
-                    yield return gazebo ? null : new WaitForFixedUpdate();
+                    yield return null;//gazebo ? null : new WaitForFixedUpdate();
                     AdjustRelayForce(joint, gazebo, relayConstantForce, bodyPart, configurableJoint);
                 }
 
@@ -284,7 +284,7 @@ namespace PIDTuning
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
             _pidConfigStorage.TransmitFullConfiguration(false, relayConstantForce, mirror);
 
-            yield return gazebo ? null : new WaitForFixedUpdate();
+            yield return null;//gazebo ? null : new WaitForFixedUpdate();
 
         }
 

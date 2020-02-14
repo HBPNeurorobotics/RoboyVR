@@ -327,26 +327,32 @@ public class ConfigJointManager : MonoBehaviour
 
         foreach(HumanBodyBones bone in gameObjectsFromBone.Keys)
         {
+            
             Rigidbody rb = gameObjectsFromBone[bone].GetComponent<Rigidbody>();
 
             if(rb != null && !underPhysicsControl.Contains(rb))
             {
                 rb.isKinematic = true;
             }
+            
+            
             if (gameObjectsFromBone[bone].Equals(freeJoint.gameObject)) {
                 foreach (ConfigurableJoint joint in gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>())
                 {
                     if (freeJoint != joint)
                     {
-                        joint.angularXMotion = ConfigurableJointMotion.Locked;
+                        
+                        joint.angularXMotion = ConfigurableJointMotion.Limited;
                     }
                     else
                     {
                         joint.angularXMotion = ConfigurableJointMotion.Free;
                     }
-                    //we set the angular drives to 0, so that the joint cannot enforce the target rotation and will not counter external forces.
+                    
+                    //we set the angular drives to 0, so that the joint cannot enforce the target rotation and will not counter external forces (gravity).
                     JointDrive drive = new JointDrive();
                     joint.angularXDrive = joint.angularYZDrive = drive;
+                    
                 }
             }
         }
@@ -357,7 +363,6 @@ public class ConfigJointManager : MonoBehaviour
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
         {
             Rigidbody rb = gameObjectsFromBone[bone].GetComponent<Rigidbody>();
-
             if (rb != null)
             {
                 rb.isKinematic = false;

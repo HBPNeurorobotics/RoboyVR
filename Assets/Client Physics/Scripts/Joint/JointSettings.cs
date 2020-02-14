@@ -183,12 +183,14 @@ public class JointSettings
                 drive.positionDamper = settings.angularXDriveDamper;
                 drive.maximumForce = settings.maxForceX;
                 joint.angularXDrive = drive;
+                /*
                 //low limit
                 limit.limit = settings.angularLimitLowX;
                 joint.lowAngularXLimit = limit;
                 //high limit
                 limit.limit = settings.angularLimitHighX;
                 joint.highAngularXLimit = limit;
+                */
             }
             else
             {
@@ -200,7 +202,7 @@ public class JointSettings
                     maxForce += settings.maxForceX;
                     numOfYZJointsTuning++;
                 }
-
+                /*
                 if (joint.secondaryAxis == settings.primaryAxis || joint.secondaryAxis == -settings.primaryAxis)
                 {
                     //y limit
@@ -213,6 +215,7 @@ public class JointSettings
                     limit.limit = settings.angularLimitHighX;
                     joint.angularZLimit = limit;
                 }
+                */
             }
         }
 

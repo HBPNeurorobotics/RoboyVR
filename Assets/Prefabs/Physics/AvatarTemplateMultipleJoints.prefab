@@ -4104,8 +4104,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7312.85
-    positionDamper: 406.60382
+    positionSpring: 4870.1714
+    positionDamper: 360.29474
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -4480,8 +4480,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 32887.805
-    positionDamper: 4830.258
+    positionSpring: 29380.717
+    positionDamper: 2864.7175
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -4574,8 +4574,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21956.74
-    positionDamper: 1678.4122
+    positionSpring: 21033.143
+    positionDamper: 1432.3961
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -4632,7 +4632,7 @@ ConfigurableJoint:
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 140
+    limit: 160
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -4668,8 +4668,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 10000
-    positionDamper: 1000
+    positionSpring: 17782.49
+    positionDamper: 1476.1864
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -4762,8 +4762,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3501.3872
-    positionDamper: 260.7688
+    positionSpring: 4257.8066
+    positionDamper: 294.62872
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -5044,8 +5044,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4034.2507
-    positionDamper: 223.1134
+    positionSpring: 4351.583
+    positionDamper: 139.36552
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -5138,8 +5138,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7808.362
-    positionDamper: 669.2652
+    positionSpring: 5919.2476
+    positionDamper: 249.17566
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -5326,8 +5326,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 8674.828
-    positionDamper: 846.9017
+    positionSpring: 8220.5
+    positionDamper: 486.00375
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -5380,7 +5380,7 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -50
+    limit: -70
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
@@ -5415,13 +5415,13 @@ ConfigurableJoint:
     positionSpring: 0
     positionDamper: 0
     maximumForce: 0
-  m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_TargetRotation: {x: 0.108093165, y: -0.7200458, z: -0.037629165, w: 0.68442243}
   m_TargetAngularVelocity: {x: 0, y: 0, z: 0}
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3728.7527
-    positionDamper: 93.42066
+    positionSpring: 7913.7163
+    positionDamper: 348.4206
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -5514,8 +5514,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 6319.893
-    positionDamper: 228.54527
+    positionSpring: 5550.513
+    positionDamper: 377.98608
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -5796,8 +5796,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7407.962
-    positionDamper: 1896.1384
+    positionSpring: 7306.0415
+    positionDamper: 492.28
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -5890,8 +5890,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4844.3374
-    positionDamper: 126.67468
+    positionSpring: 2908.8684
+    positionDamper: 154.6941
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -5984,8 +5984,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3877.591
-    positionDamper: 221.86876
+    positionSpring: 4114.1367
+    positionDamper: 239.94518
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -6078,8 +6078,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5172.9097
-    positionDamper: 141.32855
+    positionSpring: 5095.4365
+    positionDamper: 185.12953
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -6360,8 +6360,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 26270.193
-    positionDamper: 3494.3672
+    positionSpring: 28387.098
+    positionDamper: 3330.9014
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -6512,7 +6512,7 @@ ConfigurableJoint:
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 50
+    limit: 70
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -6543,13 +6543,13 @@ ConfigurableJoint:
     positionSpring: 0
     positionDamper: 0
     maximumForce: 0
-  m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_TargetRotation: {x: -0.20141216, y: 0.2889356, z: -0.61782, w: 0.7030276}
   m_TargetAngularVelocity: {x: 0, y: 0, z: 0}
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3728.7527
-    positionDamper: 93.42066
+    positionSpring: 7913.7163
+    positionDamper: 348.4206
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -6642,8 +6642,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 8684.816
-    positionDamper: 2964.182
+    positionSpring: 7469.936
+    positionDamper: 618.43286
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -6736,8 +6736,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 8594.543
-    positionDamper: 775.1891
+    positionSpring: 9137.679
+    positionDamper: 608.153
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -7112,8 +7112,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3536.0837
-    positionDamper: 833.3714
+    positionSpring: 3803.9705
+    positionDamper: 270.44992
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -7166,11 +7166,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -68
+    limit: -90
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 78
+    limit: 80
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -7206,8 +7206,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7615.9385
-    positionDamper: 455.43115
+    positionSpring: 7262.0894
+    positionDamper: 422.1941
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -7300,8 +7300,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5791.548
-    positionDamper: 64.52705
+    positionSpring: 4110.689
+    positionDamper: 104.430084
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -7394,8 +7394,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5344.868
-    positionDamper: 455.27036
+    positionSpring: 4904.562
+    positionDamper: 343.3261
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -7488,8 +7488,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4923.2124
-    positionDamper: 135.01639
+    positionSpring: 4342.185
+    positionDamper: 161.14447
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -7582,8 +7582,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4348.394
-    positionDamper: 232.0776
+    positionSpring: 4002.2715
+    positionDamper: 236.98912
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -7770,8 +7770,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 24858.867
-    positionDamper: 2100.0432
+    positionSpring: 22068.89
+    positionDamper: 1390.9905
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -7864,8 +7864,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4599.7427
-    positionDamper: 1443.9908
+    positionSpring: 4347.984
+    positionDamper: 432.44763
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -7958,8 +7958,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21483.893
-    positionDamper: 1685.857
+    positionSpring: 16832.361
+    positionDamper: 1337.2454
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -8052,8 +8052,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 412.99747
-    positionDamper: 63.879715
+    positionSpring: 5134.6943
+    positionDamper: 413.35233
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -8084,7 +8084,7 @@ ConfigurableJoint:
   m_GameObject: {fileID: 1222051894573212}
   m_ConnectedBody: {fileID: 54007659121036288}
   m_Anchor: {x: 0, y: 0, z: 0}
-  m_Axis: {x: 0, y: -1, z: 0}
+  m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: -0.2740468, y: 0.00000035872822, z: 0.00000006695247}
   serializedVersion: 2
@@ -8106,11 +8106,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: 0
+    limit: -160
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 140
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -8146,8 +8146,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 10000
-    positionDamper: 1000
+    positionSpring: 17782.49
+    positionDamper: 1476.1864
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -8240,8 +8240,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4836.7515
-    positionDamper: 190.06677
+    positionSpring: 4204.6865
+    positionDamper: 257.9231
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -8334,8 +8334,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7407.962
-    positionDamper: 1896.1384
+    positionSpring: 7306.0415
+    positionDamper: 492.28
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -8428,8 +8428,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3536.0837
-    positionDamper: 833.3714
+    positionSpring: 3803.9705
+    positionDamper: 270.44992
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -8616,8 +8616,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3304.1387
-    positionDamper: 1028.6847
+    positionSpring: 5774.4473
+    positionDamper: 1323.5237
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -8670,11 +8670,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -80
+    limit: -115
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 80
+    limit: 70
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -8705,13 +8705,13 @@ ConfigurableJoint:
     positionSpring: 0
     positionDamper: 0
     maximumForce: 0
-  m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_TargetRotation: {x: 0.49331743, y: 0.000000923872, z: -0.00000056624407, w: 0.86984956}
   m_TargetAngularVelocity: {x: 0, y: 0, z: 0}
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 27312.482
-    positionDamper: 2408.9656
+    positionSpring: 19758.879
+    positionDamper: 1557.4841
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -8764,11 +8764,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -20
+    limit: -90
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 20
+    limit: 90
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -8804,8 +8804,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 2287.0994
-    positionDamper: 6.8675013
+    positionSpring: 1935.3522
+    positionDamper: 343.76038
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -8992,8 +8992,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3304.1387
-    positionDamper: 1028.6847
+    positionSpring: 5774.4473
+    positionDamper: 1323.5237
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -9274,8 +9274,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3872.972
-    positionDamper: 123.70358
+    positionSpring: 4340.513
+    positionDamper: 313.55768
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -9422,11 +9422,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -20
+    limit: -90
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 20
+    limit: 90
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -9462,8 +9462,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 2287.0994
-    positionDamper: 6.8675013
+    positionSpring: 1935.3522
+    positionDamper: 343.76038
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -9744,8 +9744,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 27433.896
-    positionDamper: 2541.299
+    positionSpring: 29069.084
+    positionDamper: 2954.2432
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -10026,8 +10026,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7312.85
-    positionDamper: 406.60382
+    positionSpring: 4870.1714
+    positionDamper: 360.29474
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -10120,8 +10120,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5156.943
-    positionDamper: 499.04092
+    positionSpring: 5302.2163
+    positionDamper: 431.39536
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -10214,8 +10214,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21567.705
-    positionDamper: 1254.7504
+    positionSpring: 18199.355
+    positionDamper: 851.0185
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -10246,11 +10246,11 @@ ConfigurableJoint:
   m_GameObject: {fileID: 1240104721492620}
   m_ConnectedBody: {fileID: 54590933117591058}
   m_Anchor: {x: 0, y: 0, z: 0}
-  m_Axis: {x: 0, y: -1, z: 0}
+  m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: -0.03675449, y: -0.021219978, z: 0.021220116}
   serializedVersion: 2
-  m_SecondaryAxis: {x: 1, y: 0, z: 0}
+  m_SecondaryAxis: {x: -1, y: 0, z: 0}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
@@ -10268,11 +10268,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -70
+    limit: -40
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: -40
+    limit: 70
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -10308,8 +10308,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 412.99747
-    positionDamper: 63.879715
+    positionSpring: 5134.6943
+    positionDamper: 413.35233
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -10778,8 +10778,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5791.548
-    positionDamper: 64.52705
+    positionSpring: 4110.689
+    positionDamper: 104.430084
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -10872,8 +10872,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 6572.445
-    positionDamper: 2644.2786
+    positionSpring: 4533.2427
+    positionDamper: 277.22543
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -10966,8 +10966,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7351.816
-    positionDamper: 653.17645
+    positionSpring: 5312.491
+    positionDamper: 412.0208
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -11154,8 +11154,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 16565.201
-    positionDamper: 1219.3107
+    positionSpring: 16211.133
+    positionDamper: 1888.4364
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -11248,8 +11248,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4836.7515
-    positionDamper: 190.06677
+    positionSpring: 4204.6865
+    positionDamper: 257.9231
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -11530,8 +11530,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5789.3433
-    positionDamper: 126.2852
+    positionSpring: 4480.652
+    positionDamper: 222.05035
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -11624,8 +11624,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5789.3433
-    positionDamper: 126.2852
+    positionSpring: 4480.652
+    positionDamper: 222.05035
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -11906,8 +11906,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5344.868
-    positionDamper: 455.27036
+    positionSpring: 4904.562
+    positionDamper: 343.3261
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -12000,8 +12000,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5172.9097
-    positionDamper: 141.32855
+    positionSpring: 5095.4365
+    positionDamper: 185.12953
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -12188,8 +12188,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 6572.445
-    positionDamper: 2644.2786
+    positionSpring: 4533.2427
+    positionDamper: 277.22543
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -12752,8 +12752,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 16565.201
-    positionDamper: 1219.3107
+    positionSpring: 16211.133
+    positionDamper: 1888.4364
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -13034,8 +13034,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 23391.406
-    positionDamper: 2350.8555
+    positionSpring: 22130.041
+    positionDamper: 2094.6064
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -13222,8 +13222,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4737.6284
-    positionDamper: 544.36414
+    positionSpring: 5246.1626
+    positionDamper: 133.64488
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -13316,8 +13316,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4844.3374
-    positionDamper: 126.67468
+    positionSpring: 2908.8684
+    positionDamper: 154.6941
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -13504,8 +13504,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 8594.543
-    positionDamper: 775.1891
+    positionSpring: 9137.679
+    positionDamper: 608.153
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -13598,8 +13598,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4121.503
-    positionDamper: 802.76306
+    positionSpring: 4222.648
+    positionDamper: 383.47815
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -13974,8 +13974,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3872.972
-    positionDamper: 123.70358
+    positionSpring: 4340.513
+    positionDamper: 313.55768
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -14162,8 +14162,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21956.74
-    positionDamper: 1678.4122
+    positionSpring: 21033.143
+    positionDamper: 1432.3961
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -14632,8 +14632,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3501.3872
-    positionDamper: 260.7688
+    positionSpring: 4257.8066
+    positionDamper: 294.62872
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -14726,8 +14726,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7808.362
-    positionDamper: 669.2652
+    positionSpring: 5919.2476
+    positionDamper: 249.17566
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -14914,8 +14914,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4923.2124
-    positionDamper: 135.01639
+    positionSpring: 4342.185
+    positionDamper: 161.14447
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -15008,8 +15008,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3323.284
-    positionDamper: 175.15248
+    positionSpring: 2831.1162
+    positionDamper: 158.14392
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -15196,8 +15196,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 5156.943
-    positionDamper: 499.04092
+    positionSpring: 5302.2163
+    positionDamper: 431.39536
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -15290,8 +15290,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 33050.45
-    positionDamper: 4181.5547
+    positionSpring: 32041.475
+    positionDamper: 3542.6995
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -15478,8 +15478,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3877.591
-    positionDamper: 221.86876
+    positionSpring: 4114.1367
+    positionDamper: 239.94518
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -15572,8 +15572,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 6319.893
-    positionDamper: 228.54527
+    positionSpring: 5550.513
+    positionDamper: 377.98608
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -15760,8 +15760,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4121.503
-    positionDamper: 802.76306
+    positionSpring: 4222.648
+    positionDamper: 383.47815
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -15854,8 +15854,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4737.6284
-    positionDamper: 544.36414
+    positionSpring: 5246.1626
+    positionDamper: 133.64488
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -15948,8 +15948,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 21567.705
-    positionDamper: 1254.7504
+    positionSpring: 18199.355
+    positionDamper: 851.0185
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -16230,8 +16230,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 6278.963
-    positionDamper: 1229.6959
+    positionSpring: 5186.289
+    positionDamper: 674.2337
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -16324,8 +16324,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 8674.828
-    positionDamper: 846.9017
+    positionSpring: 8220.5
+    positionDamper: 486.00375
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -16660,11 +16660,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -80
+    limit: -115
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 80
+    limit: 70
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -16695,13 +16695,13 @@ ConfigurableJoint:
     positionSpring: 0
     positionDamper: 0
     maximumForce: 0
-  m_TargetRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_TargetRotation: {x: 0.49331743, y: 0.000000923872, z: -0.00000056624407, w: 0.86984956}
   m_TargetAngularVelocity: {x: 0, y: 0, z: 0}
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 27312.482
-    positionDamper: 2408.9656
+    positionSpring: 19758.879
+    positionDamper: 1557.4841
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -17018,7 +17018,7 @@ ConfigurableJoint:
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: -0.27614465, y: 0.00000023952734, z: 0.00000020106212}
   serializedVersion: 2
-  m_SecondaryAxis: {x: 0, y: 1, z: 0}
+  m_SecondaryAxis: {x: 0, y: -1, z: 0}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
@@ -17036,11 +17036,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -68
+    limit: -90
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 78
+    limit: 80
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -17076,8 +17076,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7615.9385
-    positionDamper: 455.43115
+    positionSpring: 7262.0894
+    positionDamper: 422.1941
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -17170,8 +17170,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 8684.816
-    positionDamper: 2964.182
+    positionSpring: 7469.936
+    positionDamper: 618.43286
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -17358,8 +17358,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 3268.718
-    positionDamper: 247.35538
+    positionSpring: 3244.8982
+    positionDamper: 223.75058
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -17452,8 +17452,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 4034.2507
-    positionDamper: 223.1134
+    positionSpring: 4351.583
+    positionDamper: 139.36552
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -17640,8 +17640,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 7351.816
-    positionDamper: 653.17645
+    positionSpring: 5312.491
+    positionDamper: 412.0208
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -17734,8 +17734,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 2409.9172
-    positionDamper: 94.541565
+    positionSpring: 3070.5632
+    positionDamper: 295.21027
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -17922,8 +17922,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 31272.65
-    positionDamper: 3722.1755
+    positionSpring: 29853.129
+    positionDamper: 3246.1309
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -18016,8 +18016,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 40186.465
-    positionDamper: 5317.5933
+    positionSpring: 36335.664
+    positionDamper: 3490.6
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3
@@ -18110,8 +18110,8 @@ ConfigurableJoint:
   m_RotationDriveMode: 0
   m_AngularXDrive:
     serializedVersion: 3
-    positionSpring: 6278.963
-    positionDamper: 1229.6959
+    positionSpring: 5186.289
+    positionDamper: 674.2337
     maximumForce: 1200
   m_AngularYZDrive:
     serializedVersion: 3

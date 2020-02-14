@@ -773,9 +773,38 @@ public class EditAvatarTemplate : EditorWindow
             joint.enablePreprocessing = !noPreprocessing;
 
             List<JointSettings> settings = new List<JointSettings>();
+            SoftJointLimit limit = new SoftJointLimit();
             foreach (string subSettings in jointSettings[bone].Keys)
             {
-                settings.Add(jointSettings[bone][subSettings]);
+                JointSettings s = jointSettings[bone][subSettings];
+                settings.Add(s);
+
+                
+                if(s.primaryAxis == joint.axis || s.primaryAxis == -joint.axis)
+                {
+                    limit.limit = s.angularLimitLowX;
+                    joint.lowAngularXLimit = limit;
+
+                    limit.limit = s.angularLimitHighX;
+                    joint.highAngularXLimit = limit;
+                }
+                /*For the y and z angular limit, we choose the maximum of the low and high limit of the multiple joint.
+                 * That way the avatar template has a greater (and more unrealistic) movement range, but the user can still perform all natural movements
+                 */
+                else if(s.primaryAxis == joint.secondaryAxis || s.secondaryAxis == -joint.axis)
+                {
+                    Debug.Log("joint y axis");
+                    limit.limit = Mathf.Abs(s.angularLimitLowX) < Mathf.Abs(s.angularLimitHighX) ? Mathf.Abs(s.angularLimitHighX) : Mathf.Abs(s.angularLimitLowX);
+                    Debug.Log(joint.name + " " + limit.limit);
+                    joint.angularYLimit = limit;
+                }
+                else
+                {
+                    Debug.Log("joint z axis");
+                    limit.limit = Mathf.Abs(s.angularLimitLowX) < Mathf.Abs(s.angularLimitHighX) ? Mathf.Abs(s.angularLimitHighX) : Mathf.Abs(s.angularLimitLowX);
+                    Debug.Log(joint.name + " " + limit.limit);
+                    joint.angularZLimit = limit;
+                }
             }
 
             JointSettings.SetSingleDrivesFromTuning(joint, settings.ToArray());
