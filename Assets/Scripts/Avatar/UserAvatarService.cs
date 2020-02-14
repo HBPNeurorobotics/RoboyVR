@@ -43,6 +43,12 @@ public class UserAvatarService : Singleton<UserAvatarService>
     public string avatar_name { private set; get; }
 
     private GameObject remote_avatar = null;
+
+    public GameObject GetRemoteAvatar()
+    {
+        return remote_avatar;
+    }
+
     private GameObject avatar_clone = null;
 
     private bool spawning_avatar = false;

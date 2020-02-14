@@ -105,6 +105,7 @@ public class TrackingFKManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        // in eigene methode auslagern, dann durch die children durchgehen
         virtualtWrist = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r").transform;
 
         virtualtThumb1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r").transform;

@@ -24,11 +24,11 @@ public class RemoteAvatarVisuals : MonoBehaviour {
 
     public void IdentifyGameObjects()
     {
-        hips = GameObject.Find("user_avatar_e26d79c4_f1cd_47a3_b78e_4764b7ffa254::avatar_ybot::mixamorig_Hips");
-        spine = GameObject.Find("user_avatar_e26d79c4_f1cd_47a3_b78e_4764b7ffa254::avatar_ybot::mixamorig_Spine");
-        spine1 = GameObject.Find("user_avatar_e26d79c4_f1cd_47a3_b78e_4764b7ffa254::avatar_ybot::mixamorig_Spine1");
-        spine1Visuals = GameObject.Find("user_avatar_e26d79c4_f1cd_47a3_b78e_4764b7ffa254::avatar_ybot::mixamorig_Spine1::VIS_Alpha_Surface.010");
-        spine2 = GameObject.Find("user_avatar_e26d79c4_f1cd_47a3_b78e_4764b7ffa254::avatar_ybot::mixamorig_Spine2");
+        hips = GameObject.Find(UserAvatarService.Instance.avatar_name + "::avatar_ybot::mixamorig_Hips");
+        spine = GameObject.Find(UserAvatarService.Instance.avatar_name + "::avatar_ybot::mixamorig_Spine");
+        spine1 = GameObject.Find(UserAvatarService.Instance.avatar_name + "::avatar_ybot::mixamorig_Spine1");
+        spine1Visuals = GameObject.Find(UserAvatarService.Instance.avatar_name + "::avatar_ybot::mixamorig_Spine1::VIS_Alpha_Surface.010");
+        spine2 = GameObject.Find(UserAvatarService.Instance.avatar_name + "::avatar_ybot::mixamorig_Spine2");
     }
 
     public void SetOpacity(float opacity)
