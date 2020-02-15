@@ -171,7 +171,7 @@ public class JointSettings
         float spring = 0, damper = 0, maxForce = 0;
         int numOfYZJointsTuning = 0;
 
-        SoftJointLimit limit = new SoftJointLimit();
+        //SoftJointLimit limit = new SoftJointLimit();
 
         foreach (JointSettings settings in jointSettingsTuning)
         {

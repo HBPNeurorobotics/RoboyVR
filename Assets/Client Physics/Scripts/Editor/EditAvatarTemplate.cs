@@ -510,8 +510,18 @@ public class EditAvatarTemplate : EditorWindow
     {
         //changing the primary/secondary axis depends on the exact bone. It is not supported right now, if needed it could be done similar to the split joint method in JointSetup
         //we cannot just copy the settings as a whole. This would result in wrong axis orientations and wrong bone identity 
-        mappedSettings.angularLimitHighX = settings.angularLimitHighX;
-        mappedSettings.angularLimitLowX = settings.angularLimitLowX;
+
+        //negative axis orientation requires to switch the angular limits for the x axis around
+        if (mappedSettings.primaryAxis == -settings.primaryAxis || mappedSettings.secondaryAxis == -settings.secondaryAxis)
+        {
+            mappedSettings.angularLimitHighX = -settings.angularLimitLowX;
+            mappedSettings.angularLimitLowX = -settings.angularLimitHighX;
+        }
+        else
+        {
+            mappedSettings.angularLimitHighX = settings.angularLimitHighX;
+            mappedSettings.angularLimitLowX = settings.angularLimitLowX;
+        }
         mappedSettings.angularLimitY = settings.angularLimitY;
         mappedSettings.angularLimitZ = settings.angularLimitZ;
         mappedSettings.angularXDriveDamper = settings.angularXDriveDamper;
@@ -708,6 +718,7 @@ public class EditAvatarTemplate : EditorWindow
     {
         if (!basedOnMultipleJoints)
         {
+            Dictionary<HumanBodyBones, AngularLimitStorage> angularLimitsFromMultipleTemplate = new Dictionary<HumanBodyBones, AngularLimitStorage>();
             foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
             {
                 if (!bone.Equals(HumanBodyBones.Hips) && !bone.ToString().Contains("Shoulder"))
@@ -729,11 +740,85 @@ public class EditAvatarTemplate : EditorWindow
                         {
                             ApplyJointSetting(joint, settings);
                         }
+                        AngularLimitStorage multipleLimits = new AngularLimitStorage(0, 0, 0, 0);
+                        foreach (ConfigurableJoint axisJoint in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>())
+                        {
+                            if (axisJoint.axis == joint.axis) continue;
+                            if (axisJoint.axis == joint.secondaryAxis || axisJoint.axis == -joint.secondaryAxis)
+                            {
+                                multipleLimits.yLowLimit = axisJoint.lowAngularXLimit.limit;
+                                multipleLimits.yHighLimit = axisJoint.highAngularXLimit.limit;
+                            }
+                            else
+                            {
+                                multipleLimits.zLowLimit = axisJoint.lowAngularXLimit.limit;
+                                multipleLimits.zHighLimit = axisJoint.highAngularXLimit.limit;
+                            }
+                        }
+                        angularLimitsFromMultipleTemplate.Add(bone, multipleLimits);
                     }
                 }
-                //Apply template changes to multiple joint template 
-                CopyToMultipleJointsTemplate();
             }
+            //Apply template changes to multiple joint template 
+            CopyToMultipleJointsTemplate();
+            #region recover lost angular limit information 
+            foreach (HumanBodyBones bone in angularLimitsFromMultipleTemplate.Keys)
+            {
+                ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
+                foreach (ConfigurableJoint axisJoint in gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>())
+                {
+                    if (axisJoint.axis == joint.axis) continue;
+
+                    if (axisJoint.axis == joint.secondaryAxis)
+                    {
+
+                        float absLowY = Mathf.Abs(angularLimitsFromMultipleTemplate[bone].yLowLimit);
+                        float absHighY = Mathf.Abs(angularLimitsFromMultipleTemplate[bone].yHighLimit);
+
+                        if (absLowY != absHighY)
+                        {
+                            if (absLowY < absHighY)
+                            {
+                                //restore old y lower limit
+                                SoftJointLimit oldLimit = new SoftJointLimit();
+                                oldLimit.limit = angularLimitsFromMultipleTemplate[bone].yLowLimit;
+                                axisJoint.lowAngularXLimit = oldLimit;
+                            }
+                            else
+                            {
+                                //restore old y upper limit
+                                SoftJointLimit oldLimit = new SoftJointLimit();
+                                oldLimit.limit = angularLimitsFromMultipleTemplate[bone].yHighLimit;
+                                axisJoint.highAngularXLimit = oldLimit;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        float absLowZ = Mathf.Abs(angularLimitsFromMultipleTemplate[bone].zLowLimit);
+                        float absHighZ = Mathf.Abs(angularLimitsFromMultipleTemplate[bone].zHighLimit);
+
+                        if (absLowZ != absHighZ)
+                        {
+                            if (absLowZ < absHighZ)
+                            {
+                                //restore old y lower limit
+                                SoftJointLimit oldLimit = new SoftJointLimit();
+                                oldLimit.limit = angularLimitsFromMultipleTemplate[bone].zLowLimit;
+                                axisJoint.lowAngularXLimit = oldLimit;
+                            }
+                            else
+                            {
+                                //restore old y upper limit
+                                SoftJointLimit oldLimit = new SoftJointLimit();
+                                oldLimit.limit = angularLimitsFromMultipleTemplate[bone].zHighLimit;
+                                axisJoint.highAngularXLimit = oldLimit;
+                            }
+                        }
+                    }
+                }
+            }
+            #endregion
         }
         else
         {
@@ -779,8 +864,8 @@ public class EditAvatarTemplate : EditorWindow
                 JointSettings s = jointSettings[bone][subSettings];
                 settings.Add(s);
 
-                
-                if(s.primaryAxis == joint.axis || s.primaryAxis == -joint.axis)
+
+                if (s.primaryAxis == joint.axis)
                 {
                     limit.limit = s.angularLimitLowX;
                     joint.lowAngularXLimit = limit;
@@ -788,26 +873,36 @@ public class EditAvatarTemplate : EditorWindow
                     limit.limit = s.angularLimitHighX;
                     joint.highAngularXLimit = limit;
                 }
-                /*For the y and z angular limit, we choose the maximum of the low and high limit of the multiple joint.
+                /*For the y and z angular limit, we choose the maximum of the low and high limit of the multiple joint if the movement range of the multiple joint is not symmetrical to 0.
                  * That way the avatar template has a greater (and more unrealistic) movement range, but the user can still perform all natural movements
                  */
-                else if(s.primaryAxis == joint.secondaryAxis || s.secondaryAxis == -joint.axis)
-                {
-                    Debug.Log("joint y axis");
-                    limit.limit = Mathf.Abs(s.angularLimitLowX) < Mathf.Abs(s.angularLimitHighX) ? Mathf.Abs(s.angularLimitHighX) : Mathf.Abs(s.angularLimitLowX);
-                    Debug.Log(joint.name + " " + limit.limit);
-                    joint.angularYLimit = limit;
-                }
                 else
                 {
-                    Debug.Log("joint z axis");
-                    limit.limit = Mathf.Abs(s.angularLimitLowX) < Mathf.Abs(s.angularLimitHighX) ? Mathf.Abs(s.angularLimitHighX) : Mathf.Abs(s.angularLimitLowX);
-                    Debug.Log(joint.name + " " + limit.limit);
-                    joint.angularZLimit = limit;
+                    
+                    if (Mathf.Abs(s.angularLimitLowX) != Mathf.Abs(s.angularLimitHighX))
+                    {
+                        limit.limit = Mathf.Abs(s.angularLimitLowX) < Mathf.Abs(s.angularLimitHighX) ? Mathf.Abs(s.angularLimitHighX) : Mathf.Abs(s.angularLimitLowX);
+                    }
+                    else
+                    {
+                        limit.limit = Mathf.Abs(s.angularLimitHighX);
+                    }
+                    //joint y axis
+                    if (s.primaryAxis == joint.secondaryAxis || s.primaryAxis == -joint.secondaryAxis)
+                    {
+                        Debug.Log(joint.name + " y: " + limit.limit);
+                        joint.angularYLimit = limit;
+                    }
+                    //joint z axis
+                    else
+                    {
+                        Debug.Log(joint.name + " z: " + limit.limit);
+                        joint.angularZLimit = limit;
+                    }
                 }
-            }
 
-            JointSettings.SetSingleDrivesFromTuning(joint, settings.ToArray());
+                JointSettings.SetSingleDrivesFromTuning(joint, settings.ToArray());
+            }
         }
     }
 

@@ -199,15 +199,6 @@ namespace PIDTuning
             {
                 //Prepare the remote avatar. We do not want any other joint force to influence the tuning process.
                 UserAvatarService.Instance._avatarManager.LockAvatarJointsExceptCurrent(LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones));
-                /*
-                //Tuning of the torso sometimes fails, lets give them more time to measure
-                if (joint.Contains("Spine") || joint.Contains("Chest"))
-                {
-                    //relayConstantForce = 4000; 
-                    //warmupSeconds = TimeSpan.FromSeconds(45);
-                    //measurementSeconds = TimeSpan.FromSeconds(45);
-                }
-                */
             }
 
             // Save PID configuration to restore it later
@@ -220,11 +211,34 @@ namespace PIDTuning
             //Disable ConfigurableJoint
             UserAvatarService.Instance._avatarManager.tuningInProgress = true;
             ConfigurableJoint configurableJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
+
             HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint.Remove(joint.Length - 1));
+
+            //set limb radius at joint based on estimated values for joint radius in template
+            float radius = GetRadiusEstimation((HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint.Remove(joint.Length - 1)));
+
 
             //We copy the joint in the avatar template to restore its values later
             ConfigurableJoint configurableJointCopy = UserAvatarService.Instance._avatarManager.GetJointInTemplate(bone, configurableJoint.axis);
             GameObject bodyPart = configurableJoint.gameObject;
+            
+            //get total mass driven by joint for non gazebo case
+            float totalMass = 0;
+            if (!gazebo)
+            {
+                Rigidbody rb = bodyPart.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    foreach (Transform child in bodyPart.transform)
+                    {
+                        totalMass += MassAdder(child, rb.mass);
+                    }
+                }
+            }
+            else
+            {
+                totalMass = 1;
+            }
 
             // Set set-point to 0 (even if the PID won't control the joint for now)
             // We are trying to reach the set-point using relay control only for the test
@@ -234,13 +248,13 @@ namespace PIDTuning
 
             while (DateTime.Now - startTime < warmupSeconds)
             {
-                yield return null;//gazebo ? null : new WaitForFixedUpdate();
-                AdjustRelayForce(joint, gazebo, relayConstantForce, bodyPart, configurableJoint);
+                yield return gazebo ? null : new WaitForFixedUpdate();
+                AdjustRelayForce(joint, gazebo, relayConstantForce, radius, totalMass, bodyPart, configurableJoint);
             }
 
             bool valueFound = false;
             int iteration = 1;
-
+            
             while (!valueFound)
             {
                 Debug.Log("Tuning " + joint + ", iteration #"+  iteration);
@@ -252,12 +266,13 @@ namespace PIDTuning
                 while (DateTime.Now - startTime < measurementSeconds)
                 {
                     //We have to update in sync with the physics for better results
-                    yield return null;//gazebo ? null : new WaitForFixedUpdate();
-                    AdjustRelayForce(joint, gazebo, relayConstantForce, bodyPart, configurableJoint);
+                    yield return gazebo ? null : new WaitForFixedUpdate();
+                    AdjustRelayForce(joint, gazebo, relayConstantForce, radius, totalMass, bodyPart, configurableJoint);
                 }
 
                 // Stop the test and collect data
                 evaluation.Value = _testRunner.StopManualRecord()[joint];
+                //continue to search for value, this ensures that a value will be found (it may take longer)
                 if (fromTuneAll)
                 {
                     var oscillation = PeakAnalysis.AnalyzeOscillation(evaluation.Value);
@@ -274,7 +289,7 @@ namespace PIDTuning
             if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, relayConstantForce, mirror);
 
             // Get rid of any force
-            SetConstantForceForJoint(joint, 0f, gazebo, bodyPart, configurableJoint);
+            SetConstantForceForJoint(joint, 0f, 1, 1, gazebo, bodyPart, configurableJoint);
 
             // Restore pre-test configurations
             LocalPhysicsToolkit.CopyPasteComponent(configurableJoint, configurableJointCopy);
@@ -284,23 +299,23 @@ namespace PIDTuning
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
             _pidConfigStorage.TransmitFullConfiguration(false, relayConstantForce, mirror);
 
-            yield return null;//gazebo ? null : new WaitForFixedUpdate();
+            yield return gazebo ? null : new WaitForFixedUpdate();
 
         }
 
-        private void AdjustRelayForce(string joint, bool gazebo, float relay, GameObject bodyPart, ConfigurableJoint jointInScene)
+        private void AdjustRelayForce(string joint, bool gazebo, float relay, float radius, float totalMass, GameObject bodyPart, ConfigurableJoint jointInScene)
         {
             if (1f == Mathf.Sign(PoseErrorTracker.GetCurrentStepDataForJoint(joint).Measured - RelayTargetAngle))
             {
-                SetConstantForceForJoint(joint, -relay, gazebo, bodyPart, jointInScene);
+                SetConstantForceForJoint(joint, -relay, radius, totalMass, gazebo, bodyPart, jointInScene);
             }
             else
             {
-                SetConstantForceForJoint(joint, relay, gazebo, bodyPart, jointInScene);
+                SetConstantForceForJoint(joint, relay, radius, totalMass, gazebo, bodyPart, jointInScene);
             }
         }
 
-        private void SetConstantForceForJoint(string joint, float force, bool gazebo, GameObject bodyPart, ConfigurableJoint jointInScene)
+        private void SetConstantForceForJoint(string joint, float force, float radius, float totalMass, bool gazebo, GameObject bodyPart, ConfigurableJoint jointInScene)
         {
             if (gazebo)
             {
@@ -337,15 +352,54 @@ namespace PIDTuning
 
                         rb.angularVelocity += Time.fixedDeltaTime * jointInScene.axis * force / combinedMass;
                         */
-                        float combinedMass = 0;
-                        foreach (Transform child in bodyPart.transform)
-                        {
-                           combinedMass += MassAdder(child, rb.mass);
-                        }
                         
-                        jointInScene.targetAngularVelocity = Mathf.Sign(force) * new Vector3(Mathf.Sqrt(Mathf.Abs(force)/(combinedMass * 0.1f)), 0, 0);
+                        
+                        jointInScene.targetAngularVelocity = Mathf.Sign(force) * new Vector3(Mathf.Sqrt(Mathf.Abs(force)/(totalMass * radius)), 0, 0);
                     }
                 }
+            }
+        }
+
+        float GetRadiusEstimation(HumanBodyBones bone)
+        {
+            switch (bone)
+            {
+                case HumanBodyBones.Spine:
+                case HumanBodyBones.Chest:
+                case HumanBodyBones.UpperChest:     return 0.23f;
+
+                case HumanBodyBones.LeftUpperLeg:
+                case HumanBodyBones.RightUpperLeg:  return 0.16f;
+
+                case HumanBodyBones.LeftUpperArm:
+                case HumanBodyBones.RightUpperArm:
+                case HumanBodyBones.Neck:
+                case HumanBodyBones.Head:           return 0.12f;
+
+                case HumanBodyBones.LeftLowerArm:
+                case HumanBodyBones.RightLowerArm:
+                case HumanBodyBones.LeftFoot:
+                case HumanBodyBones.RightFoot:      return 0.08f;
+
+                case HumanBodyBones.LeftToes:      
+                case HumanBodyBones.RightToes:      return 0.05f;
+
+                case HumanBodyBones.LeftHand:
+                case HumanBodyBones.RightHand:      return 0.06f;
+
+                case HumanBodyBones.LeftThumbProximal:  
+                case HumanBodyBones.RightThumbProximal:     return 0.04f;
+
+                case HumanBodyBones.LeftIndexProximal:
+                case HumanBodyBones.LeftMiddleProximal:
+                case HumanBodyBones.LeftRingProximal:
+                case HumanBodyBones.LeftLittleProximal:
+                case HumanBodyBones.RightIndexProximal:
+                case HumanBodyBones.RightMiddleProximal:
+                case HumanBodyBones.RightRingProximal:
+                case HumanBodyBones.RightLittleProximal:    return 0.025f;
+
+                default: return 0.015f;
             }
         }
 
