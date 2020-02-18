@@ -111,23 +111,24 @@ namespace PIDTuning
 
         public IEnumerator TuneSingleJoint(string joint, bool fromTuneAll = false)
         {
+            bool gazebo = UserAvatarService.Instance.use_gazebo;
             //_localAvatarRig.gameObject.GetComponent<Animator>().enabled = false;
             ConfigurableJoint currentJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, _remoteBones);
 
-            if (!UserAvatarService.Instance.use_gazebo)
+            if (!gazebo)
             {
                 _animatorControl.PrepareRigForPlayback();
             }
 
             //we can just copy the values for the right side from the tuning of the left side, since the values are approximately the same.
-            if (!UserAvatarService.Instance.use_gazebo && fromTuneAll && mirror && joint.StartsWith("Right"))
+            if (!gazebo && fromTuneAll && mirror && joint.StartsWith("Right"))
             {
                 Debug.Log("Skipped " + joint + " because of symmetry");
             }
             else
             {
                 //if the joint cannot rotate (e.g y axis in the knee) we do not tune it (for quicker results in autotuning)
-                if (!UserAvatarService.Instance.use_gazebo && fromTuneAll && currentJoint.lowAngularXLimit.limit == 0 && currentJoint.highAngularXLimit.limit == 0)
+                if (!gazebo && fromTuneAll && currentJoint.lowAngularXLimit.limit == 0 && currentJoint.highAngularXLimit.limit == 0)
                 {
                     Debug.Log("Skipped " + joint + " because of angular limit 0");
                     yield return new WaitForFixedUpdate();
@@ -155,8 +156,9 @@ namespace PIDTuning
                     // Run Bang-Bang control for a while to get oscillation data
                     var bangBangStepData = new Box<PidStepData>(null);
 
-                    yield return RunBangBangEvaluation(joint, bangBangStepData, UserAvatarService.Instance.use_gazebo, fromTuneAll);
+                    yield return RunBangBangEvaluation(joint, bangBangStepData, gazebo, fromTuneAll);
 
+                    /*
                     // Evaluate the oscillation data
                     var oscillation = PeakAnalysis.AnalyzeOscillation(bangBangStepData.Value);
                     try
@@ -168,14 +170,8 @@ namespace PIDTuning
                     {
                         _tuningInProgress = false;
                     }
-
-
-                    // Acquire the final tuned parameters
-                    var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningHeuristic, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
-
-                    // Apply the tuning and transmit it to the simulation
-                    _pidConfigStorage.Configuration.Mapping[joint] = tunedPid;
-                    _pidConfigStorage.TransmitSingleJointConfiguration(joint, RelayConstantForce);
+                    */
+                    _tuningInProgress = false;
 
                     // Restore animator state
                     _localAvatarAnimator.enabled = previousAnimatorState;
@@ -194,6 +190,8 @@ namespace PIDTuning
             float relayConstantForce = RelayConstantForce;
             TimeSpan warmupSeconds = TimeSpan.FromSeconds(TestWarmupSeconds);
             TimeSpan measurementSeconds = TimeSpan.FromSeconds(TestDurationSeconds);
+
+            OscillationAnalysisResult? oscillation = new OscillationAnalysisResult();
 
             if (!gazebo)
             {
@@ -216,7 +214,6 @@ namespace PIDTuning
 
             //set limb radius at joint based on estimated values for joint radius in template
             float radius = GetRadiusEstimation((HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint.Remove(joint.Length - 1)));
-
 
             //We copy the joint in the avatar template to restore its values later
             ConfigurableJoint configurableJointCopy = UserAvatarService.Instance._avatarManager.GetJointInTemplate(bone, configurableJoint.axis);
@@ -273,15 +270,10 @@ namespace PIDTuning
                 // Stop the test and collect data
                 evaluation.Value = _testRunner.StopManualRecord()[joint];
                 //continue to search for value, this ensures that a value will be found (it may take longer)
-                if (fromTuneAll)
-                {
-                    var oscillation = PeakAnalysis.AnalyzeOscillation(evaluation.Value);
-                    valueFound = oscillation.HasValue;
-                }
-                else
-                {
-                    valueFound = true;
-                }
+                oscillation = PeakAnalysis.AnalyzeOscillation(evaluation.Value);
+
+                valueFound = oscillation.HasValue;
+
                 iteration++;
             }
 
@@ -298,6 +290,15 @@ namespace PIDTuning
 
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
             _pidConfigStorage.TransmitFullConfiguration(false, relayConstantForce, mirror);
+
+            LastTuningData = TuningResult.GenerateFromOscillation(joint, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
+            // Acquire the final tuned parameters
+            var tunedPid = ZieglerNicholsTuning.FromBangBangAnalysis(TuningHeuristic, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
+
+            // Apply the tuning and transmit it to the simulation
+            _pidConfigStorage.Configuration.Mapping[joint] = tunedPid;
+            _pidConfigStorage.TransmitSingleJointConfiguration(joint, RelayConstantForce);
+
 
             yield return gazebo ? null : new WaitForFixedUpdate();
 

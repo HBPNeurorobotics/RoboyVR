@@ -890,13 +890,11 @@ public class EditAvatarTemplate : EditorWindow
                     //joint y axis
                     if (s.primaryAxis == joint.secondaryAxis || s.primaryAxis == -joint.secondaryAxis)
                     {
-                        Debug.Log(joint.name + " y: " + limit.limit);
                         joint.angularYLimit = limit;
                     }
                     //joint z axis
                     else
                     {
-                        Debug.Log(joint.name + " z: " + limit.limit);
                         joint.angularZLimit = limit;
                     }
                 }
