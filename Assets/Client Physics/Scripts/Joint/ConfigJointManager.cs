@@ -155,7 +155,7 @@ public class ConfigJointManager : MonoBehaviour
     {
     }
 
-    public void SetTagetTransform(HumanBodyBones bone, Transform target)
+    public void SetTagetRotation(HumanBodyBones bone, Quaternion targetRotation)
     {
         if (!usesLockedJoint.Contains(bone) && gameObjectsFromBone.ContainsKey(bone) && gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() != null)
         {
@@ -163,7 +163,7 @@ public class ConfigJointManager : MonoBehaviour
 
             for (int i = 0; i < joints.Length; i++)
             {
-                joints[i].targetRotation = CalculateJointRotation(joints[i], bone, target.localRotation);
+                joints[i].targetRotation = CalculateJointRotation(joints[i], bone, targetRotation);
             }
             //gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetPosition = originalJointTransforms[bone].position - target.position;
         }
@@ -342,17 +342,12 @@ public class ConfigJointManager : MonoBehaviour
                     if (freeJoint != joint)
                     {
                         
-                        joint.angularXMotion = ConfigurableJointMotion.Limited;
+                        joint.angularXMotion = ConfigurableJointMotion.Locked;
                     }
                     else
                     {
                         joint.angularXMotion = ConfigurableJointMotion.Free;
                     }
-                    
-                    //we set the angular drives to 0, so that the joint cannot enforce the target rotation and will not counter external forces (gravity).
-                    JointDrive drive = new JointDrive();
-                    joint.angularXDrive = joint.angularYZDrive = drive;
-                    
                 }
             }
         }

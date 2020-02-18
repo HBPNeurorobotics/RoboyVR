@@ -23,6 +23,7 @@ public class AvatarManager : MonoBehaviour
     BodyGroups bodyGroupsTarget;
 
     ConfigJointManager configJointManager;
+    LatencyHandler latencyHandler;
 
     Animator animatorRemoteAvatar;
     Animator animatorLocalAvatar;
@@ -39,6 +40,7 @@ public class AvatarManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        latencyHandler = GetComponent<LatencyHandler>();
         InitializeBodyStructures();
     }
 
@@ -52,10 +54,10 @@ public class AvatarManager : MonoBehaviour
         else
         {
             //UpdatePDControllers();
-            if (configJointManager.inputByManager && !tuningInProgress)
+            if (configJointManager.inputByManager && !tuningInProgress && latencyHandler.latency_ms == 0)
             {
-                //UpdateJoints();
-                UpdateJointsRecursive(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
+                UpdateJoints();
+                //UpdateJointsRecursive(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
                 
             }
         }
@@ -233,7 +235,7 @@ public class AvatarManager : MonoBehaviour
             gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().SetDestination(gameObjectPerBoneLocalAvatar[bone].transform, targetRb.velocity);
         }
     }
-
+    /*
     void UpdateVacuumBreatherPIDControllers()
     {
         foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
@@ -241,28 +243,13 @@ public class AvatarManager : MonoBehaviour
             gameObjectPerBoneRemoteAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().DesiredOrientation = gameObjectPerBoneLocalAvatar[bone].transform.rotation;
         }
     }
-
-    /*void UpdateMerchVRPIDControllers()
-    {
-        foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
-        {
-            gameObjectPerBoneRemoteAvatar[bone].GetComponent<PIDControllerCombined>().pidPosition.UpdateTarget(gameObjectPerBoneTarget[bone].transform.position);
-            gameObjectPerBoneRemoteAvatar[bone].GetComponent<PIDControllerCombined>().pidRotation.UpdateTarget(gameObjectPerBoneTarget[bone].transform.rotation);
-            gameObjectPerBoneRemoteAvatar[bone].GetComponent<PIDControllerCombined>().pidVelocity.UpdateTarget(gameObjectPerBoneTarget[bone].GetComponent<Rigidbody>().velocity, 1);
-        }
-    }
     */
-
 
     void UpdateJoints()
     {
-        //Transform rootBone = gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform;
-        //UpdateJointsRecursive(rootBone);
         foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
         {
-            //gameObjectPerBoneRemoteAvatar[bone].GetComponent<Rigidbody>().freezeRotation = false;
-            Rigidbody targetRigidbody = gameObjectPerBoneLocalAvatar[bone].GetComponent<Rigidbody>();
-            configJointManager.SetTagetTransform(bone, gameObjectPerBoneLocalAvatar[bone].transform);
+            configJointManager.SetTagetRotation(bone, gameObjectPerBoneLocalAvatar[bone].transform.localRotation);
         }
     }
 
@@ -297,7 +284,7 @@ public class AvatarManager : MonoBehaviour
     {
         foreach (HumanBodyBones bone in bonesInOrder)
         {
-            configJointManager.SetTagetTransform(bone, gameObjectPerBoneLocalAvatar[bone].transform);
+            configJointManager.SetTagetRotation(bone, gameObjectPerBoneLocalAvatar[bone].transform.localRotation);
         }
     }
     /*
