@@ -12,7 +12,7 @@ public class LatencyHandler : MonoBehaviour {
 	AvatarManager avatarManager;
 	// Use this for initialization
 	void Start () {
-		bufferSize = Physics.defaultSolverIterations * bufferTime;
+		bufferSize = Physics.defaultSolverIterations * bufferTime; //we create a reasonably large buffer
 
 		jointManager = GetComponent<ConfigJointManager>();
 		avatarManager = GetComponent<AvatarManager>();
@@ -20,16 +20,19 @@ public class LatencyHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		Dictionary<HumanBodyBones, Quaternion> newIKData = GetIKBufferData();
-
-		iKDataBuffer.Enqueue(newIKData);
-
-		//Caps the amount of data that can be buffered
-		if(iKDataBuffer.Count == bufferSize)
+		if (latency_ms != 0)
 		{
-			iKDataBuffer.Dequeue();
+			Dictionary<HumanBodyBones, Quaternion> newIKData = GetIKBufferData();
+
+			iKDataBuffer.Enqueue(newIKData);
+
+			//Caps the amount of data that can be buffered
+			if (iKDataBuffer.Count == bufferSize)
+			{
+				iKDataBuffer.Dequeue();
+			}
+			StartCoroutine(WaitUntilLatencyTimePassed());
 		}
-		StartCoroutine(WaitUntilLatencyTimePassed());
 	}
 
 	Dictionary<HumanBodyBones, Quaternion> GetIKBufferData()

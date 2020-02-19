@@ -9699,7 +9699,7 @@ MonoBehaviour:
   RelayTargetAngle: 0
   RelayStartAngle: 15
   TestWarmupSeconds: 15
-  TestDurationSeconds: 15
+  TestDurationSeconds: 30
   mirror: 1
   showUnneededJoints: 0
 --- !u!114 &824985317
@@ -22885,7 +22885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bufferTime: 2
-  latency_ms: 100
+  latency_ms: 0
 --- !u!114 &1690760951
 MonoBehaviour:
   m_ObjectHideFlags: 0

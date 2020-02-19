@@ -131,7 +131,7 @@ namespace PIDTuning
                 if (!gazebo && fromTuneAll && currentJoint.lowAngularXLimit.limit == 0 && currentJoint.highAngularXLimit.limit == 0)
                 {
                     Debug.Log("Skipped " + joint + " because of angular limit 0");
-                    yield return new WaitForFixedUpdate();
+                    yield return null;//new WaitForFixedUpdate();
                 }
                 else
                 {
@@ -187,7 +187,6 @@ namespace PIDTuning
         private IEnumerator RunBangBangEvaluation(string joint, Box<PidStepData> evaluation, bool gazebo, bool fromTuneAll)
         {
             // TODO: Explain all of this m8
-            float relayConstantForce = RelayConstantForce;
             TimeSpan warmupSeconds = TimeSpan.FromSeconds(TestWarmupSeconds);
             TimeSpan measurementSeconds = TimeSpan.FromSeconds(TestDurationSeconds);
 
@@ -204,7 +203,7 @@ namespace PIDTuning
 
             // Disable PID controller
             _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 1e10f); 
-            _pidConfigStorage.TransmitFullConfiguration(false, relayConstantForce, mirror);
+            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
 
             //Disable ConfigurableJoint
             UserAvatarService.Instance._avatarManager.tuningInProgress = true;
@@ -245,8 +244,8 @@ namespace PIDTuning
 
             while (DateTime.Now - startTime < warmupSeconds)
             {
-                yield return gazebo ? null : new WaitForFixedUpdate();
-                AdjustRelayForce(joint, gazebo, relayConstantForce, radius, totalMass, bodyPart, configurableJoint);
+                yield return null;//gazebo ? null : new WaitForFixedUpdate();
+                AdjustRelayForce(joint, gazebo, RelayConstantForce, radius, totalMass, bodyPart, configurableJoint);
             }
 
             bool valueFound = false;
@@ -263,8 +262,8 @@ namespace PIDTuning
                 while (DateTime.Now - startTime < measurementSeconds)
                 {
                     //We have to update in sync with the physics for better results
-                    yield return gazebo ? null : new WaitForFixedUpdate();
-                    AdjustRelayForce(joint, gazebo, relayConstantForce, radius, totalMass, bodyPart, configurableJoint);
+                    yield return null;//gazebo ? null : new WaitForFixedUpdate();
+                    AdjustRelayForce(joint, gazebo, RelayConstantForce, radius, totalMass, bodyPart, configurableJoint);
                 }
 
                 // Stop the test and collect data
@@ -278,7 +277,7 @@ namespace PIDTuning
             }
 
             //save values for EditAvatarTemplate -> data would be lost after exiting play mode
-            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, relayConstantForce, mirror);
+            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, RelayConstantForce, mirror);
 
             // Get rid of any force
             SetConstantForceForJoint(joint, 0f, 1, 1, gazebo, bodyPart, configurableJoint);
@@ -289,7 +288,7 @@ namespace PIDTuning
             UserAvatarService.Instance._avatarManager.tuningInProgress = false;
 
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
-            _pidConfigStorage.TransmitFullConfiguration(false, relayConstantForce, mirror);
+            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
 
             LastTuningData = TuningResult.GenerateFromOscillation(joint, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
             // Acquire the final tuned parameters
@@ -300,7 +299,7 @@ namespace PIDTuning
             _pidConfigStorage.TransmitSingleJointConfiguration(joint, RelayConstantForce);
 
 
-            yield return gazebo ? null : new WaitForFixedUpdate();
+            yield return null;//gazebo ? null : new WaitForFixedUpdate();
 
         }
 

@@ -60,6 +60,7 @@ namespace PIDTuning
         public void ResetUserAvatar()
         {
             PrepareRigForPlayback();
+            _localAvatar.transform.position = new Vector3(0, _localAvatar.transform.position.y, 0);
             Animator.Play("idle");
         }
 

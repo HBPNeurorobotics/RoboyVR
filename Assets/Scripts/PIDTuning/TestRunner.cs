@@ -140,7 +140,23 @@ namespace PIDTuning
             // We copy the current PID configuration here so that the user cannot accidentally modify it during the test.
             // (They still can do that if they transmit a new configuration, but in that case that's their own fault.)
             var testRunPidConfig = new PidConfiguration(PidConfigurationStorage.Configuration);
-            PidConfigurationStorage.TransmitFullConfiguration();
+            if (!UserAvatarService.Instance.use_gazebo)
+            {
+                PidConfiguration config = new PidConfiguration(DateTime.UtcNow);
+                foreach (var joint in _poseErrorTracker.GetJointNames())
+                {
+                    ConfigurableJoint configurableJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+                    config.Mapping.Add(joint, PidParameters.FromParallelForm(configurableJoint.angularXDrive.positionSpring, 0, configurableJoint.angularXDrive.positionDamper));
+                }
+
+                testRunPidConfig = config;
+            }
+            else
+            { 
+                PidConfigurationStorage.TransmitFullConfiguration();
+            }
+
+            
 
             // Run Simulation Loop and record data
             // -----------------------------------------------------------------------------------

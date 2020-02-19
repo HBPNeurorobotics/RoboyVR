@@ -14382,11 +14382,11 @@ ConfigurableJoint:
   m_GameObject: {fileID: 1240104721492620}
   m_ConnectedBody: {fileID: 54590933117591058}
   m_Anchor: {x: 0, y: 0, z: 0}
-  m_Axis: {x: 0, y: -1, z: 0}
+  m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: -0.03675449, y: -0.021219978, z: 0.021220116}
   serializedVersion: 2
-  m_SecondaryAxis: {x: 1, y: 0, z: 0}
+  m_SecondaryAxis: {x: -1, y: 0, z: 0}
   m_XMotion: 0
   m_YMotion: 0
   m_ZMotion: 0
@@ -14404,11 +14404,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: -70
+    limit: 40
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: -40
+    limit: 70
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -15134,7 +15134,7 @@ ConfigurableJoint:
   m_GameObject: {fileID: 1222051894573212}
   m_ConnectedBody: {fileID: 54007659121036288}
   m_Anchor: {x: 0, y: 0, z: 0}
-  m_Axis: {x: 0, y: -1, z: 0}
+  m_Axis: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: -0.2740468, y: 0.00000035872822, z: 0.00000006695247}
   serializedVersion: 2
@@ -15156,11 +15156,11 @@ ConfigurableJoint:
     spring: 0
     damper: 0
   m_LowAngularXLimit:
-    limit: 0
+    limit: -160
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 160
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
