@@ -108,7 +108,7 @@ public class BodyMass
     public void SetTotalMass(float totalMassKg)
     {
         this.totalMassKg = totalMassKg;
-        SetBodyMasses();
+        SetBodyMasses(false);
     }
     /// <summary>
     /// Sets the mass of all body parts to be equal to 1.
@@ -126,13 +126,23 @@ public class BodyMass
         }
     }
 
-    public void SetBodyMasses()
+    public void SetBodyMasses(bool optimized)
     {
         foreach (HumanBodyBones bone in dict.Keys)
         {
+            float mass = 0;
+            if(optimized && (bone.ToString().Contains("Hand") || bone.ToString().Contains("Thumb") || bone.ToString().Contains("Index") || bone.ToString().Contains("Middle") || bone.ToString().Contains("Ring") || bone.ToString().Contains("Little")))
+            {
+                mass = 1;
+            }
+            else
+            {
+                mass = DetermineMassOfBodyPart(bone);
+            }
+
             if (dict[bone].GetComponent<Rigidbody>() != null)
             {
-                dict[bone].GetComponent<Rigidbody>().mass = DetermineMassOfBodyPart(bone);
+                dict[bone].GetComponent<Rigidbody>().mass = mass;
                 dict[bone].GetComponent<Rigidbody>().centerOfMass = DetermineCenterOfMass(bone);
             }
         }

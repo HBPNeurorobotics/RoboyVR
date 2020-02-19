@@ -202,7 +202,7 @@ namespace PIDTuning
             var oldPidParameters = _pidConfigStorage.Configuration.Mapping[joint];
 
             // Disable PID controller
-            _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 1e10f); 
+            _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 0.1f); 
             _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
 
             //Disable ConfigurableJoint
@@ -244,7 +244,7 @@ namespace PIDTuning
 
             while (DateTime.Now - startTime < warmupSeconds)
             {
-                yield return null;//gazebo ? null : new WaitForFixedUpdate();
+                yield return gazebo ? null : new WaitForFixedUpdate();
                 AdjustRelayForce(joint, gazebo, RelayConstantForce, radius, totalMass, bodyPart, configurableJoint);
             }
 
@@ -253,7 +253,7 @@ namespace PIDTuning
             
             while (!valueFound)
             {
-                Debug.Log("Tuning " + joint + ", iteration #"+  iteration);
+                Debug.Log("Tuning " + joint + ", iteration #"+  iteration + " mass: " + totalMass);
                 _testRunner.ResetTestRunner();
                 _testRunner.StartManualRecord();
 
@@ -262,7 +262,7 @@ namespace PIDTuning
                 while (DateTime.Now - startTime < measurementSeconds)
                 {
                     //We have to update in sync with the physics for better results
-                    yield return null;//gazebo ? null : new WaitForFixedUpdate();
+                    yield return gazebo ? null : new WaitForFixedUpdate();
                     AdjustRelayForce(joint, gazebo, RelayConstantForce, radius, totalMass, bodyPart, configurableJoint);
                 }
 
@@ -298,8 +298,7 @@ namespace PIDTuning
             _pidConfigStorage.Configuration.Mapping[joint] = tunedPid;
             _pidConfigStorage.TransmitSingleJointConfiguration(joint, RelayConstantForce);
 
-
-            yield return null;//gazebo ? null : new WaitForFixedUpdate();
+            yield return gazebo ? null : new WaitForFixedUpdate();
 
         }
 
@@ -352,9 +351,9 @@ namespace PIDTuning
 
                         rb.angularVelocity += Time.fixedDeltaTime * jointInScene.axis * force / combinedMass;
                         */
-                        
-                        
-                        jointInScene.targetAngularVelocity = Mathf.Sign(force) * new Vector3(Mathf.Sqrt(Mathf.Abs(force)/(totalMass * radius)), 0, 0);
+
+
+                        jointInScene.targetAngularVelocity = Mathf.Sign(force) * new Vector3(1e8f, 0, 0);//Mathf.Sqrt(Mathf.Abs(force)/(totalMass * radius)), 0, 0);
                     }
                 }
             }

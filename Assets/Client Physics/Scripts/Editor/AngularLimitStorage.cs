@@ -13,5 +13,6 @@ public class AngularLimitStorage {
         this.zLowLimit = zLowLimit;
         this.yHighLimit = yHighLimit;
         this.zHighLimit = zHighLimit;
+
     }
 }

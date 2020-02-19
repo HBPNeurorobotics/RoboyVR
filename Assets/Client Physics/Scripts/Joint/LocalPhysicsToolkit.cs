@@ -27,14 +27,14 @@ public static class LocalPhysicsToolkit
          * --> rotates world coordinates to align with joint coordinates
         */
 
-        //check whether there has been a rotation
+        //check whether there has been a rotation, insert a small artificial rotation so that Quaternion.LookRotation will not throw an error.
         if (jointYAxis == Vector3.zero && jointZAxis == Vector3.zero)
         {
             jointYAxis.y += 0.00001f;
             jointYAxis.z += 0.00001f;
         }
 
-            return Quaternion.LookRotation(jointYAxis, jointZAxis);
+        return Quaternion.LookRotation(jointYAxis, jointZAxis);
     }
 
     public static void SetJointSettings(ConfigurableJoint joint, JointSettings settings)

@@ -54,6 +54,8 @@ public class EditAvatarTemplate : EditorWindow
     bool gatheredTemplateSettings;
     bool gatheredTuningSettings;
     bool restoredAvatarSettings;
+
+    Dictionary<HumanBodyBones, GameObject> massTemplate = new Dictionary<HumanBodyBones, GameObject>();
     #endregion
 
     #region Dictionaries and HashSets
@@ -188,42 +190,32 @@ public class EditAvatarTemplate : EditorWindow
 
             GUILayout.BeginHorizontal();
 
-            Dictionary<HumanBodyBones, GameObject> massTemplate = basedOnMultipleJoints ? gameObjectsPerBoneTemplate : gameObjectsPerBoneTemplateMultiple;
+            massTemplate = basedOnMultipleJoints ? gameObjectsPerBoneTemplate : gameObjectsPerBoneTemplateMultiple;
 
             if (GUILayout.Button("Set BodyMass"))
             {
                 bodyMass = new BodyMass(bodyWeight, massTemplate, mode);
-                bodyMass.SetBodyMasses();
+                bodyMass.SetBodyMasses(false);
 
-                foreach (HumanBodyBones bone in jointSettings.Keys)
-                {
-                    if (massTemplate.ContainsKey(bone))
-                    {
-                        //mass is the same for all joints of one body part
-                        foreach (JointSettings settings in jointSettings[bone].Values)
-                        {
-                            settings.mass = massTemplate[bone].GetComponent<Rigidbody>().mass;
-                        }
-                    }
-                }
+                ApplyMassesToSettings();
+            }
+
+            if (GUILayout.Button("Set BodyMass (Optimized)"))
+            {
+                bodyMass = new BodyMass(bodyWeight, massTemplate, mode);
+                bodyMass.SetBodyMasses(true);
+
+                ApplyMassesToSettings();
             }
 
             if (GUILayout.Button("Restore 1 Mass"))
             {
                 bodyMass = new BodyMass(bodyWeight, massTemplate, mode);
                 bodyMass.RestoreOneValues();
+                ApplyMassesToSettings();
 
-                foreach (HumanBodyBones bone in jointSettings.Keys)
-                {
-                    if (massTemplate.ContainsKey(bone))
-                    {
-                        foreach (JointSettings settings in jointSettings[bone].Values)
-                        {
-                            settings.mass = massTemplate[bone].GetComponent<Rigidbody>().mass;
-                        }
-                    }
-                }
             }
+
             GUILayout.EndHorizontal();
 
             GUI.enabled = true;
@@ -679,6 +671,20 @@ public class EditAvatarTemplate : EditorWindow
         }
     }
     */
+
+    void ApplyMassesToSettings()
+    {
+        foreach (HumanBodyBones bone in jointSettings.Keys)
+        {
+            if (massTemplate.ContainsKey(bone))
+            {
+                foreach (JointSettings settings in jointSettings[bone].Values)
+                {
+                    settings.mass = massTemplate[bone].GetComponent<Rigidbody>().mass;
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// Called on update press to copy changes made to the TemplateAvatar to the TemplateAvatarMutlipleJoints. 

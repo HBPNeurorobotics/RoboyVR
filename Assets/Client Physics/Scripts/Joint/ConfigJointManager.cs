@@ -169,6 +169,13 @@ public class ConfigJointManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculates the desired target rotation in joint space (based on https://gist.github.com/mstevenson/4958837)
+    /// </summary>
+    /// <param name="joint"></param>
+    /// <param name="bone"></param>
+    /// <param name="targetRotation"></param>
+    /// <returns></returns>
     Quaternion CalculateJointRotation(ConfigurableJoint joint, HumanBodyBones bone, Quaternion targetRotation)
     {
 
@@ -224,7 +231,7 @@ public class ConfigJointManager : MonoBehaviour
         {
             Debug.Log(transformAtStart.localRotation);
         }
-        */
+        
 
         //description of the joint space
         //the x axis of the joint space
@@ -233,20 +240,21 @@ public class ConfigJointManager : MonoBehaviour
         Vector3 jointYAxis = Vector3.Cross(joint.axis, joint.secondaryAxis).normalized;
         //the z axis of the joint space
         Vector3 jointZAxis = Vector3.Cross(jointYAxis, jointXAxis).normalized;
+        */
+
         /*
          * Z axis will be aligned with forward
          * X axis aligned with cross product between forward and upwards
          * Y axis aligned with cross product between Z and X.
          * --> rotates world coordinates to align with joint coordinates
         */
-
         Quaternion worldToJointSpace = LocalPhysicsToolkit.GetWorldToJointRotation(joint);
+
         /* 
          * turn joint space to align with world
          * perform rotation in world
          * turn joint back into joint space
         */
-
         Quaternion resultRotation = Quaternion.Inverse(worldToJointSpace) *
                                     Quaternion.Inverse(targetRotation) *
                                     quaternionFromBoneAtStart[bone] *
