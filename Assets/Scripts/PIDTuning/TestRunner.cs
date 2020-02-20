@@ -340,8 +340,8 @@ namespace PIDTuning
         public void SaveTestData()
         {
             Assert.AreEqual(State, TestRunnerState.FinishedTest);
-
-            var outputFolder = Path.Combine(Application.dataPath, "../PidStepData");
+            string dataPath = Application.dataPath.Replace('/', Path.DirectorySeparatorChar);
+            var outputFolder = Path.Combine(dataPath, "PidStepData");
             var testRunFolder = Path.Combine(outputFolder, CurrentTestLabel + "-" + _latestTestTimestamp.Value.ToFileTimeUtc());
 
             Directory.CreateDirectory(outputFolder);
@@ -362,6 +362,7 @@ namespace PIDTuning
                 }
 
                 File.WriteAllText(Path.Combine(animationDirectory, "eval.json"), LatestAnimationToEvaluation[animation.Key].ToJson().ToString());
+                Debug.Log(animationDirectory);
             }
         }
     }

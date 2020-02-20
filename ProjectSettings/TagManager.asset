@@ -13,6 +13,7 @@ TagManager:
   - UserAvatar
   - TemplateMultiple
   - Colliders
+  - Test
   layers:
   - Default
   - TransparentFX
@@ -36,8 +37,8 @@ TagManager:
   - LeftHand
   - RightHand
   - StereoRender_Ignore
-  - 
-  - 
+  - Environment
+  - TestHelper
   - 
   - 
   - 
