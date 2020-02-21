@@ -11,6 +11,9 @@ public class Pickup : MonoBehaviour {
 	Vector3 startPos = new Vector3();
 	Quaternion startRot = new Quaternion();
 	bool handContact, proximalContact, grabbed;
+    public Color defaultCol;
+
+    public float timeA, timeB, timeC, timeD;
 
     void Start()
     {
@@ -95,4 +98,31 @@ public class Pickup : MonoBehaviour {
 		}
 	}
 	*/
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.name.Equals("SectionA"))
+        {
+            timeA += Time.deltaTime;
+        }
+        else if (other.name.Equals("SectionB"))
+        {
+            timeB += Time.deltaTime;
+        }
+        else if (other.name.Equals("SectionC"))
+        {
+            timeC += Time.deltaTime;
+        }
+        else if (other.name.Equals("SectionD"))
+        {
+            timeD += Time.deltaTime;
+        }
+
+        other.gameObject.GetComponent<MeshRenderer>().material.color = new Vector4(1,0,0, defaultCol.a);
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        other.gameObject.GetComponent<MeshRenderer>().material.color = defaultCol;
+    }
 }
