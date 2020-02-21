@@ -26,8 +26,8 @@ public class CheckPickup : MonoBehaviour {
 			}
 			else if (transform.name.Equals("1"))
 			{
-				Debug.Log("Hand");
-				pickup.HandContact(transform);
+				Debug.Log("Hand Contact");
+				pickup.HandContact(transform.GetChild(0));
 			}
 		}
 		

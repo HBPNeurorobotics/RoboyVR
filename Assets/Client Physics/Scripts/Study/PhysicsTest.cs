@@ -7,10 +7,12 @@ public class PhysicsTest : MonoBehaviour {
 	public PIDTuning.TestRunner pidTestRunner;
 
 	float startTime;
-	int grabTries = 0;
+	int grabTries = 1;
 	float timeUntilGrabbed;
 	bool countTimeUntilGrabbed = true;
+	bool savedPhaseOneTime;
 	float timePhaseOne;
+	
 
 	// Use this for initialization
 	void Start () {
@@ -40,8 +42,12 @@ public class PhysicsTest : MonoBehaviour {
 		}
 		else
 		{
-			timePhaseOne = startTime - timeUntilGrabbed;
-			Debug.Log("Item grabbed in " + timePhaseOne + " seconds");
+			if (!savedPhaseOneTime)
+			{
+				timePhaseOne = timeUntilGrabbed - startTime;
+				Debug.Log("Item grabbed in " + timePhaseOne + " seconds" + " with " + grabTries + " tries");
+				savedPhaseOneTime = true;
+			}
 		}
 	}
 
