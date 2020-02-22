@@ -1,0 +1,740 @@
+{
+  "createdTimestamp": "132268538967714508",
+  "mapping": {
+    "LeftUpperLegX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftUpperLegY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftUpperLegZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightUpperLegX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightUpperLegY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightUpperLegZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "SpineX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "SpineY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "SpineZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLowerLegX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLowerLegY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLowerLegZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLowerLegX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLowerLegY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLowerLegZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "ChestX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "ChestY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "ChestZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftFootX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftFootY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftFootZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightFootX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightFootY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightFootZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "UpperChestX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "UpperChestY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "UpperChestZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "NeckX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "NeckY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "NeckZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftToesX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftToesY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftToesZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightToesX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightToesY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightToesZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "HeadX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "HeadY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "HeadZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftUpperArmX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftUpperArmY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftUpperArmZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightUpperArmX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightUpperArmY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightUpperArmZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLowerArmX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLowerArmY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLowerArmZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLowerArmX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLowerArmY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLowerArmZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftHandX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftHandY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftHandZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightHandX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightHandY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightHandZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftThumbProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftThumbProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftThumbProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftIndexProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftIndexProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftIndexProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftRingProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftRingProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftRingProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLittleProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLittleProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLittleProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightThumbProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightThumbProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightThumbProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightIndexProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightIndexProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightIndexProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightMiddleProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightMiddleProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightMiddleProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightRingProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightRingProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightRingProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLittleProximalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLittleProximalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLittleProximalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftThumbIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftThumbIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftThumbIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftIndexIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftIndexIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftIndexIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftRingIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftRingIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftRingIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLittleIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLittleIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLittleIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightThumbIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightThumbIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightThumbIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightIndexIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightIndexIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightIndexIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightMiddleIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightMiddleIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightMiddleIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightRingIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightRingIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightRingIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLittleIntermediateX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLittleIntermediateY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLittleIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftThumbDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftThumbDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftThumbDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftIndexDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftIndexDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftIndexDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftRingDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftRingDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftRingDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLittleDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLittleDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "LeftLittleDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightThumbDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightThumbDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightThumbDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightIndexDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightIndexDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightIndexDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightMiddleDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightMiddleDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightMiddleDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightRingDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightRingDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightRingDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLittleDistalX": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLittleDistalY": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    },
+    "RightLittleDistalZ": {
+      "kp": 10000.0,
+      "ki": 1000.0,
+      "kd": 1000.0
+    }
+  }
+}

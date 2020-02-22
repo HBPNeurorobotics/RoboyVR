@@ -24,7 +24,7 @@ public class CheckPickup : MonoBehaviour {
 			{
 				pickup.Reset();
 			}
-			else if (transform.name.Equals("1"))
+			else if (transform.name.Equals("LeftTrigger") || transform.name.Equals("RightTrigger"))
 			{
 				Debug.Log("Hand Contact");
 				pickup.HandContact(transform.GetChild(0));

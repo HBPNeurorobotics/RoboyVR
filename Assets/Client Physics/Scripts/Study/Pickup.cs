@@ -6,7 +6,7 @@ public class Pickup : MonoBehaviour {
 
 	// Use this for initialization
 	public PhysicsTest test;
-	public GameObject handTrigger, respawnTrigger;
+	public GameObject handTriggerLeft, handTriggerRight, respawnTrigger;
 
     public Color defaultCol;
 
@@ -16,24 +16,31 @@ public class Pickup : MonoBehaviour {
 	Transform hand;
 	Vector3 startPos = new Vector3();
 	Quaternion startRot = new Quaternion();
-	bool handContact, proximalContact, grabbed, testFinished;
+	bool handContact, grabDone, grabbed, testFinished;
 
     void Start()
     {
 
-        startPos = transform.position;
+        startPos = test.righthanded ? new Vector3(-transform.position.x, transform.position.y, transform.position.z) : transform.position;
         startRot = transform.rotation;
 
+        PrepareHandTrigger(handTriggerLeft);
+        PrepareHandTrigger(handTriggerRight);
+        
+    }
+
+    void PrepareHandTrigger(GameObject trigger)
+    {
         Vector3 com = Vector3.zero;
         Vector3 inertiaTensor = Vector3.one;
-        Rigidbody parent = handTrigger.transform.parent.gameObject.GetComponent<Rigidbody>();
+        Rigidbody parent = trigger.transform.parent.gameObject.GetComponent<Rigidbody>();
         if (parent != null)
         {
             com = parent.centerOfMass;
             inertiaTensor = parent.inertiaTensor;
         }
 
-        handTrigger.SetActive(true);
+        trigger.SetActive(true);
 
         if (parent != null)
         {
@@ -42,27 +49,32 @@ public class Pickup : MonoBehaviour {
         }
     }
 
+
     // Update is called once per frame
     void FixedUpdate () {
         if (!grabbed && handContact)
         {
             grabbed = true;
             //transform.parent = hand;
+            handTriggerLeft.GetComponent<Collider>().enabled = false;
+            handTriggerRight.GetComponent<Collider>().enabled = false;
 
-            handTrigger.GetComponent<Collider>().enabled = false;
-
-            test.SetCountTimeUntilGrabbed(true);
+            test.StopCountTimeUntilGrabbed(true);
         }
-        if (grabbed)
+        if (grabbed && !grabDone)
         {
             respawnTrigger.SetActive(false);
 
             //Follow Hand
+
             GetComponent<Rigidbody>().isKinematic = true;
+            GetComponent<Collider>().isTrigger = true;
 
             transform.parent = hand;
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
+
+            grabDone = true;
         }
     }
 
@@ -78,15 +90,8 @@ public class Pickup : MonoBehaviour {
 		handContact = true;
 		hand = toFollow;
         Debug.Log(hand.name);
-        if (hand.name.Contains("Left"))
-        {
-            gameObject.layer = 10;
-        }
-        else if (hand.name.Contains("Right"))
-        {
-            gameObject.layer = 11;
-        }
-        test.SetCountTimeUntilFinished(false);
+        gameObject.layer = 23;
+        test.StopCountTimeUntilFinished(false);
     }
 
     void OnTriggerEnter(Collider other)
@@ -103,7 +108,10 @@ public class Pickup : MonoBehaviour {
                 case "SectionC2":
                 case "SectionD1":
                 case "SectionD2": other.gameObject.GetComponent<MeshRenderer>().material.color = new Vector4(1, 0, 0, defaultCol.a); break;
-                case "FinishLine": testFinished = true; test.SetCountTimeUntilFinished(true); break;
+                case "FinishLine": Debug.Log("Finished");  
+                                   testFinished = true; 
+                                   test.StopCountTimeUntilFinished(true);
+                                   break;
                 default: break;
             }
         }

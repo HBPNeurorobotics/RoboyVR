@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 
 public class PhysicsTest : MonoBehaviour {
+	public bool righthanded = true;
 	public int participantID = 0;
 	public LatencyHandler latencyHandler;
 	public PIDTuning.TestRunner pidTestRunner;
@@ -14,6 +15,8 @@ public class PhysicsTest : MonoBehaviour {
 	public int highLatency = 120;
 	public int chosenLatency = 0;
 	public Pickup pickupObj;
+	public Transform phaseOne;
+	public Transform phaseTwo;
 	int grabTries = 1;
 	float timeUntilGrabbed, timePhaseOne, timeUntilFinishLine, timePhaseTwo;
 	bool countTimeUntilGrabbed = true;
@@ -23,9 +26,23 @@ public class PhysicsTest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		if (righthanded)
+		{
+			pickupObj.transform.position = new Vector3(-pickupObj.transform.position.x, pickupObj.transform.position.y, pickupObj.transform.position.z);
+			PrepareRightHanded(phaseOne);
+			PrepareRightHanded(phaseTwo);
+		}
 		participantID = Random.Range(0, 100000);
 		pidTestRunner.ResetTestRunner();
 		pidTestRunner.StartManualRecord();
+	}
+
+	void PrepareRightHanded(Transform parent)
+	{
+		foreach(Transform child in parent)
+		{
+			child.position = new Vector3(-child.position.x, child.position.y, child.position.z);
+		}
 	}
 	
 	void Update()
@@ -100,12 +117,12 @@ public class PhysicsTest : MonoBehaviour {
 		}
 	}
 
-	public void SetCountTimeUntilGrabbed(bool hasGrabbed)
+	public void StopCountTimeUntilGrabbed(bool hasGrabbed)
 	{
 		countTimeUntilGrabbed = !hasGrabbed;
 	}
 
-	public void SetCountTimeUntilFinished(bool hasFinished)
+	public void StopCountTimeUntilFinished(bool hasFinished)
 	{
 		countTimeUntilFinishLine = !hasFinished;
 	}
@@ -117,7 +134,7 @@ public class PhysicsTest : MonoBehaviour {
 
 	public void TestWrapUp()
 	{
-
+		SaveResults();
 	}
 
 	void SaveResults()
