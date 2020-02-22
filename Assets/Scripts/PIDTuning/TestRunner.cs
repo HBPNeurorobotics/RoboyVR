@@ -337,12 +337,12 @@ namespace PIDTuning
             State = TestRunnerState.Ready;
         }
 
-        public void SaveTestData()
+        public void SaveTestData(bool isPhysicsTest = false, string folder = "")
         {
             Assert.AreEqual(State, TestRunnerState.FinishedTest);
             string dataPath = Application.dataPath.Replace('/', Path.DirectorySeparatorChar);
             var outputFolder = Path.Combine(dataPath, "PidStepData");
-            var testRunFolder = Path.Combine(outputFolder, CurrentTestLabel + "-" + _latestTestTimestamp.Value.ToFileTimeUtc());
+            var testRunFolder = isPhysicsTest ? folder : Path.Combine(outputFolder, CurrentTestLabel + "-" + _latestTestTimestamp.Value.ToFileTimeUtc());
 
             Directory.CreateDirectory(outputFolder);
             Directory.CreateDirectory(testRunFolder);

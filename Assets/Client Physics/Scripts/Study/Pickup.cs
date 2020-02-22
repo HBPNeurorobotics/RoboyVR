@@ -7,13 +7,16 @@ public class Pickup : MonoBehaviour {
 	// Use this for initialization
 	public PhysicsTest test;
 	public GameObject handTrigger, respawnTrigger;
+
+    public Color defaultCol;
+
+    public float timeA1, timeB1, timeC1, timeD1;
+    public float timeA2, timeB2, timeC2, timeD2;
+
 	Transform hand;
 	Vector3 startPos = new Vector3();
 	Quaternion startRot = new Quaternion();
-	bool handContact, proximalContact, grabbed;
-    public Color defaultCol;
-
-    public float timeA, timeB, timeC, timeD;
+	bool handContact, proximalContact, grabbed, testFinished;
 
     void Start()
     {
@@ -56,10 +59,7 @@ public class Pickup : MonoBehaviour {
 
             //Follow Hand
             GetComponent<Rigidbody>().isKinematic = true;
-            /*
-            transform.position = new Vector3(hand.position.x - 0.1f, hand.position.y - 0.05f, hand.position.z);
-            transform.rotation = new Quaternion(hand.rotation.x, hand.rotation.y, hand.rotation.z, hand.rotation.w);
-            */
+
             transform.parent = hand;
             transform.localPosition = Vector3.zero;
             transform.localRotation = Quaternion.identity;
@@ -86,43 +86,62 @@ public class Pickup : MonoBehaviour {
         {
             gameObject.layer = 11;
         }
-
+        test.SetCountTimeUntilFinished(false);
     }
 
-    /*
-	void OnCollisionExit(Collision other)
-	{
-		if (!grabbed)
-		{
-			if (other.gameObject.name.Equals("1")) handContact = false;
-		}
-	}
-	*/
+    void OnTriggerEnter(Collider other)
+    {
+        if (!testFinished)
+        {
+            switch (other.name)
+            {
+                case "SectionA1":
+                case "SectionA2":
+                case "SectionB1":
+                case "SectionB2":
+                case "SectionC1":
+                case "SectionC2":
+                case "SectionD1":
+                case "SectionD2": other.gameObject.GetComponent<MeshRenderer>().material.color = new Vector4(1, 0, 0, defaultCol.a); break;
+                case "FinishLine": testFinished = true; test.SetCountTimeUntilFinished(true); break;
+                default: break;
+            }
+        }
+    }
 
     void OnTriggerStay(Collider other)
     {
-        if (other.name.Equals("SectionA"))
+        if (!testFinished)
         {
-            timeA += Time.deltaTime;
+            switch (other.name)
+            {
+                case "SectionA1": timeA1 += Time.deltaTime; break;
+                case "SectionA2": timeA2 += Time.deltaTime; break;
+                case "SectionB1": timeB1 += Time.deltaTime; break;
+                case "SectionB2": timeB2 += Time.deltaTime; break;
+                case "SectionC1": timeC1 += Time.deltaTime; break;
+                case "SectionC2": timeC2 += Time.deltaTime; break;
+                case "SectionD1": timeD1 += Time.deltaTime; break;
+                case "SectionD2": timeD2 += Time.deltaTime; break;
+                default: break;
+            }
         }
-        else if (other.name.Equals("SectionB"))
-        {
-            timeB += Time.deltaTime;
-        }
-        else if (other.name.Equals("SectionC"))
-        {
-            timeC += Time.deltaTime;
-        }
-        else if (other.name.Equals("SectionD"))
-        {
-            timeD += Time.deltaTime;
-        }
-
-        other.gameObject.GetComponent<MeshRenderer>().material.color = new Vector4(1,0,0, defaultCol.a);
     }
 
     void OnTriggerExit(Collider other)
     {
-        other.gameObject.GetComponent<MeshRenderer>().material.color = defaultCol;
+        switch (other.name)
+        {
+            case "SectionA1": 
+            case "SectionA2": 
+            case "SectionB1": 
+            case "SectionB2": 
+            case "SectionC1": 
+            case "SectionC2": 
+            case "SectionD1": 
+            case "SectionD2": other.gameObject.GetComponent<MeshRenderer>().material.color = defaultCol; break;
+            default: break;
+        }
+        
     }
 }
