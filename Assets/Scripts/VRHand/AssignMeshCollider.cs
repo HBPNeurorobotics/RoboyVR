@@ -60,8 +60,7 @@ public class AssignMeshCollider : MonoBehaviour {
 
     private bool initialized = false;
 
-    [SerializeField] private UserAvatarService userAvatarService;
-    [SerializeField] private GazeboSceneManager gzManager;
+    //[SerializeField] private UserAvatarService userAvatarService;
 
     private GameObject lHand_vib;
 
@@ -106,7 +105,7 @@ public class AssignMeshCollider : MonoBehaviour {
     private GameObject rPinky1_vib;
     private GameObject rPinky2_vib;
     private GameObject rPinky3_vib;
-
+    
     private bool test = false;
 
     // Use this for initialization
@@ -116,9 +115,8 @@ public class AssignMeshCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!initialized && userAvatarService.IsRemoteAvatarPresent) // delete test, then everything sould work
+		if(!initialized && UserAvatarService.Instance.IsRemoteAvatarPresent) // delete test, then everything sould work
         {
-            
             lHand_vib = GameObject.Find(lHand);
             lHand_vib.AddComponent<MeshCollider>();
 
