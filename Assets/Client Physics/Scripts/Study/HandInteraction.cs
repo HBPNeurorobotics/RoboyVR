@@ -2,31 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pickup : MonoBehaviour {
+public class HandInteraction : MonoBehaviour {
 
 	// Use this for initialization
 	public PhysicsTest test;
-	public GameObject handTriggerLeft, handTriggerRight, respawnTrigger;
+    public GameObject handTriggerLeft, handTriggerRight;
 
     public Color defaultCol;
 
     public float timeA1, timeB1, timeC1, timeD1;
     public float timeA2, timeB2, timeC2, timeD2;
 
-	Transform hand;
-	Vector3 startPos = new Vector3();
-	Quaternion startRot = new Quaternion();
+
 	bool handContact, grabDone, grabbed, testFinished;
 
     void Start()
     {
-
-        startPos = test.righthanded ? new Vector3(-transform.position.x, transform.position.y, transform.position.z) : transform.position;
-        startRot = transform.rotation;
-
         PrepareHandTrigger(handTriggerLeft);
         PrepareHandTrigger(handTriggerRight);
-        
     }
 
     void PrepareHandTrigger(GameObject trigger)
@@ -52,6 +45,7 @@ public class Pickup : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate () {
+        /*
         if (!grabbed && handContact)
         {
             grabbed = true;
@@ -67,8 +61,8 @@ public class Pickup : MonoBehaviour {
 
             //Follow Hand
 
-            GetComponent<Rigidbody>().isKinematic = true;
-            GetComponent<Collider>().isTrigger = true;
+            //GetComponent<Rigidbody>().isKinematic = true;
+            //GetComponent<Collider>().isTrigger = true;
 
             transform.parent = hand;
             transform.localPosition = Vector3.zero;
@@ -76,23 +70,9 @@ public class Pickup : MonoBehaviour {
 
             grabDone = true;
         }
+        */
     }
 
-	public void Reset()
-	{
-		test.IncrementTries();
-		transform.position = startPos;
-		transform.rotation = startRot;
-	}
-
-	public void HandContact(Transform toFollow)
-	{ 
-		handContact = true;
-		hand = toFollow;
-        Debug.Log(hand.name);
-        gameObject.layer = 23;
-        test.StopCountTimeUntilFinished(false);
-    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -110,7 +90,7 @@ public class Pickup : MonoBehaviour {
                 case "SectionD2": other.gameObject.GetComponent<MeshRenderer>().material.color = new Vector4(1, 0, 0, defaultCol.a); break;
                 case "FinishLine": Debug.Log("Finished");  
                                    testFinished = true; 
-                                   test.StopCountTimeUntilFinished(true);
+                                   //test.StopCountTimeUntilFinished(true);
                                    break;
                 default: break;
             }
