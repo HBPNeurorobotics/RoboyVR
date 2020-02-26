@@ -24,3 +24,5 @@ Use services -> BackendConfigService to enter IP and port config of your backend
 Have your VR setup running (HTC Vive tested). Add additional trackers for feet and body as desired.
 
 Use the "Grip" gesture of your input controller to spawn your virtual body.
+
+TIP: make sure the NRP simulation is running (not paused). No running physics engine means no movement of your robot body.
