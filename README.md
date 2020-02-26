@@ -18,3 +18,9 @@ For the user avatar model, make sure to set scale factor for all geometry (visua
 Open the project in Unity Editor, then load the NRPClient scene.
 
 Use services -> BackendConfigService to enter IP and port config of your backend.
+
+## VR Re-Embodiment / Spawning your own virtual body
+
+Have your VR setup running (HTC Vive tested). Add additional trackers for feet and body as desired.
+
+Use the "Grip" gesture of your input controller to spawn your virtual body.
