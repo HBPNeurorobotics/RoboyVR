@@ -150,7 +150,7 @@ public class PhysicsTest : MonoBehaviour {
                 else
                 {
 					//End Test & Save
-					SaveResults();
+					//SaveResults();
 					ResetTest();
                 }
             }
