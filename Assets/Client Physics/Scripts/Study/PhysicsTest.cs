@@ -119,7 +119,7 @@ public class PhysicsTest : MonoBehaviour {
 			boundsTimes.Add(bound.name, bound.timeSpent);
 		}
 
-		SuccessfullTask task = new SuccessfullTask(participantID, chosenLatency, boundsTimes, timeUntilCompletion);
+		SuccessfullTask task = new SuccessfullTask(boundsTimes, timeUntilCompletion);
 		completions.Add(task);
 
 		ResetTask();
@@ -131,69 +131,32 @@ public class PhysicsTest : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void FixedUpdate() {
+	void FixedUpdate()
+	{
 
-        if (run)
-        {
-            phaseRunTime += Time.deltaTime;
-            if (phaseRunTime > testDurationInS)
-            {
-				
-                if (phase.Equals(CheckFinish.PHASE.HAND))
-                {
+		if (run)
+		{
+			phaseRunTime += Time.deltaTime;
+			if (phaseRunTime > testDurationInS)
+			{
+
+				if (phase.Equals(CheckFinish.PHASE.HAND))
+				{
 					//Start foot test
-                    phaseHand.gameObject.SetActive(false);
-                    phaseFoot.gameObject.SetActive(true);
-                    phase = CheckFinish.PHASE.FOOT;
+					phaseHand.gameObject.SetActive(false);
+					phaseFoot.gameObject.SetActive(true);
+					phase = CheckFinish.PHASE.FOOT;
 					StartCoroutine(CountDown());
-                }
-                else
-                {
+				}
+				else
+				{
 					//End Test & Save
 					SaveResults();
 					ResetTest();
-                }
-            }
-        }
-        /*
-		if (countTimeUntilTouched)
-		{
-			timeUntilCompletion += Time.deltaTime;
-		}
-		else
-		{
-			if (!savedPhaseOneTime)
-			{
-				//Debug.Log("Item grabbed in " + timeUntilGrabbed + " seconds" + " with " + grabTries + " tries");
-				savedPhaseOneTime = true;
+				}
 			}
 		}
-		if (countTimeUntilFinishLine)
-		{
-			timeUntilFinishLine += Time.deltaTime;
-		}
-		else
-		{
-			if (!countTimeUntilTouched && !savedPhaseTwoTime)
-			{
-				Debug.Log("Finished Phase 2 in " + timeUntilFinishLine + " seconds");
-				savedPhaseTwoTime = true;
-				TestWrapUp();
-			}
-		}
-		*/
-    }
-	/*
-	public void StopCountTimeUntilGrabbed(bool hasGrabbed)
-	{
-		countTimeUntilTouched = !hasGrabbed;
 	}
-
-	public void StopCountTimeUntilFinished(bool hasFinished)
-	{
-		countTimeUntilFinishLine = !hasFinished;
-	}
-	*/
 
 	public void TestWrapUp()
 	{
@@ -213,36 +176,6 @@ public class PhysicsTest : MonoBehaviour {
 		pidTestRunner.StopManualRecord();
 		pidTestRunner.SaveTestData(true, folder);
 	}
-
-	class SuccessfullTask
-	{
-		int id;
-		float latency, completionTime;
-		Dictionary<string, float> bounds;
-		public SuccessfullTask(int id, float latency, Dictionary<string, float> bounds, float completionTime)
-		{
-			this.id = id;
-			this.latency = latency;
-			this.bounds = bounds;
-			this.completionTime = completionTime;
-		}
-
-		JObject ToJson()
-		{
-			JObject json = new JObject();
-
-			json["ID"] = id;
-			json["latency"] = latency;
-			json["timeUntilCompletion"] = completionTime;
-
-			foreach (string checkBound in bounds.Keys)
-			{
-				json[checkBound] = bounds[checkBound];
-			}
-
-			return json;
-		}
-	}
 	JObject ToJson()
 	{
 
@@ -251,6 +184,16 @@ public class PhysicsTest : MonoBehaviour {
 		json["ID"] = participantID;
 		json["latency"] = chosenLatency;
 		json["timeUntilCompletion"] = timeUntilCompletion;
+
+		foreach (SuccessfullTask task in handCompletions)
+		{
+
+		}
+
+		foreach (SuccessfullTask task in footCompletions)
+		{
+
+		}
 
 		/*
 		json["timeA"] = pickupObj.timeA1 + pickupObj.timeA2;
@@ -271,4 +214,29 @@ public class PhysicsTest : MonoBehaviour {
 		*/
 		return json;
 	}
+	class SuccessfullTask
+	{
+		float completionTime;
+		Dictionary<string, float> bounds;
+		public SuccessfullTask(Dictionary<string, float> bounds, float completionTime)
+		{
+
+			this.bounds = bounds;
+			this.completionTime = completionTime;
+		}
+
+		JObject ToJson()
+		{
+			JObject json = new JObject();
+			json["timeUntilCompletion"] = completionTime;
+
+			foreach (string checkBound in bounds.Keys)
+			{
+				json[checkBound] = bounds[checkBound];
+			}
+
+			return json;
+		}
+	}
+
 }
