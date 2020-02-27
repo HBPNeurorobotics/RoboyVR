@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using System.IO;
 using UnityEngine;
+using System.Linq;
 
 public class PhysicsTest : MonoBehaviour {
 	public bool righthanded = true;
@@ -18,7 +19,7 @@ public class PhysicsTest : MonoBehaviour {
 	public Transform phaseFoot;
 	CheckFinish.PHASE phase = CheckFinish.PHASE.HAND;
 	float timeUntilCompletion, phaseRunTime;
-	bool run;
+	bool run, saved;
 
 	List<SuccessfullTask> handCompletions = new List<SuccessfullTask>();
 	List<SuccessfullTask> footCompletions = new List<SuccessfullTask>();
@@ -139,7 +140,7 @@ public class PhysicsTest : MonoBehaviour {
 			phaseRunTime += Time.deltaTime;
 			if (phaseRunTime > testDurationInS)
 			{
-
+				timeUntilCompletion += Time.deltaTime;
 				if (phase.Equals(CheckFinish.PHASE.HAND))
 				{
 					//Start foot test
@@ -150,9 +151,13 @@ public class PhysicsTest : MonoBehaviour {
 				}
 				else
 				{
-					//End Test & Save
-					//SaveResults();
-					ResetTest();
+					if (!saved)
+					{
+						//End Test & Save
+						SaveResults();
+						ResetTest();
+						saved = true;
+					}
 				}
 			}
 		}
@@ -171,7 +176,7 @@ public class PhysicsTest : MonoBehaviour {
 
 		Directory.CreateDirectory(folder);
 
-		File.WriteAllText(Path.Combine(folder, "physics_test.json"), ToJson().ToString());
+		File.WriteAllText(Path.Combine(folder, "physics_test" + "_" + chosenLatency + ".json"), ToJson().ToString());
 
 		pidTestRunner.StopManualRecord();
 		pidTestRunner.SaveTestData(true, folder);
@@ -185,14 +190,34 @@ public class PhysicsTest : MonoBehaviour {
 		json["latency"] = chosenLatency;
 		json["timeUntilCompletion"] = timeUntilCompletion;
 
-		foreach (SuccessfullTask task in handCompletions)
+		if(handCompletions.Count > 0)
 		{
-
+			Dictionary<string, float> averageTimeInSections = GetAverageTimeInSections(handCompletions);
+			Dictionary<string, float>.KeyCollection keys = averageTimeInSections.Keys;
+			foreach (string section in keys)
+			{
+				json[section] = averageTimeInSections[section];
+			}
 		}
 
-		foreach (SuccessfullTask task in footCompletions)
+		if (footCompletions.Count > 0)
 		{
+			Dictionary<string, float> averageTimeInSections = GetAverageTimeInSections(footCompletions);
+			Dictionary<string, float>.KeyCollection keys = averageTimeInSections.Keys;
+			foreach (string section in keys)
+			{
+				json[section] = averageTimeInSections[section];
+			}
+		}
 
+		for (int i = 0; i < handCompletions.Count; i++)
+		{
+			json["hand_" + i] = handCompletions[i].ToJson();
+		}
+
+		for (int i = 0; i < footCompletions.Count; i++)
+		{
+			json["foot_" + i] = footCompletions[i].ToJson();
 		}
 
 		/*
@@ -225,7 +250,7 @@ public class PhysicsTest : MonoBehaviour {
 			this.completionTime = completionTime;
 		}
 
-		JObject ToJson()
+		public JObject ToJson()
 		{
 			JObject json = new JObject();
 			json["timeUntilCompletion"] = completionTime;
@@ -237,6 +262,32 @@ public class PhysicsTest : MonoBehaviour {
 
 			return json;
 		}
-	}
 
+		public Dictionary<string, float> GetBounds()
+		{
+			return bounds;
+		}
+
+
+    }
+    Dictionary<string, float> GetAverageTimeInSections(List<SuccessfullTask> tasks)
+	{
+		Dictionary<string, float> averageTimeInSections = new Dictionary<string, float>();
+		List<string> keys = averageTimeInSections.Keys.ToList<string>();
+		foreach(string sectionName in tasks[0].GetBounds().Keys)
+		{
+			keys.Add(sectionName);
+		}
+		
+		foreach (string section in keys) {
+			float totalTimeInSection = 0;
+			foreach (SuccessfullTask success in tasks)
+			{
+				totalTimeInSection += success.GetBounds()[section];
+			}
+			averageTimeInSections.Add(section, totalTimeInSection / tasks.Count);
+		}
+
+		return averageTimeInSections;
+	}
 }
