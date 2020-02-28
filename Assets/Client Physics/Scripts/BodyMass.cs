@@ -12,8 +12,8 @@ public class BodyMass
     MODE mode;
 
     #region Mass Percentages of Body Weight
-    const float HEAD_F_MASS = 0.1247f;
-    const float HEAD_M_MASS = 0.1117f;
+    const float HEAD_F_MASS = 0.0668f;
+    const float HEAD_M_MASS = 0.0694f;
 
     const float UPPER_TRUNK_F_MASS = 0.1545f;
     const float UPPER_TRUNK_M_MASS = 0.1596f;
