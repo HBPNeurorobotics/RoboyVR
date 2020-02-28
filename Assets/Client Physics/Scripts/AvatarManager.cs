@@ -7,8 +7,10 @@ using UnityEngine;
 [RequireComponent(typeof(BoneMeshContainer))]
 public class AvatarManager : MonoBehaviour
 {
+    public GameObject joints, surface;
     public bool useJoints = true;
     public bool tuningInProgress = false;
+    bool initialized;
 
     [Header("PD Control")]
     public float PDKp = 1;
@@ -41,8 +43,10 @@ public class AvatarManager : MonoBehaviour
     void Start()
     {
         latencyHandler = GetComponent<LatencyHandler>();
-        InitializeBodyStructures();
+        //InitializeBodyStructures();
     }
+
+   
 
     // Update is called once per frame
     void FixedUpdate()
@@ -53,20 +57,23 @@ public class AvatarManager : MonoBehaviour
         }
         else
         {
-            //UpdatePDControllers();
-            if (configJointManager.inputByManager && !tuningInProgress && latencyHandler.latency_ms == 0)
+            if (initialized)
             {
-                UpdateJoints();
-                //UpdateJointsRecursive(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
-                
+                //UpdatePDControllers();
+                if (configJointManager.inputByManager && !tuningInProgress && latencyHandler.latency_ms == 0)
+                {
+                    UpdateJoints();
+                    //UpdateJointsRecursive(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
+
+                }
             }
         }
         //UpdateVacuumBreatherPIDControllers();
         //UpdateJoints();
         //UpdateMerchVRPIDControllers();
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKey(KeyCode.S))
         {
-            gameObjectPerBoneRemoteAvatar[HumanBodyBones.LeftLowerLeg].GetComponent<Rigidbody>().AddForce(Vector3.back * 500, ForceMode.Force);
+            InitializeBodyStructures();
         }
 
     }
@@ -78,55 +85,60 @@ public class AvatarManager : MonoBehaviour
     public void InitializeBodyStructures()
     {
 
-
-        if (gameObjectPerBoneLocalAvatar.Keys.Count == 0 && gameObjectPerBoneRemoteAvatar.Keys.Count == 0)
+        if (!initialized)
         {
-            animatorRemoteAvatar = GetComponentInChildren<Animator>();
-            animatorLocalAvatar = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
-            foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
+            if (gameObjectPerBoneLocalAvatar.Keys.Count == 0 && gameObjectPerBoneRemoteAvatar.Keys.Count == 0)
             {
-                //LastBone is not mapped to a bodypart, we need to skip it.
-                if (bone != HumanBodyBones.LastBone)
+                animatorRemoteAvatar = GetComponentInChildren<Animator>();
+                animatorLocalAvatar = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
+                foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
                 {
-                    Transform boneTransformRemoteAvatar = animatorRemoteAvatar.GetBoneTransform(bone);
-                    Transform boneTransformLocalAvatar = animatorLocalAvatar.GetBoneTransform(bone);
-                    //We have to skip unassigned bodyparts.
-                    if (boneTransformRemoteAvatar != null && boneTransformLocalAvatar != null)
+                    //LastBone is not mapped to a bodypart, we need to skip it.
+                    if (bone != HumanBodyBones.LastBone)
                     {
-                        //build Dictionaries
-                        gameObjectPerBoneRemoteAvatar.Add(bone, boneTransformRemoteAvatar.gameObject);
-                        gameObjectPerBoneLocalAvatar.Add(bone, boneTransformLocalAvatar.gameObject);
-
-                        Quaternion tmp = new Quaternion();
-                        tmp = boneTransformRemoteAvatar.localRotation;
-                        orientationPerBoneRemoteAvatarAtStart.Add(bone, tmp);
-
-                        bonesPerGameObjectRemoteAvatar.Add(boneTransformRemoteAvatar.gameObject, bone);
-
-                        AssignRigidbodys(bone);
-
-                        if (!useJoints)
+                        Transform boneTransformRemoteAvatar = animatorRemoteAvatar.GetBoneTransform(bone);
+                        Transform boneTransformLocalAvatar = animatorLocalAvatar.GetBoneTransform(bone);
+                        //We have to skip unassigned bodyparts.
+                        if (boneTransformRemoteAvatar != null && boneTransformLocalAvatar != null)
                         {
-                            AssignPDController(bone);
-                        }
+                            //build Dictionaries
+                            gameObjectPerBoneRemoteAvatar.Add(bone, boneTransformRemoteAvatar.gameObject);
+                            gameObjectPerBoneLocalAvatar.Add(bone, boneTransformLocalAvatar.gameObject);
 
-                        //AssignVacuumBreatherPIDController(bone);
-                        //AssignMerchVRPIDController(bone);
+                            Quaternion tmp = new Quaternion();
+                            tmp = boneTransformRemoteAvatar.localRotation;
+                            orientationPerBoneRemoteAvatarAtStart.Add(bone, tmp);
+
+                            bonesPerGameObjectRemoteAvatar.Add(boneTransformRemoteAvatar.gameObject, bone);
+
+                            AssignRigidbodys(bone);
+
+                            if (!useJoints)
+                            {
+                                AssignPDController(bone);
+                            }
+
+                            //AssignVacuumBreatherPIDController(bone);
+                            //AssignMerchVRPIDController(bone);
+                        }
                     }
                 }
-            }
 
-            bodyGroupsRemote = new BodyGroups(gameObjectPerBoneRemoteAvatar);
-            bodyGroupsTarget = new BodyGroups(gameObjectPerBoneLocalAvatar);
+                bodyGroupsRemote = new BodyGroups(gameObjectPerBoneRemoteAvatar);
+                bodyGroupsTarget = new BodyGroups(gameObjectPerBoneLocalAvatar);
 
-            if (useJoints)
-            {
-                configJointManager = GetComponent<ConfigJointManager>();
-                configJointManager.SetFixedJoints();
-                configJointManager.SetupJoints();
-                SetupOrder(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
-                bonesInOrder.Reverse();
+                if (useJoints)
+                {
+                    configJointManager = GetComponent<ConfigJointManager>();
+                    configJointManager.SetFixedJoints();
+                    configJointManager.SetupJoints();
+                    SetupOrder(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
+                    bonesInOrder.Reverse();
+                }
             }
+            joints.SetActive(true);
+            surface.SetActive(true);
+            initialized = true;
         }
     }
 

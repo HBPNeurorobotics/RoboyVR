@@ -110,6 +110,10 @@ public class TrackingIKTargetManager : MonoBehaviour
         Debug.Log("OnControllerGripPress");
         if (!initialized)
         {
+            if (!UserAvatarService.Instance.use_gazebo)
+            {
+                UserAvatarService.Instance._avatarManager.InitializeBodyStructures();
+            }
             IdentifyTrackingTargets();
             SetupIKTargets();
 
@@ -155,6 +159,7 @@ public class TrackingIKTargetManager : MonoBehaviour
                 // body tracker if is it at least 50cm above ground
                 if (trackingReference.gameObject.transform.position.y >= 0.5f)
                 {
+                    Debug.Log(trackingReference.gameObject.name);
                     trackingTargetBody = trackingReference.gameObject.transform;
                 }
                 // else feet tracker

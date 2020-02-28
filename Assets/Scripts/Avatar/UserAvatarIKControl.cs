@@ -114,8 +114,11 @@ public class UserAvatarIKControl : MonoBehaviour
                     Vector3 bodyRight = (headTarget.transform.right + leftFootTarget.transform.right + rightFootTarget.transform.right).normalized;
                     Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp).normalized;
 
+                    Debug.Log(headTarget.transform.position.y - groundCenter.y);
+
                     // set body position
-                    Vector3 bodyPosition = new Vector3(groundCenter.x, 0.65f * (headTarget.transform.position.y - groundCenter.y), groundCenter.z) - 0.1f * bodyForward;
+                    //TODO inferred body offset here?
+                    Vector3 bodyPosition = new Vector3(groundCenter.x, 0.65f * (headTarget.transform.position.y - groundCenter.y), groundCenter.z) - 0.2f * bodyForward;
                     this.transform.position = bodyPosition;
 
                     // set body rotation
