@@ -15,7 +15,7 @@ namespace PIDTuning
         public Animator Animator { private set; get; }
 
         private UserAvatarIKControl _ikControl = null;
-        private UserAvatarVisualsIKControlClient _ikVisualControl= null;
+        private UserAvatarVisualsIKControlClient _ikVisualControl = null;
 
         public bool IsAnimationRunning
         {
@@ -38,17 +38,13 @@ namespace PIDTuning
 
             Animator = _localAvatar.GetComponent<Animator>();
             _ikControl = _localAvatar.GetComponent<UserAvatarIKControl>();
-            _ikVisualControl = _localAvatar.GetComponent<UserAvatarVisualsIKControlClient>();
+
 
             Assert.IsNotNull(Animator);
-            if (UserAvatarService.Instance.use_gazebo)
-            {
-                Assert.IsNotNull(_ikControl);
-            }
-            else
-            {
-                Assert.IsNotNull(_ikVisualControl);
-            }
+
+            Assert.IsNotNull(_ikControl);
+
+
             if (UserAvatarService.Instance.use_gazebo)
             {
                 PrepareRigForPlayback();
@@ -90,14 +86,9 @@ namespace PIDTuning
             Animator.enabled = true;
 
             // Disable IK in test environment
-            if (UserAvatarService.Instance.use_gazebo)
-            {
-                _ikControl.ikActive = false;
-            }
-            else
-            {
-                _ikVisualControl.ikActive = false;
-            }
+
+            _ikControl.ikActive = false;
+
 
             // Apply time stretch to account for low simulations speeds
             Animator.speed = 1f / _timeStretchFactor;
@@ -105,7 +96,7 @@ namespace PIDTuning
 
         public void EnableIKNonGazebo()
         {
-            _ikVisualControl.ikActive = true;
+            _ikControl.ikActive = true;
         }
     }
 }

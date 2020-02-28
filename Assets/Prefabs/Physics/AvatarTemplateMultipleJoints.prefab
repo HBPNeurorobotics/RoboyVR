@@ -4054,15 +4054,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -4148,15 +4148,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -25
     bounciness: 0
@@ -4242,15 +4242,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -4336,15 +4336,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -75
     bounciness: 0
@@ -4430,15 +4430,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -4524,15 +4524,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -4618,15 +4618,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -4712,15 +4712,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -15
     bounciness: 0
@@ -4806,8 +4806,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -4900,8 +4900,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -4994,8 +4994,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -5088,15 +5088,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -15
     bounciness: 0
@@ -5182,15 +5182,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -115
     bounciness: 0
@@ -5276,8 +5276,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -5370,21 +5370,21 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
-    limit: -160
+    limit: 0
     bounciness: 0
     contactDistance: 0
   m_HighAngularXLimit:
-    limit: 0
+    limit: 160
     bounciness: 0
     contactDistance: 0
   m_AngularYZLimitSpring:
@@ -5464,15 +5464,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -100
     bounciness: 0
@@ -5558,8 +5558,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -5652,15 +5652,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -50
     bounciness: 0
@@ -5746,8 +5746,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -5840,15 +5840,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -5934,15 +5934,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -6028,8 +6028,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -6122,15 +6122,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -6216,15 +6216,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -138
     bounciness: 0
@@ -6310,8 +6310,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -6404,8 +6404,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -6498,8 +6498,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -6592,15 +6592,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -160
     bounciness: 0
@@ -6686,15 +6686,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -6780,15 +6780,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -115
     bounciness: 0
@@ -6874,8 +6874,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -6968,15 +6968,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -115
     bounciness: 0
@@ -7062,15 +7062,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -115
     bounciness: 0
@@ -7156,15 +7156,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -7250,15 +7250,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -7344,15 +7344,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -75
     bounciness: 0
@@ -7438,8 +7438,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -7532,8 +7532,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -7626,15 +7626,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -115
     bounciness: 0
@@ -7720,15 +7720,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -7814,8 +7814,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -7908,15 +7908,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -8002,8 +8002,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -8096,15 +8096,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -8190,15 +8190,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -8284,15 +8284,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -8378,15 +8378,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -8472,15 +8472,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -75
     bounciness: 0
@@ -8566,15 +8566,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -8660,8 +8660,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -8754,15 +8754,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -80
     bounciness: 0
@@ -8848,15 +8848,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -70
     bounciness: 0
@@ -8942,8 +8942,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -9036,15 +9036,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -97
     bounciness: 0
@@ -9130,15 +9130,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -9224,15 +9224,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -9318,8 +9318,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -9412,8 +9412,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -9506,8 +9506,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -9600,15 +9600,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -75
     bounciness: 0
@@ -9788,8 +9788,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -9882,15 +9882,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -45
     bounciness: 0
@@ -9976,8 +9976,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -10070,15 +10070,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -10164,15 +10164,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -10258,8 +10258,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -10352,8 +10352,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -10540,15 +10540,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -60
     bounciness: 0
@@ -10634,15 +10634,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -138
     bounciness: 0
@@ -10728,15 +10728,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -75
     bounciness: 0
@@ -10822,15 +10822,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -75
     bounciness: 0
@@ -10916,15 +10916,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -11010,15 +11010,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -40
     bounciness: 0
@@ -11104,15 +11104,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -14.206236
     bounciness: 0
@@ -11198,15 +11198,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -11292,15 +11292,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -11386,8 +11386,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -11480,15 +11480,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -11574,8 +11574,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -11668,15 +11668,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -11762,15 +11762,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -115
     bounciness: 0
@@ -11856,15 +11856,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -11950,8 +11950,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -12044,15 +12044,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -12138,8 +12138,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -12232,8 +12232,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -12326,15 +12326,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -12420,15 +12420,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -25
     bounciness: 0
@@ -12514,15 +12514,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -52.3784
     bounciness: 0
@@ -12608,8 +12608,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -12702,15 +12702,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -15
     bounciness: 0
@@ -12796,15 +12796,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -115
     bounciness: 0
@@ -12890,8 +12890,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -12984,15 +12984,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -45
     bounciness: 0
@@ -13078,15 +13078,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -40
     bounciness: 0
@@ -13172,8 +13172,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -13266,15 +13266,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -13360,15 +13360,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -13454,15 +13454,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -97
     bounciness: 0
@@ -13548,8 +13548,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -13642,15 +13642,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -13736,15 +13736,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -13830,15 +13830,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -13924,15 +13924,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -41
     bounciness: 0
@@ -14018,8 +14018,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -14112,8 +14112,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -14206,8 +14206,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -14300,15 +14300,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -14394,8 +14394,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -14488,8 +14488,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -14582,15 +14582,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -14676,15 +14676,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -75
     bounciness: 0
@@ -14770,15 +14770,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -40
     bounciness: 0
@@ -14864,15 +14864,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -14958,8 +14958,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -15052,8 +15052,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -15146,15 +15146,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -140
     bounciness: 0
@@ -15240,15 +15240,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -25
     bounciness: 0
@@ -15334,15 +15334,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -15428,15 +15428,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -14.206236
     bounciness: 0
@@ -15522,8 +15522,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -15616,15 +15616,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -40
     bounciness: 0
@@ -15710,15 +15710,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -35
     bounciness: 0
@@ -15804,15 +15804,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -15992,15 +15992,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -115
     bounciness: 0
@@ -16086,15 +16086,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -41
     bounciness: 0
@@ -16180,8 +16180,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -16274,15 +16274,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -80
     bounciness: 0
@@ -16368,14 +16368,14 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
+    spring: 0
     damper: 10
   m_LowAngularXLimit:
     limit: -97
@@ -16462,15 +16462,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -16556,15 +16556,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -14.206236
     bounciness: 0
@@ -16650,15 +16650,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -40
     bounciness: 0
@@ -16744,15 +16744,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -16838,8 +16838,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -16932,15 +16932,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -17026,15 +17026,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -20
     bounciness: 0
@@ -17120,15 +17120,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: 40
     bounciness: 0
@@ -17214,8 +17214,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -17308,15 +17308,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -17402,15 +17402,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -75
     bounciness: 0
@@ -17496,8 +17496,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -17590,15 +17590,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -40
     bounciness: 0
@@ -17684,8 +17684,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -17778,8 +17778,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -17872,15 +17872,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -0
     bounciness: 0
@@ -17966,8 +17966,8 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
@@ -18060,15 +18060,15 @@ ConfigurableJoint:
   m_AngularYMotion: 2
   m_AngularZMotion: 2
   m_LinearLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LinearLimit:
     limit: 0
     bounciness: 0
     contactDistance: 0
   m_AngularXLimitSpring:
-    spring: 100
-    damper: 10
+    spring: 0
+    damper: 0
   m_LowAngularXLimit:
     limit: -52.3784
     bounciness: 0

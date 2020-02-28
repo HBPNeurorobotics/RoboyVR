@@ -29,6 +29,11 @@ public class UserAvatarVisualsIKControl : MonoBehaviour {
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
+        if (!UserAvatarService.Instance.use_gazebo)
+        {
+            bodyTargetOffset = new Vector3(0, -1.046f, -0.024f);
+            footLeftOffset = footLeftRotation = footLeftRotation = footLeftOffset = bodyHeadOffset = Vector3.zero;
+        }
     }
 	
 	// Update is called once per frame

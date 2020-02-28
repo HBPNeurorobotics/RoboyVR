@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HandInteraction : MonoBehaviour {
-
+    /*
 	// Use this for initialization
 	public PhysicsTest test;
     public GameObject handTriggerLeft, handTriggerRight;
@@ -71,6 +71,7 @@ public class HandInteraction : MonoBehaviour {
             grabDone = true;
         }
         */
+        /*
     }
 
 
@@ -132,4 +133,5 @@ public class HandInteraction : MonoBehaviour {
         }
         
     }
+    */
 }
