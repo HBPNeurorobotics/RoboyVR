@@ -35,30 +35,33 @@ namespace PIDTuning.Editor
                 Initialize(ats);
             }
             */
-            Initialize(ats);
-
-            GUILayout.Label("WARNING! Tune all joints rudimentary implementation, should be looked at again.");
-            if (GUILayout.Button("Tune all joints"))
+            if (ats.gameObject.activeSelf)
             {
-                ats.StartCoroutine(ats.TuneAllJoints());
+
+                Initialize(ats);
+
+                GUILayout.Label("WARNING! Tune all joints rudimentary implementation, should be looked at again.");
+                if (GUILayout.Button("Tune all joints"))
+                {
+                    ats.StartCoroutine(ats.TuneAllJoints());
+                }
+
+                EditorGUILayout.Space();
+
+                jointToTuneIdx = EditorGUILayout.Popup(jointToTuneIdx, jointNames);
+
+                if (GUILayout.Button("Tune selected joint"))
+                {
+                    ats.StartCoroutine(ats.TuneSingleJoint(jointNames[jointToTuneIdx]));
+                }
+
+                showUnneededJoints = ats.showUnneededJoints;
+
+                EditorGUILayout.Space();
+
+                DisplayAvailableTunings(ats);
+
             }
-
-            EditorGUILayout.Space();
-
-            jointToTuneIdx = EditorGUILayout.Popup(jointToTuneIdx, jointNames);
-
-            if (GUILayout.Button("Tune selected joint"))
-            {
-                ats.StartCoroutine(ats.TuneSingleJoint(jointNames[jointToTuneIdx]));
-            }
-
-            showUnneededJoints = ats.showUnneededJoints;
-
-            EditorGUILayout.Space();
-
-            DisplayAvailableTunings(ats);
-
-
             Repaint();
         }
 

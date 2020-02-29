@@ -91,6 +91,24 @@ namespace PIDTuning
             _remoteAvatarRig = PoseErrorTracker.RemoteRig;
         }
 
+        void OnEnable()
+        {
+            Assert.IsNotNull(UserAvatarService.Instance);
+
+            _localAvatar = UserAvatarService.Instance.LocalAvatar;
+            Assert.IsNotNull(_localAvatar);
+            Assert.IsNotNull(_localAvatarAnimator = _localAvatar.GetComponent<Animator>());
+            Assert.IsNotNull(_localAvatarRig = _localAvatar.GetComponent<RigAngleTracker>());
+
+            _testRunner = GetComponent<TestRunner>();
+            _pidConfigStorage = GetComponent<PidConfigurationStorage>();
+            PoseErrorTracker = GetComponent<PoseErrorTracker>();
+            _testEnvSetup = GetComponent<TestEnvSetup>();
+            _animatorControl = GetComponent<AnimatorControl>();
+            _remoteBones = UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
+            _remoteAvatarRig = PoseErrorTracker.RemoteRig;
+        }
+
         public IEnumerator TuneAllJoints()
         {
             Assert.IsFalse(_tuningInProgress);

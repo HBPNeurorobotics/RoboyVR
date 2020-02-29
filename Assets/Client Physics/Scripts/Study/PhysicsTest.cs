@@ -31,6 +31,11 @@ public class PhysicsTest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
+
+	}
+
+	void OnEnable()
+	{
 		SetActiveBounds(handBounds, false);
 		if (righthanded)
 		{
@@ -38,8 +43,6 @@ public class PhysicsTest : MonoBehaviour {
 			PrepareRightHanded(phaseFoot);
 		}
 		participantID = Random.Range(0, 100000);
-		pidTestRunner.ResetTestRunner();
-		pidTestRunner.StartManualRecord();
 		StartCoroutine(CountDown());
 	}
 
@@ -94,6 +97,9 @@ public class PhysicsTest : MonoBehaviour {
 	{
 		run = false;
 		yield return new WaitForSeconds(10);
+		pidTestRunner.gameObject.SetActive(true);
+		pidTestRunner.ResetTestRunner();
+		pidTestRunner.StartManualRecord();
 		run = true;
 		SetActiveBounds(phase.Equals(CheckFinish.PHASE.HAND) ? handBounds : footBounds, true);
 		finishHand.GetComponent<CheckFinish>().trigger = true;

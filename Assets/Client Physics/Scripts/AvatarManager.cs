@@ -117,9 +117,6 @@ public class AvatarManager : MonoBehaviour
                             {
                                 AssignPDController(bone);
                             }
-
-                            //AssignVacuumBreatherPIDController(bone);
-                            //AssignMerchVRPIDController(bone);
                         }
                     }
                 }
@@ -385,5 +382,10 @@ public class AvatarManager : MonoBehaviour
     {
         ConfigurableJoint remoteJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, gameObjectPerBoneRemoteAvatar);
         return remoteJoint.lowAngularXLimit.limit == 0 && remoteJoint.highAngularXLimit.limit == 0;
+    }
+
+    public bool isInitialized()
+    {
+        return initialized;
     }
 }

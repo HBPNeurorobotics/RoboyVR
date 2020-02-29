@@ -287,8 +287,24 @@ namespace PIDTuning
 
             _latestTestTimestamp = DateTime.UtcNow;
 
-            _latestPidConfiguration = new PidConfiguration(PidConfigurationStorage.Configuration);
+            _latestPidConfiguration = new PidConfiguration(DateTime.UtcNow);
 
+            if (!UserAvatarService.Instance.use_gazebo)
+            {
+                PidConfiguration config = new PidConfiguration(DateTime.UtcNow);
+                if (_poseErrorTracker == null) _poseErrorTracker = GetComponent<PoseErrorTracker>();
+                foreach (var joint in _poseErrorTracker.GetJointNames())
+                {
+                    ConfigurableJoint configurableJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+                    config.Mapping.Add(joint, PidParameters.FromParallelForm(configurableJoint.angularXDrive.positionSpring, 0, configurableJoint.angularXDrive.positionDamper));
+                }
+
+                _latestPidConfiguration = config;
+            }
+            else
+            {
+                _latestPidConfiguration = new PidConfiguration(PidConfigurationStorage.Configuration);
+            }
             // Prepare step data target dictionary
 
             _latestAnimationToJointToStepData = new Dictionary<string, Dictionary<string, PidStepData>>();
@@ -302,7 +318,6 @@ namespace PIDTuning
 
                 _latestAnimationToJointToStepData["recording"][joint] = sd;
             }
-
             StartCoroutine(RecordMotion(() => _isRunningManualRecord, _latestAnimationToJointToStepData["recording"]));
         }
 
