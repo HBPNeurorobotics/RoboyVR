@@ -235,6 +235,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         ikTargetBody = new GameObject("IK Target Body");
         ikTargetBody.transform.parent = trackingTarget;
         //TODO: adjustments for body target?
+        ikTargetBody.transform.rotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up) * trackingTarget.rotation; 
     }
 
     private void SetupIKTargetHandLeft(Transform trackingTarget)

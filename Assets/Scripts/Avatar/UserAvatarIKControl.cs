@@ -25,11 +25,13 @@ public class UserAvatarIKControl : MonoBehaviour
 
     private Queue<Vector3> groundCenterTrajectory = new Queue<Vector3>();
     private int groundCenterTrajectorySize = 20;
+    float yCoordStartAnchor;
 
 
     // Use this for initialization
     void Start()
     {
+        yCoordStartAnchor = GameObject.FindGameObjectWithTag("Anchor").transform.position.y;
         animator = GetComponent<Animator>();
     }
 
@@ -109,21 +111,25 @@ public class UserAvatarIKControl : MonoBehaviour
                         groundCenter += position;
                     }
                     groundCenter /= groundCenterTrajectory.Count;
-
                     Vector3 bodyUp = (headTarget.transform.position - this.transform.position).normalized;
+     
                     Vector3 bodyRight = (headTarget.transform.right + leftFootTarget.transform.right + rightFootTarget.transform.right).normalized;
                     Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp).normalized;
 
-                    Debug.Log(headTarget.transform.position.y - groundCenter.y);
-
                     // set body position
                     //TODO inferred body offset here?
-                    Vector3 bodyPosition = new Vector3(groundCenter.x, 0.65f * (headTarget.transform.position.y - groundCenter.y), groundCenter.z) - 0.2f * bodyForward;
+                    float yCoord = inferredBodyTargetOffset.y * (headTarget.transform.position.y - groundCenter.y);
+                    if (!UserAvatarService.Instance.use_gazebo)
+                    {
+                        yCoord -= yCoordStartAnchor;
+                    }
+                    Vector3 bodyPosition = new Vector3(groundCenter.x, yCoord, groundCenter.z) - inferredBodyTargetOffset.z * bodyForward;
                     this.transform.position = bodyPosition;
 
                     // set body rotation
                     Quaternion bodyRotation = Quaternion.LookRotation(bodyForward, bodyUp);
                     this.transform.rotation = bodyRotation;
+
                 }
                 // no body target, but head
                 else if (headTarget != null)

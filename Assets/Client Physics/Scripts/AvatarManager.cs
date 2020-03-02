@@ -8,6 +8,7 @@ using UnityEngine;
 public class AvatarManager : MonoBehaviour
 {
     public GameObject joints, surface;
+    public float height = 1.7855f;
     public bool useJoints = true;
     public bool tuningInProgress = false;
     bool initialized;
@@ -75,7 +76,10 @@ public class AvatarManager : MonoBehaviour
         {
             InitializeBodyStructures();
         }
-
+        if (!initialized)
+        {
+            transform.localScale = UserAvatarService.Instance.transform.localScale = height / 1.7855f * Vector3.one;
+        }
     }
 
     /// <summary>
