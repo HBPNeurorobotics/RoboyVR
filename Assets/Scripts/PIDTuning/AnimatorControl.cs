@@ -15,7 +15,6 @@ namespace PIDTuning
         public Animator Animator { private set; get; }
 
         private UserAvatarIKControl _ikControl = null;
-        private UserAvatarVisualsIKControlClient _ikVisualControl = null;
 
         public bool IsAnimationRunning
         {

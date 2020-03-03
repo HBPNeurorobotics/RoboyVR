@@ -25,6 +25,7 @@ public class TrackingIKTargetManager : MonoBehaviour
     [SerializeField] private Pose targetOffsetLeftHand = new Pose(new Vector3(-0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, 90f));
     [SerializeField] private Pose targetOffsetRightHand = new Pose(new Vector3(0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, -90f));
     [SerializeField] public float feetTargetOffsetAboveGround = 0.1f;
+    [SerializeField] public float hmdOffsetForward = 0.1f;
 
     private Dictionary<uint, TrackingReferenceObject> trackingReferences = new Dictionary<uint, TrackingReferenceObject>();
     private Transform trackingTargetHead;
@@ -219,7 +220,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         ikTargetHead = new GameObject("IK Target Head");
         ikTargetHead.transform.parent = trackingTarget;
         ikTargetHead.transform.localRotation = new Quaternion();
-        ikTargetHead.transform.localPosition = new Vector3();
+        ikTargetHead.transform.localPosition = UserAvatarService.Instance.use_gazebo ? new Vector3() : new Vector3(0,0,hmdOffsetForward);
     }
 
     private void SetupIKTargetLookAt(Transform trackingTarget)
