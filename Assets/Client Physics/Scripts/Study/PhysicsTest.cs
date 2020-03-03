@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System.IO;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 public class PhysicsTest : MonoBehaviour {
 	public bool righthanded = true;
@@ -17,8 +18,12 @@ public class PhysicsTest : MonoBehaviour {
 	public int chosenLatency = 0;
 	public Transform phaseHand;
 	public Transform phaseFoot;
+
+    public Text countdownDisplay;
+    public Text remainingTimeDisplay;
+
 	CheckFinish.PHASE phase = CheckFinish.PHASE.HAND;
-	float timeUntilCompletion, phaseRunTime;
+	float timeUntilCompletion, phaseRunTime, countdownTime;
 	bool run, saved;
 
 	List<SuccessfullTask> handCompletions = new List<SuccessfullTask>();
@@ -106,7 +111,15 @@ public class PhysicsTest : MonoBehaviour {
 		Debug.Log("Begin");
 	}
 
-	public void OnFinishLineReached(CheckFinish.PHASE phase)
+    IEnumerator CountDownVisual()
+    {
+        countdownDisplay.text = "" + countdownTime;
+        countdownTime--;
+
+        yield return new WaitForSeconds(1);
+    }
+
+    public void OnFinishLineReached(CheckFinish.PHASE phase)
 	{
 		Dictionary<string, float> boundsTimes = new Dictionary<string, float>();
 		CheckBound[] testBounds;
