@@ -21,11 +21,12 @@ public class CheckBound : MonoBehaviour {
 		if (contacts.Count != 0)
 		{
 			timeSpent += Time.deltaTime;
-			renderer.material.color = new Vector4(1, 0, 0, defaultCol.a);
+            Color warningColor = new Vector4(1, 0, 0, defaultCol.a);
+            SetColors(warningColor);
 		}
 		else
 		{
-			renderer.material.color = defaultCol;
+			SetColors(defaultCol);
 		}
 	}
 
@@ -45,4 +46,13 @@ public class CheckBound : MonoBehaviour {
 
 		}
 	}
+
+    void SetColors(Color color)
+    {
+        renderer.material.color = color;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.GetComponent<MeshRenderer>().material.color = color;
+        }
+    }
 }

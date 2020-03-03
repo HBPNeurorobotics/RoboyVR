@@ -117,7 +117,6 @@ public class UserAvatarIKControl : MonoBehaviour
                     Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp).normalized;
 
                     // set body position
-                    //TODO inferred body offset here?
                     float yCoord = inferredBodyTargetOffset.y * (headTarget.transform.position.y - groundCenter.y);
                     if (!UserAvatarService.Instance.use_gazebo)
                     {
@@ -134,7 +133,8 @@ public class UserAvatarIKControl : MonoBehaviour
                 // no body target, but head
                 else if (headTarget != null)
                 {
-                    this.transform.position = headTarget.position + bodyHeadOffset; // + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
+                    Vector3 inferredPos = headTarget.position + bodyHeadOffset;
+                    this.transform.position = UserAvatarService.Instance.use_gazebo ? inferredPos : new Vector3(inferredPos.x, inferredPos.y - yCoordStartAnchor, inferredPos.z);// + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
 
                     Vector3 forward;
                     if (rightHandTarget != null && leftHandTarget != null)

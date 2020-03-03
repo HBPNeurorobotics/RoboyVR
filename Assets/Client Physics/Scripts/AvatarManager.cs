@@ -10,7 +10,7 @@ public class AvatarManager : MonoBehaviour
     public GameObject joints, surface;
     public float height = 1.7855f;
     public bool useJoints = true;
-    public bool tuningInProgress = false;
+    public bool tuningInProgress, showLocalAvatar;
     bool initialized;
 
     [Header("PD Control")]
@@ -82,6 +82,17 @@ public class AvatarManager : MonoBehaviour
         }
     }
 
+    void SetInvisibleLocalAvatar(Transform toHide)
+    {
+        //layer 24 gets ignored by hmd camera
+        toHide.gameObject.layer = 24;
+
+        foreach (Transform child in toHide)
+        {
+            SetInvisibleLocalAvatar(child);
+        }
+    }
+
     /// <summary>
     ///     Maps all HumanBodyBones (assigned in the Animator) to their GameObjects in the scene in order to get access to all components.
     ///     Adds Rigidbody to both bodies, adds PDController to the avatar if useJoints is false and a single ConfigJointManager otherwise.
@@ -91,10 +102,18 @@ public class AvatarManager : MonoBehaviour
 
         if (!initialized)
         {
+
+            //hide local avatar in camera
             if (gameObjectPerBoneLocalAvatar.Keys.Count == 0 && gameObjectPerBoneRemoteAvatar.Keys.Count == 0)
             {
                 animatorRemoteAvatar = GetComponentInChildren<Animator>();
                 animatorLocalAvatar = GameObject.FindGameObjectWithTag("Target").GetComponent<Animator>();
+
+                if (!showLocalAvatar)
+                {
+                    SetInvisibleLocalAvatar(animatorLocalAvatar.gameObject.transform);
+                }
+
                 foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
                 {
                     //LastBone is not mapped to a bodypart, we need to skip it.
