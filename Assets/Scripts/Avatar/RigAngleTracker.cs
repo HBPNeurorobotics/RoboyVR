@@ -54,7 +54,6 @@ public class RigAngleTracker : MonoBehaviour
     {
         if (!_initialized)
         {
-            Debug.Log("Mapping");
             BuildJointMapping();
             _initialized = true;
         }

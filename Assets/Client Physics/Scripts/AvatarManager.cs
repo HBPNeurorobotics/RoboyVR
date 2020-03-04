@@ -156,6 +156,7 @@ public class AvatarManager : MonoBehaviour
                     bonesInOrder.Reverse();
                 }
             }
+            animatorLocalAvatar.gameObject.GetComponent<UserAvatarIKControl>().coordStartAnchor = gameObjectPerBoneLocalAvatar[HumanBodyBones.Hips].transform.position.y;
             joints.SetActive(true);
             surface.SetActive(true);
             initialized = true;

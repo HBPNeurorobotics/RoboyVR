@@ -11,6 +11,9 @@ public class UserAvatarIKControl : MonoBehaviour
     [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
     [SerializeField] private Vector3 inferredBodyTargetOffset = new Vector3(0f, 0.45f, 0f);
     [SerializeField] private Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
+    [SerializeField] private Transform nonGazeboZeroPoint;
+    [SerializeField] private Transform nonGazeboBodyPoint;
+
 
     protected Animator animator;
 
@@ -25,13 +28,12 @@ public class UserAvatarIKControl : MonoBehaviour
 
     private Queue<Vector3> groundCenterTrajectory = new Queue<Vector3>();
     private int groundCenterTrajectorySize = 20;
-    float yCoordStartAnchor;
+    public float coordStartAnchor;
 
 
     // Use this for initialization
     void Start()
     {
-        yCoordStartAnchor = GameObject.FindGameObjectWithTag("Anchor").transform.position.y;
         animator = GetComponent<Animator>();
     }
 
@@ -117,12 +119,19 @@ public class UserAvatarIKControl : MonoBehaviour
                     Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp).normalized;
 
                     // set body position
-                    float yCoord = inferredBodyTargetOffset.y * (headTarget.transform.position.y - groundCenter.y);
+                    float yCoord = 0.65f * (headTarget.transform.position.y - groundCenter.y);
+                    Vector3 bodyPosition = new Vector3();
                     if (!UserAvatarService.Instance.use_gazebo)
                     {
-                        yCoord -= yCoordStartAnchor;
+
+                        bodyPosition = new Vector3(groundCenter.x, nonGazeboBodyPoint.position.y - nonGazeboZeroPoint.position.y, groundCenter.z);
+                        bodyPosition.z -= 0.2f * bodyForward.z;
                     }
-                    Vector3 bodyPosition = new Vector3(groundCenter.x, yCoord, groundCenter.z) - inferredBodyTargetOffset.z * bodyForward;
+                    else
+                    {
+                        bodyPosition = new Vector3(groundCenter.x,yCoord, groundCenter.z) - 0.2f * bodyForward;
+                    }
+
                     this.transform.position = bodyPosition;
 
                     // set body rotation
@@ -134,7 +143,7 @@ public class UserAvatarIKControl : MonoBehaviour
                 else if (headTarget != null)
                 {
                     Vector3 inferredPos = headTarget.position + bodyHeadOffset;
-                    this.transform.position = UserAvatarService.Instance.use_gazebo ? inferredPos : new Vector3(inferredPos.x, inferredPos.y - yCoordStartAnchor, inferredPos.z);// + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
+                    this.transform.position = UserAvatarService.Instance.use_gazebo ? inferredPos : new Vector3(inferredPos.x, inferredPos.y - coordStartAnchor, inferredPos.z);// + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
 
                     Vector3 forward;
                     if (rightHandTarget != null && leftHandTarget != null)

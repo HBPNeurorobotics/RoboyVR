@@ -20,9 +20,9 @@ public class PhysicsTest : MonoBehaviour {
 	public Transform phaseFoot;
 
     public Text countdownDisplay;
-    public Text remainingTimeDisplay;
+    public Text completionsDisplay;
 
-	CheckFinish.PHASE phase = CheckFinish.PHASE.HAND;
+	PHASE phase = PHASE.HAND;
 	float timeUntilCompletion, phaseRunTime, countdownTime;
 	bool run, saved;
 
@@ -34,21 +34,29 @@ public class PhysicsTest : MonoBehaviour {
 
 	public GameObject finishHand;
 
-	// Use this for initialization
-	void Start() {
+    public enum PHASE
+    {
+        HAND,
+        FOOT
+    }
+
+    // Use this for initialization
+    void Start() {
 
 	}
+
 
 	void OnEnable()
 	{
 		SetActiveBounds(handBounds, false);
+		SetActiveBounds(footBounds, false);
 		if (righthanded)
 		{
 			PrepareRightHanded(phaseHand);
-			PrepareRightHanded(phaseFoot);
+			//PrepareRightHanded(phaseFoot);
 		}
 		participantID = Random.Range(0, 100000);
-		StartCoroutine(CountDown());
+		StartCoroutine(StartPhaseInS(30));
 	}
 
 	void SetActiveBounds(CheckBound[] bounds, bool active)
@@ -92,39 +100,44 @@ public class PhysicsTest : MonoBehaviour {
 
 	void ResetTask()
 	{
-		Debug.Log(handCompletions.Count);
 		timeUntilCompletion = 0;
-		finishHand.transform.position = new Vector3(-finishHand.transform.position.x, finishHand.transform.position.y, finishHand.transform.position.z);
-		finishHand.GetComponent<CheckFinish>().trigger = true;
+        if (phase.Equals(PHASE.HAND))
+        {
+            finishHand.transform.position = new Vector3(-finishHand.transform.position.x, finishHand.transform.position.y, finishHand.transform.position.z);
+            finishHand.GetComponent<CheckFinish>().trigger = true;
+        }
+        else
+        {
+
+        }
 	}
 
-	IEnumerator CountDown()
-	{
-		run = false;
-		yield return new WaitForSeconds(10);
-		pidTestRunner.gameObject.SetActive(true);
-		pidTestRunner.ResetTestRunner();
-		pidTestRunner.StartManualRecord();
-		run = true;
-		SetActiveBounds(phase.Equals(CheckFinish.PHASE.HAND) ? handBounds : footBounds, true);
-		finishHand.GetComponent<CheckFinish>().trigger = true;
-		Debug.Log("Begin");
-	}
-
-    IEnumerator CountDownVisual()
+    IEnumerator StartPhaseInS(float timeLeft)
     {
-        countdownDisplay.text = "" + countdownTime;
-        countdownTime--;
+        run = false;
+        completionsDisplay.text = "" + 0;
+        while (timeLeft != 0)
+        {
+            countdownDisplay.text = "" + timeLeft;
+            yield return new WaitForSeconds(1.0f);
+            timeLeft--;
+        }
 
-        yield return new WaitForSeconds(1);
+        pidTestRunner.gameObject.SetActive(true);
+        pidTestRunner.ResetTestRunner();
+        pidTestRunner.StartManualRecord();
+        run = true;
+        SetActiveBounds(phase.Equals(PHASE.HAND) ? handBounds : footBounds, true);
+        finishHand.GetComponent<CheckFinish>().trigger = true;
+
     }
 
-    public void OnFinishLineReached(CheckFinish.PHASE phase)
+    public void OnFinishLineReached(PHASE phase)
 	{
 		Dictionary<string, float> boundsTimes = new Dictionary<string, float>();
 		CheckBound[] testBounds;
 		List<SuccessfullTask> completions;
-		if (phase.Equals(CheckFinish.PHASE.HAND))
+		if (phase.Equals(PHASE.HAND))
 		{
 			testBounds = handBounds;
 			completions = handCompletions;
@@ -142,31 +155,43 @@ public class PhysicsTest : MonoBehaviour {
 		SuccessfullTask task = new SuccessfullTask(boundsTimes, timeUntilCompletion);
 		completions.Add(task);
 
-		ResetTask();
+        completionsDisplay.text = "" + completions.Count();
+
+        ResetTask();
 	}
 
 	void ResetTest()
 	{
-
+        
 	}
+
+    IEnumerator DisplayRemainingTime()
+    {
+        while (phaseRunTime < testDurationInS)
+        {
+            countdownDisplay.text = "" + (int)(testDurationInS - phaseRunTime);
+            yield return new WaitForSeconds(1.0f);
+        }
+    }
 
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-
+        
 		if (run)
 		{
+            StartCoroutine(DisplayRemainingTime());
 			phaseRunTime += Time.deltaTime;
 			if (phaseRunTime > testDurationInS)
 			{
 				timeUntilCompletion += Time.deltaTime;
-				if (phase.Equals(CheckFinish.PHASE.HAND))
+				if (phase.Equals(PHASE.HAND))
 				{
 					//Start foot test
 					phaseHand.gameObject.SetActive(false);
 					phaseFoot.gameObject.SetActive(true);
-					phase = CheckFinish.PHASE.FOOT;
-					StartCoroutine(CountDown());
+					phase = PHASE.FOOT;
+					StartCoroutine(StartPhaseInS(15));
 				}
 				else
 				{
