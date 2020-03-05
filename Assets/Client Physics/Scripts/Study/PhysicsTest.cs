@@ -94,6 +94,7 @@ public class PhysicsTest : MonoBehaviour {
 		{
 			testBound.measure = active;
             testBound.contacts = new List<Collider>();
+           
             foreach(Transform target in testBound.transform)
             {
                 if (target.name.Equals("Target"))
