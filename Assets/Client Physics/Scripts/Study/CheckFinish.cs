@@ -6,7 +6,7 @@ public class CheckFinish : MonoBehaviour {
 	public PhysicsTest test;
 	public bool trigger;
     public bool isTarget;
-    Color defaultCol;
+    Vector4 defaultCol;
 
     public PhysicsTest.PHASE phase;
 	// Use this for initialization
@@ -21,12 +21,12 @@ public class CheckFinish : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		//It has been hit by a limb of the player
-		if (trigger && (other.gameObject.layer == 10 || other.gameObject.layer == 11 || other.gameObject.layer == 13 || other.gameObject.layer == 14 || other.gameObject.layer == 19 || other.gameObject.layer == 20))
+		if (trigger && (other.gameObject.layer == 10 || other.gameObject.layer == 11 || other.gameObject.layer == 13 || other.gameObject.layer == 14 || other.gameObject.layer == 19 || other.gameObject.layer == 20 || other.gameObject.layer == 25 || other.gameObject.layer == 26) )
 		{
 			trigger = false;
             if (isTarget)
             {
-                SetSuccess(new Color(0, 1, 0, defaultCol.a));
+                SetColor(new Vector4(0, 1, 0, defaultCol.w));
             }
             else
             {
@@ -42,17 +42,17 @@ public class CheckFinish : MonoBehaviour {
             trigger = true;
             if (isTarget)
             {
-                SetSuccess(defaultCol);
+                SetColor(defaultCol);
             }
         }
     }
 
-    void SetSuccess(Color new_Color)
+    void SetColor(Vector4 new_Color)
     {
         foreach(Transform wall in gameObject.transform.parent)
         {
             Debug.Log(gameObject.name + "  " + wall.name);
-            wall.gameObject.GetComponent<MeshRenderer>().material.color = new Color(0, 1, 0);
+            wall.gameObject.GetComponent<MeshRenderer>().material.color = new_Color;
         }
     }
 

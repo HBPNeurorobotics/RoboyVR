@@ -33,16 +33,16 @@ public class CheckBound : MonoBehaviour {
 	void OnTriggerEnter(Collider other)
 	{
 		//It has been hit by the body of the player
-		if(measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 20)
+		if(measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 26 && other.gameObject.layer != 13 && other.gameObject.layer != 14)
 		{
 			contacts.Add(other);
 		}
 	}
 	void OnTriggerExit(Collider other)
 	{
-		if (measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 20)
-		{
-			contacts.Remove(other);
+        if (measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 26 && other.gameObject.layer != 13 && other.gameObject.layer != 14)
+        {
+            contacts.Remove(other);
 		}
 	}
 
