@@ -7,6 +7,7 @@ using System.Linq;
 using UnityEngine.UI;
 
 public class PhysicsTest : MonoBehaviour {
+    public string testFolder;
 	public bool righthanded = true;
 	public int participantID = 0;
 	public LatencyHandler latencyHandler;
@@ -20,10 +21,11 @@ public class PhysicsTest : MonoBehaviour {
 	public Transform phaseFoot;
 
     public Text countdownDisplay;
+    public Text remainingTimeDisplay;
     public Text completionsDisplay;
 
 	PHASE phase = PHASE.HAND;
-	float timeUntilCompletion, phaseRunTime, countdownTime;
+	float timeUntilCompletion, phaseRunTime;
 	bool run, saved;
 
 	List<SuccessfullTask> handCompletions = new List<SuccessfullTask>();
@@ -33,6 +35,7 @@ public class PhysicsTest : MonoBehaviour {
 	public CheckBound[] footBounds;
 
 	public GameObject finishHand;
+	public GameObject finishFoot;
 
     public enum PHASE
     {
@@ -45,18 +48,41 @@ public class PhysicsTest : MonoBehaviour {
 
 	}
 
+    void ClearMeasuredTime()
+    {
+
+        foreach (CheckBound bound in handBounds)
+        {
+            bound.timeSpent = 0f;
+        }
+        foreach (CheckBound bound in footBounds)
+        {
+            bound.timeSpent = 0f;
+        }
+
+    }
+
+    void StartTest(int latency)
+    {
+        ClearMeasuredTime();
+        chosenLatency = latency;
+        latencyHandler.latency_ms = chosenLatency;
+        phase = PHASE.HAND;
+        saved = false;
+        StartCoroutine(StartPhaseInS(15f));
+    }
+
 
 	void OnEnable()
 	{
-		SetActiveBounds(handBounds, false);
-		SetActiveBounds(footBounds, false);
+		//SetActiveBounds(handBounds, false);
+		//SetActiveBounds(footBounds, false);
 		if (righthanded)
 		{
 			PrepareRightHanded(phaseHand);
 			//PrepareRightHanded(phaseFoot);
 		}
 		participantID = Random.Range(0, 100000);
-		StartCoroutine(StartPhaseInS(30));
 	}
 
 	void SetActiveBounds(CheckBound[] bounds, bool active)
@@ -64,6 +90,15 @@ public class PhysicsTest : MonoBehaviour {
 		foreach(CheckBound testBound in bounds)
 		{
 			testBound.measure = active;
+            testBound.contacts = new List<Collider>();
+            foreach(Transform target in testBound.transform)
+            {
+                if (target.name.Equals("Target"))
+                {
+                    target.GetComponent<CheckFinish>().trigger = active;
+                    break;
+                }
+            }
 		}
 	}
 
@@ -80,27 +115,25 @@ public class PhysicsTest : MonoBehaviour {
 		
 		if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
-			chosenLatency = noLatency;
-			latencyHandler.latency_ms = chosenLatency;
+            StartTest(noLatency);
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha2))
 		{
-			chosenLatency = mediumLatency;
-			latencyHandler.latency_ms = chosenLatency;
-		}
+            StartTest(mediumLatency);
+        }
 
-		if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
 		{
-			chosenLatency = highLatency;
-			latencyHandler.latency_ms = chosenLatency;
-		}
+            StartTest(highLatency);
+        }
 
-	}
+    }
 
 	void ResetTask()
 	{
-		timeUntilCompletion = 0;
+        ClearMeasuredTime();
+        timeUntilCompletion = 0;
         if (phase.Equals(PHASE.HAND))
         {
             finishHand.transform.position = new Vector3(-finishHand.transform.position.x, finishHand.transform.position.y, finishHand.transform.position.z);
@@ -108,27 +141,57 @@ public class PhysicsTest : MonoBehaviour {
         }
         else
         {
-
+            //TODO pause test until player at start position
         }
 	}
 
     IEnumerator StartPhaseInS(float timeLeft)
     {
         run = false;
+        countdownDisplay.enabled = true;
         completionsDisplay.text = "" + 0;
+
         while (timeLeft != 0)
         {
+            Debug.Log("countdown");
+
             countdownDisplay.text = "" + timeLeft;
             yield return new WaitForSeconds(1.0f);
             timeLeft--;
         }
 
+        countdownDisplay.enabled = false;
+
         pidTestRunner.gameObject.SetActive(true);
         pidTestRunner.ResetTestRunner();
         pidTestRunner.StartManualRecord();
         run = true;
-        SetActiveBounds(phase.Equals(PHASE.HAND) ? handBounds : footBounds, true);
-        finishHand.GetComponent<CheckFinish>().trigger = true;
+        if (phase.Equals(PHASE.HAND))
+        {
+            ClearMeasuredTime();
+
+            finishFoot.GetComponent<CheckFinish>().trigger = false;
+            SetActiveBounds(footBounds, false);
+            phaseFoot.gameObject.SetActive(false);
+
+            phaseHand.gameObject.SetActive(true);
+            SetActiveBounds(handBounds, true);
+            finishHand.GetComponent<CheckFinish>().trigger = true;
+        }
+        else
+        {
+            ClearMeasuredTime();
+
+            finishHand.GetComponent<CheckFinish>().trigger = false;
+            SetActiveBounds(handBounds, false);
+            phaseHand.gameObject.SetActive(false);
+
+            phaseFoot.gameObject.SetActive(true);
+            SetActiveBounds(footBounds, true);
+            finishFoot.GetComponent<CheckFinish>().trigger = true;
+        }
+
+        StartCoroutine(DisplayRemainingTime());
 
     }
 
@@ -154,69 +217,86 @@ public class PhysicsTest : MonoBehaviour {
 
 		SuccessfullTask task = new SuccessfullTask(boundsTimes, timeUntilCompletion);
 		completions.Add(task);
-
         completionsDisplay.text = "" + completions.Count();
 
         ResetTask();
 	}
 
-	void ResetTest()
-	{
-        
-	}
 
     IEnumerator DisplayRemainingTime()
     {
-        while (phaseRunTime < testDurationInS)
+        float time = testDurationInS;
+        remainingTimeDisplay.enabled = true;
+        remainingTimeDisplay.text = "" + testDurationInS;
+        while (time != 0)
         {
-            countdownDisplay.text = "" + (int)(testDurationInS - phaseRunTime);
+            remainingTimeDisplay.text = "" + time;
             yield return new WaitForSeconds(1.0f);
+            time--;
         }
+        remainingTimeDisplay.enabled = false;
     }
 
 	// Update is called once per frame
 	void FixedUpdate()
 	{
-        
 		if (run)
 		{
-            StartCoroutine(DisplayRemainingTime());
 			phaseRunTime += Time.deltaTime;
 			if (phaseRunTime > testDurationInS)
 			{
+                StopCoroutine("DisplayRemainingTime");
+                StopCoroutine("StartPhaseInS");
 				timeUntilCompletion += Time.deltaTime;
 				if (phase.Equals(PHASE.HAND))
 				{
-					//Start foot test
+                    //Start foot test
+                    timeUntilCompletion = 0;
+                    phaseRunTime = 0;
 					phaseHand.gameObject.SetActive(false);
 					phaseFoot.gameObject.SetActive(true);
 					phase = PHASE.FOOT;
+                    Debug.Log("hand phase done");
 					StartCoroutine(StartPhaseInS(15));
 				}
 				else
-				{
-					if (!saved)
-					{
-						//End Test & Save
-						//SaveResults();
-						ResetTest();
-						saved = true;
-					}
-				}
-			}
+                {
+                    if (!saved)
+                    {
+                        Debug.Log("foot phase done");
+                        saved = true;
+                        run = false;
+                        //End Test & Save
+                        TestWrapUp();
+                    }
+                }
+                remainingTimeDisplay.enabled = false;
+            }
 		}
 	}
 
 	public void TestWrapUp()
 	{
-		SaveResults();
+        phaseRunTime = 0;
+        finishFoot.GetComponent<CheckFinish>().trigger = false;
+        SetActiveBounds(footBounds, false);
+        phaseFoot.gameObject.SetActive(false);
+
+        SaveResults();
+        footCompletions = new List<SuccessfullTask>();
+        handCompletions = new List<SuccessfullTask>();
+        ClearMeasuredTime();
+        timeUntilCompletion = 0;
 	}
 
 	void SaveResults()
 	{
 		string id = chosenLatency + "-" + participantID;
-		string dataPath = Application.dataPath.Replace('/', Path.DirectorySeparatorChar);
-		string folder = Path.Combine(dataPath, "PhysicsTest" + Path.DirectorySeparatorChar + participantID + Path.DirectorySeparatorChar + chosenLatency);
+        char directorySeparator = Path.DirectorySeparatorChar;
+
+
+        string dataPath = testFolder.Replace('/', directorySeparator);
+		string folder = Path.Combine(dataPath, "PhysicsTest" + directorySeparator + participantID + directorySeparator + chosenLatency);
 
 		Directory.CreateDirectory(folder);
 
@@ -232,8 +312,7 @@ public class PhysicsTest : MonoBehaviour {
 
 		json["ID"] = participantID;
 		json["latency"] = chosenLatency;
-		json["timeUntilCompletion"] = timeUntilCompletion;
-
+        
 		if(handCompletions.Count > 0)
 		{
 			Dictionary<string, float> averageTimeInSections = GetAverageTimeInSections(handCompletions);
@@ -264,23 +343,6 @@ public class PhysicsTest : MonoBehaviour {
 			json["foot_" + i] = footCompletions[i].ToJson();
 		}
 
-		/*
-		json["timeA"] = pickupObj.timeA1 + pickupObj.timeA2;
-		json["timeA1"] = pickupObj.timeA1;
-		json["timeA2"] = pickupObj.timeA2;
-
-		json["timeB"] = pickupObj.timeB1 + pickupObj.timeB2;
-		json["timeB1"] = pickupObj.timeB1;
-		json["timeB2"] = pickupObj.timeB2;
-
-		json["timeC"] = pickupObj.timeC1 + pickupObj.timeC2;
-		json["timeC1"] = pickupObj.timeC1;
-		json["timeC2"] = pickupObj.timeC2;
-
-		json["timeD"] = pickupObj.timeD1 + pickupObj.timeD2;
-		json["timeD1"] = pickupObj.timeD1;
-		json["timeD2"] = pickupObj.timeD2;
-		*/
 		return json;
 	}
 	class SuccessfullTask
@@ -289,7 +351,6 @@ public class PhysicsTest : MonoBehaviour {
 		Dictionary<string, float> bounds;
 		public SuccessfullTask(Dictionary<string, float> bounds, float completionTime)
 		{
-
 			this.bounds = bounds;
 			this.completionTime = completionTime;
 		}
@@ -311,8 +372,6 @@ public class PhysicsTest : MonoBehaviour {
 		{
 			return bounds;
 		}
-
-
     }
     Dictionary<string, float> GetAverageTimeInSections(List<SuccessfullTask> tasks)
 	{

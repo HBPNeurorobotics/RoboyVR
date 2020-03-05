@@ -6,7 +6,7 @@ public class CheckBound : MonoBehaviour {
 
 	public float timeSpent = 0;
 	public bool measure;
-	List<Collider> contacts = new List<Collider>();
+	public List<Collider> contacts = new List<Collider>();
 	MeshRenderer renderer;
 	Color defaultCol;
 	// Use this for initialization
@@ -43,7 +43,6 @@ public class CheckBound : MonoBehaviour {
 		if (measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 20)
 		{
 			contacts.Remove(other);
-
 		}
 	}
 
@@ -55,4 +54,5 @@ public class CheckBound : MonoBehaviour {
             child.gameObject.GetComponent<MeshRenderer>().material.color = color;
         }
     }
+
 }
