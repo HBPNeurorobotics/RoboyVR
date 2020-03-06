@@ -95,13 +95,14 @@ public class PhysicsTest : MonoBehaviour {
 			testBound.measure = active;
             testBound.contacts = new List<Collider>();
            
-            foreach(Transform target in testBound.transform)
+            foreach(Transform child in testBound.transform)
             {
-                if (target.name.Equals("Target"))
+                if (child.name.Equals("Target"))
                 {
-                    target.GetComponent<CheckFinish>().trigger = active;
-                    break;
+                    child.GetComponent<CheckFinish>().trigger = active;
+
                 }
+                child.GetComponent<BoxCollider>().enabled = active;
             }
 		}
 	}

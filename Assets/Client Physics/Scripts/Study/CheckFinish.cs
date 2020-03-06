@@ -7,6 +7,7 @@ public class CheckFinish : MonoBehaviour {
 	public bool trigger;
     public bool isTarget;
     Vector4 defaultCol;
+    public Color highlightCol;
 
     public PhysicsTest.PHASE phase;
 	// Use this for initialization
@@ -18,26 +19,27 @@ public class CheckFinish : MonoBehaviour {
 	void Update () {
 		
 	}
-	void OnTriggerEnter(Collider other)
+	void OnCollisionEnter(Collision other)
 	{
 		//It has been hit by a limb of the player
-		if (trigger && (other.gameObject.layer == 10 || other.gameObject.layer == 11 || other.gameObject.layer == 13 || other.gameObject.layer == 14 || other.gameObject.layer == 19 || other.gameObject.layer == 20 || other.gameObject.layer == 25 || other.gameObject.layer == 26) )
+		if (trigger && (other.gameObject.layer == 19 || other.gameObject.layer == 20 || other.gameObject.layer == 25 || other.gameObject.layer == 26))
 		{
-			trigger = false;
+			
             if (isTarget)
             {
-                SetColor(new Vector4(0, 1, 0, defaultCol.w));
+                SetColor(highlightCol);
             }
             else
             {
+                trigger = false;
                 test.OnFinishLineReached(phase);
             }
 		}
 	}
 
-    private void OnTriggerExit(Collider other)
+    private void OnCollisionExit(Collision other)
     {
-        if (trigger && (other.gameObject.layer == 10 || other.gameObject.layer == 11 || other.gameObject.layer == 13 || other.gameObject.layer == 14 || other.gameObject.layer == 19 || other.gameObject.layer == 20))
+        if (trigger && (other.gameObject.layer == 19 || other.gameObject.layer == 20 || other.gameObject.layer == 25 || other.gameObject.layer == 26))
         {
             trigger = true;
             if (isTarget)
@@ -49,11 +51,8 @@ public class CheckFinish : MonoBehaviour {
 
     void SetColor(Vector4 new_Color)
     {
-        foreach(Transform wall in gameObject.transform.parent)
-        {
-            Debug.Log(gameObject.name + "  " + wall.name);
-            wall.gameObject.GetComponent<MeshRenderer>().material.color = new_Color;
-        }
+
+        GetComponent<MeshRenderer>().material.color = new_Color;
     }
 
 }

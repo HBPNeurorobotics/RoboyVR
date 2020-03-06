@@ -30,19 +30,19 @@ public class CheckBound : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter(Collider other)
+	void OnCollisionEnter(Collision other)
 	{
 		//It has been hit by the body of the player
 		if(measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 26 && other.gameObject.layer != 13 && other.gameObject.layer != 14)
 		{
-			contacts.Add(other);
+			contacts.Add(other.collider);
 		}
 	}
-	void OnTriggerExit(Collider other)
+	void OnCollisionExit(Collision other)
 	{
         if (measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 26 && other.gameObject.layer != 13 && other.gameObject.layer != 14)
         {
-            contacts.Remove(other);
+            contacts.Remove(other.collider);
 		}
 	}
 
@@ -51,7 +51,10 @@ public class CheckBound : MonoBehaviour {
         renderer.material.color = color;
         foreach (Transform child in transform)
         {
-            child.gameObject.GetComponent<MeshRenderer>().material.color = color;
+            if (!child.name.Equals("Target"))
+            {
+                child.gameObject.GetComponent<MeshRenderer>().material.color = color;
+            }
         }
     }
 
