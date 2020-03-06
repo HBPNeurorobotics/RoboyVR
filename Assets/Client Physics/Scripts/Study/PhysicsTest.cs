@@ -243,7 +243,6 @@ public class PhysicsTest : MonoBehaviour {
         finishHand.GetComponent<BoxCollider>().enabled = true;
         finishFoot.GetComponent<BoxCollider>().enabled = true;
 
-
         ResetTask();
 	}
 
@@ -281,9 +280,10 @@ public class PhysicsTest : MonoBehaviour {
                     //Start foot test
 					phaseHand.gameObject.SetActive(false);
 					phaseFoot.gameObject.SetActive(true);
+                    //SetActiveBounds(footBounds, false);
 					phase = PHASE.FOOT;
                     Debug.Log("hand phase done");
-					StartCoroutine(StartPhaseInS(15));
+					StartCoroutine(StartPhaseInS(15f));
 				}
 				else
                 {
