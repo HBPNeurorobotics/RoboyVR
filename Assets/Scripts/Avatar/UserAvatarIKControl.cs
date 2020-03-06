@@ -9,8 +9,9 @@ public class UserAvatarIKControl : MonoBehaviour
 
     [SerializeField] public bool ikActive = true;
     [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
-    [SerializeField] private Vector3 inferredBodyTargetOffset = new Vector3(0f, 0.45f, 0f);
+    [SerializeField] private Vector3 inferredBodyTargetOffset = new Vector3(0f, 0f, 0f);
     [SerializeField] private Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
+    [SerializeField] private Pose manualBodyOffset;
     [SerializeField] private Transform nonGazeboZeroPoint;
     [SerializeField] private Transform nonGazeboBodyPoint;
 
@@ -68,8 +69,8 @@ public class UserAvatarIKControl : MonoBehaviour
                 // position body
                 if (bodyTarget != null)
                 {
-                    this.transform.position = bodyTarget.position;
-                    this.transform.rotation = bodyTarget.rotation;
+                    this.transform.position = bodyTarget.position + manualBodyOffset.position;
+                    this.transform.rotation = new Quaternion(bodyTarget.rotation.x + manualBodyOffset.rotation.x, bodyTarget.rotation.y + manualBodyOffset.rotation.y, bodyTarget.rotation.z + manualBodyOffset.rotation.z, bodyTarget.rotation.w);
                 }
                 // no body target, but head and feet targets
                 else if (headTarget != null && leftFootTarget != null && rightFootTarget != null)
