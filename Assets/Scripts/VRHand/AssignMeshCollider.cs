@@ -60,8 +60,6 @@ public class AssignMeshCollider : MonoBehaviour {
 
     private bool initialized = false;
 
-    //[SerializeField] private UserAvatarService userAvatarService;
-
     private GameObject lHand_vib;
 
     private GameObject lThumb1_vib;
@@ -115,7 +113,7 @@ public class AssignMeshCollider : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!initialized && UserAvatarService.Instance.IsRemoteAvatarPresent) // delete test, then everything sould work
+		if(!initialized && UserAvatarService.Instance.IsRemoteAvatarPresent)
         {
             lHand_vib = GameObject.Find(lHand);
             lHand_vib.AddComponent<MeshCollider>();
@@ -207,32 +205,24 @@ public class AssignMeshCollider : MonoBehaviour {
             System.Type MyScriptType = System.Type.GetType(ScriptName + ",Assembly-CSharp");
             box1.AddComponent(MyScriptType);
             box1.AddComponent<BoxCollider>();
-            //box1.GetComponent<BoxCollider>().isTrigger = true;
             box1.AddComponent<Rigidbody>();
             box1.GetComponent<Rigidbody>().useGravity = false;
-            //box1.GetComponent<Rigidbody>().isKinematic = true;
-
+            
             box2.AddComponent(MyScriptType);
             box2.AddComponent<BoxCollider>();
-            //box2.GetComponent<BoxCollider>().isTrigger = true;
             box2.AddComponent<Rigidbody>();
             box2.GetComponent<Rigidbody>().useGravity = false;
-            //box2.GetComponent<Rigidbody>().isKinematic = true;
-
+            
             box3.AddComponent(MyScriptType);
             box3.AddComponent<BoxCollider>();
-            //box3.GetComponent<BoxCollider>().isTrigger = true;
             box3.AddComponent<Rigidbody>();
             box3.GetComponent<Rigidbody>().useGravity = false;
-            //box3.GetComponent<Rigidbody>().isKinematic = true;
-
+            
             box4.AddComponent(MyScriptType);
             box4.AddComponent<BoxCollider>();
-            //box4.GetComponent<BoxCollider>().isTrigger = true;
             box4.AddComponent<Rigidbody>();
             box4.GetComponent<Rigidbody>().useGravity = false;
-            //box4.GetComponent<Rigidbody>().isKinematic = true;
-
+            
             initialized = true;
         }
         if (initialized)

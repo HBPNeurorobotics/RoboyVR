@@ -179,11 +179,7 @@ public class UserAvatarIKControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (ikActive && trackingIKTargetManager.IsReady())
-        {
-            //lModelThumb1.transform.SetPositionAndRotation(leftThumb1.position, leftThumb1.rotation);
-            //lModelThumb1.transform.rotation = leftThumb1.rotation;
-        }
+
 	}
 
     //a callback for calculating IK
@@ -342,10 +338,6 @@ public class UserAvatarIKControl : MonoBehaviour {
 
             updateFingerTargetLeft();
             updateFingerTargetRight();
-            //Vector3 rot = leftThumb1.rotation.eulerAngles;
-            //rot = new Vector3(rot.x, rot.y, rot.z);
-            //lModelThumb1.transform.rotation = Quaternion.Euler(rot.x, rot.y, rot.z);
-
         }
         
     }
@@ -408,42 +400,15 @@ public class UserAvatarIKControl : MonoBehaviour {
 
     private void updateFingerTargetLeft()
     {
-        //Vector3 rot = leftThumb1.rotation.eulerAngles;
-        //rot = new Vector3(rot.x - 20, rot.y - 40, rot.z - 50);
-        //lModelThumb1.transform.SetPositionAndRotation(leftThumb1.position, leftThumb1.rotation);
         lModelThumb1.transform.rotation = leftThumb1.rotation;
-        //lModelThumb2.transform.SetPositionAndRotation(leftThumb2.position, leftThumb2.rotation);
         lModelThumb2.transform.rotation = leftThumb2.rotation;
-        //lModelThumb3.transform.SetPositionAndRotation(leftThumb3.position, leftThumb3.rotation);
         lModelThumb3.transform.rotation = leftThumb3.rotation;
-        //lModelThumb4.transform.SetPositionAndRotation(leftThumb4.position, leftThumb4.rotation);
         lModelThumb4.transform.rotation = leftThumb4.rotation;
 
-        //lModelIndex1.transform.SetPositionAndRotation(leftIndex1.position, leftIndex1.rotation);
         lModelIndex1.transform.rotation = leftIndex1.rotation;
-        //lModelIndex2.transform.SetPositionAndRotation(leftIndex2.position, leftIndex2.rotation);
         lModelIndex2.transform.rotation = leftIndex2.rotation;
-        //lModelIndex3.transform.SetPositionAndRotation(leftIndex3.position, leftIndex3.rotation);
         lModelIndex3.transform.rotation = leftIndex3.rotation;
-        //lModelIndex4.transform.SetPositionAndRotation(leftIndex4.position, leftIndex4.rotation);
         lModelIndex4.transform.rotation = leftIndex4.rotation;
-
-        /*
-        lModelMiddle1.transform.SetPositionAndRotation(leftMiddle1.position, leftMiddle1.rotation);
-        lModelMiddle2.transform.SetPositionAndRotation(leftMiddle2.position, leftMiddle2.rotation);
-        lModelMiddle3.transform.SetPositionAndRotation(leftMiddle3.position, leftMiddle3.rotation);
-        lModelMiddle4.transform.SetPositionAndRotation(leftMiddle4.position, leftMiddle4.rotation);
-
-        lModelRing1.transform.SetPositionAndRotation(leftRing1.position, leftRing1.rotation);
-        lModelRing2.transform.SetPositionAndRotation(leftRing2.position, leftRing2.rotation);
-        lModelRing3.transform.SetPositionAndRotation(leftRing3.position, leftRing3.rotation);
-        lModelRing4.transform.SetPositionAndRotation(leftRing4.position, leftRing4.rotation);
-
-        lModelPinky1.transform.SetPositionAndRotation(leftPinky1.position, leftPinky1.rotation);
-        lModelPinky2.transform.SetPositionAndRotation(leftPinky2.position, leftPinky2.rotation);
-        lModelPinky3.transform.SetPositionAndRotation(leftPinky3.position, leftPinky3.rotation);
-        lModelPinky4.transform.SetPositionAndRotation(leftPinky4.position, leftPinky4.rotation);
-        */
 
         lModelMiddle1.transform.rotation = leftMiddle1.rotation;
         lModelMiddle2.transform.rotation = leftMiddle2.rotation;
@@ -463,37 +428,11 @@ public class UserAvatarIKControl : MonoBehaviour {
 
     private void updateFingerTargetRight()
     {
-        //rModelThumb1.transform.SetPositionAndRotation(rightThumb1.position, rightThumb1.rotation);
         rModelThumb1.transform.rotation = rightThumb1.rotation;
-        //rModelThumb2.transform.SetPositionAndRotation(rightThumb2.position, rightThumb2.rotation);
         rModelThumb2.transform.rotation = rightThumb2.rotation;
-        //rModelThumb3.transform.SetPositionAndRotation(rightThumb3.position, rightThumb3.rotation);
         rModelThumb3.transform.rotation = rightThumb3.rotation;
-        //rModelThumb4.transform.SetPositionAndRotation(rightThumb4.position, rightThumb4.rotation);
         rModelThumb4.transform.rotation = rightThumb4.rotation;
-
-        /*
-        rModelIndex1.transform.SetPositionAndRotation(rightIndex1.position, rightIndex1.rotation);
-        rModelIndex2.transform.SetPositionAndRotation(rightIndex2.position, rightIndex2.rotation);
-        rModelIndex3.transform.SetPositionAndRotation(rightIndex3.position, rightIndex3.rotation);
-        rModelIndex4.transform.SetPositionAndRotation(rightIndex4.position, rightIndex4.rotation);
-
-        rModelMiddle1.transform.SetPositionAndRotation(rightMiddle1.position, rightMiddle1.rotation);
-        rModelMiddle2.transform.SetPositionAndRotation(rightMiddle2.position, rightMiddle2.rotation);
-        rModelMiddle3.transform.SetPositionAndRotation(rightMiddle3.position, rightMiddle3.rotation);
-        rModelMiddle4.transform.SetPositionAndRotation(rightMiddle4.position, rightMiddle4.rotation);
-
-        rModelRing1.transform.SetPositionAndRotation(rightRing1.position, rightRing1.rotation);
-        rModelRing2.transform.SetPositionAndRotation(rightRing2.position, rightRing2.rotation);
-        rModelRing3.transform.SetPositionAndRotation(rightRing3.position, rightRing3.rotation);
-        rModelRing4.transform.SetPositionAndRotation(rightRing4.position, rightRing4.rotation);
-
-        rModelPinky1.transform.SetPositionAndRotation(rightPinky1.position, rightPinky1.rotation);
-        rModelPinky2.transform.SetPositionAndRotation(rightPinky2.position, rightPinky2.rotation);
-        rModelPinky3.transform.SetPositionAndRotation(rightPinky3.position, rightPinky3.rotation);
-        rModelPinky4.transform.SetPositionAndRotation(rightPinky4.position, rightPinky4.rotation);
-        */
-
+        
         rModelIndex1.transform.rotation = rightIndex1.rotation;
         rModelIndex2.transform.rotation = rightIndex2.rotation;
         rModelIndex3.transform.rotation = rightIndex3.rotation;

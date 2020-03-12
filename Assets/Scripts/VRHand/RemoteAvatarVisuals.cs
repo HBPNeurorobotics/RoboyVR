@@ -35,7 +35,6 @@ public class RemoteAvatarVisuals : MonoBehaviour {
     {
         this.opacity = opacity;
 
-        //Renderer[] renderers = this.GetComponentsInChildren<Renderer>();
         Renderer[] renderers = new Renderer[] {hips.GetComponentInChildren<Renderer>(), spine.GetComponentInChildren<Renderer>(),
             spine1.GetComponentInChildren<Renderer>(), spine1Visuals.GetComponentInChildren<Renderer>(), spine2.GetComponentInChildren<Renderer>() };
         foreach (Renderer renderer in renderers)

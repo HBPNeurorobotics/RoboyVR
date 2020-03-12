@@ -105,7 +105,6 @@ public class TrackingFKManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        // in eigene methode auslagern, dann durch die children durchgehen
         virtualtWrist = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r").transform;
 
         virtualtThumb1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r").transform;
@@ -166,14 +165,8 @@ public class TrackingFKManager : MonoBehaviour {
     void Update() {
         if (trackingIKTargetManager.IsReady())
         {
-            //Vector3 rot = tThumb1.transform.rotation.eulerAngles;
-            //rot = new Vector3(rot.x, rot.y-90f, rot.z);
-            //TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, Quaternion.Euler(rot));
-            //TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, tThumb1.transform.rotation);
-            //TargetThumb1.transform.position = tThumb1.transform.position;
             TargetThumb1.transform.rotation = virtualtThumb1.transform.rotation;
-            //Debug.Log(TargetThumb1.transform.rotation);
-
+            
             TargetThumb2.transform.SetPositionAndRotation(virtualtThumb2.transform.position, virtualtThumb2.transform.rotation);
             TargetThumb3.transform.SetPositionAndRotation(virtualtThumb3.transform.position, virtualtThumb3.transform.rotation);
             TargetThumb4.transform.SetPositionAndRotation(virtualtThumb4.transform.position, virtualtThumb4.transform.rotation);
@@ -199,7 +192,7 @@ public class TrackingFKManager : MonoBehaviour {
             TargetPinky4.transform.SetPositionAndRotation(virtualtPinky4.transform.position, virtualtPinky4.transform.rotation);
 
             TargetThumb1R.transform.rotation = virtualtThumb1R.transform.rotation;
-            //TargetThumb1R.transform.SetPositionAndRotation(virtualtThumb1R.transform.position, virtualtThumb1R.transform.rotation);
+
             TargetThumb2R.transform.SetPositionAndRotation(virtualtThumb2R.transform.position, virtualtThumb2R.transform.rotation);
             TargetThumb3R.transform.SetPositionAndRotation(virtualtThumb3R.transform.position, virtualtThumb3R.transform.rotation);
             TargetThumb4R.transform.SetPositionAndRotation(virtualtThumb4R.transform.position, virtualtThumb4R.transform.rotation);
@@ -277,10 +270,7 @@ public class TrackingFKManager : MonoBehaviour {
     {
         TargetThumb1 = new GameObject("Left Target Thumb1");
         TargetThumb1.transform.parent = trackingTarget;
-        //Debug.Log(string.Format("Target Thumb1: {0} {1} {2}", virtualtThumb1.localPosition.x, virtualtThumb1.localPosition.y, virtualtThumb1.localPosition.z));
         TargetThumb1.transform.localPosition = virtualtThumb1.localPosition;
-        //TargetThumb1.transform.localRotation = new Quaternion();
-        //TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, tThumb1.transform.rotation);
     }
 
     private void SetupTargetThumb2(Transform trackingTarget)
@@ -478,8 +468,6 @@ public class TrackingFKManager : MonoBehaviour {
         TargetThumb1R = new GameObject("Right Target Thumb1");
         TargetThumb1R.transform.parent = trackingTarget;
         TargetThumb1R.transform.localPosition = virtualtThumb1R.localPosition;
-
-        //TargetThumb1R.transform.SetPositionAndRotation(virtualtThumb1R.transform.position, virtualtThumb1R.transform.rotation);
     }
 
     private void SetupTargetThumb2R(Transform trackingTarget)
@@ -674,17 +662,9 @@ public class TrackingFKManager : MonoBehaviour {
     
     public Transform GetTargetThumb1()
     {
-        //Debug.Log(TargetThumb1.transform.position);
         return TargetThumb1.transform;
     }
     
-    /*
-    public Transform GetTargetThumb1()
-    {
-        //Debug.Log(virtualtThumb1.position);
-        return virtualtThumb1;
-    }
-    */
     public Transform GetTargetThumb2()
     {
         return TargetThumb2.transform;

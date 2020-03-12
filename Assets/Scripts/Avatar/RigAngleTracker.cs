@@ -395,7 +395,7 @@ public class RigAngleTracker : MonoBehaviour
             new JointMapping(rightHand, rightThumb1_jlink1, true, MappedEulerAngle.InvertedZ);
         
         _jointMappings[R_HAND_THUMB2_NAME] =
-            new JointMapping(rightThumb1, rightThumb2, true, MappedEulerAngle.Y);   // Was Y before, change back to 0 1 0 in Model.Sdf
+            new JointMapping(rightThumb1, rightThumb2, true, MappedEulerAngle.Y);
 
         _jointMappings[R_HAND_THUMB3_NAME] =
             new JointMapping(rightThumb2, rightThumb3, true, MappedEulerAngle.Y);

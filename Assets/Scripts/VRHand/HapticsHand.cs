@@ -9,7 +9,6 @@ public class HapticsHand : MonoBehaviour {
 
     public SteamVR_Action_Vibration hapticAction = SteamVR_Input.GetAction<SteamVR_Action_Vibration>("Haptic");
 
-    //[SerializeField] public UserAvatarService userAvatarService; //use instance instead!
     [SerializeField] public AssignMeshCollider assign;
 
     private bool initialized = false;
@@ -28,10 +27,7 @@ public class HapticsHand : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //TriggerHapticPulse(1f, 150f, 75f);
-        // safe ip: 192.168.0.190 slow backend
-        // safe ip: 131.159.10.145 fast backend
-        if (UserAvatarService.Instance.IsRemoteAvatarPresent && !initialized) // missing statment, only do, if right scene is loaded!
+        if (UserAvatarService.Instance.IsRemoteAvatarPresent && !initialized)
         {
             box1 = GameObject.Find("box_0_0::link::collision__COLLISION_VISUAL__/Cube");
             box2 = GameObject.Find("box_0_0_0::link::collision__COLLISION_VISUAL__/Cube");
