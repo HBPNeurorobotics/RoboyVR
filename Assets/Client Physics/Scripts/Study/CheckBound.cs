@@ -7,6 +7,7 @@ public class CheckBound : MonoBehaviour {
 	public float timeSpent = 0;
 	public bool measure;
 	public List<Collider> contacts = new List<Collider>();
+    public Dictionary<string, float> timesPerBodyParts = new Dictionary<string, float>();
 	MeshRenderer renderer;
 	Color defaultCol;
 	// Use this for initialization
@@ -36,26 +37,41 @@ public class CheckBound : MonoBehaviour {
 		if(measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 26 && other.gameObject.layer != 13 && other.gameObject.layer != 14)
 		{
 			contacts.Add(other.collider);
+            TimeBodyPart timeBodyPart = gameObject.AddComponent<TimeBodyPart>();
+            timeBodyPart.name = other.collider.name;
+
+            if (!timesPerBodyParts.ContainsKey(other.collider.name))
+            {
+                timesPerBodyParts.Add(other.collider.name, 0f);
+            }
 		}
 	}
+
 	void OnCollisionExit(Collision other)
 	{
         if (measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 26 && other.gameObject.layer != 13 && other.gameObject.layer != 14)
         {
             contacts.Remove(other.collider);
+
+            foreach(TimeBodyPart timeBodyPart in gameObject.GetComponents<TimeBodyPart>())
+            {
+                if (timeBodyPart.name.Equals(other.collider.name))
+                {
+                    if (timesPerBodyParts.ContainsKey(other.collider.name))
+                    {
+                        timesPerBodyParts[other.collider.name] += timeBodyPart.time;
+                        Destroy(timeBodyPart);
+                    }
+                }
+            }
+
+            //Debug.Log(other.gameObject.name + " " + timesPerBodyParts[other.gameObject.name]);
 		}
 	}
 
     void SetColors(Color color)
     {
         renderer.material.color = color;
-        foreach (Transform child in transform)
-        {
-            if (!child.name.Equals("Target"))
-            {
-                child.gameObject.GetComponent<MeshRenderer>().material.color = color;
-            }
-        }
     }
 
 }

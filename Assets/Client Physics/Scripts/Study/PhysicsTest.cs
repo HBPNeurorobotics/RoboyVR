@@ -56,11 +56,13 @@ public class PhysicsTest : MonoBehaviour {
         {
             bound.timeSpent = 0f;
             bound.contacts = new List<Collider>();
+            bound.timesPerBodyParts = new Dictionary<string, float>();
         }
         foreach (CheckBound bound in footBounds)
         {
             bound.timeSpent = 0f;
             bound.contacts = new List<Collider>();
+            bound.timesPerBodyParts = new Dictionary<string, float>();
         }
 
     }
@@ -212,7 +214,7 @@ public class PhysicsTest : MonoBehaviour {
 
     public void OnFinishLineReached(PHASE phase)
 	{
-		Dictionary<string, float> boundsTimes = new Dictionary<string, float>();
+		Dictionary<string, CheckBoundValueStorage> successFullBounds = new Dictionary<string, CheckBoundValueStorage>();
 		CheckBound[] testBounds;
 		List<SuccessfullTask> completions;
 		if (phase.Equals(PHASE.HAND))
@@ -229,10 +231,10 @@ public class PhysicsTest : MonoBehaviour {
 		}
 		foreach(CheckBound bound in testBounds)
 		{
-			boundsTimes.Add(bound.name, bound.timeSpent);
+			successFullBounds.Add(bound.gameObject.name, new CheckBoundValueStorage(bound.timeSpent, bound.timesPerBodyParts));
 		}
 
-		SuccessfullTask task = new SuccessfullTask(boundsTimes, timeUntilCompletion);
+		SuccessfullTask task = new SuccessfullTask(successFullBounds, timeUntilCompletion);
 
         if (timeUntilCompletion > 1)
         {
@@ -367,38 +369,68 @@ public class PhysicsTest : MonoBehaviour {
 		return json;
 	}
 	class SuccessfullTask
-	{
-		float completionTime;
-		Dictionary<string, float> bounds;
-		public SuccessfullTask(Dictionary<string, float> bounds, float completionTime)
-		{
-			this.bounds = bounds;
-			this.completionTime = completionTime;
-		}
+    {
+        float completionTime;
+        Dictionary<string, CheckBoundValueStorage> bounds;
 
-		public JObject ToJson()
+        public SuccessfullTask(Dictionary<string, CheckBoundValueStorage> bounds, float completionTime)
+        {
+            this.bounds = bounds;
+            this.completionTime = completionTime;
+            foreach(string key in bounds.Keys)
+            {
+                foreach(string bodyPart in bounds[key].timesPerBodyParts.Keys)
+                {
+                    Debug.Log(key + "_" + bodyPart + " :" + bounds[key].timesPerBodyParts[bodyPart]);
+                }
+            }
+        }
+
+        public JObject ToJson()
 		{
 			JObject json = new JObject();
 			json["timeUntilCompletion"] = completionTime;
 
 
-            foreach (string checkBound in bounds.Keys)
+            foreach (string currentBound in bounds.Keys)
 			{
-				json[checkBound] = bounds[checkBound];
+				json[currentBound] = bounds[currentBound].timeSpent;
+                Debug.Log(currentBound +" " +bounds[currentBound].timesPerBodyParts.Count);
+                foreach (string touchedObj in bounds[currentBound].timesPerBodyParts.Keys)
+                {
+                    if (bounds[currentBound].timeSpent > 0f && bounds[currentBound].timesPerBodyParts[touchedObj] > 0f)
+                    {
+                        json[currentBound + "_" + touchedObj] = bounds[currentBound].timesPerBodyParts[touchedObj];
+                        json[currentBound + "_" + touchedObj + " in %"] = (bounds[currentBound].timesPerBodyParts[touchedObj] / bounds[currentBound].timeSpent) * 100f + "%";
+                    }
+                }
 			}
 
 			return json;
 		}
 
-		public Dictionary<string, float> GetBounds()
+		public Dictionary<string, CheckBoundValueStorage> GetBounds()
 		{
 			return bounds;
 		}
     }
+
+    class CheckBoundValueStorage
+    {
+        public float timeSpent;
+        public Dictionary<string, float> timesPerBodyParts = new Dictionary<string, float>();
+
+        public CheckBoundValueStorage(float timeSpent, Dictionary<string, float> timesPerBodyParts)
+        {
+            this.timeSpent = timeSpent;
+            this.timesPerBodyParts = timesPerBodyParts;
+        }
+    }
+
     Dictionary<string, float> GetAverageTimeInSections(List<SuccessfullTask> tasks)
 	{
 		Dictionary<string, float> averageTimeInSections = new Dictionary<string, float>();
-		List<string> keys = averageTimeInSections.Keys.ToList<string>();
+        List<string> keys = new List<string>();
 		foreach(string sectionName in tasks[0].GetBounds().Keys)
 		{
 			keys.Add(sectionName);
@@ -408,7 +440,7 @@ public class PhysicsTest : MonoBehaviour {
 			float totalTimeInSection = 0;
 			foreach (SuccessfullTask success in tasks)
 			{
-				totalTimeInSection += success.GetBounds()[section];
+                totalTimeInSection += success.GetBounds()[section].timeSpent;
 			}
 			averageTimeInSections.Add(section, totalTimeInSection / tasks.Count);
 		}
