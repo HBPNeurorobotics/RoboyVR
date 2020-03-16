@@ -15,7 +15,7 @@ using UnityEngine;
         // Update is called once per frame
         void FixedUpdate()
         {
-            time += Time.deltaTime;
+            time += Time.fixedDeltaTime;
         }
     }
 

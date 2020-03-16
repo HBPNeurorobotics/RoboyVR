@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// Measures time of contact between a body part and an object.
+/// </summary>
 public class CheckBound : MonoBehaviour {
 
 	public float timeSpent = 0;
@@ -19,9 +21,10 @@ public class CheckBound : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () 
 	{
+		// measure time as long as there is contact between the player and the object
 		if (contacts.Count != 0)
 		{
-			timeSpent += Time.deltaTime;
+			timeSpent += Time.fixedDeltaTime;
             Color warningColor = new Vector4(1, 0, 0, defaultCol.a);
             SetColors(warningColor);
 		}
@@ -64,8 +67,6 @@ public class CheckBound : MonoBehaviour {
                     }
                 }
             }
-
-            //Debug.Log(other.gameObject.name + " " + timesPerBodyParts[other.gameObject.name]);
 		}
 	}
 

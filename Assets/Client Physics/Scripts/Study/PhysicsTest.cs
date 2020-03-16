@@ -119,8 +119,14 @@ public class PhysicsTest : MonoBehaviour {
 
 	void Update()
 	{
-		
-		if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            phaseFoot.gameObject.SetActive(true);
+            phase = PHASE.FOOT;
+            StartCoroutine(StartPhaseInS(15f));
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
 		{
             StartTest(noLatency);
 		}
@@ -170,8 +176,6 @@ public class PhysicsTest : MonoBehaviour {
 
         while (timeLeft != 0)
         {
-            Debug.Log("countdown");
-
             countdownDisplay.text = "" + timeLeft;
             yield return new WaitForSeconds(1.0f);
             timeLeft--;
@@ -281,11 +285,10 @@ public class PhysicsTest : MonoBehaviour {
 				{
                     //Start foot test
 					phaseHand.gameObject.SetActive(false);
-					phaseFoot.gameObject.SetActive(true);
                     //SetActiveBounds(footBounds, false);
-					phase = PHASE.FOOT;
                     Debug.Log("hand phase done");
-					StartCoroutine(StartPhaseInS(15f));
+                    SaveResults();
+					//StartCoroutine(StartPhaseInS(15f));
 				}
 				else
                 {
@@ -319,7 +322,7 @@ public class PhysicsTest : MonoBehaviour {
         char directorySeparator = Path.DirectorySeparatorChar;
 
         string dataPath = testFolder.Replace('/', directorySeparator);
-		string folder = Path.Combine(dataPath, "PhysicsTest" + directorySeparator + participantID + directorySeparator + chosenLatency);
+		string folder = Path.Combine(dataPath, "PhysicsTest" + directorySeparator + participantID + directorySeparator + chosenLatency + directorySeparator + phase);
 
 		Directory.CreateDirectory(folder);
 
@@ -377,13 +380,6 @@ public class PhysicsTest : MonoBehaviour {
         {
             this.bounds = bounds;
             this.completionTime = completionTime;
-            foreach(string key in bounds.Keys)
-            {
-                foreach(string bodyPart in bounds[key].timesPerBodyParts.Keys)
-                {
-                    Debug.Log(key + "_" + bodyPart + " :" + bounds[key].timesPerBodyParts[bodyPart]);
-                }
-            }
         }
 
         public JObject ToJson()
@@ -395,7 +391,6 @@ public class PhysicsTest : MonoBehaviour {
             foreach (string currentBound in bounds.Keys)
 			{
 				json[currentBound] = bounds[currentBound].timeSpent;
-                Debug.Log(currentBound +" " +bounds[currentBound].timesPerBodyParts.Count);
                 foreach (string touchedObj in bounds[currentBound].timesPerBodyParts.Keys)
                 {
                     if (bounds[currentBound].timeSpent > 0f && bounds[currentBound].timesPerBodyParts[touchedObj] > 0f)
