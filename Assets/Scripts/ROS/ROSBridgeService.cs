@@ -62,6 +62,11 @@ public class ROSBridgeService : Singleton<ROSBridgeService>
         this.m_Ros.CallService(service, args);
     }
 
+    public bool GetInitialized()
+    {
+        return m_ROSInitialized;
+    }
+
     #endregion //PUBLIC_METHODS
 
     #region PRIVATE_METHODS

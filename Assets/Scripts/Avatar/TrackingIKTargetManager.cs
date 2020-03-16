@@ -43,16 +43,22 @@ public class TrackingIKTargetManager : MonoBehaviour
     private GameObject ikTargetLeftFoot;
     private GameObject ikTargetRightFoot;
 
+    // Bachelors Thesis VRHand
+    [SerializeField] public GameObject vrHand;
+    [SerializeField] public GameObject vrHandRight;
+
     private bool initialized = false;
 
     // Use this for initialization
     void Start ()
     {
+
     }
 	
 	// Update is called once per frame
-	void Update () {}
-
+	void Update () {
+    
+	}
 
     private void OnEnable()
     {
@@ -144,6 +150,7 @@ public class TrackingIKTargetManager : MonoBehaviour
                     trackingTargetHandRight = trackingReference.gameObject.transform;
                     dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.RightHand);
                 }
+                
             }
 
             if (trackingReference.trackedDeviceClass == ETrackedDeviceClass.GenericTracker)
@@ -203,6 +210,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         if (trackingTargetHead) SetupIKTargetLookAt(trackingTargetHead);
         if (trackingTargetBody) SetupIKTargetBody(trackingTargetBody);
         if (trackingTargetHandLeft) SetupIKTargetHandLeft(trackingTargetHandLeft);
+
         if (trackingTargetHandRight) SetupIKTargetHandRight(trackingTargetHandRight);
         if (trackingTargetFootLeft) SetupIKTargetFootLeft(trackingTargetFootLeft);
         if (trackingTargetFootRight) SetupIKTargetFootRight(trackingTargetFootRight);
@@ -230,7 +238,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         ikTargetBody.transform.parent = trackingTarget;
         //TODO: adjustments for body target?
     }
-
+    /*
     private void SetupIKTargetHandLeft(Transform trackingTarget)
     {
         ikTargetLeftHand = new GameObject("IK Target Left Hand");
@@ -238,6 +246,226 @@ public class TrackingIKTargetManager : MonoBehaviour
         ikTargetLeftHand.transform.localPosition = targetOffsetLeftHand.position;
         ikTargetLeftHand.transform.localRotation = targetOffsetLeftHand.rotation;
     }
+    */
+
+    // Bachelor Thesis VRHand
+    
+    private void SetupIKTargetHandLeft(Transform trackingTarget)
+    {
+        ikTargetLeftHand = new GameObject("IK Target Left Hand");
+        ikTargetLeftHand.transform.parent = trackingTarget;
+        ikTargetLeftHand.transform.localPosition = targetOffsetLeftHand.position;
+        ikTargetLeftHand.transform.localRotation = targetOffsetLeftHand.rotation;
+        Vector3 rot = vrHand.transform.rotation.eulerAngles;
+        rot = new Vector3(rot.x, rot.y, rot.z + 90);
+        Vector3 pos = vrHand.transform.position;
+        pos = new Vector3(pos.x - 0.01f, pos.y - 0.015f, pos.z - 0.035f);
+        ikTargetLeftHand.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
+    }
+    
+    /*
+    // TODO: in den legacy code und in den getter das trackingTarget ausgeben
+    private void SetupTargetThumb1 (Transform trackingTarget)
+    {
+        TargetThumb1 = new GameObject("Target Thumb1");
+        TargetThumb1.transform.parent = trackingTarget;
+        Debug.Log(string.Format("Target Thumb1: {0} {1} {2}", tThumb1.localPosition.x, tThumb1.localPosition.y, tThumb1.localPosition.z));
+        TargetThumb1.transform.localPosition = tThumb1.localPosition;
+        //TargetThumb1.transform.localRotation = new Quaternion();
+
+        //TargetThumb1.transform.SetPositionAndRotation(tThumb1.transform.position, tThumb1.transform.rotation);
+    }
+
+    private void SetupTargetThumb2(Transform trackingTarget)
+    {
+        TargetThumb2 = new GameObject("Target Thumb2");
+        TargetThumb2.transform.parent = trackingTarget;
+        TargetThumb2.transform.localPosition = trackingTarget.position;
+        TargetThumb2.transform.localRotation = trackingTarget.rotation;
+        
+        TargetThumb2.transform.SetPositionAndRotation(tThumb2.transform.position, tThumb2.transform.rotation);
+    }
+
+    private void SetupTargetThumb3(Transform trackingTarget)
+    {
+        TargetThumb3 = new GameObject("Target Thumb3");
+        TargetThumb3.transform.parent = trackingTarget;
+        TargetThumb3.transform.localPosition = trackingTarget.position;
+        TargetThumb3.transform.localRotation = trackingTarget.rotation;
+
+        TargetThumb3.transform.SetPositionAndRotation(tThumb3.transform.position, tThumb3.transform.rotation);
+    }
+
+    private void SetupTargetThumb4(Transform trackingTarget)
+    {
+        TargetThumb4 = new GameObject("Target Thumb4");
+        TargetThumb4.transform.parent = trackingTarget;
+        TargetThumb4.transform.localPosition = trackingTarget.position;
+        TargetThumb4.transform.localRotation = trackingTarget.rotation;
+
+        TargetThumb4.transform.SetPositionAndRotation(tThumb4.transform.position, tThumb4.transform.rotation);
+    }
+
+    private void SetupTargetIndex1(Transform tt1)
+    {
+        TargetIndex1 = new GameObject("Target Index1");
+        TargetIndex1.transform.parent = tt1;
+        TargetIndex1.transform.localPosition = tt1.position;
+        TargetIndex1.transform.localRotation = tt1.rotation;
+
+        TargetIndex1.transform.SetPositionAndRotation(tIndex1.transform.position, tIndex1.transform.rotation);
+    }
+
+    private void SetupTargetIndex2(Transform tt2)
+    {
+        TargetIndex2 = new GameObject("Target Index2");
+        TargetIndex2.transform.parent = tt2;
+        TargetIndex2.transform.localPosition = tt2.position;
+        TargetIndex2.transform.localRotation = tt2.rotation;
+
+        TargetIndex2.transform.SetPositionAndRotation(tIndex2.transform.position, tIndex2.transform.rotation);
+    }
+
+    private void SetupTargetIndex3(Transform tt3)
+    {
+        TargetIndex3 = new GameObject("Target Index3");
+        TargetIndex3.transform.parent = tt3;
+        TargetIndex3.transform.localPosition = tt3.position;
+        TargetIndex3.transform.localRotation = tt3.rotation;
+
+        TargetIndex3.transform.SetPositionAndRotation(tIndex3.transform.position, tIndex3.transform.rotation);
+    }
+
+    private void SetupTargetIndex4(Transform tt4)
+    {
+        TargetIndex4 = new GameObject("Target Index4");
+        TargetIndex4.transform.parent = tt4;
+        TargetIndex4.transform.localPosition = tt4.position;
+        TargetIndex4.transform.localRotation = tt4.rotation;
+
+        TargetIndex4.transform.SetPositionAndRotation(tIndex4.transform.position, tIndex4.transform.rotation);
+    }
+
+    private void SetupTargetMiddle1(Transform trackingTarget)
+    {
+        TargetMiddle1 = new GameObject("Target Middle1");
+        TargetMiddle1.transform.parent = trackingTarget;
+        TargetMiddle1.transform.localPosition = trackingTarget.position;
+        TargetMiddle1.transform.localRotation = trackingTarget.rotation;
+
+        TargetMiddle1.transform.SetPositionAndRotation(tMiddle1.transform.position, tMiddle1.transform.rotation);
+    }
+
+    private void SetupTargetMiddle2(Transform trackingTarget)
+    {
+        TargetMiddle2 = new GameObject("Target Middle2");
+        TargetMiddle2.transform.parent = trackingTarget;
+        TargetMiddle2.transform.localPosition = trackingTarget.position;
+        TargetMiddle2.transform.localRotation = trackingTarget.rotation;
+
+        TargetMiddle2.transform.SetPositionAndRotation(tMiddle2.transform.position, tMiddle2.transform.rotation);
+    }
+
+    private void SetupTargetMiddle3(Transform trackingTarget)
+    {
+        TargetMiddle3 = new GameObject("Target Middle3");
+        TargetMiddle3.transform.parent = trackingTarget;
+        TargetMiddle3.transform.localPosition = trackingTarget.position;
+        TargetMiddle3.transform.localRotation = trackingTarget.rotation;
+
+        TargetMiddle3.transform.SetPositionAndRotation(tMiddle3.transform.position, tMiddle3.transform.rotation);
+    }
+
+    private void SetupTargetMiddle4(Transform trackingTarget)
+    {
+        TargetMiddle4 = new GameObject("Target Middle4");
+        TargetMiddle4.transform.parent = trackingTarget;
+        TargetMiddle4.transform.localPosition = trackingTarget.position;
+        TargetMiddle4.transform.localRotation = trackingTarget.rotation;
+
+        TargetMiddle4.transform.SetPositionAndRotation(tMiddle4.transform.position, tMiddle4.transform.rotation);
+    }
+
+    private void SetupTargetRing1(Transform trackingTarget)
+    {
+        TargetRing1 = new GameObject("Target Ring1");
+        TargetRing1.transform.parent = trackingTarget;
+        TargetRing1.transform.localPosition = trackingTarget.position;
+        TargetRing1.transform.localRotation = trackingTarget.rotation;
+
+        TargetRing1.transform.SetPositionAndRotation(tRing1.transform.position, tRing1.transform.rotation);
+    }
+
+    private void SetupTargetRing2(Transform trackingTarget)
+    {
+        TargetRing2 = new GameObject("Target Ring2");
+        TargetRing2.transform.parent = trackingTarget;
+        TargetRing2.transform.localPosition = trackingTarget.position;
+        TargetRing2.transform.localRotation = trackingTarget.rotation;
+
+        TargetRing2.transform.SetPositionAndRotation(tRing2.transform.position, tRing2.transform.rotation);
+    }
+
+    private void SetupTargetRing3(Transform trackingTarget)
+    {
+        TargetRing3 = new GameObject("Target Ring3");
+        TargetRing3.transform.parent = trackingTarget;
+        TargetRing3.transform.localPosition = trackingTarget.position;
+        TargetRing3.transform.localRotation = trackingTarget.rotation;
+
+        TargetRing3.transform.SetPositionAndRotation(tRing3.transform.position, tRing3.transform.rotation);
+    }
+
+    private void SetupTargetRing4(Transform trackingTarget)
+    {
+        TargetRing4 = new GameObject("Target Ring4");
+        TargetRing4.transform.parent = trackingTarget;
+        TargetRing4.transform.localPosition = trackingTarget.position;
+        TargetRing4.transform.localRotation = trackingTarget.rotation;
+
+        TargetRing4.transform.SetPositionAndRotation(tRing4.transform.position, tRing4.transform.rotation);
+    }
+
+    private void SetupTargetPinky1(Transform trackingTarget)
+    {
+        TargetPinky1 = new GameObject("Target Pinky1");
+        TargetPinky1.transform.parent = trackingTarget;
+        TargetPinky1.transform.localPosition = trackingTarget.position;
+        TargetPinky1.transform.localRotation = trackingTarget.rotation;
+
+        TargetPinky1.transform.SetPositionAndRotation(tPinky1.transform.position, tPinky1.transform.rotation);
+    }
+
+    private void SetupTargetPinky2(Transform trackingTarget)
+    {
+        TargetPinky2 = new GameObject("Target Pinky2");
+        TargetPinky2.transform.parent = trackingTarget;
+        TargetPinky2.transform.localPosition = trackingTarget.position;
+        TargetPinky2.transform.localRotation = trackingTarget.rotation;
+
+        TargetPinky2.transform.SetPositionAndRotation(tPinky2.transform.position, tPinky2.transform.rotation);
+    }
+
+    private void SetupTargetPinky3(Transform trackingTarget)
+    {
+        TargetPinky3 = new GameObject("Target Pinky3");
+        TargetPinky3.transform.parent = trackingTarget;
+        TargetPinky3.transform.localPosition = trackingTarget.position;
+        TargetPinky3.transform.localRotation = trackingTarget.rotation;
+
+        TargetPinky3.transform.SetPositionAndRotation(tPinky3.transform.position, tPinky3.transform.rotation);
+    }
+
+    private void SetupTargetPinky4(Transform trackingTarget)
+    {
+        TargetPinky4 = new GameObject("Target Pinky4");
+        TargetPinky4.transform.parent = trackingTarget;
+        TargetPinky4.transform.localPosition = trackingTarget.position;
+        TargetPinky4.transform.localRotation = trackingTarget.rotation;
+
+        TargetPinky4.transform.SetPositionAndRotation(tPinky4.transform.position, tPinky4.transform.rotation);
+    }
+    */
 
     private void SetupIKTargetHandRight(Transform trackingTarget)
     {
@@ -245,8 +473,13 @@ public class TrackingIKTargetManager : MonoBehaviour
         ikTargetRightHand.transform.parent = trackingTarget;
         ikTargetRightHand.transform.localPosition = targetOffsetRightHand.position;
         ikTargetRightHand.transform.localRotation = targetOffsetRightHand.rotation;
+        Vector3 rot = vrHandRight.transform.rotation.eulerAngles;
+        rot = new Vector3(rot.x, rot.y, rot.z - 90);
+        Vector3 pos = vrHandRight.transform.position;
+        pos = new Vector3(pos.x, pos.y - 0.02f, pos.z - 0.035f);
+        ikTargetRightHand.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
     }
-
+        
     private void SetupIKTargetFootLeft(Transform trackingTarget)
     {
         ikTargetLeftFoot = new GameObject("IK Target Left Foot");
@@ -398,7 +631,7 @@ public class TrackingIKTargetManager : MonoBehaviour
     {
         return ikTargetRightHand.transform;
     }
-
+    
     public Transform GetIKTargetLeftFoot()
     {
         return ikTargetLeftFoot.transform;
