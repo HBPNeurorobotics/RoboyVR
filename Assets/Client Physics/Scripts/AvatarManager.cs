@@ -150,7 +150,6 @@ public class AvatarManager : MonoBehaviour
                 if (useJoints)
                 {
                     configJointManager = GetComponent<ConfigJointManager>();
-                    configJointManager.SetFixedJoints();
                     configJointManager.SetupJoints();
                     SetupOrder(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
                     bonesInOrder.Reverse();
