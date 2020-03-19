@@ -14,8 +14,8 @@ public class PhysicsTest : MonoBehaviour {
 	public PIDTuning.TestRunner pidTestRunner;
 	public float testDurationInS;
 	public int noLatency = 0;
-	public int mediumLatency = 35;
-	public int highLatency = 120;
+	public int mediumLatency = 75;
+	public int highLatency = 210;
 	public int chosenLatency = 0;
 	public Transform phaseHand;
 	public Transform phaseFoot;

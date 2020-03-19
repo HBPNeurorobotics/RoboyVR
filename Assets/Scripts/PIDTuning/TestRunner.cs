@@ -93,6 +93,7 @@ namespace PIDTuning
             _testAnimationStateList = ParseTestAnimationStatesInput();
 
             UserAvatarService.Instance.OnAvatarSpawned += ResetTestRunner;
+            if (!UserAvatarService.Instance.use_gazebo) ResetTestRunner();
         }
 
         private void OnDisable()
@@ -140,6 +141,7 @@ namespace PIDTuning
             // We copy the current PID configuration here so that the user cannot accidentally modify it during the test.
             // (They still can do that if they transmit a new configuration, but in that case that's their own fault.)
             var testRunPidConfig = new PidConfiguration(PidConfigurationStorage.Configuration);
+
             if (!UserAvatarService.Instance.use_gazebo)
             {
                 PidConfiguration config = new PidConfiguration(DateTime.UtcNow);

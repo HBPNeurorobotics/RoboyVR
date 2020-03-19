@@ -149,7 +149,7 @@ namespace PIDTuning
                 if (!gazebo && fromTuneAll && currentJoint.lowAngularXLimit.limit == 0 && currentJoint.highAngularXLimit.limit == 0)
                 {
                     Debug.Log("Skipped " + joint + " because of angular limit 0");
-                    yield return null;//new WaitForFixedUpdate();
+                    yield return null;
                 }
                 else
                 {
@@ -230,30 +230,12 @@ namespace PIDTuning
             HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint.Remove(joint.Length - 1));
 
             //set limb radius at joint based on estimated values for joint radius in template
-            float radius = GetRadiusEstimation((HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint.Remove(joint.Length - 1)));
+            float radius = GetDiameterEstimation((HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), joint.Remove(joint.Length - 1)));
 
             //We copy the joint in the avatar template to restore its values later
             ConfigurableJoint configurableJointCopy = UserAvatarService.Instance._avatarManager.GetJointInTemplate(bone, configurableJoint.axis);
             GameObject bodyPart = configurableJoint.gameObject;
             
-            //get total mass driven by joint for non gazebo case
-            float totalMass = 0;
-            if (!gazebo)
-            {
-                Rigidbody rb = bodyPart.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    foreach (Transform child in bodyPart.transform)
-                    {
-                        totalMass += MassAdder(child, rb.mass);
-                    }
-                }
-            }
-            else
-            {
-                totalMass = 1;
-            }
-
             // Set set-point to 0 (even if the PID won't control the joint for now)
             // We are trying to reach the set-point using relay control only for the test
             _localAvatarRig.SetJointEulerAngle(joint, RelayTargetAngle);
@@ -263,7 +245,7 @@ namespace PIDTuning
             while (DateTime.Now - startTime < warmupSeconds)
             {
                 yield return gazebo ? null : new WaitForFixedUpdate();
-                AdjustRelayForce(joint, gazebo, RelayConstantForce, radius, totalMass, bodyPart, configurableJoint);
+                AdjustRelayForce(joint, gazebo, RelayConstantForce, bodyPart, configurableJoint);
             }
 
             bool valueFound = false;
@@ -271,7 +253,7 @@ namespace PIDTuning
             
             while (!valueFound)
             {
-                Debug.Log("Tuning " + joint + ", iteration #"+  iteration + " mass: " + totalMass);
+                Debug.Log("Tuning " + joint + ", iteration #"+  iteration);
                 _testRunner.ResetTestRunner();
                 _testRunner.StartManualRecord();
 
@@ -281,7 +263,7 @@ namespace PIDTuning
                 {
                     //We have to update in sync with the physics for better results
                     yield return gazebo ? null : new WaitForFixedUpdate();
-                    AdjustRelayForce(joint, gazebo, RelayConstantForce, radius, totalMass, bodyPart, configurableJoint);
+                    AdjustRelayForce(joint, gazebo, RelayConstantForce, bodyPart, configurableJoint);
                 }
 
                 // Stop the test and collect data
@@ -298,7 +280,7 @@ namespace PIDTuning
             if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, RelayConstantForce, mirror);
 
             // Get rid of any force
-            SetConstantForceForJoint(joint, 0f, 1, 1, gazebo, bodyPart, configurableJoint);
+            SetConstantForceForJoint(joint, 0f, gazebo, bodyPart, configurableJoint);
 
             // Restore pre-test configurations
             LocalPhysicsToolkit.CopyPasteComponent(configurableJoint, configurableJointCopy);
@@ -320,19 +302,19 @@ namespace PIDTuning
 
         }
 
-        private void AdjustRelayForce(string joint, bool gazebo, float relay, float radius, float totalMass, GameObject bodyPart, ConfigurableJoint jointInScene)
+        private void AdjustRelayForce(string joint, bool gazebo, float relay, GameObject bodyPart, ConfigurableJoint jointInScene)
         {
             if (1f == Mathf.Sign(PoseErrorTracker.GetCurrentStepDataForJoint(joint).Measured - RelayTargetAngle))
             {
-                SetConstantForceForJoint(joint, -relay, radius, totalMass, gazebo, bodyPart, jointInScene);
+                SetConstantForceForJoint(joint, -relay, gazebo, bodyPart, jointInScene);
             }
             else
             {
-                SetConstantForceForJoint(joint, relay, radius, totalMass, gazebo, bodyPart, jointInScene);
+                SetConstantForceForJoint(joint, relay, gazebo, bodyPart, jointInScene);
             }
         }
 
-        private void SetConstantForceForJoint(string joint, float force, float radius, float totalMass, bool gazebo, GameObject bodyPart, ConfigurableJoint jointInScene)
+        private void SetConstantForceForJoint(string joint, float force, bool gazebo, GameObject bodyPart, ConfigurableJoint jointInScene)
         {
             if (gazebo)
             {
@@ -377,7 +359,12 @@ namespace PIDTuning
             }
         }
 
-        float GetRadiusEstimation(HumanBodyBones bone)
+        /// <summary>
+        /// Legacy. Returns diameter of joint (values measured in scene).
+        /// </summary>
+        /// <param name="bone"></param>
+        /// <returns></returns>
+        float GetDiameterEstimation(HumanBodyBones bone)
         {
             switch (bone)
             {
@@ -419,7 +406,12 @@ namespace PIDTuning
                 default: return 0.015f;
             }
         }
-
+        /// <summary>
+        /// Legacy. Sums all masses attached to bone.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="mass"></param>
+        /// <returns></returns>
         float MassAdder(Transform parent, float mass)
         {
             Rigidbody rbParent = parent.gameObject.GetComponent<Rigidbody>();
