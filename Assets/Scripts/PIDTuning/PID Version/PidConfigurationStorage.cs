@@ -120,6 +120,20 @@ namespace PIDTuning
             TransmitFullConfiguration();
         }
 
+        public void ReplaceWithConfigInTemplate()
+        {
+            PoseErrorTracker _poseErrorTracker = GetComponent<PoseErrorTracker>();
+            PidConfiguration config = new PidConfiguration(DateTime.UtcNow);
+            foreach (var joint in _poseErrorTracker.GetJointNames())
+            {
+                ConfigurableJoint configurableJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+                config.Mapping.Add(joint, PidParameters.FromParallelForm(configurableJoint.angularXDrive.positionSpring, 0, configurableJoint.angularXDrive.positionDamper));
+            }
+
+            Configuration = config;
+            //TransmitFullConfiguration();
+        }
+
         public void ResetConfiguration(float kp, float ki, float kd)
         {
             // We need to enumerate the key collection here since lazy evaluation would fail during the call to

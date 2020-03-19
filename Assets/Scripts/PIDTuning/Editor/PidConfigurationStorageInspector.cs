@@ -52,6 +52,14 @@ namespace PIDTuning.Editor
                 }
             }
 
+            if (!UserAvatarService.Instance.use_gazebo)
+            {
+                if (GUILayout.Button("Fill from ConfigurableJoints"))
+                {
+                    configStorage.ReplaceWithConfigInTemplate(); 
+                }
+            }
+
             DrawResetGui(configStorage);
 
             EditorGUILayout.Space();
