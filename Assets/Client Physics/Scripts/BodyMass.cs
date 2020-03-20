@@ -44,7 +44,7 @@ public class BodyMass
 
     #endregion
 
-    #region Center of Mass Percentages of Body Weight
+    #region Center of Mass Percentages of Body Part Length
     const float HEAD_F_COM = 0.5894f;
     const float HEAD_M_COM = 0.5976f;
 
@@ -77,6 +77,9 @@ public class BodyMass
 
     #endregion
 
+    /// <summary>
+    /// The population group that the values should be based on.
+    /// </summary>
     public enum MODE
     {
         FEMALE,
@@ -125,7 +128,10 @@ public class BodyMass
             }
         }
     }
-
+    /// <summary>
+    /// Sets mass and center of mass to anatomically realistic values. 
+    /// </summary>
+    /// <param name="optimized">true: hand and finger segments will weight 1kg. Choose to prevent fingers from separating during collisions with relatively heavy or immovable objects.</param>
     public void SetBodyMasses(bool optimized)
     {
         foreach (HumanBodyBones bone in dict.Keys)
@@ -152,6 +158,7 @@ public class BodyMass
     {
         switch (bone)
         {
+            #region Torso
             case HumanBodyBones.Head: 
                 return GetLengthOfBodySegment(bone) * GetPercentage( HEAD_F_COM, HEAD_M_COM );
             case HumanBodyBones.UpperChest: 
@@ -161,6 +168,9 @@ public class BodyMass
             case HumanBodyBones.Spine:
             case HumanBodyBones.Hips:
                 return GetLengthOfBodySegment(bone) * GetPercentage( LOWER_TRUNK_F_COM, LOWER_TRUNK_M_COM ) ;
+            #endregion
+
+            #region Arms
             case HumanBodyBones.LeftUpperArm:
             case HumanBodyBones.RightUpperArm:
                 return GetLengthOfBodySegment(bone) * GetPercentage( UPPER_ARM_F_COM, UPPER_ARM_M_COM );
@@ -170,6 +180,9 @@ public class BodyMass
             case HumanBodyBones.LeftHand:
             case HumanBodyBones.RightHand:
                 return GetLengthOfBodySegment(bone) * GetPercentage( HAND_F_COM, HAND_M_COM );
+            #endregion
+
+            #region Legs
             case HumanBodyBones.LeftUpperLeg:
             case HumanBodyBones.RightUpperLeg:
                 return GetLengthOfBodySegment(bone) * GetPercentage( THIGH_F_COM, THIGH_M_COM );
@@ -179,10 +192,17 @@ public class BodyMass
             case HumanBodyBones.LeftFoot:
             case HumanBodyBones.RightFoot:
                 return GetLengthOfBodySegment(bone) * GetPercentage( FOOT_F_COM, FOOT_M_COM );
+            #endregion
+            //no values found, CoM remains unchanged
             default: return Vector3.zero;
         }
     }
 
+    /// <summary>
+    /// Approximates the length of a body part by comparing its position with its child. May not be precise for the hips.
+    /// </summary>
+    /// <param name="bone"></param>
+    /// <returns></returns>
     Vector3 GetLengthOfBodySegment(HumanBodyBones bone)
     {
         return (dict[bone].transform.GetChild(0).transform.position - dict[bone].transform.position);
@@ -197,6 +217,7 @@ public class BodyMass
     {
         switch (bone)
         {
+            #region Torso
             case HumanBodyBones.Head: return totalMassKg * GetPercentage( HEAD_F_MASS, HEAD_M_MASS );
             case HumanBodyBones.UpperChest:
             case HumanBodyBones.LeftShoulder:
@@ -207,6 +228,9 @@ public class BodyMass
             case HumanBodyBones.Spine:
             case HumanBodyBones.Hips:
                 return totalMassKg * GetPercentage( LOWER_TRUNK_F_MASS, LOWER_TRUNK_M_MASS ) / 2; //Lower Trunk -> assumption: mass is roughly equally distributed
+            #endregion
+
+            #region Arms
             case HumanBodyBones.LeftUpperArm:
             case HumanBodyBones.RightUpperArm:
                 return totalMassKg * GetPercentage( UPPER_ARM_F_MASS, UPPER_ARM_M_MASS );
@@ -215,7 +239,7 @@ public class BodyMass
                 return totalMassKg * GetPercentage( FORE_ARM_F_MASS, FORE_ARM_M_MASS );
             case HumanBodyBones.LeftHand:
             case HumanBodyBones.RightHand:
-                return totalMassKg * GetPercentage( HAND_F_MASS, HAND_M_MASS ) * 0.4f;
+                return totalMassKg * GetPercentage( HAND_F_MASS, HAND_M_MASS ) * 0.4f; //while there is data on the mass of the hands, that value includes the fingers. Assumption: 40% palm 60% fingers
             case HumanBodyBones.LeftIndexDistal:
             case HumanBodyBones.LeftIndexIntermediate:
             case HumanBodyBones.LeftIndexProximal:
@@ -246,7 +270,10 @@ public class BodyMass
             case HumanBodyBones.RightThumbDistal:
             case HumanBodyBones.RightThumbIntermediate:
             case HumanBodyBones.RightThumbProximal:
-                return totalMassKg * ((GetPercentage(HAND_F_MASS, HAND_M_MASS) * 0.6f) / 15f);
+                return totalMassKg * ((GetPercentage(HAND_F_MASS, HAND_M_MASS) * 0.6f) / 15f); // for lack of data and to simplify, each finger segment weights the same
+            #endregion
+
+            #region Legs
             case HumanBodyBones.LeftUpperLeg:
             case HumanBodyBones.RightUpperLeg:
                 return totalMassKg * GetPercentage( THIGH_F_MASS, THIGH_M_MASS );
@@ -256,10 +283,18 @@ public class BodyMass
             case HumanBodyBones.LeftFoot:
             case HumanBodyBones.RightFoot:
                 return totalMassKg * GetPercentage( FOOT_F_MASS, FOOT_M_MASS );
+            #endregion
+
             default: return 0.02f;
         }
     }
 
+    /// <summary>
+    /// Returns the percentage for a given body part, depending on chosen population group (MODE).
+    /// </summary>
+    /// <param name="female">The percentage for an average female's body part.</param>
+    /// <param name="male">The percentage for an average male's body part.</param>
+    /// <returns></returns>
     float GetPercentage(float female, float male)
     {
         switch (mode)

@@ -330,6 +330,9 @@ public class PhysicsTest : MonoBehaviour {
 
 		pidTestRunner.StopManualRecord();
 		pidTestRunner.SaveTestData(true, folder);
+
+        handCompletions = new List<SuccessfullTask>();
+        footCompletions = new List<SuccessfullTask>();
 	}
 
 	JObject ToJson()
@@ -387,22 +390,48 @@ public class PhysicsTest : MonoBehaviour {
 			JObject json = new JObject();
 			json["timeUntilCompletion"] = completionTime;
 
-
             foreach (string currentBound in bounds.Keys)
 			{
 				json[currentBound] = bounds[currentBound].timeSpent;
                 foreach (string touchedObj in bounds[currentBound].timesPerBodyParts.Keys)
                 {
+                    json["involved body parts"] = new BodyPartEvaluation(bounds[currentBound], currentBound, touchedObj).ToJson();
+                    /*
                     if (bounds[currentBound].timeSpent > 0f && bounds[currentBound].timesPerBodyParts[touchedObj] > 0f)
                     {
                         json[currentBound + "_" + touchedObj] = bounds[currentBound].timesPerBodyParts[touchedObj];
                         json[currentBound + "_" + touchedObj + " in %"] = (bounds[currentBound].timesPerBodyParts[touchedObj] / bounds[currentBound].timeSpent) * 100f + "%";
                     }
+                    */
                 }
 			}
 
 			return json;
 		}
+
+        class BodyPartEvaluation
+        {
+            CheckBoundValueStorage storage;
+            string bodyPart;
+            string currentBound;
+            public BodyPartEvaluation(CheckBoundValueStorage storage, string currentBound, string bodyPart)
+            {
+                this.storage = storage;
+                this.bodyPart = bodyPart;
+                this.currentBound = currentBound;
+            }
+
+            public JObject ToJson()
+            {
+                JObject json = new JObject();
+                if (storage.timeSpent > 0f && storage.timesPerBodyParts[bodyPart] > 0f)
+                {
+                    json[currentBound + "_" + bodyPart] = storage.timesPerBodyParts[bodyPart];
+                    json[currentBound + "_" + bodyPart + " in %"] = (storage.timesPerBodyParts[bodyPart] / storage.timeSpent) * 100f + "%";
+                }
+                return json;
+            }
+        }
 
 		public Dictionary<string, CheckBoundValueStorage> GetBounds()
 		{

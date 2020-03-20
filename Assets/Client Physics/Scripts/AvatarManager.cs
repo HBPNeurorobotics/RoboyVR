@@ -13,13 +13,11 @@ public class AvatarManager : MonoBehaviour
     public bool tuningInProgress, showLocalAvatar;
     bool initialized;
 
-    [Header("PD Control")]
+    [Header("PD Control - Only used when useJoints is unchecked")]
     public float PDKp = 1;
     public float PDKd = 1;
-    public float Kp = 8;
-    public float Ki = 0;
-    public float Kd = .05f;
 
+    //could be used to init only for specific body parts, e.g. arm.
     BodyGroups.BODYGROUP bodyGroup = BodyGroups.BODYGROUP.ALL_COMBINED;
 
     BodyGroups bodyGroupsRemote;
@@ -95,7 +93,7 @@ public class AvatarManager : MonoBehaviour
 
     /// <summary>
     ///     Maps all HumanBodyBones (assigned in the Animator) to their GameObjects in the scene in order to get access to all components.
-    ///     Adds Rigidbody to both bodies, adds PDController to the avatar if useJoints is false and a single ConfigJointManager otherwise.
+    ///     Adds Rigidbody to both bodies, adds PDController to the avatar if useJoints is not chosen and initializes a ConfigJointManager otherwise.
     /// </summary>
     public void InitializeBodyStructures()
     {
@@ -198,16 +196,6 @@ public class AvatarManager : MonoBehaviour
         gameObjectPerBoneLocalAvatar[bone].GetComponent<Rigidbody>().useGravity = false;
     }
 
-    /*
-    void AssignMerchVRPIDController(HumanBodyBones bone)
-    {
-        gameObjectPerBoneRemoteAvatar[bone].AddComponent<PIDControllerCombined>();
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<PIDControllerCombined>().pidPosition = new PIDControllerPos(gameObjectPerBoneRemoteAvatar[bone], gameObjectPerBoneRemoteAvatar[bone], 38, 5, 8, new Vector3(0, 1, 0));
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<PIDControllerCombined>().pidRotation = new PIDControllerRot(gameObjectPerBoneRemoteAvatar[bone], 50, 5, 10);
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<PIDControllerCombined>().pidVelocity = new PIDControllerVel(gameObjectPerBoneRemoteAvatar[bone], 35, 0, 0.6f, new Vector3(1, 0, 1), 100);
-    }
-    */
-
     void AssignPDController(HumanBodyBones bone)
     {
         PDController pd = gameObjectPerBoneRemoteAvatar[bone].AddComponent<PDController>();
@@ -215,13 +203,6 @@ public class AvatarManager : MonoBehaviour
         pd.oldVelocity = gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().rigidbody.velocity;
         pd.proportionalGain = PDKp;
         pd.derivativeGain = PDKd;
-    }
-    void AssignVacuumBreatherPIDController(HumanBodyBones bone)
-    {
-        gameObjectPerBoneRemoteAvatar[bone].AddComponent<VacuumBreather.ControlledObject>();
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Kp = Kp;
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Ki = Ki;
-        gameObjectPerBoneRemoteAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().Kd = Kd;
     }
 
     Dictionary<HumanBodyBones, GameObject> SafeCopyOfRemoteAvatarDictionary()
@@ -267,15 +248,6 @@ public class AvatarManager : MonoBehaviour
             gameObjectPerBoneRemoteAvatar[bone].GetComponent<PDController>().SetDestination(gameObjectPerBoneLocalAvatar[bone].transform, targetRb.velocity);
         }
     }
-    /*
-    void UpdateVacuumBreatherPIDControllers()
-    {
-        foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
-        {
-            gameObjectPerBoneRemoteAvatar[bone].GetComponent<VacuumBreather.ControlledObject>().DesiredOrientation = gameObjectPerBoneLocalAvatar[bone].transform.rotation;
-        }
-    }
-    */
 
     void UpdateJoints()
     {
@@ -333,6 +305,9 @@ public class AvatarManager : MonoBehaviour
     }
     */
 
+    /// <summary>
+    /// Sets start orientation when joints have been removed and then readded. Might need to be looked into again.
+    /// </summary>
     public void RecalculateStartOrientations()
     {
         foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)

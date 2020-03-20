@@ -11,7 +11,6 @@ public class ConfigJointManager : MonoBehaviour
     [Header("Split Axis")]
     public bool useJointsMultipleTemplate = false;
     public bool splitJointTemplate = false;
-    private bool splitJointTemplatePrev;
     [Header("Add Colliders")]
     public bool addSimpleColliders = false;
     private bool simpleCollidersPrev;
@@ -47,7 +46,6 @@ public class ConfigJointManager : MonoBehaviour
     {
         meshCollidersPrev = addMeshColliders;
         simpleCollidersPrev = addSimpleColliders;
-        splitJointTemplatePrev = splitJointTemplate;
         useBodyMassPrev = useBodyMass;
 
         angularXDrive.maximumForce = angularYZDrive.maximumForce = maximumForce;
@@ -75,13 +73,6 @@ public class ConfigJointManager : MonoBehaviour
                 jointSetup.ToggleSimpleColliders(addSimpleColliders);
             }
         }
-        /*
-        if(!useJointsMultipleTemplate && (splitJointTemplate != splitJointTemplatePrev))
-        {
-            jointSetup.ToggleSplitJoints(splitJointTemplate);
-            avatarManager.RecalculateStartOrientations();
-        }
-        */
 
         if(useBodyMass != useBodyMassPrev)
         {
@@ -90,7 +81,6 @@ public class ConfigJointManager : MonoBehaviour
 
         meshCollidersPrev = addMeshColliders;
         simpleCollidersPrev = addSimpleColliders;
-        splitJointTemplatePrev = splitJointTemplate;
         useBodyMassPrev = useBodyMass;
     }
 
@@ -120,8 +110,7 @@ public class ConfigJointManager : MonoBehaviour
         //We only support the construction of individual joints from a single one or from the multijoint template but not both at the same time
         if (splitJointTemplate) useJointsMultipleTemplate = false;
         if (useJointsMultipleTemplate) splitJointTemplate = false;
-
-        //
+        //same for colliders
         if (addSimpleColliders) addMeshColliders = false;
         if (addMeshColliders) addSimpleColliders = false;
 
@@ -241,6 +230,8 @@ public class ConfigJointManager : MonoBehaviour
         //the z axis of the joint space
         Vector3 jointZAxis = Vector3.Cross(jointYAxis, jointXAxis).normalized;
         */
+        //////////////////////////////////////////////////////////////////////////////////////
+        
 
         /*
          * Z axis will be aligned with forward
@@ -325,7 +316,10 @@ public class ConfigJointManager : MonoBehaviour
             GetChildRigidbody(lower, rbs);
         }
     }
-
+    /// <summary>
+    /// Disables physics control for all object that are not parented to the specified joint. 
+    /// </summary>
+    /// <param name="freeJoint">The joint</param>
     public void LockAvatarJointsExceptCurrent(ConfigurableJoint freeJoint)
     {
         List<Rigidbody> underPhysicsControl = new List<Rigidbody>();
@@ -360,7 +354,9 @@ public class ConfigJointManager : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Re-enables physics control. Use after calling LockAvatarJointsExceptCurrent(ConfigurableJoint freeJoint).
+    /// </summary>
     public void UnlockAvatarJoints()
     {
         foreach (HumanBodyBones bone in gameObjectsFromBone.Keys)
@@ -397,7 +393,12 @@ public class ConfigJointManager : MonoBehaviour
             usesLockedJoint.Add(HumanBodyBones.LeftShoulder);
         }
     }
-
+    /// <summary>
+    /// Returns a joint in the currently used template, that controlls the specified axis. Intended for use in multiple joint template case.
+    /// </summary>
+    /// <param name="bone">The bone that the joint is located at.</param>
+    /// <param name="axis">The desired joint primary axis value.</param>
+    /// <returns></returns>
     public ConfigurableJoint GetJointInTemplate(HumanBodyBones bone, Vector3 axis)
     {
         GameObject tmp;

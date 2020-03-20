@@ -40,7 +40,7 @@ namespace PIDTuning
         /// an argument, the current value of the Configuration property of this component
         /// will be transmitted.
         /// </summary>
-        public void TransmitFullConfiguration(bool save = false, float relay = 2000, bool mirror = false)
+        public void TransmitFullConfiguration(float relay = 2000, bool mirror = false)
         {
             AssertServiceReady();
             bool gazebo = UserAvatarService.Instance.use_gazebo;
@@ -120,7 +120,7 @@ namespace PIDTuning
             TransmitFullConfiguration();
         }
 
-        public void ReplaceWithConfigInTemplate()
+        public void ReplaceWithConfigInAvatar()
         {
             PoseErrorTracker _poseErrorTracker = GetComponent<PoseErrorTracker>();
             PidConfiguration config = new PidConfiguration(DateTime.UtcNow);

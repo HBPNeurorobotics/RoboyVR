@@ -227,6 +227,8 @@ public class JointSettings
         joint.angularYZDrive = yzDrive;
     }
 
+
+    //Legacy
     public void SetAngularXDriveFromPD(float p, float d)
     {
         angularXDriveSpring = p;

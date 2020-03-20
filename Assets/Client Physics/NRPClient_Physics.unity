@@ -17327,9 +17327,6 @@ MonoBehaviour:
   showLocalAvatar: 0
   PDKp: 800
   PDKd: 50
-  Kp: 8
-  Ki: 0
-  Kd: 0.05
 --- !u!114 &1028724063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23050,9 +23047,6 @@ MonoBehaviour:
   showLocalAvatar: 0
   PDKp: 240
   PDKd: 25
-  Kp: 8
-  Ki: 8
-  Kd: 0.1
 --- !u!114 &1353312761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24104,9 +24098,6 @@ MonoBehaviour:
   showLocalAvatar: 0
   PDKp: 800
   PDKd: 50
-  Kp: 8
-  Ki: 0
-  Kd: 0.05
 --- !u!114 &1411013348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24361,13 +24352,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1421554624}
-  m_LocalRotation: {x: 0.16699369, y: 0.83435374, z: -0.5252117, w: -0.010935965}
-  m_LocalPosition: {x: 3.84, y: -1.15, z: 0.34136146}
+  m_LocalRotation: {x: 0.1555315, y: 0.6426624, z: -0.74806815, w: -0.056471225}
+  m_LocalPosition: {x: 4.02, y: -0.35, z: 0.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 60.782, y: 203.375, z: 36.471}
+  m_LocalEulerAnglesHint: {x: 70.725006, y: 292.362, z: 120.51}
 --- !u!1 &1421571157
 GameObject:
   m_ObjectHideFlags: 0
@@ -28384,8 +28375,8 @@ MonoBehaviour:
   useJointsMultipleTemplate: 1
   splitJointTemplate: 0
   addSimpleColliders: 0
-  addMeshColliders: 1
-  inputByManager: 1
+  addMeshColliders: 0
+  inputByManager: 0
   maximumForce: 10000
   springAngularX: 2500
   damperAngularX: 500
@@ -28410,9 +28401,6 @@ MonoBehaviour:
   showLocalAvatar: 0
   PDKp: 1
   PDKd: 1
-  Kp: 8
-  Ki: 0
-  Kd: 0.05
 --- !u!114 &1690760950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28741,9 +28729,6 @@ MonoBehaviour:
   showLocalAvatar: 0
   PDKp: 800
   PDKd: 50
-  Kp: 8
-  Ki: 0
-  Kd: 0.05
 --- !u!114 &1720704525
 MonoBehaviour:
   m_ObjectHideFlags: 0

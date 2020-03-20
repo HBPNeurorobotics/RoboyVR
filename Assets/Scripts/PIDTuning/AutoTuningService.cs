@@ -146,9 +146,9 @@ namespace PIDTuning
             else
             {
                 //if the joint cannot rotate (e.g y axis in the knee) we do not tune it (for quicker results in autotuning)
-                if (!gazebo && fromTuneAll && currentJoint.lowAngularXLimit.limit == 0 && currentJoint.highAngularXLimit.limit == 0)
+                if (!gazebo && (fromTuneAll && ((currentJoint.angularXMotion == ConfigurableJointMotion.Limited && currentJoint.lowAngularXLimit.limit == 0 && currentJoint.highAngularXLimit.limit == 0) || currentJoint.angularXMotion == ConfigurableJointMotion.Locked)))
                 {
-                    Debug.Log("Skipped " + joint + " because of angular limit 0");
+                    Debug.Log("Skipped " + joint + " because of angular limit 0 or locked");
                     yield return null;
                 }
                 else
@@ -221,7 +221,7 @@ namespace PIDTuning
 
             // Disable PID controller
             _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 0.1f); 
-            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
+            _pidConfigStorage.TransmitFullConfiguration(RelayConstantForce, mirror);
 
             //Disable ConfigurableJoint
             UserAvatarService.Instance._avatarManager.tuningInProgress = true;
@@ -277,7 +277,7 @@ namespace PIDTuning
             }
 
             //save values for EditAvatarTemplate -> data would be lost after exiting play mode
-            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(true, RelayConstantForce, mirror);
+            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(RelayConstantForce, mirror);
 
             // Get rid of any force
             SetConstantForceForJoint(joint, 0f, gazebo, bodyPart, configurableJoint);
@@ -288,7 +288,7 @@ namespace PIDTuning
             UserAvatarService.Instance._avatarManager.tuningInProgress = false;
 
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
-            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
+            _pidConfigStorage.TransmitFullConfiguration(RelayConstantForce, mirror);
 
             LastTuningData = TuningResult.GenerateFromOscillation(joint, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
             // Acquire the final tuned parameters
