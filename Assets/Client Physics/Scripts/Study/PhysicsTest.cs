@@ -395,7 +395,7 @@ public class PhysicsTest : MonoBehaviour {
 				json[currentBound] = bounds[currentBound].timeSpent;
                 foreach (string touchedObj in bounds[currentBound].timesPerBodyParts.Keys)
                 {
-                    json["involved body parts"] = new BodyPartEvaluation(bounds[currentBound], currentBound, touchedObj).ToJson();
+                    json[touchedObj + " involved in " + currentBound] = new BodyPartEvaluation(bounds[currentBound], currentBound, touchedObj).ToJson();
                     /*
                     if (bounds[currentBound].timeSpent > 0f && bounds[currentBound].timesPerBodyParts[touchedObj] > 0f)
                     {

@@ -17,8 +17,6 @@ public class ConfigJointManager : MonoBehaviour
     public bool addMeshColliders = true;
     private bool meshCollidersPrev;
 
-    public bool inputByManager = false;
-
     List<HumanBodyBones> usesLockedJoint = new List<HumanBodyBones>();
 
     public float maximumForce = 10000;

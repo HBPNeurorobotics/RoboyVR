@@ -808,15 +808,7 @@ public class JointSetup
 
         if (!editorMode)
         {
-            //This will only be used if there are no individual rotations/velocities assigned by the AvatarManager
-            if (!configJointManager.inputByManager)
-            {
-                AssignTargetToImitatePassive(bone);
-            }
-            else
-            {
-                AssignOriginalTransforms(bone);
-            }
+            AssignOriginalTransforms(bone);
         }
     }
 

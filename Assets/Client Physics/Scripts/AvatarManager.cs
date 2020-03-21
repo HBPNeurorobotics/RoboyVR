@@ -59,7 +59,7 @@ public class AvatarManager : MonoBehaviour
             if (initialized)
             {
                 //UpdatePDControllers();
-                if (configJointManager.inputByManager && !tuningInProgress && latencyHandler.latency_ms == 0)
+                if (!tuningInProgress && latencyHandler.latency_ms == 0)
                 {
                     UpdateJoints();
                     //UpdateJointsRecursive(gameObjectPerBoneRemoteAvatar[HumanBodyBones.Hips].transform);
