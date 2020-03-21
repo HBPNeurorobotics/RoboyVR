@@ -39,7 +39,7 @@ namespace PIDTuning.Editor
                     Debug.LogWarning("Cannot transmit PID configuration while test is running");
                 }
 
-                configStorage.TransmitFullConfiguration();
+                configStorage.TransmitFullConfiguration(true, 0);
             }
 
             if (UserAvatarService.Instance.use_gazebo)
@@ -80,7 +80,7 @@ namespace PIDTuning.Editor
             if (GUILayout.Button("Reset to base values"))
             {
                 configStorage.ResetConfiguration(_baseKp, _baseKi, _baseKd);
-                configStorage.TransmitFullConfiguration();
+                configStorage.TransmitFullConfiguration(true);
             }
         }
 

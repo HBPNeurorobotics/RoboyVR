@@ -40,7 +40,7 @@ namespace PIDTuning
         /// an argument, the current value of the Configuration property of this component
         /// will be transmitted.
         /// </summary>
-        public void TransmitFullConfiguration(float relay = 2000, bool mirror = false)
+        public void TransmitFullConfiguration(bool setMaxForceFromScene, float relay = 2000, bool mirror = false)
         {
             AssertServiceReady();
             bool gazebo = UserAvatarService.Instance.use_gazebo;
@@ -55,7 +55,7 @@ namespace PIDTuning
                 }
                 else
                 {
-                    tunedSettings.Add(joint.Key, TransmitSingleJointConfiguration(joint.Key, relay, mirror));
+                    tunedSettings.Add(joint.Key, TransmitSingleJointConfiguration(joint.Key, relay, mirror, setMaxForceFromScene));
                 }
             }
 
@@ -73,7 +73,7 @@ namespace PIDTuning
             File.WriteAllText(path, values);
         }
 
-        public JointSettings TransmitSingleJointConfiguration(string joint, float relay, bool mirror = false)
+        public JointSettings TransmitSingleJointConfiguration(string joint, float relay, bool mirror = false, bool setMaxForceFromScene = false)
         {
 
             AssertServiceReady();
@@ -100,9 +100,8 @@ namespace PIDTuning
                 configurableJoint.angularYZDrive = angularDrive;
                 angularDrive.positionSpring = jointConfig.Kp;
                 angularDrive.positionDamper = jointConfig.Kd;
-                angularDrive.maximumForce = Mathf.Abs(relay);
+                angularDrive.maximumForce = (!setMaxForceFromScene) ? Mathf.Abs(relay) : configurableJoint.angularXDrive.maximumForce;
                 configurableJoint.angularXDrive = angularDrive;
-
                 return new JointSettings(joint, configurableJoint);
             }
         }
@@ -117,7 +116,7 @@ namespace PIDTuning
             }
 
             Configuration = newConfig;
-            TransmitFullConfiguration();
+            TransmitFullConfiguration(false);
         }
 
         public void ReplaceWithConfigInAvatar()
@@ -141,7 +140,7 @@ namespace PIDTuning
             var joinNames = Configuration.Mapping.Keys.ToArray();
 
             Configuration.InitializeMapping(joinNames, PidParameters.FromParallelForm(kp, ki, kd));
-            TransmitFullConfiguration();
+            TransmitFullConfiguration(false);
         }
 
         private void AssertServiceReady()

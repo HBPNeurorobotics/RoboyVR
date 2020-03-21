@@ -221,7 +221,7 @@ namespace PIDTuning
 
             // Disable PID controller
             _pidConfigStorage.Configuration.Mapping[joint] = PidParameters.FromParallelForm(0f, 0f, gazebo ? 0f : 0.1f); 
-            _pidConfigStorage.TransmitFullConfiguration(RelayConstantForce, mirror);
+            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
 
             //Disable ConfigurableJoint
             UserAvatarService.Instance._avatarManager.tuningInProgress = true;
@@ -277,7 +277,7 @@ namespace PIDTuning
             }
 
             //save values for EditAvatarTemplate -> data would be lost after exiting play mode
-            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(RelayConstantForce, mirror);
+            if (!gazebo) _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
 
             // Get rid of any force
             SetConstantForceForJoint(joint, 0f, gazebo, bodyPart, configurableJoint);
@@ -288,7 +288,7 @@ namespace PIDTuning
             UserAvatarService.Instance._avatarManager.tuningInProgress = false;
 
             _pidConfigStorage.Configuration.Mapping[joint] = oldPidParameters;
-            _pidConfigStorage.TransmitFullConfiguration(RelayConstantForce, mirror);
+            _pidConfigStorage.TransmitFullConfiguration(false, RelayConstantForce, mirror);
 
             LastTuningData = TuningResult.GenerateFromOscillation(joint, oscillation.Value, RelayConstantForce, _animatorControl.TimeStretchFactor);
             // Acquire the final tuned parameters

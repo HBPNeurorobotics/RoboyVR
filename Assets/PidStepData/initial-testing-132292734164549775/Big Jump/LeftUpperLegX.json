@@ -1,0 +1,757 @@
+{
+  "createdTimestamp": "132292734164549775",
+  "animation": "Big Jump",
+  "joint": "LeftUpperLegX",
+  "simulationTimeStretchFactor": "1",
+  "data": [
+    {
+      "timestamp": "132292734576221120",
+      "entry": {
+        "desired": -20.8112488,
+        "measured": -31.2451782
+      }
+    },
+    {
+      "timestamp": "132292734576361247",
+      "entry": {
+        "desired": -18.9692383,
+        "measured": -30.3517151
+      }
+    },
+    {
+      "timestamp": "132292734576461338",
+      "entry": {
+        "desired": -17.2156067,
+        "measured": -29.2001648
+      }
+    },
+    {
+      "timestamp": "132292734576581447",
+      "entry": {
+        "desired": -15.7515879,
+        "measured": -28.1988525
+      }
+    },
+    {
+      "timestamp": "132292734576761606",
+      "entry": {
+        "desired": -14.9744263,
+        "measured": -26.2047424
+      }
+    },
+    {
+      "timestamp": "132292734576891724",
+      "entry": {
+        "desired": -14.296875,
+        "measured": -25.39972
+      }
+    },
+    {
+      "timestamp": "132292734577021839",
+      "entry": {
+        "desired": -13.6033936,
+        "measured": -24.3588562
+      }
+    },
+    {
+      "timestamp": "132292734577151959",
+      "entry": {
+        "desired": -12.89447,
+        "measured": -23.3411865
+      }
+    },
+    {
+      "timestamp": "132292734577242038",
+      "entry": {
+        "desired": -13.224823,
+        "measured": -22.2467346
+      }
+    },
+    {
+      "timestamp": "132292734577382160",
+      "entry": {
+        "desired": -15.867341,
+        "measured": -21.9266968
+      }
+    },
+    {
+      "timestamp": "132292734577502276",
+      "entry": {
+        "desired": -18.6740417,
+        "measured": -22.1731873
+      }
+    },
+    {
+      "timestamp": "132292734577652408",
+      "entry": {
+        "desired": -21.5635071,
+        "measured": -22.7885742
+      }
+    },
+    {
+      "timestamp": "132292734577792531",
+      "entry": {
+        "desired": -23.6546021,
+        "measured": -23.30014
+      }
+    },
+    {
+      "timestamp": "132292734577922649",
+      "entry": {
+        "desired": -25.8676758,
+        "measured": -24.0299683
+      }
+    },
+    {
+      "timestamp": "132292734578032759",
+      "entry": {
+        "desired": -29.5579243,
+        "measured": -25.4052124
+      }
+    },
+    {
+      "timestamp": "132292734578132841",
+      "entry": {
+        "desired": -33.258606,
+        "measured": -26.46875
+      }
+    },
+    {
+      "timestamp": "132292734578262957",
+      "entry": {
+        "desired": -36.8086853,
+        "measured": -28.0921021
+      }
+    },
+    {
+      "timestamp": "132292734578393072",
+      "entry": {
+        "desired": -40.4568176,
+        "measured": -29.9998169
+      }
+    },
+    {
+      "timestamp": "132292734578573237",
+      "entry": {
+        "desired": -44.64441,
+        "measured": -34.0396729
+      }
+    },
+    {
+      "timestamp": "132292734578723369",
+      "entry": {
+        "desired": -48.73221,
+        "measured": -36.6360474
+      }
+    },
+    {
+      "timestamp": "132292734578813453",
+      "entry": {
+        "desired": -52.9613342,
+        "measured": -38.8822327
+      }
+    },
+    {
+      "timestamp": "132292734578933560",
+      "entry": {
+        "desired": -56.8480835,
+        "measured": -41.44586
+      }
+    },
+    {
+      "timestamp": "132292734579033650",
+      "entry": {
+        "desired": -59.8348427,
+        "measured": -44.18451
+      }
+    },
+    {
+      "timestamp": "132292734579193797",
+      "entry": {
+        "desired": -63.7311974,
+        "measured": -49.1937561
+      }
+    },
+    {
+      "timestamp": "132292734579323912",
+      "entry": {
+        "desired": -68.4736938,
+        "measured": -52.3947754
+      }
+    },
+    {
+      "timestamp": "132292734579444020",
+      "entry": {
+        "desired": -73.93265,
+        "measured": -56.0173035
+      }
+    },
+    {
+      "timestamp": "132292734579574136",
+      "entry": {
+        "desired": -79.16791,
+        "measured": -59.5902748
+      }
+    },
+    {
+      "timestamp": "132292734579704254",
+      "entry": {
+        "desired": -80.97662,
+        "measured": -62.6908836
+      }
+    },
+    {
+      "timestamp": "132292734579824363",
+      "entry": {
+        "desired": -82.93213,
+        "measured": -65.8546753
+      }
+    },
+    {
+      "timestamp": "132292734580004526",
+      "entry": {
+        "desired": -86.0881958,
+        "measured": -71.7273254
+      }
+    },
+    {
+      "timestamp": "132292734580144651",
+      "entry": {
+        "desired": -87.64249,
+        "measured": -75.0220947
+      }
+    },
+    {
+      "timestamp": "132292734580234729",
+      "entry": {
+        "desired": -85.20941,
+        "measured": -77.6164551
+      }
+    },
+    {
+      "timestamp": "132292734580354843",
+      "entry": {
+        "desired": -82.98822,
+        "measured": -80.62521
+      }
+    },
+    {
+      "timestamp": "132292734580535003",
+      "entry": {
+        "desired": -80.35852,
+        "measured": -84.49048
+      }
+    },
+    {
+      "timestamp": "132292734580665118",
+      "entry": {
+        "desired": -78.26724,
+        "measured": -83.36783
+      }
+    },
+    {
+      "timestamp": "132292734580815254",
+      "entry": {
+        "desired": -76.14734,
+        "measured": -79.63483
+      }
+    },
+    {
+      "timestamp": "132292734580895326",
+      "entry": {
+        "desired": -75.1308,
+        "measured": -77.91766
+      }
+    },
+    {
+      "timestamp": "132292734581025442",
+      "entry": {
+        "desired": -77.41092,
+        "measured": -75.27429
+      }
+    },
+    {
+      "timestamp": "132292734581145553",
+      "entry": {
+        "desired": -81.3457,
+        "measured": -73.9218445
+      }
+    },
+    {
+      "timestamp": "132292734581275664",
+      "entry": {
+        "desired": -84.4191,
+        "measured": -73.50751
+      }
+    },
+    {
+      "timestamp": "132292734581395777",
+      "entry": {
+        "desired": -87.5574341,
+        "measured": -72.39841
+      }
+    },
+    {
+      "timestamp": "132292734581575939",
+      "entry": {
+        "desired": -85.96826,
+        "measured": -72.81561
+      }
+    },
+    {
+      "timestamp": "132292734581666019",
+      "entry": {
+        "desired": -85.21353,
+        "measured": -73.87323
+      }
+    },
+    {
+      "timestamp": "132292734581806143",
+      "entry": {
+        "desired": -84.65738,
+        "measured": -74.1730957
+      }
+    },
+    {
+      "timestamp": "132292734581926258",
+      "entry": {
+        "desired": -84.91397,
+        "measured": -74.2518
+      }
+    },
+    {
+      "timestamp": "132292734582106417",
+      "entry": {
+        "desired": -86.59189,
+        "measured": -75.7791748
+      }
+    },
+    {
+      "timestamp": "132292734582216516",
+      "entry": {
+        "desired": -87.70868,
+        "measured": -75.93274
+      }
+    },
+    {
+      "timestamp": "132292734582336629",
+      "entry": {
+        "desired": -87.27179,
+        "measured": -76.2585144
+      }
+    },
+    {
+      "timestamp": "132292734582466743",
+      "entry": {
+        "desired": -84.9006042,
+        "measured": -75.8512
+      }
+    },
+    {
+      "timestamp": "132292734582596858",
+      "entry": {
+        "desired": -81.98935,
+        "measured": -75.1158447
+      }
+    },
+    {
+      "timestamp": "132292734582689537",
+      "entry": {
+        "desired": -78.38208,
+        "measured": -74.95969
+      }
+    },
+    {
+      "timestamp": "132292734582799638",
+      "entry": {
+        "desired": -74.37903,
+        "measured": -73.9437256
+      }
+    },
+    {
+      "timestamp": "132292734582979800",
+      "entry": {
+        "desired": -70.2415161,
+        "measured": -71.7055054
+      }
+    },
+    {
+      "timestamp": "132292734583099907",
+      "entry": {
+        "desired": -66.65958,
+        "measured": -70.15787
+      }
+    },
+    {
+      "timestamp": "132292734583240033",
+      "entry": {
+        "desired": -63.2048645,
+        "measured": -68.47565
+      }
+    },
+    {
+      "timestamp": "132292734583350133",
+      "entry": {
+        "desired": -60.5184,
+        "measured": -66.8479
+      }
+    },
+    {
+      "timestamp": "132292734583470239",
+      "entry": {
+        "desired": -58.07764,
+        "measured": -65.17828
+      }
+    },
+    {
+      "timestamp": "132292734583590352",
+      "entry": {
+        "desired": -56.1129761,
+        "measured": -63.5473633
+      }
+    },
+    {
+      "timestamp": "132292734583680427",
+      "entry": {
+        "desired": -54.68454,
+        "measured": -62.0983238
+      }
+    },
+    {
+      "timestamp": "132292734583780526",
+      "entry": {
+        "desired": -53.3309937,
+        "measured": -60.42279
+      }
+    },
+    {
+      "timestamp": "132292734583910638",
+      "entry": {
+        "desired": -52.5792236,
+        "measured": -58.7590942
+      }
+    },
+    {
+      "timestamp": "132292734584030743",
+      "entry": {
+        "desired": -53.99817,
+        "measured": -57.30518
+      }
+    },
+    {
+      "timestamp": "132292734584200902",
+      "entry": {
+        "desired": -55.5078125,
+        "measured": -55.6053467
+      }
+    },
+    {
+      "timestamp": "132292734584321006",
+      "entry": {
+        "desired": -57.62973,
+        "measured": -55.19034
+      }
+    },
+    {
+      "timestamp": "132292734584461135",
+      "entry": {
+        "desired": -60.01123,
+        "measured": -55.3511353
+      }
+    },
+    {
+      "timestamp": "132292734584571231",
+      "entry": {
+        "desired": -62.4092064,
+        "measured": -55.6004028
+      }
+    },
+    {
+      "timestamp": "132292734584671321",
+      "entry": {
+        "desired": -64.25287,
+        "measured": -56.1853333
+      }
+    },
+    {
+      "timestamp": "132292734584801440",
+      "entry": {
+        "desired": -65.81781,
+        "measured": -56.7763367
+      }
+    },
+    {
+      "timestamp": "132292734584921546",
+      "entry": {
+        "desired": -67.54932,
+        "measured": -57.4730835
+      }
+    },
+    {
+      "timestamp": "132292734585091701",
+      "entry": {
+        "desired": -69.44479,
+        "measured": -59.309845
+      }
+    },
+    {
+      "timestamp": "132292734585221820",
+      "entry": {
+        "desired": -71.04126,
+        "measured": -60.32135
+      }
+    },
+    {
+      "timestamp": "132292734585361944",
+      "entry": {
+        "desired": -72.1117249,
+        "measured": -61.60257
+      }
+    },
+    {
+      "timestamp": "132292734585452027",
+      "entry": {
+        "desired": -75.8186646,
+        "measured": -62.8299255
+      }
+    },
+    {
+      "timestamp": "132292734585582141",
+      "entry": {
+        "desired": -77.71912,
+        "measured": -64.2832947
+      }
+    },
+    {
+      "timestamp": "132292734585702249",
+      "entry": {
+        "desired": -80.03546,
+        "measured": -65.86273
+      }
+    },
+    {
+      "timestamp": "132292734585872404",
+      "entry": {
+        "desired": -82.37363,
+        "measured": -69.36563
+      }
+    },
+    {
+      "timestamp": "132292734585992511",
+      "entry": {
+        "desired": -83.91672,
+        "measured": -71.04489
+      }
+    },
+    {
+      "timestamp": "132292734586132638",
+      "entry": {
+        "desired": -85.0898743,
+        "measured": -72.74783
+      }
+    },
+    {
+      "timestamp": "132292734586262754",
+      "entry": {
+        "desired": -85.9104,
+        "measured": -74.46918
+      }
+    },
+    {
+      "timestamp": "132292734586382865",
+      "entry": {
+        "desired": -85.75763,
+        "measured": -76.23215
+      }
+    },
+    {
+      "timestamp": "132292734586563024",
+      "entry": {
+        "desired": -84.8293457,
+        "measured": -79.54788
+      }
+    },
+    {
+      "timestamp": "132292734586693140",
+      "entry": {
+        "desired": -83.5722046,
+        "measured": -81.10565
+      }
+    },
+    {
+      "timestamp": "132292734586813251",
+      "entry": {
+        "desired": -82.2072449,
+        "measured": -82.65881
+      }
+    },
+    {
+      "timestamp": "132292734586893321",
+      "entry": {
+        "desired": -80.8263855,
+        "measured": -84.18106
+      }
+    },
+    {
+      "timestamp": "132292734587023439",
+      "entry": {
+        "desired": -79.70459,
+        "measured": -85.5280151
+      }
+    },
+    {
+      "timestamp": "132292734587123531",
+      "entry": {
+        "desired": -78.12747,
+        "measured": -86.75775
+      }
+    },
+    {
+      "timestamp": "132292734587243638",
+      "entry": {
+        "desired": -76.95065,
+        "measured": -87.55664
+      }
+    },
+    {
+      "timestamp": "132292734587333719",
+      "entry": {
+        "desired": -75.29184,
+        "measured": -87.44519
+      }
+    },
+    {
+      "timestamp": "132292734587473842",
+      "entry": {
+        "desired": -73.74585,
+        "measured": -86.60568
+      }
+    },
+    {
+      "timestamp": "132292734587593951",
+      "entry": {
+        "desired": -72.1297,
+        "measured": -85.4360352
+      }
+    },
+    {
+      "timestamp": "132292734587779176",
+      "entry": {
+        "desired": -70.35748,
+        "measured": -82.65213
+      }
+    },
+    {
+      "timestamp": "132292734587899284",
+      "entry": {
+        "desired": -68.68881,
+        "measured": -81.22058
+      }
+    },
+    {
+      "timestamp": "132292734588039411",
+      "entry": {
+        "desired": -67.30438,
+        "measured": -79.7102051
+      }
+    },
+    {
+      "timestamp": "132292734588129492",
+      "entry": {
+        "desired": -65.69916,
+        "measured": -78.21414
+      }
+    },
+    {
+      "timestamp": "132292734588259606",
+      "entry": {
+        "desired": -64.7247,
+        "measured": -76.71307
+      }
+    },
+    {
+      "timestamp": "132292734588369709",
+      "entry": {
+        "desired": -64.60004,
+        "measured": -75.15494
+      }
+    },
+    {
+      "timestamp": "132292734588489814",
+      "entry": {
+        "desired": -64.4903259,
+        "measured": -73.6312561
+      }
+    },
+    {
+      "timestamp": "132292734588669979",
+      "entry": {
+        "desired": -67.4802246,
+        "measured": -71.31705
+      }
+    },
+    {
+      "timestamp": "132292734588805154",
+      "entry": {
+        "desired": -71.23224,
+        "measured": -70.76337
+      }
+    },
+    {
+      "timestamp": "132292734588925261",
+      "entry": {
+        "desired": -74.9599,
+        "measured": -70.68857
+      }
+    },
+    {
+      "timestamp": "132292734589055383",
+      "entry": {
+        "desired": -76.6606445,
+        "measured": -70.836
+      }
+    },
+    {
+      "timestamp": "132292734589175490",
+      "entry": {
+        "desired": -78.57156,
+        "measured": -71.0286255
+      }
+    },
+    {
+      "timestamp": "132292734589365659",
+      "entry": {
+        "desired": -79.66675,
+        "measured": -71.9253845
+      }
+    },
+    {
+      "timestamp": "132292734589455739",
+      "entry": {
+        "desired": -80.36557,
+        "measured": -72.55542
+      }
+    },
+    {
+      "timestamp": "132292734589585857",
+      "entry": {
+        "desired": -80.8486,
+        "measured": -72.96881
+      }
+    },
+    {
+      "timestamp": "132292734589705966",
+      "entry": {
+        "desired": -81.0769043,
+        "measured": -73.31131
+      }
+    },
+    {
+      "timestamp": "132292734589806058",
+      "entry": {
+        "desired": -81.2644958,
+        "measured": -73.65564
+      }
+    }
+  ]
+}

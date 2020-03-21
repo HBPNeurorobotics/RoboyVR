@@ -155,7 +155,7 @@ namespace PIDTuning
             }
             else
             { 
-                PidConfigurationStorage.TransmitFullConfiguration();
+                PidConfigurationStorage.TransmitFullConfiguration(false);
             }
 
             
