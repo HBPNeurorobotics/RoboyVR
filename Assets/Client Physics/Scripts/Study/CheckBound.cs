@@ -34,19 +34,49 @@ public class CheckBound : MonoBehaviour {
 		}
 	}
 
+	void OnDisable()
+	{
+		RemoveBodyMeasurements();
+		contacts = new List<Collider>();
+		timeSpent = 0;
+		timesPerBodyParts = new Dictionary<string, float>();
+	}
+
+	public void RemoveBodyMeasurements()
+	{
+		TimeBodyPart[] toRemove = gameObject.GetComponents<TimeBodyPart>();
+		foreach (TimeBodyPart timeBodyPart in toRemove)
+		{
+			Destroy(timeBodyPart);
+		}
+	}
+
 	void OnCollisionEnter(Collision other)
 	{
 		//It has been hit by the body of the player
 		if(measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 26 && other.gameObject.layer != 13 && other.gameObject.layer != 14)
 		{
 			contacts.Add(other.collider);
-            TimeBodyPart timeBodyPart = gameObject.AddComponent<TimeBodyPart>();
-            timeBodyPart.name = other.collider.name;
 
-            if (!timesPerBodyParts.ContainsKey(other.collider.name))
+			if (!timesPerBodyParts.ContainsKey(other.collider.name))
             {
                 timesPerBodyParts.Add(other.collider.name, 0f);
             }
+
+			bool alreadyMeasured = false;
+			foreach(TimeBodyPart timeBodyPart in gameObject.GetComponents<TimeBodyPart>())
+			{
+				if (timeBodyPart.name.Equals(other.gameObject.name))
+				{
+					alreadyMeasured = true;
+					break;
+				}
+			}
+			if (!alreadyMeasured)
+			{
+				TimeBodyPart timeBodyPart = gameObject.AddComponent<TimeBodyPart>();
+				timeBodyPart.name = other.collider.name;
+			}
 		}
 	}
 

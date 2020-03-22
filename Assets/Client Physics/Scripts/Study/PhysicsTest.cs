@@ -38,6 +38,8 @@ public class PhysicsTest : MonoBehaviour {
 	public GameObject finishHand;
 	public GameObject finishFoot;
 
+    Vector3 handFinishAtStart;
+
     public enum PHASE
     {
         HAND,
@@ -54,12 +56,14 @@ public class PhysicsTest : MonoBehaviour {
         timeUntilCompletion = 0;
         foreach (CheckBound bound in handBounds)
         {
+            bound.RemoveBodyMeasurements();
             bound.timeSpent = 0f;
             bound.contacts = new List<Collider>();
             bound.timesPerBodyParts = new Dictionary<string, float>();
         }
         foreach (CheckBound bound in footBounds)
         {
+            bound.RemoveBodyMeasurements();
             bound.timeSpent = 0f;
             bound.contacts = new List<Collider>();
             bound.timesPerBodyParts = new Dictionary<string, float>();
@@ -87,6 +91,7 @@ public class PhysicsTest : MonoBehaviour {
 			PrepareRightHanded(phaseHand);
 			//PrepareRightHanded(phaseFoot);
 		}
+        handFinishAtStart = new Vector3(finishHand.transform.position.x, finishHand.transform.position.y, finishHand.transform.position.z);
 		participantID = Random.Range(0, 100000);
 	}
 
@@ -163,6 +168,10 @@ public class PhysicsTest : MonoBehaviour {
 
     public void OnFootReset()
     {
+        foreach (CheckBound bound in footBounds)
+        {
+            bound.gameObject.GetComponent<BoxCollider>().enabled = true;
+        }
         SetActiveBounds(footBounds, true);
         run = true;
         finishFoot.GetComponent<CheckFinish>().trigger = true;
@@ -197,6 +206,7 @@ public class PhysicsTest : MonoBehaviour {
             SetActiveBounds(footBounds, false);
             phaseFoot.gameObject.SetActive(false);
 
+            finishHand.transform.position = handFinishAtStart;
             phaseHand.gameObject.SetActive(true);
             SetActiveBounds(handBounds, true);
             finishHand.GetComponent<CheckFinish>().trigger = true;
@@ -229,6 +239,11 @@ public class PhysicsTest : MonoBehaviour {
 		}
 		else
 		{
+            foreach (CheckBound bound in footBounds)
+            {
+                bound.gameObject.GetComponent<BoxCollider>().enabled = false;
+            }
+
             finishFoot.GetComponent<BoxCollider>().enabled = false;
             testBounds = footBounds;
 			completions = footCompletions;
