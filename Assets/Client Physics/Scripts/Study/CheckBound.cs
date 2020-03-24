@@ -54,7 +54,7 @@ public class CheckBound : MonoBehaviour {
 	void OnCollisionEnter(Collision other)
 	{
 		//It has been hit by the body of the player
-		if(measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 26 && other.gameObject.layer != 13 && other.gameObject.layer != 14)
+		if(measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 22)
 		{
 			contacts.Add(other.collider);
 
@@ -82,7 +82,7 @@ public class CheckBound : MonoBehaviour {
 
 	void OnCollisionExit(Collision other)
 	{
-        if (measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 26 && other.gameObject.layer != 13 && other.gameObject.layer != 14)
+        if (measure && other.gameObject.layer >= 10 && other.gameObject.layer <= 22)
         {
             contacts.Remove(other.collider);
 

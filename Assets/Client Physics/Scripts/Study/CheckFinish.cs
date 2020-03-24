@@ -22,7 +22,7 @@ public class CheckFinish : MonoBehaviour {
 	void OnCollisionEnter(Collision other)
 	{
 		//It has been hit by a limb of the player
-		if (trigger && (other.gameObject.layer == 19 || other.gameObject.layer == 20 || other.gameObject.layer == 25 || other.gameObject.layer == 26))
+		if (trigger && (other.gameObject.layer >= 19 && other.gameObject.layer <= 22))
 		{
 			
             if (isTarget)
@@ -39,7 +39,7 @@ public class CheckFinish : MonoBehaviour {
 
     private void OnCollisionExit(Collision other)
     {
-        if (trigger && (other.gameObject.layer == 19 || other.gameObject.layer == 20 || other.gameObject.layer == 25 || other.gameObject.layer == 26))
+        if (trigger && (other.gameObject.layer >= 19 && other.gameObject.layer <= 22))
         {
             trigger = true;
             if (isTarget)
