@@ -11,6 +11,7 @@ public class UserAvatarIKControl : MonoBehaviour
     [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
     [SerializeField] private Vector3 inferredBodyTargetOffset = new Vector3(0f, 0f, 0f);
     [SerializeField] private Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
+    [SerializeField] private Vector3 inferredBodyOffset = new Vector3(0, 0, 0);
     [SerializeField] private Pose manualBodyOffset;
     [SerializeField] private Transform nonGazeboZeroPoint;
     [SerializeField] private Transform nonGazeboBodyPoint;
@@ -133,7 +134,7 @@ public class UserAvatarIKControl : MonoBehaviour
                         bodyPosition = new Vector3(groundCenter.x,yCoord, groundCenter.z) - 0.2f * bodyForward;
                     }
 
-                    this.transform.position = bodyPosition;
+                    this.transform.position = bodyPosition + inferredBodyOffset;
 
                     // set body rotation
                     Quaternion bodyRotation = Quaternion.LookRotation(bodyForward, bodyUp);
