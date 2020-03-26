@@ -17,7 +17,7 @@ public class FootPhaseResetPlate : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer >= 10 && other.gameObject.layer <= 20)
+        if (other.gameObject.layer >= 10 && other.gameObject.layer <= 22)
         {
             test.OnFootReset();
             gameObject.SetActive(false);

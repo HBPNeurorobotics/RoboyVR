@@ -21,21 +21,26 @@ public class PhysicsTest : MonoBehaviour {
 	public Transform phaseFoot;
     public FootPhaseResetPlate footReset;
 
+    [Header("UI")]
+    public List<Text> handUI = new List<Text>();
     public Text countdownDisplay;
     public Text remainingTimeDisplay;
     public Text completionsDisplay;
 
-	PHASE phase = PHASE.HAND;
+    List<int> handNumbers = new List<int>();
+
+    PHASE phase = PHASE.HAND;
 	float timeUntilCompletion, phaseRunTime;
 	bool run, saved;
 
 	List<SuccessfullTask> handCompletions = new List<SuccessfullTask>();
 	List<SuccessfullTask> footCompletions = new List<SuccessfullTask>();
 
-	public CheckBound[] handBounds;
+    [Header("Bounds")]
+    public CheckBound[] handBounds;
 	public CheckBound[] footBounds;
-
-	public GameObject finishHand;
+    [Header("Finish")]
+    public GameObject finishHand;
 	public GameObject finishFoot;
 
     Vector3 handFinishAtStart;
@@ -93,6 +98,11 @@ public class PhysicsTest : MonoBehaviour {
 		}
         handFinishAtStart = new Vector3(finishHand.transform.position.x, finishHand.transform.position.y, finishHand.transform.position.z);
 		participantID = Random.Range(0, 100000);
+
+        for(int i = 1; i <= 4; i++)
+        {
+            handNumbers.Add(i);
+        }
 	}
 
 	void SetActiveBounds(CheckBound[] bounds, bool active)
@@ -153,6 +163,13 @@ public class PhysicsTest : MonoBehaviour {
         ClearMeasuredTime();
         if (phase.Equals(PHASE.HAND))
         {
+            handNumbers.Reverse();
+            int i = 0;
+            foreach(Text number in handUI)
+            {
+                number.text = "" + handNumbers[i];
+                i++;
+            }
             finishHand.GetComponent<CheckFinish>().trigger = false;
             finishHand.transform.position = new Vector3(-finishHand.transform.position.x, finishHand.transform.position.y, finishHand.transform.position.z);
             finishHand.GetComponent<CheckFinish>().trigger = true;
@@ -161,6 +178,7 @@ public class PhysicsTest : MonoBehaviour {
         {
             finishFoot.GetComponent<CheckFinish>().trigger = false;
             SetActiveBounds(footBounds, false);
+            phaseFoot.gameObject.SetActive(false);
             run = false;
             footReset.gameObject.SetActive(true);
         }
@@ -168,6 +186,7 @@ public class PhysicsTest : MonoBehaviour {
 
     public void OnFootReset()
     {
+        phaseFoot.gameObject.SetActive(true);
         foreach (CheckBound bound in footBounds)
         {
             bound.gameObject.GetComponent<BoxCollider>().enabled = true;
@@ -182,6 +201,11 @@ public class PhysicsTest : MonoBehaviour {
         run = false;
         countdownDisplay.enabled = true;
         completionsDisplay.text = "" + 0;
+
+        if (phase.Equals(PHASE.HAND))
+        {
+            phaseFoot.gameObject.SetActive(false);
+        }
 
         while (timeLeft != 0)
         {
@@ -200,7 +224,13 @@ public class PhysicsTest : MonoBehaviour {
         ClearMeasuredTime();
         if (phase.Equals(PHASE.HAND))
         {
-            
+            handNumbers.Sort();
+            int i = 0;
+            foreach(Text text in handUI)
+            {
+                text.text = "" + handNumbers[i];
+                i++;
+            }
 
             finishFoot.GetComponent<CheckFinish>().trigger = false;
             SetActiveBounds(footBounds, false);
