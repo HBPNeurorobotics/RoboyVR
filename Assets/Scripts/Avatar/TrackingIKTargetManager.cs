@@ -153,6 +153,7 @@ public class TrackingIKTargetManager : MonoBehaviour
                 
             }
 
+
             if (trackingReference.trackedDeviceClass == ETrackedDeviceClass.GenericTracker)
             {
                 // figure out which generic tracker belongs to body, left and right foot

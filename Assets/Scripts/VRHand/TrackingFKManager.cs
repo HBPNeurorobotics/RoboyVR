@@ -105,65 +105,70 @@ public class TrackingFKManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        virtualtWrist = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r").transform;
 
-        virtualtThumb1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r").transform;
-        virtualtThumb2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r").transform;
-        virtualtThumb3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r").transform;
-        virtualtThumb4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r/finger_thumb_r_end").transform;
+        if(DetermineController.Instance.useIndexController)
+        {
+            virtualtWrist = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r").transform;
 
-        virtualtThumb1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r").transform;
-        virtualtThumb2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r").transform;
-        virtualtThumb3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r").transform;
-        virtualtThumb4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r/finger_thumb_r_end").transform;
+            virtualtThumb1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r").transform;
+            virtualtThumb2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r").transform;
+            virtualtThumb3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r").transform;
+            virtualtThumb4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r/finger_thumb_r_end").transform;
 
-        virtualtIndex1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r").transform;
-        virtualtIndex2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r").transform;
-        virtualtIndex3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r/finger_index_2_r").transform;
-        virtualtIndex4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r/finger_index_2_r/finger_index_r_end").transform;
+            virtualtThumb1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r").transform;
+            virtualtThumb2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r").transform;
+            virtualtThumb3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r").transform;
+            virtualtThumb4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r/finger_thumb_2_r/finger_thumb_r_end").transform;
 
-        virtualtIndex1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r").transform;
-        virtualtIndex2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r").transform;
-        virtualtIndex3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r/finger_index_2_r").transform;
-        virtualtIndex4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r/finger_index_2_r/finger_index_r_end").transform;
+            virtualtIndex1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r").transform;
+            virtualtIndex2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r").transform;
+            virtualtIndex3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r/finger_index_2_r").transform;
+            virtualtIndex4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r/finger_index_2_r/finger_index_r_end").transform;
 
-        virtualtMiddle1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r").transform;
-        virtualtMiddle2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r").transform;
-        virtualtMiddle3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r/finger_middle_2_r").transform;
-        virtualtMiddle4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r/finger_middle_2_r/finger_middle_r_end").transform;
+            virtualtIndex1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r").transform;
+            virtualtIndex2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r").transform;
+            virtualtIndex3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r/finger_index_2_r").transform;
+            virtualtIndex4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_index_meta_r/finger_index_0_r/finger_index_1_r/finger_index_2_r/finger_index_r_end").transform;
 
-        virtualtMiddle1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r").transform;
-        virtualtMiddle2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r").transform;
-        virtualtMiddle3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r/finger_middle_2_r").transform;
-        virtualtMiddle4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r/finger_middle_2_r/finger_middle_r_end").transform;
+            virtualtMiddle1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r").transform;
+            virtualtMiddle2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r").transform;
+            virtualtMiddle3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r/finger_middle_2_r").transform;
+            virtualtMiddle4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r/finger_middle_2_r/finger_middle_r_end").transform;
 
-        virtualtRing1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r").transform;
-        virtualtRing2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r").transform;
-        virtualtRing3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r/finger_ring_2_r").transform;
-        virtualtRing4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r/finger_ring_2_r/finger_ring_r_end").transform;
+            virtualtMiddle1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r").transform;
+            virtualtMiddle2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r").transform;
+            virtualtMiddle3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r/finger_middle_2_r").transform;
+            virtualtMiddle4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_middle_meta_r/finger_middle_0_r/finger_middle_1_r/finger_middle_2_r/finger_middle_r_end").transform;
 
-        virtualtRing1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r").transform;
-        virtualtRing2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r").transform;
-        virtualtRing3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r/finger_ring_2_r").transform;
-        virtualtRing4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r/finger_ring_2_r/finger_ring_r_end").transform;
+            virtualtRing1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r").transform;
+            virtualtRing2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r").transform;
+            virtualtRing3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r/finger_ring_2_r").transform;
+            virtualtRing4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r/finger_ring_2_r/finger_ring_r_end").transform;
 
-        virtualtPinky1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r").transform;
-        virtualtPinky2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r").transform;
-        virtualtPinky3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r").transform;
-        virtualtPinky4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r/finger_pinky_r_end").transform;
+            virtualtRing1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r").transform;
+            virtualtRing2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r").transform;
+            virtualtRing3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r/finger_ring_2_r").transform;
+            virtualtRing4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_ring_meta_r/finger_ring_0_r/finger_ring_1_r/finger_ring_2_r/finger_ring_r_end").transform;
 
-        virtualtPinky1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r").transform;
-        virtualtPinky2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r").transform;
-        virtualtPinky3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r").transform;
-        virtualtPinky4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r/finger_pinky_r_end").transform;
+            virtualtPinky1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r").transform;
+            virtualtPinky2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r").transform;
+            virtualtPinky3R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r").transform;
+            virtualtPinky4R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r/finger_pinky_r_end").transform;
 
-        SetupTargets();
-        
+            virtualtPinky1 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r").transform;
+            virtualtPinky2 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r").transform;
+            virtualtPinky3 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r").transform;
+            virtualtPinky4 = GameObject.Find("vr_glove_left/vr_glove_model/Root/wrist_r/finger_pinky_meta_r/finger_pinky_0_r/finger_pinky_1_r/finger_pinky_2_r/finger_pinky_r_end").transform;
+
+            SetupTargets();
+
+        }
+
     }
 
     // Update is called once per frame
     void Update() {
-        if (trackingIKTargetManager.IsReady())
+        if (trackingIKTargetManager.IsReady() && DetermineController.Instance.useIndexController)
         {
             TargetThumb1.transform.rotation = virtualtThumb1.transform.rotation;
             
