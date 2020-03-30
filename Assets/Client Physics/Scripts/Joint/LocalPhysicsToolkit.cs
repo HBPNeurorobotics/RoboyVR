@@ -2,9 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Provides access to a collection of useful functions
+/// </summary>
 public static class LocalPhysicsToolkit
 {
     static int depth = 0;
+
+    /// <summary>
+    /// Used to copy the values of a component and paste them in the component of another GameObject 
+    /// </summary>
+    /// <param name="pasteTo">Component of the target GameObject. Its values will be overwritten.</param>
+    /// <param name="toCopyFrom">Component of the original GameObject, these values will be copied.</param>
     public static void CopyPasteComponent(Component pasteTo, Component toCopyFrom)
     {
         UnityEditorInternal.ComponentUtility.CopyComponent(toCopyFrom);
@@ -35,97 +44,6 @@ public static class LocalPhysicsToolkit
         }
 
         return Quaternion.LookRotation(jointYAxis, jointZAxis);
-    }
-
-    public static void SetJointSettings(ConfigurableJoint joint, JointSettings settings)
-    {
-    }
-
-    public static void AddForce(ConfigurableJoint joint, Vector3 force)
-    {
-    }
-    // TODO: use PDController instead!
-    /// <summary>
-    /// Creates a new ConfigJointMotionHandler that adds torque to the body part of the joint for a specified duration.
-    /// </summary>
-    /// <param name="joint">The joint of the bone.</param>
-    /// <param name="rotation">The rotation that the joint should try to perform.</param>
-    /// <param name="duration">The duration of the influence.</param>
-    /// <param name="disableCurrentMotionHandler">Should the current ConfigJointMotionHandler be disabled? This will disable player input.</param>
-    /// <param name="isWorldRotation">Is the rotation given in world space?</param>
-    /// <param name="isJointRotation">Is the rotation given in joint space?</param>
-    /// <param name="monoBehaviour">The monobehavior of the class calling this method. Needed for Coroutine handling.</param>
-    public static void SwitchConfigJointMotionHandlerForDuration(ConfigurableJoint joint, Quaternion rotation, float duration, bool disableCurrentMotionHandler, bool isWorldRotation, bool isJointRotation, MonoBehaviour forCoroutine)
-    {
-        GameObject jointObject = joint.gameObject;
-        ConfigJointMotionHandler motionHandler = jointObject.GetComponent<ConfigJointMotionHandler>();
-        Quaternion originalOrientation = motionHandler.GetOriginalOrientation();
-        bool hasInitialMotionHandler = motionHandler != null && jointObject.GetComponents<ConfigJointMotionHandler>().Length == 1;
-
-        //only one rotation can be true, check to avoid false input
-        if (isWorldRotation) isJointRotation = false;
-        if (isJointRotation) isWorldRotation = false;
-
-        //no interference from target rotation set by ConfigMotionHandler
-        if (disableCurrentMotionHandler)
-        {
-            if (hasInitialMotionHandler)
-            {
-                forCoroutine.StartCoroutine(DisableConfigJointMotionHandler(motionHandler, duration));
-            }
-        }
-        //nothing has to change, can be directly applied
-        if (isJointRotation)
-        {
-            forCoroutine.StartCoroutine(SetTargetRotationForDuration(jointObject, rotation, duration));
-        }
-        //local rotation can be directly applied to new ConfigJointMotionHandler
-        else if (!isWorldRotation)
-        {
-            CreateNewConfigMotionHandlerTarget(joint.gameObject, rotation, duration, originalOrientation, forCoroutine);
-        }
-        //convert world rotation into local one
-        else
-        {
-            Quaternion localRotation = Quaternion.Inverse(jointObject.transform.rotation) * rotation;
-            CreateNewConfigMotionHandlerTarget(jointObject, localRotation, duration, originalOrientation, forCoroutine);
-        }
-    }
-
-    static void CreateNewConfigMotionHandlerTarget(GameObject jointObject, Quaternion localRotation, float duration, Quaternion originalOrientation, MonoBehaviour forCoroutine)
-    {
-        ConfigJointMotionHandler newMotionHandler = jointObject.AddComponent<ConfigJointMotionHandler>();
-        GameObject tmpTarget = new GameObject();
-
-        tmpTarget.transform.SetParent(jointObject.transform.parent);
-        tmpTarget.transform.localScale = Vector3.one;
-        tmpTarget.transform.localPosition = Vector3.zero;
-        tmpTarget.transform.rotation = Quaternion.identity;
-        tmpTarget.transform.localRotation = localRotation;
-        newMotionHandler.target = tmpTarget;
-        newMotionHandler.SetOriginalOrientation(originalOrientation);
-        forCoroutine.StartCoroutine(RenoveConfigJointMotionHandler(newMotionHandler, tmpTarget, duration));
-    }
-
-    static IEnumerator DisableConfigJointMotionHandler(ConfigJointMotionHandler motionHandler, float seconds)
-    {
-        motionHandler.enabled = false;
-        yield return new WaitForSeconds(seconds);
-        motionHandler.enabled = true;
-    }
-    static IEnumerator RenoveConfigJointMotionHandler(ConfigJointMotionHandler motionHandler, GameObject target, float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        Object.Destroy(motionHandler);
-        Object.Destroy(target);
-    }
-
-    static IEnumerator SetTargetRotationForDuration(GameObject jointObject, Quaternion jointRotation, float seconds)
-    {
-        ConfigJointMotionHandler newMotionHandler = jointObject.AddComponent<ConfigJointMotionHandler>();
-        newMotionHandler.UseJointRotation(jointRotation, true);
-        yield return new WaitForSeconds(seconds);
-        Object.Destroy(newMotionHandler);
     }
 
     /// <summary>
@@ -201,17 +119,21 @@ public static class LocalPhysicsToolkit
         }
     }
 
+    /// <summary>
+    /// Finds the level of the GameObject in the skeleton hierarchy
+    /// </summary>
+    /// <param name="boneInScene"></param>
+    /// <param name="rootBone"></param>
+    /// <returns></returns>
     public static int GetDepthOfBone(Transform boneInScene, Transform rootBone)
     {
         depth = 0;
         GetDepthOfBoneHelper(boneInScene, rootBone);
         return depth;
-
     }
 
     static void GetDepthOfBoneHelper(Transform bone, Transform rootBone)
     {
-
         Transform parent = bone.parent;
 
         if (parent != null && !parent.Equals(rootBone))
@@ -222,4 +144,112 @@ public static class LocalPhysicsToolkit
         return;
     }
 
+
+    //////////////////////////////////////////////////////////////////// LEGACY: CONFIGJOINTMOTIONHANDLER FOR DURATION ////////////////////////////////////////////////////////////////////////
+    #region experimental
+
+    /// <summary>
+    /// Creates a new ConfigJointMotionHandler that adds torque to the body part of the joint for a specified duration. Experimental stage.
+    /// </summary>
+    /// <param name="joint">The joint of the bone.</param>
+    /// <param name="rotation">The rotation that the joint should try to perform.</param>
+    /// <param name="duration">The duration of the influence.</param>
+    /// <param name="disableCurrentMotionHandler">Should the current ConfigJointMotionHandler be disabled? This will disable player input.</param>
+    /// <param name="isWorldRotation">Is the rotation given in world space?</param>
+    /// <param name="isJointRotation">Is the rotation given in joint space?</param>
+    /// <param name="monoBehaviour">The monobehavior of the class calling this method. Needed for Coroutine handling.</param>
+    public static void SwitchConfigJointMotionHandlerForDuration(ConfigurableJoint joint, Quaternion rotation, float duration, bool disableCurrentMotionHandler, bool isWorldRotation, bool isJointRotation, MonoBehaviour forCoroutine)
+    {
+        GameObject jointObject = joint.gameObject;
+        ConfigJointMotionHandler motionHandler = jointObject.GetComponent<ConfigJointMotionHandler>();
+        Quaternion originalOrientation = motionHandler.GetOriginalOrientation();
+        bool hasInitialMotionHandler = motionHandler != null && jointObject.GetComponents<ConfigJointMotionHandler>().Length == 1;
+
+        //only one rotation can be true, check to avoid false input
+        if (isWorldRotation) isJointRotation = false;
+        if (isJointRotation) isWorldRotation = false;
+
+        //no interference from target rotation set by ConfigMotionHandler
+        if (disableCurrentMotionHandler)
+        {
+            if (hasInitialMotionHandler)
+            {
+                forCoroutine.StartCoroutine(DisableConfigJointMotionHandler(motionHandler, duration));
+            }
+        }
+        //nothing has to change, can be directly applied
+        if (isJointRotation)
+        {
+            forCoroutine.StartCoroutine(SetTargetRotationForDuration(jointObject, rotation, duration));
+        }
+        //local rotation can be directly applied to new ConfigJointMotionHandler
+        else if (!isWorldRotation)
+        {
+            CreateNewConfigMotionHandlerTarget(joint.gameObject, rotation, duration, originalOrientation, forCoroutine);
+        }
+        //convert world rotation into local one
+        else
+        {
+            Quaternion localRotation = Quaternion.Inverse(jointObject.transform.rotation) * rotation;
+            CreateNewConfigMotionHandlerTarget(jointObject, localRotation, duration, originalOrientation, forCoroutine);
+        }
+    }
+
+    /// <summary>
+    /// Helper class for SwitchConfigJointMotionHandlerForDuration
+    /// </summary>
+    /// <param name="jointObject"></param>
+    /// <param name="localRotation"></param>
+    /// <param name="duration"></param>
+    /// <param name="originalOrientation"></param>
+    /// <param name="forCoroutine"></param>
+    static void CreateNewConfigMotionHandlerTarget(GameObject jointObject, Quaternion localRotation, float duration, Quaternion originalOrientation, MonoBehaviour forCoroutine)
+    {
+        ConfigJointMotionHandler newMotionHandler = jointObject.AddComponent<ConfigJointMotionHandler>();
+        GameObject tmpTarget = new GameObject();
+
+        tmpTarget.transform.SetParent(jointObject.transform.parent);
+        tmpTarget.transform.localScale = Vector3.one;
+        tmpTarget.transform.localPosition = Vector3.zero;
+        tmpTarget.transform.rotation = Quaternion.identity;
+        tmpTarget.transform.localRotation = localRotation;
+        newMotionHandler.target = tmpTarget;
+        newMotionHandler.SetOriginalOrientation(originalOrientation);
+        forCoroutine.StartCoroutine(RenoveConfigJointMotionHandler(newMotionHandler, tmpTarget, duration));
+    }
+
+    /// <summary>
+    /// Helper class for CreateNewConfigMotionHandlerTarget
+    /// </summary>
+    /// <param name="motionHandler"></param>
+    /// <param name="seconds"></param>
+    /// <returns></returns>
+    static IEnumerator DisableConfigJointMotionHandler(ConfigJointMotionHandler motionHandler, float seconds)
+    {
+        motionHandler.enabled = false;
+        yield return new WaitForSeconds(seconds);
+        motionHandler.enabled = true;
+    }
+    /// <summary>
+    /// Helper class for SwitchConfigJointMotionHandlerForDuration
+    /// </summary>
+    /// <param name="motionHandler"></param>
+    /// <param name="target"></param>
+    /// <param name="seconds"></param>
+    /// <returns></returns>
+    static IEnumerator RenoveConfigJointMotionHandler(ConfigJointMotionHandler motionHandler, GameObject target, float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Object.Destroy(motionHandler);
+        Object.Destroy(target);
+    }
+
+    static IEnumerator SetTargetRotationForDuration(GameObject jointObject, Quaternion jointRotation, float seconds)
+    {
+        ConfigJointMotionHandler newMotionHandler = jointObject.AddComponent<ConfigJointMotionHandler>();
+        newMotionHandler.UseJointRotation(jointRotation, true);
+        yield return new WaitForSeconds(seconds);
+        Object.Destroy(newMotionHandler);
+    }
+    #endregion
 }

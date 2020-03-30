@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// From http://digitalopus.ca/site/pd-controllers/
+/// </summary>
 public class PDController : MonoBehaviour
 {
     public float proportionalGain;
@@ -61,7 +64,6 @@ public class PDController : MonoBehaviour
         Vector3 currentPosition = transform.position;
         Vector3 currentVelocity = rigidbody.velocity;
         //Euler Step
-        //Vector3 F = CalculatePIDError(targetPosition - currentPosition) + CalculatePIDError(targetPosition - currentVelocity);
         Vector3 F = (targetPosition - currentPosition) * ksg + (targetVelocity - currentVelocity) * kdg;
         if (float.IsNaN(F.x) || float.IsNaN(F.y) || float.IsNaN(F.z))
         {

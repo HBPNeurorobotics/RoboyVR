@@ -8,8 +8,9 @@ public class ConfigJointManager : MonoBehaviour
     public bool configureJointsInEditor = true;
     public bool useBodyMass = false;
     bool useBodyMassPrev;
-    [Header("Split Axis")]
+    [Header("Choose Initialization Template")]
     public bool useJointsMultipleTemplate = false;
+    [Header("Split Joint At Runtime, Experimental")]
     public bool splitJointTemplate = false;
     [Header("Add Colliders")]
     public bool addSimpleColliders = false;
@@ -82,8 +83,12 @@ public class ConfigJointManager : MonoBehaviour
         useBodyMassPrev = useBodyMass;
     }
 
+    /// <summary>
+    /// Use to only manipulate the current BODYGROUP
+    /// </summary>
     void UpdateGameObjectsFromBone()
-    {/*
+    {
+        /*
         switch (avatarManager.GetSelectedBodyGroup())
         {
             case BodyGroups.BODYGROUP.ALL_COMBINED: gameObjectsFromBone = avatarManager.GetBodyGroupsRemote().AllCombined(); break;
@@ -105,7 +110,7 @@ public class ConfigJointManager : MonoBehaviour
 
     public void SetupJoints()
     {
-        //We only support the construction of individual joints from a single one or from the multijoint template but not both at the same time
+        //We only support the construction of individual joints from a single one or from the multijoint template but not both at the same time at init
         if (splitJointTemplate) useJointsMultipleTemplate = false;
         if (useJointsMultipleTemplate) splitJointTemplate = false;
         //same for colliders
@@ -152,7 +157,6 @@ public class ConfigJointManager : MonoBehaviour
             {
                 joints[i].targetRotation = CalculateJointRotation(joints[i], bone, targetRotation);
             }
-            //gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>().targetPosition = originalJointTransforms[bone].position - target.position;
         }
     }
 
@@ -165,7 +169,7 @@ public class ConfigJointManager : MonoBehaviour
     /// <returns></returns>
     Quaternion CalculateJointRotation(ConfigurableJoint joint, HumanBodyBones bone, Quaternion targetRotation)
     {
-
+        #region legacy
         //useIndividualAxes --> treat each joint rotation individually
         /*
          * if (useIndividualAxes)
@@ -229,7 +233,7 @@ public class ConfigJointManager : MonoBehaviour
         Vector3 jointZAxis = Vector3.Cross(jointYAxis, jointXAxis).normalized;
         */
         //////////////////////////////////////////////////////////////////////////////////////
-        
+        #endregion
 
         /*
          * Z axis will be aligned with forward
@@ -237,6 +241,9 @@ public class ConfigJointManager : MonoBehaviour
          * Y axis aligned with cross product between Z and X.
          * --> rotates world coordinates to align with joint coordinates
         */
+
+        // from https://gist.github.com/mstevenson/4958837
+
         Quaternion worldToJointSpace = LocalPhysicsToolkit.GetWorldToJointRotation(joint);
 
         /* 
@@ -251,6 +258,9 @@ public class ConfigJointManager : MonoBehaviour
         return resultRotation;
     }
 
+    /// <summary>
+    /// Builds template dictionary based on selected template version at initialization
+    /// </summary>
     void InitTemplateDict()
     {
         foreach (HumanBodyBones bone in System.Enum.GetValues(typeof(HumanBodyBones)))
@@ -382,11 +392,16 @@ public class ConfigJointManager : MonoBehaviour
         return usesLockedJoint;
     }
 
+    /// <summary>
+    /// Assigns bones that should be treated as FixedJoints
+    /// </summary>
     public void SetFixedJoints()
     {
         if (usesLockedJoint.Count == 0)
         {
+            //for stability
             usesLockedJoint.Add(HumanBodyBones.Hips);
+            //IK does not use these body parts anyway
             usesLockedJoint.Add(HumanBodyBones.RightShoulder);
             usesLockedJoint.Add(HumanBodyBones.LeftShoulder);
         }

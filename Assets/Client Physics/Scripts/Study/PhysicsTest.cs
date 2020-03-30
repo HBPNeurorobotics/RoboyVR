@@ -6,6 +6,9 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles the logic/loop of the Physics User Study
+/// </summary>
 public class PhysicsTest : MonoBehaviour {
     public string testFolder;
 	public bool righthanded = true;
@@ -105,6 +108,11 @@ public class PhysicsTest : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Enables CheckBounds to measure time, activates colliders
+    /// </summary>
+    /// <param name="bounds"></param>
+    /// <param name="active"></param>
 	void SetActiveBounds(CheckBound[] bounds, bool active)
 	{
 		foreach(CheckBound testBound in bounds)
@@ -124,6 +132,10 @@ public class PhysicsTest : MonoBehaviour {
 		}
 	}
 
+    /// <summary>
+    /// Flips environment.
+    /// </summary>
+    /// <param name="parent"></param>
 	void PrepareRightHanded(Transform parent)
 	{
 		foreach (Transform child in parent)
@@ -158,6 +170,9 @@ public class PhysicsTest : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Prepares new task.
+    /// </summary>
 	void ResetTask()
 	{
         ClearMeasuredTime();
@@ -184,6 +199,9 @@ public class PhysicsTest : MonoBehaviour {
         }
 	}
 
+    /// <summary>
+    /// Continues the foot phase after task completion
+    /// </summary>
     public void OnFootReset()
     {
         phaseFoot.gameObject.SetActive(true);
@@ -195,6 +213,7 @@ public class PhysicsTest : MonoBehaviour {
         run = true;
         finishFoot.GetComponent<CheckFinish>().trigger = true;
     }
+
 
     IEnumerator StartPhaseInS(float timeLeft)
     {
@@ -256,6 +275,10 @@ public class PhysicsTest : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Stores successful Completions
+    /// </summary>
+    /// <param name="phase"></param>
     public void OnFinishLineReached(PHASE phase)
 	{
 		Dictionary<string, CheckBoundValueStorage> successFullBounds = new Dictionary<string, CheckBoundValueStorage>();
@@ -297,7 +320,10 @@ public class PhysicsTest : MonoBehaviour {
         ResetTask();
 	}
 
-
+    /// <summary>
+    /// UI: Countdown
+    /// </summary>
+    /// <returns></returns>
     IEnumerator DisplayRemainingTime()
     {
         remainingTimeDisplay.enabled = true;
@@ -441,13 +467,6 @@ public class PhysicsTest : MonoBehaviour {
                 foreach (string touchedObj in bounds[currentBound].timesPerBodyParts.Keys)
                 {
                     json[touchedObj + " involved in " + currentBound] = new BodyPartEvaluation(bounds[currentBound], currentBound, touchedObj).ToJson();
-                    /*
-                    if (bounds[currentBound].timeSpent > 0f && bounds[currentBound].timesPerBodyParts[touchedObj] > 0f)
-                    {
-                        json[currentBound + "_" + touchedObj] = bounds[currentBound].timesPerBodyParts[touchedObj];
-                        json[currentBound + "_" + touchedObj + " in %"] = (bounds[currentBound].timesPerBodyParts[touchedObj] / bounds[currentBound].timeSpent) * 100f + "%";
-                    }
-                    */
                 }
 			}
 
