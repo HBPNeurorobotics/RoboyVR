@@ -10723,13 +10723,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98ba32a5967ceb4f80da14b050a3a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
-  obj: {fileID: 464336442}
-  proportionalGain: 10
-  integralGain: 1
-  derivativeGain: 2
-  previousError: {x: 0, y: 0, z: 0}
-  integral: {x: 0, y: 0, z: 0}
 --- !u!114 &566472873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13552,30 +13545,6 @@ Prefab:
     - target: {fileID: 4886962135273072, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1945323450913586, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-      propertyPath: m_Layer
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 1846500966423948, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-      propertyPath: m_Layer
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024496928976996, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-      propertyPath: m_Layer
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 1500837336411246, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-      propertyPath: m_Layer
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 1490956702769806, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-      propertyPath: m_Layer
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 1446430726671000, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
-      propertyPath: m_Layer
-      value: 22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b418af0ebdf618349a73938c9e8c17ee, type: 2}
@@ -19666,11 +19635,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17808868879525d47b3f6c6b79818f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useBodyMass: 1
-  weight: 72
-  animatorRemoteAvatar: {fileID: 0}
-  animatorTarget: {fileID: 0}
-  useFixedJoints: 
 --- !u!1 &1035547224
 GameObject:
   m_ObjectHideFlags: 0
@@ -31623,7 +31587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1673437922
 Transform:
   m_ObjectHideFlags: 0
@@ -32318,11 +32282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17808868879525d47b3f6c6b79818f56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useBodyMass: 1
-  weight: 72
-  animatorRemoteAvatar: {fileID: 0}
-  animatorTarget: {fileID: 0}
-  useFixedJoints: 
 --- !u!114 &1720704524
 MonoBehaviour:
   m_ObjectHideFlags: 0

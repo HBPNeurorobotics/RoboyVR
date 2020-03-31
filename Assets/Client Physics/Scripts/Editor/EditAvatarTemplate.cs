@@ -150,20 +150,20 @@ public class EditAvatarTemplate : EditorWindow
              GUI.enabled = basedOnMultipleJoints ? false : true;
              setGlobalJointSetting = EditorGUILayout.Toggle("Set Global Joint Settings", setGlobalJointSetting);
              globalSettings = new JointSettings(HumanBodyBones.LastBone, angularXDriveSpringGlobal, angularXDriveDamperGlobal, maxForceXGlobal, angularYZDriveSpringGlobal, angularYZDriveDamperGlobal, maxForceYZGlobal);
-
-
-            GUI.enabled = setGlobalJointSetting ? false : true;
-            //scene selection mode
-            EditorGUILayout.HelpBox("Enabling \"Select Joints in Scene\" will overwrite all settings with values from the template", MessageType.Warning);
-            selectGroupConfigJoints = EditorGUILayout.Toggle("Select Joints in Scene", selectGroupConfigJoints);
-            if (selectGroupConfigJoints)
+             GUI.enabled = true;
+            if (!setGlobalJointSetting)
             {
-                SelectJointsInTemplate();
-                RefreshJointSettings();
-            }
+                //scene selection mode
+                EditorGUILayout.HelpBox("Enabling \"Select Joints in Scene\" will overwrite all settings with values from the template", MessageType.Warning);
+                selectGroupConfigJoints = EditorGUILayout.Toggle("Select Joints in Scene", selectGroupConfigJoints);
+                if (selectGroupConfigJoints)
+                {
+                    SelectJointsInTemplate();
+                    RefreshJointSettings();
+                }
 
-            GUI.enabled = true;
-            mirror = EditorGUILayout.Toggle("Mirror Settings", mirror);
+                mirror = EditorGUILayout.Toggle("Mirror Settings", mirror);
+            }
 
             if (!setGlobalJointSetting && !selectGroupConfigJoints)
             {
@@ -192,6 +192,7 @@ public class EditAvatarTemplate : EditorWindow
 
             massTemplate = basedOnMultipleJoints ? gameObjectsPerBoneTemplate : gameObjectsPerBoneTemplateMultiple;
 
+            GUI.enabled = selectGroupConfigJoints ? false : true;
             if (GUILayout.Button("Set BodyMass"))
             {
                 bodyMass = new BodyMass(bodyWeight, massTemplate, mode);
@@ -531,14 +532,14 @@ public class EditAvatarTemplate : EditorWindow
     void DisplayJointValues(JointSettings settings)
     {
         //More functions could be added here, if other joint parameters are to be modified in the future
-        DisplayAngularLimits(settings);
+        if(!setGlobalJointSetting) DisplayAngularLimits(settings);
         DisplayAngularDrives(settings);
     }
 
     void DisplayAngularLimits(JointSettings settings)
     {
         settings.showAngularLimitsInEditor = EditorGUILayout.Foldout(settings.showAngularLimitsInEditor, "Angular Joint Limits", true);
-        if (settings.showAngularLimitsInEditor || setGlobalJointSetting)
+        if (settings.showAngularLimitsInEditor)
         {
             EditorGUILayout.BeginHorizontal();
             GUILayout.Space(indent);
@@ -1031,32 +1032,35 @@ public class EditAvatarTemplate : EditorWindow
     /// <param name="setting"></param>
     void ApplyJointSetting(ConfigurableJoint joint, JointSettings setting)
     {
-        Rigidbody rb = joint.gameObject.GetComponent<Rigidbody>();
-        if (rb != null)
+        if (!setGlobalJointSetting)
         {
-            rb.mass = setting.mass;
-            rb.useGravity = setting.gravity;
-            rb.centerOfMass = setting.centerOfMass;
-            rb.inertiaTensor = setting.inertiaTensor;
+            Rigidbody rb = joint.gameObject.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.mass = setting.mass;
+                rb.useGravity = setting.gravity;
+                rb.centerOfMass = setting.centerOfMass;
+                rb.inertiaTensor = setting.inertiaTensor;
+            }
+            //angular limits
+            SoftJointLimit tmpLimit;
+
+            tmpLimit = joint.lowAngularXLimit;
+            tmpLimit.limit = setting.angularLimitLowX;
+            joint.lowAngularXLimit = tmpLimit;
+
+            tmpLimit = joint.highAngularXLimit;
+            tmpLimit.limit = setting.angularLimitHighX;
+            joint.highAngularXLimit = tmpLimit;
+
+            tmpLimit = joint.angularYLimit;
+            tmpLimit.limit = setting.angularLimitY;
+            joint.angularYLimit = tmpLimit;
+
+            tmpLimit = joint.angularZLimit;
+            tmpLimit.limit = setting.angularLimitZ;
+            joint.angularZLimit = tmpLimit;
         }
-        //angular limits
-        SoftJointLimit tmpLimit;
-
-        tmpLimit = joint.lowAngularXLimit;
-        tmpLimit.limit = setting.angularLimitLowX;
-        joint.lowAngularXLimit = tmpLimit;
-
-        tmpLimit = joint.highAngularXLimit;
-        tmpLimit.limit = setting.angularLimitHighX;
-        joint.highAngularXLimit = tmpLimit;
-
-        tmpLimit = joint.angularYLimit;
-        tmpLimit.limit = setting.angularLimitY;
-        joint.angularYLimit = tmpLimit;
-
-        tmpLimit = joint.angularZLimit;
-        tmpLimit.limit = setting.angularLimitZ;
-        joint.angularZLimit = tmpLimit;
 
         //joint drives
         JointDrive tmpDrive;
