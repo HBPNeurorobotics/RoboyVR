@@ -714,7 +714,7 @@ public class EditAvatarTemplate : EditorWindow
                 DestroyImmediate(collider);
             }
             //setup.CopyPasteTemplateJoint(bone);
-            setup.AddJointFromTemplate(bone);
+            setup.AddComponentsFromTemplate(bone);
         }
     }
 

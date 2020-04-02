@@ -68,7 +68,7 @@ public class JointSetup
         }
     }
 
-    public void ToggleMeshCollidersOfBone(HumanBodyBones bone, bool enabled)
+    public void ToggleMeshCollidersOfBone(HumanBodyBones bone, bool meshEnabled)
     {
         MeshCollider collider = gameObjectsFromBone[bone].GetComponent<MeshCollider>();
         if (collider == null)
@@ -79,10 +79,20 @@ public class JointSetup
 
         if (collider != null)
         {
-            MeshCollider[] colliders = gameObjectsFromBone[bone].GetComponents<MeshCollider>();
-            foreach (MeshCollider col in colliders)
+            Collider[] colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
+            foreach (Collider col in colliders)
             {
-                col.enabled = enabled;
+                if (col is MeshCollider)
+                {
+                    col.enabled = meshEnabled;
+                }
+                else
+                {
+                    if (meshEnabled)
+                    {
+                        col.enabled = false;
+                    }
+                }
             }
         }
     }
@@ -99,7 +109,7 @@ public class JointSetup
         }
     }
 
-    public void ToggleSimpleCollidersOfBone(HumanBodyBones bone, bool enabled)
+    public void ToggleSimpleCollidersOfBone(HumanBodyBones bone, bool simpleEnabled)
     {
         Collider[] colliders = gameObjectsFromBone[bone].GetComponents<Collider>();
         bool hasOnlyMeshColliders = false;
@@ -126,7 +136,14 @@ public class JointSetup
         {
             if (!(col is MeshCollider))
             {
-                col.enabled = enabled;
+                col.enabled = simpleEnabled;
+            }
+            else
+            {
+                if (simpleEnabled)
+                {
+                    col.enabled = false;
+                }
             }
         }
     }
@@ -211,7 +228,7 @@ public class JointSetup
             {
                 if (gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() == null)
                 {
-                    AddJointFromTemplate(bone);
+                    AddComponentsFromTemplate(bone);
                 }
             }
         }
@@ -221,7 +238,7 @@ public class JointSetup
     /// Copys the ConfigurableJoint from a template avatar and pastes its values into the newly added ConfigurableJoint at the bone. 
     /// </summary>
     /// <param name="bone">The bone that the new ConfigurableJoint is added to in the remote avatar. This is also the bone that the values are copied from in the template.</param>
-    public void AddJointFromTemplate(HumanBodyBones bone)
+    public void AddComponentsFromTemplate(HumanBodyBones bone)
     {
         //Assign rigidbody 
         CopyPasteTemplateRigidbody(bone);
@@ -267,6 +284,10 @@ public class JointSetup
 
     }
 
+    /// <summary>
+    /// Assigns meshes stored in BoneMeshContainer of RemoteAvatarService as MeshColliders to a body part of the remote avatar.
+    /// </summary>
+    /// <param name="bone"></param>
     void AddMeshColliders(HumanBodyBones bone)
     {
         List<Mesh> meshes = configJointManager.gameObject.GetComponent<BoneMeshContainer>().GetMeshesFromBone(bone);
@@ -292,7 +313,7 @@ public class JointSetup
             //Disable self-collision for composite colliders
             gameObjectsFromBone[bone].layer = templateFromBone[bone].layer;
 
-            //Colliders recalculate the center of mass and inertia tensor of the rigidbody. Since this leads to unintended behavior we have to restore default values.
+            //Colliders recalculate the center of mass and inertia tensor of the rigidbody. Since this leads to unintended behavior we have to set default values.
             gameObjectsFromBone[bone].GetComponent<Rigidbody>().centerOfMass = Vector3.zero;
             gameObjectsFromBone[bone].GetComponent<Rigidbody>().inertiaTensor = Vector3.one;
         }
@@ -488,7 +509,14 @@ public class JointSetup
     {
         foreach (Collider col in gameObjectsFromBone[bone].GetComponents<Collider>())
         {
-            UnityEngine.Object.DestroyImmediate(col);
+            if(col is MeshCollider)
+            {
+                col.enabled = false;
+            }
+            else
+            {
+                UnityEngine.Object.DestroyImmediate(col);
+            }
         }
         //Assign collision layer according to template
         gameObjectsFromBone[bone].layer = templateFromBone[bone].layer;
