@@ -132,7 +132,7 @@ public class JointSetup
     }
 
     /// <summary>
-    /// Use with caution, messes up the joint orientation when called frequently.
+    /// Use with caution, messes up the joint orientation when called after initialization. This is because of the mismatch in starting orientation in the template and the avatar --> offset.
     /// </summary>
     /// <param name="enabled"></param>
     public void ToggleSplitJoints(bool enabled)
@@ -211,30 +211,12 @@ public class JointSetup
             {
                 if (gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() == null)
                 {
-                    AddJoint(bone);
+                    AddJointFromTemplate(bone);
                 }
             }
         }
     }
 
-
-    /// <summary>
-    /// Adds a ConfigurableJoint to the GameObject that corresponds to the specified bone.
-    /// </summary>
-    /// <param name="bone">The bone that a ConfigurableJoint component should be added to. If useIndividualAxis joint angles are set from previous animation test.</param>
-    void AddJoint(HumanBodyBones bone)
-    {
-        //if (!configJointManager.useJointsMultipleTemplate)
-        //{
-        AddJointFromTemplate(bone);
-        //}
-        /*
-        else
-        {
-            AddJointFromAnimationTest(bone);
-        }
-        */
-    }
     /// <summary>
     /// Copys the ConfigurableJoint from a template avatar and pastes its values into the newly added ConfigurableJoint at the bone. 
     /// </summary>
@@ -363,7 +345,7 @@ public class JointSetup
         SetConnectedBody(bone, newJoint);
         if (!editorMode)
         {
-            if (configJointManager.splitJointTemplate)
+            if (configJointManager.splitAvatarTemplate)
             {
                 AddSplitJoints(newJoint, bone);
             }
@@ -498,6 +480,10 @@ public class JointSetup
         }
     }
 
+    /// <summary>
+    /// Adds the simple colliders found in the template's body part to the remote avatar. Assigns the appropriate layer.
+    /// </summary>
+    /// <param name="bone"></param>
     void CopyPasteTemplateColliders(HumanBodyBones bone)
     {
         foreach (Collider col in gameObjectsFromBone[bone].GetComponents<Collider>())
@@ -508,16 +494,18 @@ public class JointSetup
         gameObjectsFromBone[bone].layer = templateFromBone[bone].layer;
 
         Component colliderComp;
+
         //Some bones have multiple colliders to better fit the shape of the body part
         Collider[] templateColliders = templateFromBone[bone].GetComponents<Collider>();
+
+        //Colliders recalculate the center of mass and inertia tensor of the rigidbody unless specified before. Since this leads to unintended behavior we have to set explicit default values.
+        gameObjectsFromBone[bone].GetComponent<Rigidbody>().centerOfMass = Vector3.zero;
+        gameObjectsFromBone[bone].GetComponent<Rigidbody>().inertiaTensor = Vector3.one;
+
         foreach (Collider templateCollider in templateColliders)
         {
             Type colliderType = templateCollider.GetType();
             colliderComp = gameObjectsFromBone[bone].AddComponent(colliderType);
-
-            //Colliders recalculate the center of mass and inertia tensor of the rigidbody. Since this leads to unintended behavior we have to restore default values.
-            gameObjectsFromBone[bone].GetComponent<Rigidbody>().centerOfMass = Vector3.zero;
-            gameObjectsFromBone[bone].GetComponent<Rigidbody>().inertiaTensor = Vector3.one;
 
             LocalPhysicsToolkit.CopyPasteComponent(colliderComp, templateCollider);
         }
@@ -536,16 +524,6 @@ public class JointSetup
             }
         }
     }
-
-    IEnumerator EnableCollider(HumanBodyBones bone)
-    {
-        yield return new WaitForSeconds(0.5f);
-        foreach (MeshCollider collider in gameObjectsFromBone[bone].GetComponents<MeshCollider>())
-        {
-            collider.enabled = true;
-        }
-    }
-
 
     /// <summary>
     /// Sets the connectedBody property of the ConfigurableJoint in a human body.
@@ -800,9 +778,7 @@ public class JointSetup
             joint.angularXDrive = angularXDrive;
             joint.angularYZDrive = angularYZDrive;
         }
-        //END TODO
         
-
         //Connected Body
         joint.connectedBody = connectedBody;
 

@@ -10,8 +10,8 @@ public class ConfigJointManager : MonoBehaviour
     bool useBodyMassPrev;
     [Header("Choose Initialization Template")]
     public bool useJointsMultipleTemplate = false;
-    [Header("Split Joint At Runtime, Experimental")]
-    public bool splitJointTemplate = false;
+    [Header("Split Joint, Only for Initialization")]
+    public bool splitAvatarTemplate = false;
     [Header("Add Colliders")]
     public bool addSimpleColliders = false;
     private bool simpleCollidersPrev;
@@ -111,8 +111,8 @@ public class ConfigJointManager : MonoBehaviour
     public void SetupJoints()
     {
         //We only support the construction of individual joints from a single one or from the multijoint template but not both at the same time at init
-        if (splitJointTemplate) useJointsMultipleTemplate = false;
-        if (useJointsMultipleTemplate) splitJointTemplate = false;
+        if (splitAvatarTemplate) useJointsMultipleTemplate = false;
+        if (useJointsMultipleTemplate) splitAvatarTemplate = false;
         //same for colliders
         if (addSimpleColliders) addMeshColliders = false;
         if (addMeshColliders) addSimpleColliders = false;
