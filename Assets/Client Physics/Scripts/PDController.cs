@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// From http://digitalopus.ca/site/pd-controllers/
+/// A PD controller adapted from http://digitalopus.ca/site/pd-controllers/
 /// </summary>
 public class PDController : MonoBehaviour
 {

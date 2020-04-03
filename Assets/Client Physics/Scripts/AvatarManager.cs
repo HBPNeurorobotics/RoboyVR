@@ -10,14 +10,16 @@ public class AvatarManager : MonoBehaviour
     public GameObject joints, surface;
     public float height = 1.7855f;
     public bool useJoints = true;
-    public bool tuningInProgress, showLocalAvatar;
+    [NonSerialized]
+    public bool tuningInProgress; 
+    public bool showLocalAvatar;
     bool initialized;
 
     [Header("PD Control - Only used when useJoints is unchecked")]
-    public float PDKp = 1;
-    public float PDKd = 1;
+    public float PDKp = 125;
+    public float PDKd = 20;
 
-    //could be used to init only for specific body parts, e.g. arm.
+    //could be used to initialize only for specific body parts, e.g. arm.
     BodyGroups.BODYGROUP bodyGroup = BodyGroups.BODYGROUP.ALL_COMBINED;
 
     BodyGroups bodyGroupsRemote;
@@ -58,7 +60,6 @@ public class AvatarManager : MonoBehaviour
         {
             if (initialized)
             {
-                //UpdatePDControllers();
                 if (!tuningInProgress && latencyHandler.latency_ms == 0)
                 {
                     UpdateJoints();
@@ -67,9 +68,7 @@ public class AvatarManager : MonoBehaviour
                 }
             }
         }
-        //UpdateVacuumBreatherPIDControllers();
-        //UpdateJoints();
-        //UpdateMerchVRPIDControllers();
+
         if (Input.GetKey(KeyCode.S))
         {
             InitializeBodyStructures();
@@ -80,6 +79,10 @@ public class AvatarManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Hides the local avatar from camera view of the VR user. 
+    /// </summary>
+    /// <param name="toHide"></param>
     void SetInvisibleLocalAvatar(Transform toHide)
     {
         //layer 24 gets ignored by hmd camera
@@ -205,33 +208,6 @@ public class AvatarManager : MonoBehaviour
         pd.derivativeGain = PDKd;
     }
 
-    Dictionary<HumanBodyBones, GameObject> SafeCopyOfRemoteAvatarDictionary()
-    {
-        //Dictionary<HumanBodyBones, GameObject> copy = gameObjectPerBoneRemoteAvatar.ToDictionary(k => k.Key, k => k.Value);
-        //return copy;
-        return new Dictionary<HumanBodyBones, GameObject>(gameObjectPerBoneRemoteAvatar);
-        /*
-        List<JointTransformContainer> jointTransformContainers = new List<JointTransformContainer>();
-        JointTransformContainer container;
-        foreach (HumanBodyBones bone in gameObjectPerBoneTarget.Keys)
-        {
-            container = new JointTransformContainer(bone, gameObjectPerBoneTarget[bone].transform);
-            jointTransformContainers.Add(container);
-        }
-        return jointTransformContainers;  
-        */
-
-        /*
-        Dictionary<HumanBodyBones, GameObject> tmp = new Dictionary<HumanBodyBones, GameObject>();
-        foreach(HumanBodyBones bone in gameObjectPerBoneTarget.Keys)
-        {
-            tmp.Add(bone, gameObjectPerBoneTarget[bone]);
-        }
-        return tmp;
-        */
-
-    }
-
     void UpdatePDControllers()
     {
         foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
@@ -249,6 +225,9 @@ public class AvatarManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sends the target rotation of all joints to the ConfigJointManager
+    /// </summary>
     void UpdateJoints()
     {
         foreach (HumanBodyBones bone in gameObjectPerBoneRemoteAvatar.Keys)
@@ -282,6 +261,108 @@ public class AvatarManager : MonoBehaviour
         {
             SetupOrder(child);
         }
+    }
+
+    #region getters
+    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneRemoteAvatarDictionary()
+    {
+        return gameObjectPerBoneRemoteAvatar;
+    }
+
+    public Dictionary<HumanBodyBones, Quaternion> GetGameObjectPerBoneRemoteAvatarDictionaryAtStart()
+    {
+        return orientationPerBoneRemoteAvatarAtStart;
+    }
+
+    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneLocalAvatarDictionary()
+    {
+        return gameObjectPerBoneLocalAvatar;
+    }
+
+    public List<HumanBodyBones> GetFixedJoints()
+    {
+        if (useJoints)
+        {
+            return configJointManager.GetFixedJoints();
+        }
+        else
+        {
+            throw new Exception("You are trying to access the ConfigurableJoints, but useJoints is set to false");
+        }
+    }
+
+    public ConfigurableJoint GetJointInTemplate(HumanBodyBones bone, Vector3 axis)
+    {
+        return configJointManager.GetJointInTemplate(bone, axis);
+    }
+
+    public BodyGroups GetBodyGroupsRemote()
+    {
+        return bodyGroupsRemote;
+    }
+
+    public BodyGroups GetBodyGroupsTarget()
+    {
+        return bodyGroupsTarget;
+    }
+
+    public BodyGroups.BODYGROUP GetSelectedBodyGroup()
+    {
+        return bodyGroup;
+    }
+
+    #endregion
+
+    #region tuning functionalities
+    public void LockAvatarJointsExceptCurrent(ConfigurableJoint joint)
+    {
+        configJointManager.LockAvatarJointsExceptCurrent(joint);
+    }
+
+    public void UnlockAvatarJoints()
+    {
+        configJointManager.UnlockAvatarJoints();
+    }
+
+    public bool IsJointUnneeded(string joint)
+    {
+        ConfigurableJoint remoteJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, gameObjectPerBoneRemoteAvatar);
+        return remoteJoint.lowAngularXLimit.limit == 0 && remoteJoint.highAngularXLimit.limit == 0;
+    }
+    #endregion
+
+    #region legacy
+
+    public bool isInitialized()
+    {
+        return initialized;
+    }
+
+    Dictionary<HumanBodyBones, GameObject> SafeCopyOfRemoteAvatarDictionary()
+    {
+        //Dictionary<HumanBodyBones, GameObject> copy = gameObjectPerBoneRemoteAvatar.ToDictionary(k => k.Key, k => k.Value);
+        //return copy;
+        return new Dictionary<HumanBodyBones, GameObject>(gameObjectPerBoneRemoteAvatar);
+        /*
+        List<JointTransformContainer> jointTransformContainers = new List<JointTransformContainer>();
+        JointTransformContainer container;
+        foreach (HumanBodyBones bone in gameObjectPerBoneTarget.Keys)
+        {
+            container = new JointTransformContainer(bone, gameObjectPerBoneTarget[bone].transform);
+            jointTransformContainers.Add(container);
+        }
+        return jointTransformContainers;  
+        */
+
+        /*
+        Dictionary<HumanBodyBones, GameObject> tmp = new Dictionary<HumanBodyBones, GameObject>();
+        foreach(HumanBodyBones bone in gameObjectPerBoneTarget.Keys)
+        {
+            tmp.Add(bone, gameObjectPerBoneTarget[bone]);
+        }
+        return tmp;
+        */
+
     }
 
     void UpdateJointsRecursive(Transform boneTransform)
@@ -319,71 +400,5 @@ public class AvatarManager : MonoBehaviour
             configJointManager.SetStartOrientation();
         }
     }
-
-    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneRemoteAvatarDictionary()
-    {
-        return gameObjectPerBoneRemoteAvatar;
-    }
-
-    public Dictionary<HumanBodyBones, Quaternion> GetGameObjectPerBoneRemoteAvatarDictionaryAtStart()
-    {
-        return orientationPerBoneRemoteAvatarAtStart;
-    }
-
-    public Dictionary<HumanBodyBones, GameObject> GetGameObjectPerBoneLocalAvatarDictionary()
-    {
-        return gameObjectPerBoneLocalAvatar;
-    }
-
-    public BodyGroups GetBodyGroupsRemote()
-    {
-        return bodyGroupsRemote;
-    }
-    public BodyGroups GetBodyGroupsTarget()
-    {
-        return bodyGroupsTarget;
-    }
-
-    public BodyGroups.BODYGROUP GetSelectedBodyGroup()
-    {
-        return bodyGroup;
-    }
-
-    public void LockAvatarJointsExceptCurrent(ConfigurableJoint joint)
-    {
-        configJointManager.LockAvatarJointsExceptCurrent(joint);
-    }
-
-    public void UnlockAvatarJoints()
-    {
-        configJointManager.UnlockAvatarJoints();
-    }
-
-    public List<HumanBodyBones> GetFixedJoints()
-    {
-        if (useJoints)
-        {
-            return configJointManager.GetFixedJoints();
-        }
-        else
-        {
-            throw new Exception("You are trying to access the ConfigurableJoints, but useJoints is set to false");
-        }
-    }
-
-    public ConfigurableJoint GetJointInTemplate(HumanBodyBones bone, Vector3 axis)
-    {
-        return configJointManager.GetJointInTemplate(bone, axis);
-    }
-
-    public bool IsJointUnneeded(string joint)
-    {
-        ConfigurableJoint remoteJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, gameObjectPerBoneRemoteAvatar);
-        return remoteJoint.lowAngularXLimit.limit == 0 && remoteJoint.highAngularXLimit.limit == 0;
-    }
-
-    public bool isInitialized()
-    {
-        return initialized;
-    }
+    #endregion
 }

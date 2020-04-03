@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 /// <summary>
-/// Can be used to store key values of Unity ConfigurableJoint
+/// Can be used to store key values of Unity's ConfigurableJoint
 /// </summary>
 
 [Serializable]
@@ -114,6 +114,9 @@ public class JointSettings
         angularYZDrive = copy.angularYZDrive;
     }
 
+    /// <summary>
+    /// Creates just a blank JointSettings, use if values are unknown at point of creation.
+    /// </summary>
     public JointSettings()
     {
 
@@ -156,14 +159,6 @@ public class JointSettings
         }
     }
 
-    public JointSettings(float angularXDriveSpring, float angularXDriveDamper, float angularYZDriveSpring, float angularYZDriveDamper)
-    {
-        this.angularXDriveDamper = angularXDriveDamper;
-        this.angularXDriveSpring = angularXDriveSpring;
-        this.angularYZDriveDamper = angularYZDriveDamper;
-        this.angularYZDriveSpring = angularYZDriveSpring;
-    }
-
     public static void SetSingleDrivesFromTuning(ConfigurableJoint joint, JointSettings[] jointSettingsTuning)
     {
         JointDrive drive = new JointDrive();
@@ -202,20 +197,6 @@ public class JointSettings
                     maxForce += settings.maxForceX;
                     numOfYZJointsTuning++;
                 }
-                /*
-                if (joint.secondaryAxis == settings.primaryAxis || joint.secondaryAxis == -settings.primaryAxis)
-                {
-                    //y limit
-                    limit.limit = settings.angularLimitHighX;
-                    joint.angularYLimit = limit;
-                }
-                else
-                {
-                    //z limit
-                    limit.limit = settings.angularLimitHighX;
-                    joint.angularZLimit = limit;
-                }
-                */
             }
         }
 
@@ -228,7 +209,7 @@ public class JointSettings
     }
 
 
-    //Legacy
+    #region Legacy
     public void SetAngularXDriveFromPD(float p, float d)
     {
         angularXDriveSpring = p;
@@ -256,4 +237,5 @@ public class JointSettings
         angularYZDriveDamper = drive.positionDamper;
         maxForceYZ = drive.maximumForce;
     }
+    #endregion
 }

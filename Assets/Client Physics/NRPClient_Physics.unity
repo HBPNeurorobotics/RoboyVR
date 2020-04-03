@@ -19597,7 +19597,6 @@ MonoBehaviour:
   surface: {fileID: 0}
   height: 1.7855
   useJoints: 1
-  tuningInProgress: 0
   showLocalAvatar: 0
   PDKp: 800
   PDKd: 50
@@ -26065,7 +26064,6 @@ MonoBehaviour:
   surface: {fileID: 0}
   height: 1.7855
   useJoints: 1
-  tuningInProgress: 0
   showLocalAvatar: 0
   PDKp: 240
   PDKd: 25
@@ -27253,7 +27251,6 @@ MonoBehaviour:
   surface: {fileID: 0}
   height: 1.7855
   useJoints: 1
-  tuningInProgress: 0
   showLocalAvatar: 0
   PDKp: 800
   PDKd: 50
@@ -31893,12 +31890,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5c84a009c360f4bac2a4bc9798431f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configureJointsInEditor: 1
   useBodyMass: 1
   useJointsMultipleTemplate: 1
   splitAvatarTemplate: 0
   addSimpleColliders: 0
   addMeshColliders: 1
+  configureJointsInEditor: 1
   maximumForce: 10000
   springAngularX: 2500
   damperAngularX: 500
@@ -31919,10 +31916,9 @@ MonoBehaviour:
   surface: {fileID: 1205510135}
   height: 1.7855
   useJoints: 1
-  tuningInProgress: 0
-  showLocalAvatar: 0
-  PDKp: 1
-  PDKd: 1
+  showLocalAvatar: 1
+  PDKp: 125
+  PDKd: 20
 --- !u!114 &1690760950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32307,7 +32303,6 @@ MonoBehaviour:
   surface: {fileID: 0}
   height: 1.7855
   useJoints: 1
-  tuningInProgress: 0
   showLocalAvatar: 0
   PDKp: 800
   PDKd: 50
@@ -37068,7 +37063,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1899631920}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93ced0a0386601244b78e579b9c0f663, type: 3}
   m_Name: 
@@ -37090,7 +37085,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1899631920}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1534bff25b6e44046a275c04e267238b, type: 3}
   m_Name: 

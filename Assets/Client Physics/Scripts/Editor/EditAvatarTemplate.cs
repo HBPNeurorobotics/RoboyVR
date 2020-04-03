@@ -5,6 +5,9 @@ using UnityEditor;
 using System.Linq;
 using System.IO;
 
+/// <summary>
+/// The entire editor for the configuration of the avatar templates.
+/// </summary>
 [ExecuteInEditMode]
 public class EditAvatarTemplate : EditorWindow
 {
@@ -626,8 +629,8 @@ public class EditAvatarTemplate : EditorWindow
 
     }
 
-
     #endregion
+
     #region Update Joint Values for AvatarTemplate and AvatarTemplateMultipleJoints
     /// <summary>
     /// Wrapper function. Called on "Update Button" press
@@ -639,40 +642,20 @@ public class EditAvatarTemplate : EditorWindow
         UpdateJoints();
     }
 
+    /// <summary>
+    /// Clears all templates, settings and reassigns them. Makes sure that the correct applied values are assigned.
+    /// </summary>
     void RefreshJointSettings()
     {
         jointSettings.Clear();
         gameObjectsPerBoneTemplate.Clear();
         gameObjectsPerBoneTemplateMultiple.Clear();
         Initialize();
-        /*
-        if (savedSettings != null)
-        {
-            loadFromFile = true;
-            jointSettings = RecoverJointSettingsFromJson(savedSettings.text);
-            gatheredTemplateSettings = false;
-        }
-        */
     }
-    /*
-    /// <summary>
-    /// Makes sure that the correct applied values are assigned.
-    /// </summary>
-    void RefreshJointSettings()
-    {
-        foreach (HumanBodyBones bone in gameObjectsPerBoneTemplate.Keys)
-        {
-            ConfigurableJoint[] joints = gameObjectsPerBoneTemplate[bone].GetComponents<ConfigurableJoint>();
-            Dictionary<string, JointSettings> settings = new Dictionary<string, JointSettings>();
-           foreach (ConfigurableJoint joint in joints) 
-            {
-                settings.Add( new JointSettings(bone, joint));
-            }
-            jointSettings.Add(bone, settings);
-        }
-    }
-    */
 
+    /// <summary>
+    /// Stores correct mass value in the respective JointSettings
+    /// </summary>
     void ApplyMassesToSettings()
     {
         foreach (HumanBodyBones bone in jointSettings.Keys)
@@ -730,8 +713,8 @@ public class EditAvatarTemplate : EditorWindow
             {
                 if (!bone.Equals(HumanBodyBones.Hips) && !bone.ToString().Contains("Shoulder"))
                 {
-                    AddGravity(bone, gameObjectsPerBoneTemplate[bone]);
-                    AddGravity(bone, gameObjectsPerBoneTemplateMultiple[bone]);
+                    AddGravity(gameObjectsPerBoneTemplate[bone]);
+                    AddGravity(gameObjectsPerBoneTemplateMultiple[bone]);
                     ConfigurableJoint joint = gameObjectsPerBoneTemplate[bone].GetComponent<ConfigurableJoint>();
                     if (joint != null)
                     {
@@ -833,8 +816,8 @@ public class EditAvatarTemplate : EditorWindow
             {
                 if (!bone.Equals(HumanBodyBones.Hips) && !bone.ToString().Contains("Shoulder"))
                 {
-                    AddGravity(bone, gameObjectsPerBoneTemplate[bone]);
-                    AddGravity(bone, gameObjectsPerBoneTemplateMultiple[bone]);
+                    AddGravity(gameObjectsPerBoneTemplate[bone]);
+                    AddGravity(gameObjectsPerBoneTemplateMultiple[bone]);
 
                     ConfigurableJoint[] jointsInMultipleTemplate = gameObjectsPerBoneTemplateMultiple[bone].GetComponents<ConfigurableJoint>();
                     foreach (ConfigurableJoint joint in jointsInMultipleTemplate)
@@ -1084,7 +1067,11 @@ public class EditAvatarTemplate : EditorWindow
         joint.xDrive = joint.yDrive = joint.zDrive = tmpDrive;
     }
 
-    void AddGravity(HumanBodyBones bone, GameObject obj)
+    /// <summary>
+    /// Toggles gravity on and off for the Rigidbody of 
+    /// </summary>
+    /// <param name="obj"></param>
+    void AddGravity(GameObject obj)
     {
         Rigidbody rb = obj.GetComponent<Rigidbody>();
         if (rb != null)
@@ -1096,7 +1083,7 @@ public class EditAvatarTemplate : EditorWindow
     /// <summary>
     /// Selects the Objects of the respective joints in the TemplateAvatar to make the same changes to all of them.
     /// Note that these changes will not automatically be saved as JointSettings 
-    /// -> press update to load them into the editor and then save the joint settings.
+    /// -> press refresh button to load them into the editor and then save the joint settings.
     /// </summary>
     void SelectJointsInTemplate()
     {
@@ -1136,6 +1123,7 @@ public class EditAvatarTemplate : EditorWindow
         Selection.objects = objectsInTemplate.ToArray();
     }
     #endregion
+
     #region Load and Save Functions
     /// <summary>
     /// Load JointSettings from Json.

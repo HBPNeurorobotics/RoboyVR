@@ -49,14 +49,14 @@ public static class LocalPhysicsToolkit
     /// <summary>
     /// A workaround since Unity cannot convert Dictionary to Json
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <typeparam name="S"></typeparam>
-    /// <param name="dictionary"></param>
+    /// <typeparam name="K">The type of the dictionary's key</typeparam>
+    /// <typeparam name="V">The type of the dictionary's value</typeparam>
+    /// <param name="dictionary">The dictionary that needs to be converted</param>
     /// <returns></returns>
-    public static string ConvertDictionaryToJson<T, S>(Dictionary<T, S> dictionary)
+    public static string ConvertDictionaryToJson<K, V>(Dictionary<K, V> dictionary)
     {
         string result = "";
-        foreach (T bone in dictionary.Keys)
+        foreach (K bone in dictionary.Keys)
         {
             result += JsonUtility.ToJson(dictionary[bone]) + "\n";
         }
@@ -74,7 +74,7 @@ public static class LocalPhysicsToolkit
     /// A safe way to access the exact ConfigurableJoint for the axis defined in the tuning process.
     /// </summary>
     /// <param name="name">The name found in the tuning mappings. Format: HumanBodyBones + Axis</param>
-    /// <param name="gameObjectsOfRemoteAvatar"></param>
+    /// <param name="gameObjectsOfRemoteAvatar">the remote avatars dictionary provided by the AvatarManager</param>
     /// <returns></returns>
     public static ConfigurableJoint GetRemoteJointOfCorrectAxisFromString(string name, Dictionary<HumanBodyBones, GameObject> gameObjectsOfRemoteAvatar)
     {
@@ -82,7 +82,7 @@ public static class LocalPhysicsToolkit
         HumanBodyBones bone = (HumanBodyBones)System.Enum.Parse(typeof(HumanBodyBones), name.Remove(name.Length - 1));
 
         GameObject tmp;
-
+        //get body part
         if(gameObjectsOfRemoteAvatar.TryGetValue(bone, out tmp))
         { 
             ConfigurableJoint[] joints;
@@ -94,6 +94,7 @@ public static class LocalPhysicsToolkit
             }
 
             Vector3 primaryAxis;
+            // get correct primary axis of the joint
             switch (axis)
             {
                 case 'X': primaryAxis = Vector3.right; break;
@@ -102,6 +103,7 @@ public static class LocalPhysicsToolkit
                 default: throw new System.Exception("Unknown Axis. You need to check your joint naming. Only the endings X,Y,Z as last character are supported");
             }
 
+            //search for a joint in the body part that has the correct axis
             foreach (ConfigurableJoint joint in joints)
             {
                 //ignore the axis orientation

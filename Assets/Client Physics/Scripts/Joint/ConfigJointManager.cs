@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class ConfigJointManager : MonoBehaviour
 {
-    public bool configureJointsInEditor = true;
-    public bool useBodyMass = false;
+    [Tooltip("The masses of the body parts are based on anatomy or 1")]
+    public bool useBodyMass = true;
     bool useBodyMassPrev;
     [Header("Choose Initialization Template")]
     public bool useJointsMultipleTemplate = false;
@@ -20,15 +20,17 @@ public class ConfigJointManager : MonoBehaviour
 
     List<HumanBodyBones> usesLockedJoint = new List<HumanBodyBones>();
 
+    [Header("Joint Drives Configuration")]
+    [Tooltip("The values of the joints are obtained from the template")]
+    public bool configureJointsInEditor = true;
+    //These values are only used if configureJointsInEditor = false at initialization
     public float maximumForce = 10000;
-
     [Header("Joint Angular Drive X")]
     public float springAngularX = 2500;
     public float damperAngularX = 500;
     [Header("Joint Angular Drive YZ")]
     public float springAngularYZ = 2500;
     public float damperAngularYZ = 500;
-
     JointDrive angularXDrive = new JointDrive();
     JointDrive angularYZDrive = new JointDrive();
 
@@ -124,48 +126,13 @@ public class ConfigJointManager : MonoBehaviour
         jointSetup.InitializeStructures();
 
     }
-    /// <summary>
-    /// Finds the GameObject tagged as avatar and assigns the AvatarManager reference
-    /// </summary>
-    void GetAvatar()
-    {
-        avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
-        gameObjectsFromBone = avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
-
-        if (useJointsMultipleTemplate)
-        {
-            templateAnimator = GameObject.FindGameObjectWithTag("TemplateMultiple").GetComponent<Animator>();
-        }
-        else
-        {
-            templateAnimator = GameObject.FindGameObjectWithTag("Template").GetComponent<Animator>();
-        }
-
-    }
-
-    public void setMassOfBone(HumanBodyBones bone, float mass = 1)
-    {
-    }
-
-    public void SetTagetRotation(HumanBodyBones bone, Quaternion targetRotation)
-    {
-        if (!usesLockedJoint.Contains(bone) && gameObjectsFromBone.ContainsKey(bone) && gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() != null)
-        {
-            ConfigurableJoint[] joints = gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>();
-
-            for (int i = 0; i < joints.Length; i++)
-            {
-                joints[i].targetRotation = CalculateJointRotation(joints[i], bone, targetRotation);
-            }
-        }
-    }
 
     /// <summary>
     /// Calculates the desired target rotation in joint space (based on https://gist.github.com/mstevenson/4958837)
     /// </summary>
-    /// <param name="joint"></param>
+    /// <param name="joint">One of the joints attached to the body part</param>
     /// <param name="bone"></param>
-    /// <param name="targetRotation"></param>
+    /// <param name="targetRotation">The new target rotation value of the body part.</param>
     /// <returns></returns>
     Quaternion CalculateJointRotation(ConfigurableJoint joint, HumanBodyBones bone, Quaternion targetRotation)
     {
@@ -243,7 +210,6 @@ public class ConfigJointManager : MonoBehaviour
         */
 
         // from https://gist.github.com/mstevenson/4958837
-
         Quaternion worldToJointSpace = LocalPhysicsToolkit.GetWorldToJointRotation(joint);
 
         /* 
@@ -282,19 +248,44 @@ public class ConfigJointManager : MonoBehaviour
         }
     }
 
+    #region setters
+
+    /// <summary>
+    /// Sets the target rotation value of the ConfigurableJoints attached to a body part
+    /// </summary>
+    /// <param name="bone"></param>
+    /// <param name="targetRotation">The overall desired rotation that the joint should try to be in. This is not explicit for each possible joint found at the body part.</param>
+    public void SetTagetRotation(HumanBodyBones bone, Quaternion targetRotation)
+    {
+        if (!usesLockedJoint.Contains(bone) && gameObjectsFromBone.ContainsKey(bone) && gameObjectsFromBone[bone].GetComponent<ConfigurableJoint>() != null)
+        {
+            ConfigurableJoint[] joints = gameObjectsFromBone[bone].GetComponents<ConfigurableJoint>();
+
+            for (int i = 0; i < joints.Length; i++)
+            {
+                joints[i].targetRotation = CalculateJointRotation(joints[i], bone, targetRotation);
+            }
+        }
+    }
+
     public void SetStartOrientation()
     {
         quaternionFromBoneAtStart = avatarManager.GetGameObjectPerBoneRemoteAvatarDictionaryAtStart();
     }
 
-    public JointDrive GetAngularXDrive()
+    /// <summary>
+    /// Assigns bones that should be treated as FixedJoints
+    /// </summary>
+    public void SetFixedJoints()
     {
-        return angularXDrive;
-    }
-
-    public JointDrive GetAngularYZDrive()
-    {
-        return angularYZDrive;
+        if (usesLockedJoint.Count == 0)
+        {
+            //for stability
+            usesLockedJoint.Add(HumanBodyBones.Hips);
+            //IK does not use these body parts anyway
+            usesLockedJoint.Add(HumanBodyBones.RightShoulder);
+            usesLockedJoint.Add(HumanBodyBones.LeftShoulder);
+        }
     }
 
     public void SetAngularXDrive(JointDrive jointDrive)
@@ -306,12 +297,70 @@ public class ConfigJointManager : MonoBehaviour
     {
         angularYZDrive = jointDrive;
     }
+    #endregion
+
+    #region getters
+
+    /// <summary>
+    /// Finds the GameObject tagged as avatar and assigns the AvatarManager reference
+    /// </summary>
+    void GetAvatar()
+    {
+        avatarManager = GameObject.FindGameObjectWithTag("Avatar").GetComponent<AvatarManager>();
+        gameObjectsFromBone = avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary();
+
+        if (useJointsMultipleTemplate)
+        {
+            templateAnimator = GameObject.FindGameObjectWithTag("TemplateMultiple").GetComponent<Animator>();
+        }
+        else
+        {
+            templateAnimator = GameObject.FindGameObjectWithTag("Template").GetComponent<Animator>();
+        }
+
+    }public JointDrive GetAngularXDrive()
+    {
+        return angularXDrive;
+    }
+
+    /// <summary>
+    /// Returns a joint in the currently used template, that controlls the specified axis. Intended for use in multiple joint template case.
+    /// </summary>
+    /// <param name="bone">The bone that the joint is located at.</param>
+    /// <param name="axis">The desired joint primary axis value.</param>
+    /// <returns></returns>
+    public ConfigurableJoint GetJointInTemplate(HumanBodyBones bone, Vector3 axis)
+    {
+        GameObject tmp;
+        if(templateFromBone.TryGetValue(bone, out tmp))
+        {
+            ConfigurableJoint[] joints = tmp.GetComponents<ConfigurableJoint>();
+            foreach(ConfigurableJoint joint in joints)
+            {
+                if(joint.axis == axis)
+                {
+                    return joint;
+                }
+            }
+        }
+        throw new Exception("No joint in template found");
+    }
+
+    public JointDrive GetAngularYZDrive()
+    {
+        return angularYZDrive;
+    }
 
     public AvatarManager GetAvatarManager()
     {
         return avatarManager;
     }
 
+    /// <summary>
+    /// Returns the rigidbodies of all children (and childrens' children etc.). Does not include the rigidbody of the parent.
+    /// </summary>
+    /// <param name="parent">The starting Transform from which all rigidbodies should be found.</param>
+    /// <param name="rbs"></param>
     void GetChildRigidbody(Transform parent, List<Rigidbody> rbs)
     {
         foreach(Transform lower in parent)
@@ -324,6 +373,20 @@ public class ConfigJointManager : MonoBehaviour
             GetChildRigidbody(lower, rbs);
         }
     }
+
+    public List<HumanBodyBones> GetFixedJoints()
+    {
+        return usesLockedJoint;
+    }
+
+    public Dictionary<HumanBodyBones, GameObject> GetTemplateAvatar()
+    {
+        return templateFromBone;
+    }
+    #endregion
+
+    #region tuning functionalities
+
     /// <summary>
     /// Disables physics control for all object that are not parented to the specified joint. 
     /// </summary>
@@ -362,6 +425,7 @@ public class ConfigJointManager : MonoBehaviour
             }
         }
     }
+
     /// <summary>
     /// Re-enables physics control. Use after calling LockAvatarJointsExceptCurrent(ConfigurableJoint freeJoint).
     /// </summary>
@@ -382,50 +446,5 @@ public class ConfigJointManager : MonoBehaviour
         }
     }
 
-    public Dictionary<HumanBodyBones, GameObject> GetTemplateAvatar()
-    {
-        return templateFromBone;
-    }
-
-    public List<HumanBodyBones> GetFixedJoints()
-    {
-        return usesLockedJoint;
-    }
-
-    /// <summary>
-    /// Assigns bones that should be treated as FixedJoints
-    /// </summary>
-    public void SetFixedJoints()
-    {
-        if (usesLockedJoint.Count == 0)
-        {
-            //for stability
-            usesLockedJoint.Add(HumanBodyBones.Hips);
-            //IK does not use these body parts anyway
-            usesLockedJoint.Add(HumanBodyBones.RightShoulder);
-            usesLockedJoint.Add(HumanBodyBones.LeftShoulder);
-        }
-    }
-    /// <summary>
-    /// Returns a joint in the currently used template, that controlls the specified axis. Intended for use in multiple joint template case.
-    /// </summary>
-    /// <param name="bone">The bone that the joint is located at.</param>
-    /// <param name="axis">The desired joint primary axis value.</param>
-    /// <returns></returns>
-    public ConfigurableJoint GetJointInTemplate(HumanBodyBones bone, Vector3 axis)
-    {
-        GameObject tmp;
-        if(templateFromBone.TryGetValue(bone, out tmp))
-        {
-            ConfigurableJoint[] joints = tmp.GetComponents<ConfigurableJoint>();
-            foreach(ConfigurableJoint joint in joints)
-            {
-                if(joint.axis == axis)
-                {
-                    return joint;
-                }
-            }
-        }
-        throw new Exception("No joint in template found");
-    }
+    #endregion
 }
