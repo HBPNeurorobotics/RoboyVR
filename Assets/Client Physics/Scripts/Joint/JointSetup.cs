@@ -57,7 +57,9 @@ public class JointSetup
         }
     }
     /// <summary>
-    /// Enables / disables MeshColliders and adds them if none have already been assigned.
+    /// Enables / disables MeshColliders and adds them if none have already been assigned. 
+    /// Disables / enables simple colliders so that both collider types (simple and mesh) cannot be acitve at the same time.
+    /// If both are chosen only the ones that have been selected last will become active.
     /// </summary>
     /// <param name="enabled"></param>
     public void ToggleMeshColliders(bool enabled)
@@ -92,13 +94,19 @@ public class JointSetup
                     {
                         col.enabled = false;
                     }
+                    else if (configJointManager.addSimpleColliders)
+                    {
+                        col.enabled = true;
+                    }
                 }
             }
         }
     }
 
     /// <summary>
-    /// Enables / disables simple Colliders (Box, Sphere, Capsule) and adds them if none have already been assigned.
+    /// Enables / disables simple Colliders (Box, Sphere, Capsule) and adds them if none have already been assigned. 
+    /// Disables / enables MeshColliders so that both collider types (simple and mesh) cannot be acitve at the same time. 
+    /// If both are chosen only the ones that have been selected last will become active.
     /// </summary>
     /// <param name="enabled"></param>
     public void ToggleSimpleColliders(bool enabled)
@@ -143,6 +151,10 @@ public class JointSetup
                 if (simpleEnabled)
                 {
                     col.enabled = false;
+                }
+                else if (configJointManager.addMeshColliders)
+                {
+                    col.enabled = true;
                 }
             }
         }
