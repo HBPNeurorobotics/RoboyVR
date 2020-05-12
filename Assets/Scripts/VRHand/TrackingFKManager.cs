@@ -106,7 +106,7 @@ public class TrackingFKManager : MonoBehaviour {
     // Use this for initialization
     void Start() {
 
-        if(DetermineController.Instance.useIndexController)
+        if(DetermineController.Instance.UseKnucklesControllers())
         {
             virtualtWrist = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r").transform;
 
@@ -168,8 +168,11 @@ public class TrackingFKManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (trackingIKTargetManager.IsReady() && DetermineController.Instance.useIndexController)
+        if (trackingIKTargetManager.IsReady() && DetermineController.Instance.UseKnucklesControllers())
         {
+            Debug.Log(virtualtThumb1);
+            Debug.Log(TargetThumb1);
+
             TargetThumb1.transform.rotation = virtualtThumb1.transform.rotation;
             
             TargetThumb2.transform.SetPositionAndRotation(virtualtThumb2.transform.position, virtualtThumb2.transform.rotation);

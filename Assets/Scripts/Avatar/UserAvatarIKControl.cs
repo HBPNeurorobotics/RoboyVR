@@ -130,7 +130,7 @@ public class UserAvatarIKControl : MonoBehaviour {
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
-        if(DetermineController.Instance.useIndexController)
+        if(DetermineController.Instance.UseKnucklesControllers())
         {
             rModelThumb1 = GameObject.Find("mixamorig_RightHandThumb1");
             rModelThumb2 = GameObject.Find("mixamorig_RightHandThumb2");
@@ -333,7 +333,7 @@ public class UserAvatarIKControl : MonoBehaviour {
 
     private void LateUpdate()
     {
-        if (trackingIKTargetManager.IsReady() && DetermineController.Instance.useIndexController)
+        if (trackingIKTargetManager.IsReady() && DetermineController.Instance.UseKnucklesControllers())
         {
             getFingerTargetLeft();
             getFingerTargetRight();

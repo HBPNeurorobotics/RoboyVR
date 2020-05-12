@@ -49,6 +49,10 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     private bool initialized = false;
 
+    // controller input
+    private bool leftGripRelease = false;
+    private bool rightGripRelease = false;
+
     // Use this for initialization
     void Start ()
     {
@@ -110,11 +114,24 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     #region IK_TARGET_SETUP
 
-    public void OnControllerGripPress()
+    public void OnControllerGripPress(SteamVR_Behaviour_Boolean fromBehaviour, SteamVR_Input_Sources fromSource, System.Boolean state)
     {
-        Debug.Log("OnControllerGripPress");
-        if (!initialized)
+        //Debug.Log("OnControllerGripPress");
+        if (fromSource == SteamVR_Input_Sources.LeftHand)
         {
+            this.leftGripRelease = state;
+        }
+        if (fromSource == SteamVR_Input_Sources.RightHand)
+        {
+            this.rightGripRelease = state;
+        }
+        //Debug.Log(fromSource);
+        //Debug.Log(state);
+
+        if (this.leftGripRelease && this.rightGripRelease && !initialized)
+        {
+            Debug.Log("OnControllerGripPress() - initializing");
+
             IdentifyTrackingTargets();
             SetupIKTargets();
 
