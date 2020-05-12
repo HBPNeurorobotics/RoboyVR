@@ -130,51 +130,53 @@ public class UserAvatarIKControl : MonoBehaviour {
     // Use this for initialization
     void Start () {
         animator = GetComponent<Animator>();
+        if(DetermineController.Instance.UseKnucklesControllers())
+        {
+            rModelThumb1 = GameObject.Find("mixamorig_RightHandThumb1");
+            rModelThumb2 = GameObject.Find("mixamorig_RightHandThumb2");
+            rModelThumb3 = GameObject.Find("mixamorig_RightHandThumb3");
+            rModelThumb4 = GameObject.Find("mixamorig_RightHandThumb4");
+            lModelThumb1 = GameObject.Find("mixamorig_LeftHandThumb1");
+            lModelThumb2 = GameObject.Find("mixamorig_LeftHandThumb2");
+            lModelThumb3 = GameObject.Find("mixamorig_LeftHandThumb3");
+            lModelThumb4 = GameObject.Find("mixamorig_LeftHandThumb4");
 
-        rModelThumb1 = GameObject.Find("mixamorig_RightHandThumb1");
-        rModelThumb2 = GameObject.Find("mixamorig_RightHandThumb2");
-        rModelThumb3 = GameObject.Find("mixamorig_RightHandThumb3");
-        rModelThumb4 = GameObject.Find("mixamorig_RightHandThumb4");
-        lModelThumb1 = GameObject.Find("mixamorig_LeftHandThumb1");
-        lModelThumb2 = GameObject.Find("mixamorig_LeftHandThumb2");
-        lModelThumb3 = GameObject.Find("mixamorig_LeftHandThumb3");
-        lModelThumb4 = GameObject.Find("mixamorig_LeftHandThumb4");
+            rModelIndex1 = GameObject.Find("mixamorig_RightHandIndex1");
+            rModelIndex2 = GameObject.Find("mixamorig_RightHandIndex2");
+            rModelIndex3 = GameObject.Find("mixamorig_RightHandIndex3");
+            rModelIndex4 = GameObject.Find("mixamorig_RightHandIndex4");
+            lModelIndex1 = GameObject.Find("mixamorig_LeftHandIndex1");
+            lModelIndex2 = GameObject.Find("mixamorig_LeftHandIndex2");
+            lModelIndex3 = GameObject.Find("mixamorig_LeftHandIndex3");
+            lModelIndex4 = GameObject.Find("mixamorig_LeftHandIndex4");
 
-        rModelIndex1 = GameObject.Find("mixamorig_RightHandIndex1");
-        rModelIndex2 = GameObject.Find("mixamorig_RightHandIndex2");
-        rModelIndex3 = GameObject.Find("mixamorig_RightHandIndex3");
-        rModelIndex4 = GameObject.Find("mixamorig_RightHandIndex4");
-        lModelIndex1 = GameObject.Find("mixamorig_LeftHandIndex1");
-        lModelIndex2 = GameObject.Find("mixamorig_LeftHandIndex2");
-        lModelIndex3 = GameObject.Find("mixamorig_LeftHandIndex3");
-        lModelIndex4 = GameObject.Find("mixamorig_LeftHandIndex4");
+            rModelMiddle1 = GameObject.Find("mixamorig_RightHandMiddle1");
+            rModelMiddle2 = GameObject.Find("mixamorig_RightHandMiddle2");
+            rModelMiddle3 = GameObject.Find("mixamorig_RightHandMiddle3");
+            rModelMiddle4 = GameObject.Find("mixamorig_RightHandMiddle4");
+            lModelMiddle1 = GameObject.Find("mixamorig_LeftHandMiddle1");
+            lModelMiddle2 = GameObject.Find("mixamorig_LeftHandMiddle2");
+            lModelMiddle3 = GameObject.Find("mixamorig_LeftHandMiddle3");
+            lModelMiddle4 = GameObject.Find("mixamorig_LeftHandMiddle4");
 
-        rModelMiddle1 = GameObject.Find("mixamorig_RightHandMiddle1");
-        rModelMiddle2 = GameObject.Find("mixamorig_RightHandMiddle2");
-        rModelMiddle3 = GameObject.Find("mixamorig_RightHandMiddle3");
-        rModelMiddle4 = GameObject.Find("mixamorig_RightHandMiddle4");
-        lModelMiddle1 = GameObject.Find("mixamorig_LeftHandMiddle1");
-        lModelMiddle2 = GameObject.Find("mixamorig_LeftHandMiddle2");
-        lModelMiddle3 = GameObject.Find("mixamorig_LeftHandMiddle3");
-        lModelMiddle4 = GameObject.Find("mixamorig_LeftHandMiddle4");
+            rModelRing1 = GameObject.Find("mixamorig_RightHandRing1");
+            rModelRing2 = GameObject.Find("mixamorig_RightHandRing2");
+            rModelRing3 = GameObject.Find("mixamorig_RightHandRing3");
+            rModelRing4 = GameObject.Find("mixamorig_RightHandRing4");
+            lModelRing1 = GameObject.Find("mixamorig_LeftHandRing1");
+            lModelRing2 = GameObject.Find("mixamorig_LeftHandRing2");
+            lModelRing3 = GameObject.Find("mixamorig_LeftHandRing3");
+            lModelRing4 = GameObject.Find("mixamorig_LeftHandRing4");
 
-        rModelRing1 = GameObject.Find("mixamorig_RightHandRing1");
-        rModelRing2 = GameObject.Find("mixamorig_RightHandRing2");
-        rModelRing3 = GameObject.Find("mixamorig_RightHandRing3");
-        rModelRing4 = GameObject.Find("mixamorig_RightHandRing4");
-        lModelRing1 = GameObject.Find("mixamorig_LeftHandRing1");
-        lModelRing2 = GameObject.Find("mixamorig_LeftHandRing2");
-        lModelRing3 = GameObject.Find("mixamorig_LeftHandRing3");
-        lModelRing4 = GameObject.Find("mixamorig_LeftHandRing4");
-
-        rModelPinky1 = GameObject.Find("mixamorig_RightHandPinky1");
-        rModelPinky2 = GameObject.Find("mixamorig_RightHandPinky2");
-        rModelPinky3 = GameObject.Find("mixamorig_RightHandPinky3");
-        rModelPinky4 = GameObject.Find("mixamorig_RightHandPinky4");
-        lModelPinky1 = GameObject.Find("mixamorig_LeftHandPinky1");
-        lModelPinky2 = GameObject.Find("mixamorig_LeftHandPinky2");
-        lModelPinky3 = GameObject.Find("mixamorig_LeftHandPinky3");
-        lModelPinky4 = GameObject.Find("mixamorig_LeftHandPinky4");
+            rModelPinky1 = GameObject.Find("mixamorig_RightHandPinky1");
+            rModelPinky2 = GameObject.Find("mixamorig_RightHandPinky2");
+            rModelPinky3 = GameObject.Find("mixamorig_RightHandPinky3");
+            rModelPinky4 = GameObject.Find("mixamorig_RightHandPinky4");
+            lModelPinky1 = GameObject.Find("mixamorig_LeftHandPinky1");
+            lModelPinky2 = GameObject.Find("mixamorig_LeftHandPinky2");
+            lModelPinky3 = GameObject.Find("mixamorig_LeftHandPinky3");
+            lModelPinky4 = GameObject.Find("mixamorig_LeftHandPinky4");
+        }
     }
 	
 	// Update is called once per frame
@@ -331,7 +333,7 @@ public class UserAvatarIKControl : MonoBehaviour {
 
     private void LateUpdate()
     {
-        if (trackingIKTargetManager.IsReady())
+        if (trackingIKTargetManager.IsReady() && DetermineController.Instance.UseKnucklesControllers())
         {
             getFingerTargetLeft();
             getFingerTargetRight();
