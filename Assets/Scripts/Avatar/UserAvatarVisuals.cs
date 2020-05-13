@@ -13,8 +13,18 @@ public class UserAvatarVisuals : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-	}
+        // Bachelors Thesis VRHand
+        if (Input.GetKey("m"))
+        {
+            //disableRenderer();
+            this.SetOpacity(0f);
+        }
+        if (Input.GetKey("n"))
+        {
+            //enableRenderer();
+            this.SetOpacity(0.5f);
+        }
+    }
 
     public void SetOpacity(float opacity)
     {
@@ -32,6 +42,25 @@ public class UserAvatarVisuals : MonoBehaviour {
                 material.SetColor("_Color", color);
                 this.SetRenderModeTransparent(material);
             }
+        }
+    }
+
+    // Bachelors Thesis VRHand
+    public void disableRenderer()
+    {
+        Renderer[] renderers = this.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = false;
+        }
+    }
+
+    public void enableRenderer()
+    {
+        Renderer[] renderers = this.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = true;
         }
     }
 

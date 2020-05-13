@@ -714,6 +714,12 @@ public class GazeboSceneManager : Singleton<GazeboSceneManager> {
         }
     }
 
+    public string GetSceneName()
+    {
+        Debug.Log(scene_name_);
+        return scene_name_;
+    }
+
     #region Convert function from gazebo to unity and vice versa.
 
     /// <summary>

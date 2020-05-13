@@ -168,7 +168,7 @@ namespace EmbodimentDiscrepancy
 			{
 				discrepancyLineHandler = GameObject.FindObjectOfType<DiscrepancyLineHandler>();
 				if (discrepancyLineHandler == null){
-					Debug.LogError("no DiscrepancyLineHandler found");
+					Debug.LogWarning("no DiscrepancyLineHandler found");
 				}
 			}
 
@@ -176,7 +176,7 @@ namespace EmbodimentDiscrepancy
 			{
 				discrepancyHeadEffects = GameObject.FindObjectOfType<DiscrepancyHeadEffects>();
 				if (discrepancyHeadEffects == null){
-					Debug.LogError("no DiscrepancyHeadEffects found");
+					Debug.LogWarning("no DiscrepancyHeadEffects found");
 				}
 			}
 
@@ -184,7 +184,7 @@ namespace EmbodimentDiscrepancy
 			{
 				discrepancyHapticHandler = GameObject.FindObjectOfType<DiscrepancyHapticHandler>();
 				if (discrepancyHapticHandler == null){
-					Debug.LogError("no DiscrepancyHapticHandler found");
+					Debug.LogWarning("no DiscrepancyHapticHandler found");
 				}
 			}
 			
@@ -192,7 +192,7 @@ namespace EmbodimentDiscrepancy
 			{
 				discrepancySoundHandler = GameObject.FindObjectOfType<DiscrepancySoundHandler>();
 				if (discrepancySoundHandler == null){
-					Debug.LogError("no DiscrepancySoundHandler found");
+					Debug.LogWarning("no DiscrepancySoundHandler found");
 				}
 			}
 
@@ -200,7 +200,7 @@ namespace EmbodimentDiscrepancy
 			{
 				discrepancyIndicatorHandler = GameObject.FindObjectOfType<DiscrepancyIndicatorHandler>();
 				if (discrepancyIndicatorHandler == null){
-					Debug.LogError("no DiscrepancyIndicatorHandler found");
+					Debug.LogWarning("no DiscrepancyIndicatorHandler found");
 				}
 			}
 
@@ -208,7 +208,7 @@ namespace EmbodimentDiscrepancy
 			{
 				discrepancyPostProcessingEffects = GameObject.FindObjectOfType<DiscrepancyPostProcessingEffects>();
 				if (discrepancyPostProcessingEffects == null){
-					Debug.LogError("no DiscrepancyPostProcessingEffects found");
+					Debug.LogWarning("no DiscrepancyPostProcessingEffects found");
 				}
 			}
 		}
