@@ -170,9 +170,6 @@ public class TrackingFKManager : MonoBehaviour {
     void Update() {
         if (trackingIKTargetManager.IsReady() && DetermineController.Instance.UseKnucklesControllers())
         {
-            Debug.Log(virtualtThumb1);
-            Debug.Log(TargetThumb1);
-
             TargetThumb1.transform.rotation = virtualtThumb1.transform.rotation;
             
             TargetThumb2.transform.SetPositionAndRotation(virtualtThumb2.transform.position, virtualtThumb2.transform.rotation);
