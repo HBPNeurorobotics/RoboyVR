@@ -16,7 +16,7 @@ namespace PIDTuning.Editor
         {
             DrawDefaultInspector();
 
-            var configStorage = (PidConfigurationStorage) target;
+            var configStorage = (PidConfigurationStorage)target;
 
             var isValidConfiguration = null != configStorage.Configuration;
 
@@ -39,18 +39,26 @@ namespace PIDTuning.Editor
                     Debug.LogWarning("Cannot transmit PID configuration while test is running");
                 }
 
-                configStorage.TransmitFullConfiguration();
+                configStorage.TransmitFullConfiguration(true, 0);
             }
 
-            if (GUILayout.Button("Fill from JSON"))
+            if (UserAvatarService.Instance.use_gazebo)
             {
-                var path = EditorUtility.OpenFilePanel("Locate pid-config.json", Application.dataPath, "json");
-
-                if (path.Length != 0)
+                if (GUILayout.Button("Fill from JSON"))
                 {
-                    configStorage.ReplaceWithConfigFromJson(File.ReadAllText(path));
+                    var path = EditorUtility.OpenFilePanel("Locate pid-config.json", Application.dataPath, "json");
+
+                    if (path.Length != 0)
+                    {
+                        configStorage.ReplaceWithConfigFromJson(File.ReadAllText(path));
+                    }
                 }
             }
+            else if (GUILayout.Button("Fill from Avatar"))
+            {
+                configStorage.ReplaceWithConfigInAvatar();
+            }
+
 
             DrawResetGui(configStorage);
 
@@ -72,7 +80,7 @@ namespace PIDTuning.Editor
             if (GUILayout.Button("Reset to base values"))
             {
                 configStorage.ResetConfiguration(_baseKp, _baseKi, _baseKd);
-                configStorage.TransmitFullConfiguration();
+                configStorage.TransmitFullConfiguration(true);
             }
         }
 
@@ -87,9 +95,12 @@ namespace PIDTuning.Editor
                 jointParams.Ki = EditorGUILayout.FloatField("I", jointParams.Ki);
                 jointParams.Kd = EditorGUILayout.FloatField("D", jointParams.Kd);
 
-                if (GUILayout.Button("Transmit Joint PID"))
+                if (UserAvatarService.Instance.use_gazebo)
                 {
-                    configStorage.TransmitSingleJointConfiguration(joinToPid.Key);
+                    if (GUILayout.Button("Transmit Joint PID"))
+                    {
+                        configStorage.TransmitSingleJointConfiguration(joinToPid.Key, configStorage.gameObject.GetComponent<AutoTuningService>().RelayConstantForce);
+                    }
                 }
 
                 EditorGUILayout.Space();

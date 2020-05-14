@@ -25,6 +25,7 @@ public class TrackingIKTargetManager : MonoBehaviour
     [SerializeField] private Pose targetOffsetLeftHand = new Pose(new Vector3(-0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, 90f));
     [SerializeField] private Pose targetOffsetRightHand = new Pose(new Vector3(0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, -90f));
     [SerializeField] public float feetTargetOffsetAboveGround = 0.1f;
+    [SerializeField] public float hmdOffsetForward = 0.1f;
 
     private Dictionary<uint, TrackingReferenceObject> trackingReferences = new Dictionary<uint, TrackingReferenceObject>();
     private Transform trackingTargetHead;
@@ -54,15 +55,15 @@ public class TrackingIKTargetManager : MonoBehaviour
     private bool rightGripRelease = false;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-    
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
 
     private void OnEnable()
     {
@@ -92,7 +93,7 @@ public class TrackingIKTargetManager : MonoBehaviour
                     trackingReference.gameObject = new GameObject("Tracking Reference " + deviceIndex.ToString());
                     trackingReference.gameObject.transform.parent = this.transform;
                     trackingReference.trackedObject = trackingReference.gameObject.AddComponent<SteamVR_TrackedObject>();
-                    trackingReference.trackedObject.index = (SteamVR_TrackedObject.EIndex) deviceIndex;
+                    trackingReference.trackedObject.index = (SteamVR_TrackedObject.EIndex)deviceIndex;
                     /*trackingReference.renderModel = trackingReference.gameObject.AddComponent<SteamVR_RenderModel>();
                     trackingReference.renderModel.createComponents = false;
                     trackingReference.renderModel.updateDynamically = false;*/
@@ -100,7 +101,7 @@ public class TrackingIKTargetManager : MonoBehaviour
                     trackingReferences.Add(deviceIndex, trackingReference);
 
                     trackingReference.gameObject.SendMessage("SetDeviceIndex", (int)deviceIndex, SendMessageOptions.DontRequireReceiver);
-                    
+
 
                 }
             }
@@ -132,6 +133,11 @@ public class TrackingIKTargetManager : MonoBehaviour
         {
             Debug.Log("OnControllerGripPress() - initializing");
 
+            if (!UserAvatarService.Instance.use_gazebo)
+            {
+                UserAvatarService.Instance._avatarManager.InitializeBodyStructures();
+            }
+
             IdentifyTrackingTargets();
             SetupIKTargets();
 
@@ -142,6 +148,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     private void IdentifyTrackingTargets()
     {
+        Debug.Log("IdentifyTrackingTargets() - start ...");
         List<TrackingReferenceObject> genericTrackersFeet = new List<TrackingReferenceObject>();
 
         foreach (KeyValuePair<uint, TrackingReferenceObject> entry in trackingReferences)
@@ -167,7 +174,7 @@ public class TrackingIKTargetManager : MonoBehaviour
                     trackingTargetHandRight = trackingReference.gameObject.transform;
                     dictSteamVRInputSources.Add(deviceIndex, SteamVR_Input_Sources.RightHand);
                 }
-                
+
             }
 
 
@@ -224,6 +231,8 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     private void SetupIKTargets()
     {
+        Debug.Log("SetupIKTargets() - start ...");
+
         if (trackingTargetHead) SetupIKTargetHead(trackingTargetHead);
         if (trackingTargetHead) SetupIKTargetLookAt(trackingTargetHead);
         if (trackingTargetBody) SetupIKTargetBody(trackingTargetBody);
@@ -239,7 +248,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         ikTargetHead = new GameObject("IK Target Head");
         ikTargetHead.transform.parent = trackingTarget;
         ikTargetHead.transform.localRotation = new Quaternion();
-        ikTargetHead.transform.localPosition = new Vector3();
+        ikTargetHead.transform.localPosition = UserAvatarService.Instance.use_gazebo ? new Vector3() : new Vector3(0, 0, hmdOffsetForward);
     }
 
     private void SetupIKTargetLookAt(Transform trackingTarget)
@@ -255,6 +264,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         ikTargetBody = new GameObject("IK Target Body");
         ikTargetBody.transform.parent = trackingTarget;
         //TODO: adjustments for body target?
+        ikTargetBody.transform.rotation = Quaternion.FromToRotation(trackingTarget.up, Vector3.up) * trackingTarget.rotation; //TODO: needs to be checked again
     }
     /*
     private void SetupIKTargetHandLeft(Transform trackingTarget)
@@ -267,7 +277,7 @@ public class TrackingIKTargetManager : MonoBehaviour
     */
 
     // Bachelor Thesis VRHand
-    
+
     private void SetupIKTargetHandLeft(Transform trackingTarget)
     {
         ikTargetLeftHand = new GameObject("IK Target Left Hand");
@@ -280,7 +290,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         pos = new Vector3(pos.x - 0.01f, pos.y - 0.015f, pos.z - 0.035f);
         ikTargetLeftHand.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
     }
-    
+
     /*
     // TODO: in den legacy code und in den getter das trackingTarget ausgeben
     private void SetupTargetThumb1 (Transform trackingTarget)
@@ -497,7 +507,7 @@ public class TrackingIKTargetManager : MonoBehaviour
         pos = new Vector3(pos.x, pos.y - 0.02f, pos.z - 0.035f);
         ikTargetRightHand.transform.SetPositionAndRotation(pos, Quaternion.Euler(rot));
     }
-        
+
     private void SetupIKTargetFootLeft(Transform trackingTarget)
     {
         ikTargetLeftFoot = new GameObject("IK Target Left Foot");
@@ -649,7 +659,7 @@ public class TrackingIKTargetManager : MonoBehaviour
     {
         return ikTargetRightHand.transform;
     }
-    
+
     public Transform GetIKTargetLeftFoot()
     {
         return ikTargetLeftFoot.transform;

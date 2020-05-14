@@ -4,12 +4,17 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 
-public class UserAvatarIKControl : MonoBehaviour {
+public class UserAvatarIKControl : MonoBehaviour
+{
 
     [SerializeField] public bool ikActive = true;
     [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
-    [SerializeField] private Vector3 inferredBodyTargetOffset = new Vector3(0f, 0.45f, 0f);
     [SerializeField] private Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
+    [SerializeField] private Vector3 inferredBodyOffset = new Vector3(0, 0, 0);
+    [SerializeField] private Pose manualBodyOffset;
+    [SerializeField] private Transform nonGazeboZeroPoint;
+    [SerializeField] private Transform nonGazeboBodyPoint;
+
 
     // Bachelor Thesis VRHand
     [SerializeField] private TrackingFKManager trackingFKManager;
@@ -27,6 +32,7 @@ public class UserAvatarIKControl : MonoBehaviour {
 
     private Queue<Vector3> groundCenterTrajectory = new Queue<Vector3>();
     private int groundCenterTrajectorySize = 20;
+    public float coordStartAnchor;
 
     // Bachelor Thesis VRHand
     private Transform leftThumb1 = null;
@@ -125,12 +131,13 @@ public class UserAvatarIKControl : MonoBehaviour {
     private GameObject rModelPinky2;
     private GameObject rModelPinky3;
     private GameObject rModelPinky4;
-    
+
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         animator = GetComponent<Animator>();
-        if(DetermineController.Instance.UseKnucklesControllers())
+        if (DetermineController.Instance.UseKnucklesControllers())
         {
             rModelThumb1 = GameObject.Find("mixamorig_RightHandThumb1");
             rModelThumb2 = GameObject.Find("mixamorig_RightHandThumb2");
@@ -178,11 +185,12 @@ public class UserAvatarIKControl : MonoBehaviour {
             lModelPinky4 = GameObject.Find("mixamorig_LeftHandPinky4");
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-	}
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     //a callback for calculating IK
     void OnAnimatorIK()
@@ -209,8 +217,8 @@ public class UserAvatarIKControl : MonoBehaviour {
                 // position body
                 if (bodyTarget != null)
                 {
-                    this.transform.position = bodyTarget.position;
-                    this.transform.rotation = bodyTarget.rotation;
+                    this.transform.position = bodyTarget.position + manualBodyOffset.position;
+                    this.transform.rotation = new Quaternion(bodyTarget.rotation.x + manualBodyOffset.rotation.x, bodyTarget.rotation.y + manualBodyOffset.rotation.y, bodyTarget.rotation.z + manualBodyOffset.rotation.z, bodyTarget.rotation.w);
                 }
                 // no body target, but head and feet targets
                 else if (headTarget != null && leftFootTarget != null && rightFootTarget != null)
@@ -249,28 +257,44 @@ public class UserAvatarIKControl : MonoBehaviour {
                         groundCenterTrajectory.Dequeue();
                     }
                     groundCenter = new Vector3();
-                    foreach(Vector3 position in groundCenterTrajectory)
+                    foreach (Vector3 position in groundCenterTrajectory)
                     {
                         groundCenter += position;
                     }
                     groundCenter /= groundCenterTrajectory.Count;
-
                     Vector3 bodyUp = (headTarget.transform.position - this.transform.position).normalized;
+
                     Vector3 bodyRight = (headTarget.transform.right + leftFootTarget.transform.right + rightFootTarget.transform.right).normalized;
                     Vector3 bodyForward = Vector3.Cross(bodyRight, bodyUp).normalized;
 
                     // set body position
-                    Vector3 bodyPosition = new Vector3(groundCenter.x, 0.65f * (headTarget.transform.position.y - groundCenter.y), groundCenter.z) - 0.1f * bodyForward;
-                    this.transform.position = bodyPosition;
+                    Vector3 bodyPosition = new Vector3();
+                    if (!UserAvatarService.Instance.use_gazebo)
+                    {
+
+                        bodyPosition = new Vector3(groundCenter.x, nonGazeboBodyPoint.position.y - nonGazeboZeroPoint.position.y, groundCenter.z);
+                        bodyPosition.z -= 0.2f * bodyForward.z;
+                    }
+                    else
+                    {
+                        float yCoord = 0.01f * (headTarget.transform.position.y - groundCenter.y);
+                        bodyPosition = new Vector3(groundCenter.x, yCoord, groundCenter.z) - 0.1f * bodyForward;
+                    }
+
+                    this.transform.position = bodyPosition/* + inferredBodyOffset*/;
+                    //Debug.Log("head + feet inferred pos:");
+                    //Debug.Log(this.transform.position);
 
                     // set body rotation
                     Quaternion bodyRotation = Quaternion.LookRotation(bodyForward, bodyUp);
                     this.transform.rotation = bodyRotation;
+
                 }
                 // no body target, but head
                 else if (headTarget != null)
                 {
-                    this.transform.position = headTarget.position + bodyHeadOffset; // + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
+                    Vector3 inferredPos = headTarget.position + bodyHeadOffset;
+                    this.transform.position = UserAvatarService.Instance.use_gazebo ? inferredPos : new Vector3(inferredPos.x, inferredPos.y - coordStartAnchor, inferredPos.z);// + Quaternion.FromToRotation(Vector3.up, interpolatedUpVector) * headToBodyOffset;
 
                     Vector3 forward;
                     if (rightHandTarget != null && leftHandTarget != null)
@@ -307,7 +331,7 @@ public class UserAvatarIKControl : MonoBehaviour {
                     animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandTarget.position);
                     animator.SetIKRotation(AvatarIKGoal.LeftHand, leftHandTarget.rotation);
                 }
-                
+
                 if (rightFootTarget != null)
                 {
                     //rightFootTarget.up = Vector3.up;
@@ -317,7 +341,7 @@ public class UserAvatarIKControl : MonoBehaviour {
                     //Quaternion rightQuaternion = Quaternion.Euler(rightFootTarget.eulerAngles);
                     animator.SetIKRotation(AvatarIKGoal.RightFoot, /*rightQuaternion*/rightFootTarget.rotation);
                 }
-                
+
                 if (leftFootTarget != null)
                 {
                     //leftFootTarget.up = Vector3.up;
@@ -341,7 +365,7 @@ public class UserAvatarIKControl : MonoBehaviour {
             updateFingerTargetLeft();
             updateFingerTargetRight();
         }
-        
+
     }
 
     private void getFingerTargetLeft()
@@ -434,7 +458,7 @@ public class UserAvatarIKControl : MonoBehaviour {
         rModelThumb2.transform.rotation = rightThumb2.rotation;
         rModelThumb3.transform.rotation = rightThumb3.rotation;
         rModelThumb4.transform.rotation = rightThumb4.rotation;
-        
+
         rModelIndex1.transform.rotation = rightIndex1.rotation;
         rModelIndex2.transform.rotation = rightIndex2.rotation;
         rModelIndex3.transform.rotation = rightIndex3.rotation;

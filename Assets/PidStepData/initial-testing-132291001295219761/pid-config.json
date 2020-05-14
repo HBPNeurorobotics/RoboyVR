@@ -1,0 +1,740 @@
+{
+  "createdTimestamp": "132291001295219761",
+  "mapping": {
+    "LeftUpperLegX": {
+      "kp": 6143.597,
+      "ki": 0.0,
+      "kd": 529.7784
+    },
+    "LeftUpperLegY": {
+      "kp": 6041.37549,
+      "ki": 0.0,
+      "kd": 292.189819
+    },
+    "LeftUpperLegZ": {
+      "kp": 5118.001,
+      "ki": 0.0,
+      "kd": 370.1851
+    },
+    "RightUpperLegX": {
+      "kp": 6143.597,
+      "ki": 0.0,
+      "kd": 529.7784
+    },
+    "RightUpperLegY": {
+      "kp": 6041.37549,
+      "ki": 0.0,
+      "kd": 292.189819
+    },
+    "RightUpperLegZ": {
+      "kp": 5118.001,
+      "ki": 0.0,
+      "kd": 370.1851
+    },
+    "SpineX": {
+      "kp": 25091.2441,
+      "ki": 0.0,
+      "kd": 2569.023
+    },
+    "SpineY": {
+      "kp": 20680.03,
+      "ki": 0.0,
+      "kd": 2543.84058
+    },
+    "SpineZ": {
+      "kp": 23460.7324,
+      "ki": 0.0,
+      "kd": 2617.65
+    },
+    "LeftLowerLegX": {
+      "kp": 5975.142,
+      "ki": 0.0,
+      "kd": 506.774719
+    },
+    "LeftLowerLegY": {
+      "kp": 5868.851,
+      "ki": 0.0,
+      "kd": 386.0665
+    },
+    "LeftLowerLegZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightLowerLegX": {
+      "kp": 5975.142,
+      "ki": 0.0,
+      "kd": 506.774719
+    },
+    "RightLowerLegY": {
+      "kp": 5868.851,
+      "ki": 0.0,
+      "kd": 386.0665
+    },
+    "RightLowerLegZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "ChestX": {
+      "kp": 33916.51,
+      "ki": 0.0,
+      "kd": 3649.574
+    },
+    "ChestY": {
+      "kp": 24475.9824,
+      "ki": 0.0,
+      "kd": 3220.41626
+    },
+    "ChestZ": {
+      "kp": 31349.0313,
+      "ki": 0.0,
+      "kd": 3543.288
+    },
+    "LeftFootX": {
+      "kp": 6254.78662,
+      "ki": 0.0,
+      "kd": 1759.54419
+    },
+    "LeftFootY": {
+      "kp": 4948.09863,
+      "ki": 0.0,
+      "kd": 327.151459
+    },
+    "LeftFootZ": {
+      "kp": 5286.05371,
+      "ki": 0.0,
+      "kd": 479.487244
+    },
+    "RightFootX": {
+      "kp": 6254.78662,
+      "ki": 0.0,
+      "kd": 1759.54419
+    },
+    "RightFootY": {
+      "kp": 4948.09863,
+      "ki": 0.0,
+      "kd": 327.151459
+    },
+    "RightFootZ": {
+      "kp": 5286.05371,
+      "ki": 0.0,
+      "kd": 479.487244
+    },
+    "UpperChestX": {
+      "kp": 36273.7266,
+      "ki": 0.0,
+      "kd": 4397.703
+    },
+    "UpperChestY": {
+      "kp": 35944.21,
+      "ki": 0.0,
+      "kd": 3801.23242
+    },
+    "UpperChestZ": {
+      "kp": 38289.7969,
+      "ki": 0.0,
+      "kd": 6236.265
+    },
+    "NeckX": {
+      "kp": 6298.467,
+      "ki": 0.0,
+      "kd": 614.2512
+    },
+    "NeckY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "NeckZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftToesX": {
+      "kp": 5164.017,
+      "ki": 0.0,
+      "kd": 284.987579
+    },
+    "LeftToesY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftToesZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightToesX": {
+      "kp": 5164.017,
+      "ki": 0.0,
+      "kd": 284.987579
+    },
+    "RightToesY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightToesZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "HeadX": {
+      "kp": 5974.10938,
+      "ki": 0.0,
+      "kd": 691.8737
+    },
+    "HeadY": {
+      "kp": 3794.757,
+      "ki": 0.0,
+      "kd": 351.361725
+    },
+    "HeadZ": {
+      "kp": 3973.8938,
+      "ki": 0.0,
+      "kd": 322.689667
+    },
+    "LeftUpperArmX": {
+      "kp": 24860.93,
+      "ki": 0.0,
+      "kd": 2611.73584
+    },
+    "LeftUpperArmY": {
+      "kp": 21853.3789,
+      "ki": 0.0,
+      "kd": 1694.32568
+    },
+    "LeftUpperArmZ": {
+      "kp": 16316.5469,
+      "ki": 0.0,
+      "kd": 1504.70557
+    },
+    "RightUpperArmX": {
+      "kp": 24860.93,
+      "ki": 0.0,
+      "kd": 2611.73584
+    },
+    "RightUpperArmY": {
+      "kp": 21853.3789,
+      "ki": 0.0,
+      "kd": 1694.32568
+    },
+    "RightUpperArmZ": {
+      "kp": 16316.5469,
+      "ki": 0.0,
+      "kd": 1504.70557
+    },
+    "LeftLowerArmX": {
+      "kp": 29247.11,
+      "ki": 0.0,
+      "kd": 4391.935
+    },
+    "LeftLowerArmY": {
+      "kp": 18822.5059,
+      "ki": 0.0,
+      "kd": 1757.36584
+    },
+    "LeftLowerArmZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightLowerArmX": {
+      "kp": 29247.11,
+      "ki": 0.0,
+      "kd": 4391.935
+    },
+    "RightLowerArmY": {
+      "kp": 18822.5059,
+      "ki": 0.0,
+      "kd": 1757.36584
+    },
+    "RightLowerArmZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftHandX": {
+      "kp": 3704.72144,
+      "ki": 0.0,
+      "kd": 634.2725
+    },
+    "LeftHandY": {
+      "kp": 3532.856,
+      "ki": 0.0,
+      "kd": 376.9162
+    },
+    "LeftHandZ": {
+      "kp": 3918.3606,
+      "ki": 0.0,
+      "kd": 560.5532
+    },
+    "RightHandX": {
+      "kp": 3704.72144,
+      "ki": 0.0,
+      "kd": 634.2725
+    },
+    "RightHandY": {
+      "kp": 3532.856,
+      "ki": 0.0,
+      "kd": 376.9162
+    },
+    "RightHandZ": {
+      "kp": 3918.3606,
+      "ki": 0.0,
+      "kd": 560.5532
+    },
+    "LeftThumbProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftThumbProximalY": {
+      "kp": 5905.4873,
+      "ki": 0.0,
+      "kd": 479.652374
+    },
+    "LeftThumbProximalZ": {
+      "kp": 5547.72754,
+      "ki": 0.0,
+      "kd": 333.642548
+    },
+    "LeftIndexProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftIndexProximalY": {
+      "kp": 6300.184,
+      "ki": 0.0,
+      "kd": 478.7952
+    },
+    "LeftIndexProximalZ": {
+      "kp": 6369.33838,
+      "ki": 0.0,
+      "kd": 302.208069
+    },
+    "LeftMiddleProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleProximalY": {
+      "kp": 6108.78271,
+      "ki": 0.0,
+      "kd": 729.1058
+    },
+    "LeftMiddleProximalZ": {
+      "kp": 6540.7793,
+      "ki": 0.0,
+      "kd": 340.7592
+    },
+    "LeftRingProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftRingProximalY": {
+      "kp": 7601.74072,
+      "ki": 0.0,
+      "kd": 621.330444
+    },
+    "LeftRingProximalZ": {
+      "kp": 5733.40771,
+      "ki": 0.0,
+      "kd": 636.8764
+    },
+    "LeftLittleProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftLittleProximalY": {
+      "kp": 6265.514,
+      "ki": 0.0,
+      "kd": 728.8197
+    },
+    "LeftLittleProximalZ": {
+      "kp": 5323.199,
+      "ki": 0.0,
+      "kd": 532.381653
+    },
+    "RightThumbProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightThumbProximalY": {
+      "kp": 5905.4873,
+      "ki": 0.0,
+      "kd": 479.652374
+    },
+    "RightThumbProximalZ": {
+      "kp": 5547.72754,
+      "ki": 0.0,
+      "kd": 333.642548
+    },
+    "RightIndexProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightIndexProximalY": {
+      "kp": 6300.184,
+      "ki": 0.0,
+      "kd": 478.7952
+    },
+    "RightIndexProximalZ": {
+      "kp": 6369.33838,
+      "ki": 0.0,
+      "kd": 302.208069
+    },
+    "RightMiddleProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightMiddleProximalY": {
+      "kp": 6108.78271,
+      "ki": 0.0,
+      "kd": 729.1058
+    },
+    "RightMiddleProximalZ": {
+      "kp": 6540.7793,
+      "ki": 0.0,
+      "kd": 340.7592
+    },
+    "RightRingProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightRingProximalY": {
+      "kp": 7601.74072,
+      "ki": 0.0,
+      "kd": 621.330444
+    },
+    "RightRingProximalZ": {
+      "kp": 5733.40771,
+      "ki": 0.0,
+      "kd": 636.8764
+    },
+    "RightLittleProximalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightLittleProximalY": {
+      "kp": 6265.514,
+      "ki": 0.0,
+      "kd": 728.8197
+    },
+    "RightLittleProximalZ": {
+      "kp": 5323.199,
+      "ki": 0.0,
+      "kd": 532.381653
+    },
+    "LeftThumbIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftThumbIntermediateY": {
+      "kp": 5221.04639,
+      "ki": 0.0,
+      "kd": 2744.555
+    },
+    "LeftThumbIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftIndexIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftIndexIntermediateY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftIndexIntermediateZ": {
+      "kp": 5657.02441,
+      "ki": 0.0,
+      "kd": 1602.42529
+    },
+    "LeftMiddleIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleIntermediateY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleIntermediateZ": {
+      "kp": 5303.849,
+      "ki": 0.0,
+      "kd": 1710.5686
+    },
+    "LeftRingIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftRingIntermediateY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftRingIntermediateZ": {
+      "kp": 6787.49463,
+      "ki": 0.0,
+      "kd": 1134.09021
+    },
+    "LeftLittleIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftLittleIntermediateY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftLittleIntermediateZ": {
+      "kp": 5834.83252,
+      "ki": 0.0,
+      "kd": 1470.18823
+    },
+    "RightThumbIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightThumbIntermediateY": {
+      "kp": 5221.04639,
+      "ki": 0.0,
+      "kd": 2744.555
+    },
+    "RightThumbIntermediateZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightIndexIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightIndexIntermediateY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightIndexIntermediateZ": {
+      "kp": 5657.02441,
+      "ki": 0.0,
+      "kd": 1602.42529
+    },
+    "RightMiddleIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightMiddleIntermediateY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightMiddleIntermediateZ": {
+      "kp": 5303.849,
+      "ki": 0.0,
+      "kd": 1710.5686
+    },
+    "RightRingIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightRingIntermediateY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightRingIntermediateZ": {
+      "kp": 6787.49463,
+      "ki": 0.0,
+      "kd": 1134.09021
+    },
+    "RightLittleIntermediateX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightLittleIntermediateY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightLittleIntermediateZ": {
+      "kp": 5834.83252,
+      "ki": 0.0,
+      "kd": 1470.18823
+    },
+    "LeftThumbDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftThumbDistalY": {
+      "kp": 4865.167,
+      "ki": 0.0,
+      "kd": 193.392548
+    },
+    "LeftThumbDistalZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftIndexDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftIndexDistalY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftIndexDistalZ": {
+      "kp": 5392.039,
+      "ki": 0.0,
+      "kd": 399.879974
+    },
+    "LeftMiddleDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleDistalY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftMiddleDistalZ": {
+      "kp": 6245.04932,
+      "ki": 0.0,
+      "kd": 221.020386
+    },
+    "LeftRingDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftRingDistalY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftRingDistalZ": {
+      "kp": 5585.013,
+      "ki": 0.0,
+      "kd": 338.517639
+    },
+    "LeftLittleDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftLittleDistalY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "LeftLittleDistalZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightThumbDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightThumbDistalY": {
+      "kp": 4865.167,
+      "ki": 0.0,
+      "kd": 193.392548
+    },
+    "RightThumbDistalZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightIndexDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightIndexDistalY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightIndexDistalZ": {
+      "kp": 5392.039,
+      "ki": 0.0,
+      "kd": 399.879974
+    },
+    "RightMiddleDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightMiddleDistalY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightMiddleDistalZ": {
+      "kp": 6245.04932,
+      "ki": 0.0,
+      "kd": 221.020386
+    },
+    "RightRingDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightRingDistalY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightRingDistalZ": {
+      "kp": 5585.013,
+      "ki": 0.0,
+      "kd": 338.517639
+    },
+    "RightLittleDistalX": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightLittleDistalY": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    },
+    "RightLittleDistalZ": {
+      "kp": 10000.0,
+      "ki": 0.0,
+      "kd": 1000.0
+    }
+  }
+}

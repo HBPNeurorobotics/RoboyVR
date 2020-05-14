@@ -93,6 +93,7 @@ namespace PIDTuning
             _testAnimationStateList = ParseTestAnimationStatesInput();
 
             UserAvatarService.Instance.OnAvatarSpawned += ResetTestRunner;
+            if (!UserAvatarService.Instance.use_gazebo) ResetTestRunner();
         }
 
         private void OnDisable()
@@ -140,7 +141,24 @@ namespace PIDTuning
             // We copy the current PID configuration here so that the user cannot accidentally modify it during the test.
             // (They still can do that if they transmit a new configuration, but in that case that's their own fault.)
             var testRunPidConfig = new PidConfiguration(PidConfigurationStorage.Configuration);
-            PidConfigurationStorage.TransmitFullConfiguration();
+
+            if (!UserAvatarService.Instance.use_gazebo)
+            {
+                PidConfiguration config = new PidConfiguration(DateTime.UtcNow);
+                foreach (var joint in _poseErrorTracker.GetJointNames())
+                {
+                    ConfigurableJoint configurableJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+                    config.Mapping.Add(joint, PidParameters.FromParallelForm(configurableJoint.angularXDrive.positionSpring, 0, configurableJoint.angularXDrive.positionDamper));
+                }
+
+                testRunPidConfig = config;
+            }
+            else
+            { 
+                PidConfigurationStorage.TransmitFullConfiguration(false);
+            }
+
+            
 
             // Run Simulation Loop and record data
             // -----------------------------------------------------------------------------------
@@ -271,8 +289,24 @@ namespace PIDTuning
 
             _latestTestTimestamp = DateTime.UtcNow;
 
-            _latestPidConfiguration = new PidConfiguration(PidConfigurationStorage.Configuration);
+            _latestPidConfiguration = new PidConfiguration(DateTime.UtcNow);
 
+            if (!UserAvatarService.Instance.use_gazebo)
+            {
+                PidConfiguration config = new PidConfiguration(DateTime.UtcNow);
+                if (_poseErrorTracker == null) _poseErrorTracker = GetComponent<PoseErrorTracker>();
+                foreach (var joint in _poseErrorTracker.GetJointNames())
+                {
+                    ConfigurableJoint configurableJoint = LocalPhysicsToolkit.GetRemoteJointOfCorrectAxisFromString(joint, UserAvatarService.Instance._avatarManager.GetGameObjectPerBoneRemoteAvatarDictionary());
+                    config.Mapping.Add(joint, PidParameters.FromParallelForm(configurableJoint.angularXDrive.positionSpring, 0, configurableJoint.angularXDrive.positionDamper));
+                }
+
+                _latestPidConfiguration = config;
+            }
+            else
+            {
+                _latestPidConfiguration = new PidConfiguration(PidConfigurationStorage.Configuration);
+            }
             // Prepare step data target dictionary
 
             _latestAnimationToJointToStepData = new Dictionary<string, Dictionary<string, PidStepData>>();
@@ -286,7 +320,6 @@ namespace PIDTuning
 
                 _latestAnimationToJointToStepData["recording"][joint] = sd;
             }
-
             StartCoroutine(RecordMotion(() => _isRunningManualRecord, _latestAnimationToJointToStepData["recording"]));
         }
 
@@ -321,12 +354,12 @@ namespace PIDTuning
             State = TestRunnerState.Ready;
         }
 
-        public void SaveTestData()
+        public void SaveTestData(bool isPhysicsTest = false, string folder = "")
         {
             Assert.AreEqual(State, TestRunnerState.FinishedTest);
-
-            var outputFolder = Path.Combine(Application.dataPath, "../PidStepData");
-            var testRunFolder = Path.Combine(outputFolder, CurrentTestLabel + "-" + _latestTestTimestamp.Value.ToFileTimeUtc());
+            string dataPath = Application.dataPath.Replace('/', Path.DirectorySeparatorChar);
+            var outputFolder = Path.Combine(dataPath, "PidStepData");
+            var testRunFolder = isPhysicsTest ? folder : Path.Combine(outputFolder, CurrentTestLabel + "-" + _latestTestTimestamp.Value.ToFileTimeUtc());
 
             Directory.CreateDirectory(outputFolder);
             Directory.CreateDirectory(testRunFolder);
@@ -346,6 +379,7 @@ namespace PIDTuning
                 }
 
                 File.WriteAllText(Path.Combine(animationDirectory, "eval.json"), LatestAnimationToEvaluation[animation.Key].ToJson().ToString());
+                Debug.Log(animationDirectory);
             }
         }
     }

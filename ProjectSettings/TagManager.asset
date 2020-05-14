@@ -5,6 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - hover
+  - RootBone
+  - Target
+  - Template
+  - Avatar
+  - Anchor
+  - UserAvatar
+  - TemplateMultiple
+  - Colliders
+  - Test
   layers:
   - Default
   - TransparentFX
@@ -15,22 +24,22 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - LeftArm
+  - RightArm
+  - Torso
+  - LeftLeg
+  - RightLeg
+  - LeftShoulder
+  - RightShoulder
+  - Hips
+  - UpperChest
+  - LeftHand
+  - RightHand
+  - LeftFoot
+  - RightFoot
+  - Environment
+  - Invisible
   - 
   - 
   - 

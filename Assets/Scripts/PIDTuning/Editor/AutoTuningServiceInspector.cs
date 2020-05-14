@@ -16,6 +16,8 @@ namespace PIDTuning.Editor
 
         private int jointToTuneIdx = 0;
 
+        private bool showUnneededJoints = false;
+
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
@@ -27,31 +29,39 @@ namespace PIDTuning.Editor
                 GUILayout.Label("Functionality only available in play mode");
                 return;
             }
-
+            /*
             if (null == jointNames)
             {
                 Initialize(ats);
             }
-
-            GUILayout.Label("WARNING! Tune all joints rudimentary implementation, should be looked at again.");
-            if (GUILayout.Button("Tune all joints"))
+            */
+            if (ats.gameObject.activeSelf)
             {
-                ats.StartCoroutine(ats.TuneAllJoints());
+
+                Initialize(ats);
+
+                GUILayout.Label("WARNING! Tune all joints rudimentary implementation, should be looked at again.");
+                if (GUILayout.Button("Tune all joints"))
+                {
+                    ats.StartCoroutine(ats.TuneAllJoints());
+                }
+
+                EditorGUILayout.Space();
+
+                jointToTuneIdx = EditorGUILayout.Popup(jointToTuneIdx, jointNames);
+
+                if (GUILayout.Button("Tune selected joint"))
+                {
+                    ats.StartCoroutine(ats.TuneSingleJoint(jointNames[jointToTuneIdx]));
+                }
+
+                showUnneededJoints = ats.showUnneededJoints;
+
+                EditorGUILayout.Space();
+
+                DisplayAvailableTunings(ats);
+
             }
-
-            EditorGUILayout.Space();
-
-            jointToTuneIdx = EditorGUILayout.Popup(jointToTuneIdx, jointNames);
-
-            if (GUILayout.Button("Tune selected joint"))
-            {
-                ats.StartCoroutine(ats.TuneSingleJoint(jointNames[jointToTuneIdx]));
-            }
-
-            EditorGUILayout.Space();
-
-            DisplayAvailableTunings(ats);
-
             Repaint();
         }
 
@@ -87,7 +97,7 @@ namespace PIDTuning.Editor
 
                         // We use to copy constructor here to avoid that the user can modify the original tuning
                         configStorage.Configuration.Mapping[ats.LastTuningData.Joint] = new PidParameters(variantToTuning.Value);
-                        configStorage.TransmitSingleJointConfiguration(ats.LastTuningData.Joint);
+                        configStorage.TransmitSingleJointConfiguration(ats.LastTuningData.Joint, ats.RelayConstantForce);
                     }
                 }
             }
@@ -96,6 +106,26 @@ namespace PIDTuning.Editor
         private void Initialize(AutoTuningService ats)
         {
             jointNames = ats.PoseErrorTracker.GetJointNames().ToArray();
+            string[] jointNamesBackup = jointNames;
+            //Filter unneeded joints
+            if (!ats.showUnneededJoints || ats.mirror)
+            {
+                HashSet<string> filteredNames = new HashSet<string>();
+                HashSet<string> filteredNamesUnneeded = new HashSet<string>();
+                HashSet<string> filteredNamesMirror = new HashSet<string>();
+                AvatarManager avatarManager = UserAvatarService.Instance._avatarManager;
+
+                foreach(string joint in jointNames)
+                {
+                    if (!ats.showUnneededJoints && avatarManager.IsJointUnneeded(joint)) filteredNamesUnneeded.Add(joint); 
+                    if (ats.mirror && !joint.StartsWith("Right")) filteredNamesMirror.Add(joint); 
+                }
+
+                jointNames = filteredNamesUnneeded.Count > 0 ? jointNamesBackup.Except(filteredNamesUnneeded).ToArray() : jointNamesBackup;
+                jointNamesBackup = jointNames;
+                jointNames = filteredNamesMirror.Count > 0 ? jointNamesBackup.Intersect(filteredNamesMirror).ToArray() : jointNamesBackup;
+
+            }
         }
     }
 }

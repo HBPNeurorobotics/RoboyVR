@@ -32,6 +32,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     [SerializeField] private SkinnedMeshRenderer local_avatar_mesh_renderer = null;
 
     public RigAngleTracker RigAngleTracker;
+    public bool use_gazebo = false;
 
     // Bachelor Thesis VRHand
     [SerializeField] private RemoteAvatarVisuals remoteAvatarVisuals;
@@ -67,7 +68,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     private float t_last_publish_joints = 0.0f;
     public Dictionary<string, Vector3> JointPidPositionTargets = new Dictionary<string, Vector3>();
     private Dictionary<string, Vector3> joint_pid_position_targets_last_published_ = new Dictionary<string, Vector3>();
-    
+
     public float model_position_publish_threshold = 0.1f;
     public float model_rotation_publish_threshold = 0.1f;
     private Vector3 model_position_last_published_ = new Vector3();
@@ -78,6 +79,19 @@ public class UserAvatarService : Singleton<UserAvatarService>
     public float InitialI = 100f;
     public float InitialD = 500f;
 
+    /// <summary>
+    /// Provides access to dictionary of RemoteAvatar and TargetAvatar
+    /// </summary>
+    public AvatarManager _avatarManager;
+
+    [Header("Initial Joint Settings")]
+    [Header("Angular Drive X")]
+    public static float initialAngularXDriveSpring = 3000;
+    public static float initialAngularXDriveDamper = 600;
+    [Header("Angular Drive YZ")]
+    public static float initialAngularYZDriveSpring = 3000;
+    public static float initialAngularYZDriveDamper = 600;
+
     [Header("Initial Hand PID Parameters")]
     public float InitP = 1000f;
     public float InitI = 300f;
@@ -85,21 +99,31 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     void Awake()
     {
-        GzBridgeService.Instance.AddCallbackModelInfoMsg(this.OnModelInfoMsg);
-        GzBridgeService.Instance.AddCallbackOnCloseConnection(this.DespawnAvatar);
+        if (use_gazebo)
+        {
+            GzBridgeService.Instance.AddCallbackModelInfoMsg(this.OnModelInfoMsg);
+            GzBridgeService.Instance.AddCallbackOnCloseConnection(this.DespawnAvatar);
+        }
+        else
+        {
+            local_avatar = GameObject.FindGameObjectWithTag("Target");
+            remote_avatar = GameObject.Find("remote_avatar");
+            avatar_ready = true;
+            OnAvatarSpawned(this);
+        }
     }
-    
+
     void Start()
     {
-        if (this.local_avatar)
+        if (this.local_avatar && use_gazebo)
         {
-            this.gazebo_model_pos_offset = new Vector3(0f, -local_avatar_mesh_renderer.bounds.extents.y, 0f);
+            this.gazebo_model_pos_offset = new Vector3(0f, /*-local_avatar_mesh_renderer.bounds.extents.y*/0f, 0f);
 
             // Markus: This line causeed issues for me. Avatar was too far down an coudln't extend his legs.
             // this.gazebo_model_pos_offset.y -= 0.25f;  // center of mesh is not the center of the model ?
         }
     }
-    
+
     void Update()
     {
         if (Input.GetKey("s"))
@@ -107,7 +131,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
             StartCoroutine(SpawnAvatar("user_avatar_ybot"));
         }
 
-        if (this.avatar_ready)
+        if (this.avatar_ready && use_gazebo)
         {
             // These tasks are now accomplished by RigAngleTracker on the avatar
             //GetJointPIDPositionTargets();
@@ -178,7 +202,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
         this.avatar_name = "user_avatar_" + AuthenticationService.Instance.token.Replace("-", "_");
         Debug.Log("SpawnAvatar - auth token: " + AuthenticationService.Instance.token);
         Debug.Log("SpawnAvatar - avatar_name: " + this.avatar_name);
-        
+
         Vector3 spawn_pos = GazeboSceneManager.Unity2GzVec3(new Vector3(local_avatar.transform.position.x, local_avatar.transform.position.y /* - 1.0f */, local_avatar.transform.position.z));
         Quaternion spawn_rot = new Quaternion();
 
@@ -189,10 +213,11 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private IEnumerator WaitForAvatarCreation()
     {
-        yield return new WaitUntil(() => {
+        yield return new WaitUntil(() =>
+        {
             this.remote_avatar = GameObject.Find(this.avatar_name);
             return this.remote_avatar != null;
-            }
+        }
         );
         Debug.Log("Found avatar model: " + this.remote_avatar);
 
@@ -231,9 +256,9 @@ public class UserAvatarService : Singleton<UserAvatarService>
 
     private void PublishJointSetPosition()
     {
-        Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
+        Transform joints_parent = this.transform.Find("local_avatar").Find("mixamorig_Hips");
         Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
-        foreach(Transform child in children)
+        foreach (Transform child in children)
         {
             if (child == joints_parent) continue;
 
@@ -336,7 +361,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
             }
         }
     }
-    
+
     //private void PublishJointPIDParams()
     //{
     //    /*Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
@@ -348,7 +373,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     //        ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(InitialP, InitialI, InitialD));
     //    }
     //}
-    
+
     private void PublishJointPIDPositionTargetsJointStatesTopic()
     {
         /*string[] names = new string[joint_pid_position_targets_.Count];
@@ -370,7 +395,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
         foreach (var entry in RigAngleTracker.GetJointToRadianMapping())
         {
             //Debug.Log(entry.Key);
-            states.Add(new ROSBridgeLib.gazebo_msgs.JointStateMsg("avatar_ybot::" + entry.Key, entry.Value, 0.0f, 
+            states.Add(new ROSBridgeLib.gazebo_msgs.JointStateMsg("avatar_ybot::" + entry.Key, entry.Value, 0.0f,
                 new Vector3Msg(), new Vector3Msg(), new Vector3Msg(), new Vector3Msg(), new Vector3Msg()));
         }
 
@@ -528,7 +553,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     //    if (this.publish_all_links)
     //    {
     //        links_to_publish = new List<GameObject>();
-    //        foreach (Transform rig_transform in local_avatar.transform.Find("mixamorig_Hips").GetComponentsInChildren<Transform>())
+    //        foreach (Transform rig_transform in this.avatar_rig.transform.Find("mixamorig_Hips").GetComponentsInChildren<Transform>())
     //        {
     //            if (rig_transform != null)
     //            {

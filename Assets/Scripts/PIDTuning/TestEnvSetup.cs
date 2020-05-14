@@ -18,7 +18,6 @@ namespace PIDTuning
 
         public IEnumerator RunSimulationReset()
         {
-            // For now, let's actually just wait a few seconds until the avatar has settled
             yield return new WaitForSeconds(PoseResetTimeEstimate);
         }
     }
