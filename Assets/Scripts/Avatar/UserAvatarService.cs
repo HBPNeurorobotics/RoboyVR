@@ -117,7 +117,7 @@ public class UserAvatarService : Singleton<UserAvatarService>
     {
         if (this.local_avatar && use_gazebo)
         {
-            this.gazebo_model_pos_offset = new Vector3(0f, -local_avatar_mesh_renderer.bounds.extents.y, 0f);
+            this.gazebo_model_pos_offset = new Vector3(0f, /*-local_avatar_mesh_renderer.bounds.extents.y*/0f, 0f);
 
             // Markus: This line causeed issues for me. Avatar was too far down an coudln't extend his legs.
             // this.gazebo_model_pos_offset.y -= 0.25f;  // center of mesh is not the center of the model ?
