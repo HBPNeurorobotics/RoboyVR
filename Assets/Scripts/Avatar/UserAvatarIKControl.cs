@@ -17,7 +17,7 @@ public class UserAvatarIKControl : MonoBehaviour
 
 
     // Bachelor Thesis VRHand
-    [SerializeField] private TrackingFKManager trackingFKManager;
+    [SerializeField] private TrackingHandManager trackingHandManager;
 
     protected Animator animator;
 
@@ -33,52 +33,6 @@ public class UserAvatarIKControl : MonoBehaviour
     private Queue<Vector3> groundCenterTrajectory = new Queue<Vector3>();
     private int groundCenterTrajectorySize = 20;
     public float coordStartAnchor;
-
-    // Bachelor Thesis VRHand
-    private Transform leftThumb1 = null;
-    private Transform leftThumb2 = null;
-    private Transform leftThumb3 = null;
-    private Transform leftThumb4 = null;
-    private Transform rightThumb1 = null;
-    private Transform rightThumb2 = null;
-    private Transform rightThumb3 = null;
-    private Transform rightThumb4 = null;
-
-    private Transform leftIndex1 = null;
-    private Transform leftIndex2 = null;
-    private Transform leftIndex3 = null;
-    private Transform leftIndex4 = null;
-    private Transform rightIndex1 = null;
-    private Transform rightIndex2 = null;
-    private Transform rightIndex3 = null;
-    private Transform rightIndex4 = null;
-
-    private Transform leftMiddle1 = null;
-    private Transform leftMiddle2 = null;
-    private Transform leftMiddle3 = null;
-    private Transform leftMiddle4 = null;
-    private Transform rightMiddle1 = null;
-    private Transform rightMiddle2 = null;
-    private Transform rightMiddle3 = null;
-    private Transform rightMiddle4 = null;
-
-    private Transform leftRing1 = null;
-    private Transform leftRing2 = null;
-    private Transform leftRing3 = null;
-    private Transform leftRing4 = null;
-    private Transform rightRing1 = null;
-    private Transform rightRing2 = null;
-    private Transform rightRing3 = null;
-    private Transform rightRing4 = null;
-
-    private Transform leftPinky1 = null;
-    private Transform leftPinky2 = null;
-    private Transform leftPinky3 = null;
-    private Transform leftPinky4 = null;
-    private Transform rightPinky1 = null;
-    private Transform rightPinky2 = null;
-    private Transform rightPinky3 = null;
-    private Transform rightPinky4 = null;
 
     public GameObject lModelHand;
 
@@ -359,124 +313,65 @@ public class UserAvatarIKControl : MonoBehaviour
     {
         if (trackingIKTargetManager.IsReady() && DetermineController.Instance.UseKnucklesControllers())
         {
-            getFingerTargetLeft();
-            getFingerTargetRight();
-
             updateFingerTargetLeft();
             updateFingerTargetRight();
         }
 
     }
 
-    private void getFingerTargetLeft()
-    {
-        leftThumb1 = trackingFKManager.GetTargetThumb1();
-        leftThumb2 = trackingFKManager.GetTargetThumb2();
-        leftThumb3 = trackingFKManager.GetTargetThumb3();
-        leftThumb4 = trackingFKManager.GetTargetThumb4();
-
-        leftIndex1 = trackingFKManager.GetTargetIndex1();
-        leftIndex2 = trackingFKManager.GetTargetIndex2();
-        leftIndex3 = trackingFKManager.GetTargetIndex3();
-        leftIndex4 = trackingFKManager.GetTargetIndex4();
-
-        leftMiddle1 = trackingFKManager.GetTargetMiddle1();
-        leftMiddle2 = trackingFKManager.GetTargetMiddle2();
-        leftMiddle3 = trackingFKManager.GetTargetMiddle3();
-        leftMiddle4 = trackingFKManager.GetTargetMiddle4();
-
-        leftRing1 = trackingFKManager.GetTargetRing1();
-        leftRing2 = trackingFKManager.GetTargetRing2();
-        leftRing3 = trackingFKManager.GetTargetRing3();
-        leftRing4 = trackingFKManager.GetTargetRing4();
-
-        leftPinky1 = trackingFKManager.GetTargetPinky1();
-        leftPinky2 = trackingFKManager.GetTargetPinky2();
-        leftPinky3 = trackingFKManager.GetTargetPinky3();
-        leftPinky4 = trackingFKManager.GetTargetPinky4();
-    }
-
-    private void getFingerTargetRight()
-    {
-        rightThumb1 = trackingFKManager.GetTargetThumb1R();
-        rightThumb2 = trackingFKManager.GetTargetThumb2R();
-        rightThumb3 = trackingFKManager.GetTargetThumb3R();
-        rightThumb4 = trackingFKManager.GetTargetThumb4R();
-
-        rightIndex1 = trackingFKManager.GetTargetIndex1R();
-        rightIndex2 = trackingFKManager.GetTargetIndex2R();
-        rightIndex3 = trackingFKManager.GetTargetIndex3R();
-        rightIndex4 = trackingFKManager.GetTargetIndex4R();
-
-        rightMiddle1 = trackingFKManager.GetTargetMiddle1R();
-        rightMiddle2 = trackingFKManager.GetTargetMiddle2R();
-        rightMiddle3 = trackingFKManager.GetTargetMiddle3R();
-        rightMiddle4 = trackingFKManager.GetTargetMiddle4R();
-
-        rightRing1 = trackingFKManager.GetTargetRing1R();
-        rightRing2 = trackingFKManager.GetTargetRing2R();
-        rightRing3 = trackingFKManager.GetTargetRing3R();
-        rightRing4 = trackingFKManager.GetTargetRing4R();
-
-        rightPinky1 = trackingFKManager.GetTargetPinky1R();
-        rightPinky2 = trackingFKManager.GetTargetPinky2R();
-        rightPinky3 = trackingFKManager.GetTargetPinky3R();
-        rightPinky4 = trackingFKManager.GetTargetPinky4R();
-    }
-
     private void updateFingerTargetLeft()
     {
-        lModelThumb1.transform.rotation = leftThumb1.rotation;
-        lModelThumb2.transform.rotation = leftThumb2.rotation;
-        lModelThumb3.transform.rotation = leftThumb3.rotation;
-        lModelThumb4.transform.rotation = leftThumb4.rotation;
+        lModelThumb1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
+        lModelThumb2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.THUMB_2).rotation;
+        lModelThumb3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.THUMB_3).rotation;
+        lModelThumb4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.THUMB_4).rotation;
 
-        lModelIndex1.transform.rotation = leftIndex1.rotation;
-        lModelIndex2.transform.rotation = leftIndex2.rotation;
-        lModelIndex3.transform.rotation = leftIndex3.rotation;
-        lModelIndex4.transform.rotation = leftIndex4.rotation;
+        lModelIndex1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.INDEX_1).rotation;
+        lModelIndex2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.INDEX_2).rotation;
+        lModelIndex3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.INDEX_3).rotation;
+        lModelIndex4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.INDEX_4).rotation;  
 
-        lModelMiddle1.transform.rotation = leftMiddle1.rotation;
-        lModelMiddle2.transform.rotation = leftMiddle2.rotation;
-        lModelMiddle3.transform.rotation = leftMiddle3.rotation;
-        lModelMiddle4.transform.rotation = leftMiddle4.rotation;
+        lModelMiddle1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_1).rotation;
+        lModelMiddle2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_2).rotation;
+        lModelMiddle3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_3).rotation;
+        lModelMiddle4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_4).rotation;
 
-        lModelRing1.transform.rotation = leftRing1.rotation;
-        lModelRing2.transform.rotation = leftRing2.rotation;
-        lModelRing3.transform.rotation = leftRing3.rotation;
-        lModelRing4.transform.rotation = leftRing4.rotation;
+        lModelRing1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.RING_1).rotation;
+        lModelRing2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.RING_2).rotation;
+        lModelRing3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.RING_3).rotation;
+        lModelRing4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.RING_4).rotation;
 
-        lModelPinky1.transform.rotation = leftPinky1.rotation;
-        lModelPinky2.transform.rotation = leftPinky2.rotation;
-        lModelPinky3.transform.rotation = leftPinky3.rotation;
-        lModelPinky4.transform.rotation = leftPinky4.rotation;
+        lModelPinky1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.PINKY_1).rotation;
+        lModelPinky2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.PINKY_2).rotation;
+        lModelPinky3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.PINKY_3).rotation;
+        lModelPinky4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.PINKY_4).rotation;
     }
 
     private void updateFingerTargetRight()
     {
-        rModelThumb1.transform.rotation = rightThumb1.rotation;
-        rModelThumb2.transform.rotation = rightThumb2.rotation;
-        rModelThumb3.transform.rotation = rightThumb3.rotation;
-        rModelThumb4.transform.rotation = rightThumb4.rotation;
-
-        rModelIndex1.transform.rotation = rightIndex1.rotation;
-        rModelIndex2.transform.rotation = rightIndex2.rotation;
-        rModelIndex3.transform.rotation = rightIndex3.rotation;
-        rModelIndex4.transform.rotation = rightIndex4.rotation;
-
-        rModelMiddle1.transform.rotation = rightMiddle1.rotation;
-        rModelMiddle2.transform.rotation = rightMiddle2.rotation;
-        rModelMiddle3.transform.rotation = rightMiddle3.rotation;
-        rModelMiddle4.transform.rotation = rightMiddle4.rotation;
-
-        rModelRing1.transform.rotation = rightRing1.rotation;
-        rModelRing2.transform.rotation = rightRing2.rotation;
-        rModelRing3.transform.rotation = rightRing3.rotation;
-        rModelRing4.transform.rotation = rightRing4.rotation;
-
-        rModelPinky1.transform.rotation = rightPinky1.rotation;
-        rModelPinky2.transform.rotation = rightPinky2.rotation;
-        rModelPinky3.transform.rotation = rightPinky3.rotation;
-        rModelPinky4.transform.rotation = rightPinky4.rotation;
+        rModelThumb1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
+        rModelThumb2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
+        rModelThumb3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
+        rModelThumb4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
+                                          
+        rModelIndex1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.INDEX_1).rotation;
+        rModelIndex2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.INDEX_2).rotation;
+        rModelIndex3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.INDEX_3).rotation;
+        rModelIndex4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.INDEX_4).rotation;
+                                          
+        rModelMiddle1.transform.rotation =trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_1).rotation;
+        rModelMiddle2.transform.rotation =trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_2).rotation;
+        rModelMiddle3.transform.rotation =trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_3).rotation;
+        rModelMiddle4.transform.rotation =trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_4).rotation;
+                                         
+        rModelRing1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.RING_1).rotation;
+        rModelRing2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.RING_2).rotation;
+        rModelRing3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.RING_3).rotation;
+        rModelRing4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.RING_4).rotation;
+                                          
+        rModelPinky1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.PINKY_1).rotation;
+        rModelPinky2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.PINKY_2).rotation;
+        rModelPinky3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.PINKY_3).rotation;
+        rModelPinky4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.PINKY_4).rotation;
     }
 }

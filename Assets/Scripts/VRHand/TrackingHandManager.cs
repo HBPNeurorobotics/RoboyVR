@@ -3,11 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
 
-public class TrackingFKManager : MonoBehaviour {
+public class TrackingHandManager : MonoBehaviour {
+
+    public enum HAND_SIDE
+    {
+        LEFT = 0,
+        RIGHT
+    }
+
+    public enum FINGER_SEGMENT
+    {
+        THUMB_1 = 0,
+        THUMB_2,
+        THUMB_3,
+        THUMB_4,
+
+        INDEX_1,
+        INDEX_2,
+        INDEX_3,
+        INDEX_4,
+
+        MIDDLE_1,
+        MIDDLE_2,
+        MIDDLE_3,
+        MIDDLE_4,
+
+        RING_1,
+        RING_2,
+        RING_3,
+        RING_4,
+
+        PINKY_1,
+        PINKY_2,
+        PINKY_3,
+        PINKY_4
+    }
+
 
     [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
-
-    private Transform virtualtWrist;
+    
     private Transform virtualtThumb1;
     private Transform virtualtThumb2;
     private Transform virtualtThumb3;
@@ -103,12 +137,46 @@ public class TrackingFKManager : MonoBehaviour {
     private GameObject TargetPinky3R;
     private GameObject TargetPinky4R;
 
+    private Dictionary<FINGER_SEGMENT, Transform> trackingTargetsHandLeft = new Dictionary<FINGER_SEGMENT, Transform>();
+    private Dictionary<FINGER_SEGMENT, Transform> trackingTargetsHandRight = new Dictionary<FINGER_SEGMENT, Transform>();
+
+    private Dictionary<FINGER_SEGMENT, GameObject> remotePoseTargetsHandLeft = new Dictionary<FINGER_SEGMENT, GameObject>();
+    private Dictionary<FINGER_SEGMENT, GameObject> remotePoseTargetsHandRight = new Dictionary<FINGER_SEGMENT, GameObject>();
+
+    private static string HAND_MODEL_HIERARCHY_WRIST = "vr_glove_model/Root/wrist_r";
+    private static string[] THUMB_HIERARCHY = new string[] { "finger_thumb_0_r", "finger_thumb_1_r", "finger_thumb_2_r", "finger_thumb_r_end" };
+    private static string[] INDEX_HIERARCHY = new string[] { "finger_index_meta_r/finger_index_0_r", "finger_index_1_r", "finger_index_2_r", "finger_index_r_end" };
+    private static string[] MIDDLE_HIERARCHY = new string[] { "finger_middle_meta_r/finger_middle_0_r", "finger_middle_1_r", "finger_middle_2_r", "finger_middle_r_end" };
+    private static string[] RING_HIERARCHY = new string[] { "finger_ring_meta_r/finger_ring_0_r", "finger_ring_1_r", "finger_ring_2_r", "finger_ring_r_end" };
+    private static string[] PINKY_HIERARCHY = new string[] { "finger_pinky_meta_r/finger_pinky_0_r", "finger_pinky_1_r", "finger_pinky_2_r", "finger_pinky_r_end" };
+
+    private static string[][] FINGER_HIERARCHIES = new string[][] { THUMB_HIERARCHY, INDEX_HIERARCHY, MIDDLE_HIERARCHY, RING_HIERARCHY, PINKY_HIERARCHY };
+
     // Use this for initialization
     void Start() {
 
         if(DetermineController.Instance.UseKnucklesControllers())
         {
-            virtualtWrist = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r").transform;
+            string prefixLeftHand = "vr_glove_left/" + HAND_MODEL_HIERARCHY_WRIST;
+            string prefixRightHand = "vr_glove_right/" + HAND_MODEL_HIERARCHY_WRIST;
+            FINGER_SEGMENT dictKey;
+
+            for (int indexFinger = 0; indexFinger < FINGER_HIERARCHIES.Length; indexFinger++)
+            {
+                string fingerSegmentPath = "";
+
+                for (int indexSegment = 0; indexSegment < FINGER_HIERARCHIES[indexFinger].Length; indexSegment++)
+                {
+                    fingerSegmentPath += "/" + FINGER_HIERARCHIES[indexFinger][indexSegment];
+                    dictKey = (FINGER_SEGMENT)(indexFinger*4 + indexSegment);
+
+                    Transform trackingTargetLeft = GameObject.Find(prefixLeftHand + fingerSegmentPath).transform;
+                    this.trackingTargetsHandLeft.Add(dictKey, trackingTargetLeft);
+
+                    Transform trackingTargetRight = GameObject.Find(prefixRightHand + fingerSegmentPath).transform;
+                    this.trackingTargetsHandRight.Add(dictKey, trackingTargetRight);
+                }
+            }
 
             virtualtThumb1R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r").transform;
             virtualtThumb2R = GameObject.Find("vr_glove_right/vr_glove_model/Root/wrist_r/finger_thumb_0_r/finger_thumb_1_r").transform;
@@ -664,204 +732,16 @@ public class TrackingFKManager : MonoBehaviour {
 
         TargetPinky4R.transform.SetPositionAndRotation(virtualtPinky4R.transform.position, virtualtPinky4R.transform.rotation);
     }
-    
-    public Transform GetTargetThumb1()
-    {
-        return TargetThumb1.transform;
-    }
-    
-    public Transform GetTargetThumb2()
-    {
-        return TargetThumb2.transform;
-    }
 
-    public Transform GetTargetThumb3()
+    public Transform GetRemotePoseTarget(HAND_SIDE side, FINGER_SEGMENT segment)
     {
-        return TargetThumb3.transform;
-    }
-
-    public Transform GetTargetThumb4()
-    {
-        return TargetThumb4.transform;
-    }
-
-    public Transform GetTargetIndex1()
-    {
-        return TargetIndex1.transform;
-    }
-
-    public Transform GetTargetIndex2()
-    {
-        return TargetIndex2.transform;
-    }
-
-    public Transform GetTargetIndex3()
-    {
-        return TargetIndex3.transform;
-    }
-
-    public Transform GetTargetIndex4()
-    {
-        return TargetIndex4.transform;
-    }
-
-    public Transform GetTargetMiddle1()
-    {
-        return TargetMiddle1.transform;
-    }
-
-    public Transform GetTargetMiddle2()
-    {
-        return TargetMiddle2.transform;
-    }
-
-    public Transform GetTargetMiddle3()
-    {
-        return TargetMiddle3.transform;
-    }
-
-    public Transform GetTargetMiddle4()
-    {
-        return TargetMiddle4.transform;
-    }
-
-    public Transform GetTargetRing1()
-    {
-        return TargetRing1.transform;
-    }
-
-    public Transform GetTargetRing2()
-    {
-        return TargetRing2.transform;
-    }
-
-    public Transform GetTargetRing3()
-    {
-        return TargetRing3.transform;
-    }
-
-    public Transform GetTargetRing4()
-    {
-        return TargetRing4.transform;
-    }
-
-    public Transform GetTargetPinky1()
-    {
-        return TargetPinky1.transform;
-    }
-
-    public Transform GetTargetPinky2()
-    {
-        return TargetPinky2.transform;
-    }
-
-    public Transform GetTargetPinky3()
-    {
-        return TargetPinky3.transform;
-    }
-
-    public Transform GetTargetPinky4()
-    {
-        return TargetPinky4.transform;
-    }
-
-    public Transform GetTargetThumb1R()
-    {
-        return TargetThumb1R.transform;
-    }
-
-    public Transform GetTargetThumb2R()
-    {
-        return TargetThumb2R.transform;
-    }
-
-    public Transform GetTargetThumb3R()
-    {
-        return TargetThumb3R.transform;
-    }
-
-    public Transform GetTargetThumb4R()
-    {
-        return TargetThumb4R.transform;
-    }
-
-    public Transform GetTargetIndex1R()
-    {
-        return TargetIndex1R.transform;
-    }
-
-    public Transform GetTargetIndex2R()
-    {
-        return TargetIndex2R.transform;
-    }
-
-    public Transform GetTargetIndex3R()
-    {
-        return TargetIndex3R.transform;
-    }
-
-    public Transform GetTargetIndex4R()
-    {
-        return TargetIndex4R.transform;
-    }
-
-    public Transform GetTargetMiddle1R()
-    {
-        return TargetMiddle1R.transform;
-    }
-
-    public Transform GetTargetMiddle2R()
-    {
-        return TargetMiddle2R.transform;
-    }
-
-    public Transform GetTargetMiddle3R()
-    {
-        return TargetMiddle3R.transform;
-    }
-
-    public Transform GetTargetMiddle4R()
-    {
-        return TargetMiddle4R.transform;
-    }
-
-    public Transform GetTargetRing1R()
-    {
-        return TargetRing1R.transform;
-    }
-
-    public Transform GetTargetRing2R()
-    {
-        return TargetRing2R.transform;
-    }
-
-    public Transform GetTargetRing3R()
-    {
-        return TargetRing3R.transform;
-    }
-
-    public Transform GetTargetRing4R()
-    {
-        return TargetRing4R.transform;
-    }
-
-    public Transform GetTargetPinky1R()
-    {
-        return TargetPinky1R.transform;
-    }
-
-    public Transform GetTargetPinky2R()
-    {
-        return TargetPinky2R.transform;
-    }
-
-    public Transform GetTargetPinky3R()
-    {
-        return TargetPinky3R.transform;
-    }
-
-    public Transform GetTargetPinky4R()
-    {
-        return TargetPinky4R.transform;
+        if (side == HAND_SIDE.LEFT)
+        {
+            return this.trackingTargetsHandLeft[segment].transform;
+        }
+        else
+        {
+            return this.trackingTargetsHandRight[segment].transform;
+        }
     }
 }

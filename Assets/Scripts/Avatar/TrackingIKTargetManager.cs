@@ -22,6 +22,9 @@ public class TrackingIKTargetManager : MonoBehaviour
         public SteamVR_TrackedObject trackedObject;
     }
 
+    [Tooltip("Use mocks instead of real IK targets where necessary.")]
+    [SerializeField] private bool debugUseMockIKTargets = false;
+
     [SerializeField] private Pose targetOffsetLeftHand = new Pose(new Vector3(-0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, 90f));
     [SerializeField] private Pose targetOffsetRightHand = new Pose(new Vector3(0.05f, 0f, -0.15f), Quaternion.Euler(0f, 0f, -90f));
     [SerializeField] public float feetTargetOffsetAboveGround = 0.1f;
@@ -113,6 +116,26 @@ public class TrackingIKTargetManager : MonoBehaviour
         return initialized;
     }
 
+    public void Initialize()
+    {
+        Debug.Log("OnControllerGripPress() - initializing");
+
+        if (!UserAvatarService.Instance.use_gazebo)
+        {
+            UserAvatarService.Instance._avatarManager.InitializeBodyStructures();
+        }
+
+        IdentifyTrackingTargets();
+        SetupIKTargets();
+
+        if (this.debugUseMockIKTargets)
+        {
+            this.SetupMockIKTargets();
+        }
+
+        initialized = true;
+    }
+
     #region IK_TARGET_SETUP
 
     public void OnControllerGripPress(SteamVR_Behaviour_Boolean fromBehaviour, SteamVR_Input_Sources fromSource, System.Boolean state)
@@ -131,19 +154,8 @@ public class TrackingIKTargetManager : MonoBehaviour
 
         if (this.leftGripRelease && this.rightGripRelease && !initialized)
         {
-            Debug.Log("OnControllerGripPress() - initializing");
-
-            if (!UserAvatarService.Instance.use_gazebo)
-            {
-                UserAvatarService.Instance._avatarManager.InitializeBodyStructures();
-            }
-
-            IdentifyTrackingTargets();
-            SetupIKTargets();
-
-            initialized = true;
+            this.Initialize();
         }
-
     }
 
     private void IdentifyTrackingTargets()
@@ -541,6 +553,58 @@ public class TrackingIKTargetManager : MonoBehaviour
         indicator.transform.parent = parent;
     }
 
+    private void SetupMockIKTargets()
+    {
+        Debug.LogWarning("IK Target Manager - using MOCK TARGETS");
+
+        if (this.ikTargetHead == null)
+        {
+            this.ikTargetHead = new GameObject("MOCK IK Target Head");
+            this.ikTargetHead.transform.parent = this.transform;
+            this.ikTargetHead.transform.position = new Vector3(0f, 2f, 0f);
+        }
+
+        if (this.ikTargetLookAt == null)
+        {
+            this.ikTargetLookAt = new GameObject("MOCK IK Target Look At");
+            this.ikTargetLookAt.transform.parent = this.transform;
+            this.ikTargetLookAt.transform.position = new Vector3(0f, 2f, 0.1f);
+        }
+
+        if (this.ikTargetBody == null)
+        {
+            this.ikTargetBody = new GameObject("MOCK IK Target Body");
+            this.ikTargetBody.transform.parent = this.transform;
+        }
+
+        if (this.ikTargetLeftHand == null)
+        {
+            this.ikTargetLeftHand = new GameObject("MOCK IK Target Left Hand");
+            this.ikTargetLeftHand.transform.parent = this.transform;
+        }
+
+        if (this.ikTargetRightHand == null)
+        {
+            this.ikTargetRightHand = new GameObject("MOCK IK Target Right Hand");
+            this.ikTargetRightHand.transform.parent = this.transform;
+        }
+
+
+        if (this.ikTargetLeftFoot == null)
+        {
+            this.ikTargetLeftFoot = new GameObject("MOCK IK Target Left Foot");
+            this.ikTargetLeftFoot.transform.parent = this.transform;
+        }
+
+        if (this.ikTargetRightFoot == null)
+        {
+            this.ikTargetRightFoot = new GameObject("MOCK IK Target Right Foot");
+            this.ikTargetRightFoot.transform.parent = this.transform;
+        }
+
+        this.initialized = true;
+    }
+
     #endregion IK_TARGET_SETUP
 
     #region TARGET_GETTERS
@@ -579,6 +643,11 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     public SteamVR_TrackedObject GetTrackedObject(TRACKING_TARGET target)
     {
+        if (this.debugUseMockIKTargets)
+        {
+            return null;
+        }
+
         if (target == TRACKING_TARGET.HEAD)
         {
             return trackingTargetHead.GetComponent<SteamVR_TrackedObject>();
