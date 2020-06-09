@@ -20,6 +20,7 @@ public class DetermineController : Singleton<DetermineController>
 
     }
 
+    //TODO: turn into async task, sometimes controllers aren't initialized properly (results in unrecognized knuckles controllers)
     public bool UseKnucklesControllers()
     {
         if (this.determined == false)

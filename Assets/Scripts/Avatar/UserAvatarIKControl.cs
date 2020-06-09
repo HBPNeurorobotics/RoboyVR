@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class UserAvatarIKControl : MonoBehaviour
 {
-
     [SerializeField] public bool ikActive = true;
     [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
     [SerializeField] private Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
@@ -36,108 +35,10 @@ public class UserAvatarIKControl : MonoBehaviour
 
     public GameObject lModelHand;
 
-    private GameObject lModelThumb1;
-    private GameObject lModelThumb2;
-    private GameObject lModelThumb3;
-    private GameObject lModelThumb4;
-
-    private GameObject lModelIndex1;
-    private GameObject lModelIndex2;
-    private GameObject lModelIndex3;
-    private GameObject lModelIndex4;
-
-    private GameObject lModelMiddle1;
-    private GameObject lModelMiddle2;
-    private GameObject lModelMiddle3;
-    private GameObject lModelMiddle4;
-
-    private GameObject lModelRing1;
-    private GameObject lModelRing2;
-    private GameObject lModelRing3;
-    private GameObject lModelRing4;
-
-    private GameObject lModelPinky1;
-    private GameObject lModelPinky2;
-    private GameObject lModelPinky3;
-    private GameObject lModelPinky4;
-
-    private GameObject rModelThumb1;
-    private GameObject rModelThumb2;
-    private GameObject rModelThumb3;
-    private GameObject rModelThumb4;
-
-    private GameObject rModelIndex1;
-    private GameObject rModelIndex2;
-    private GameObject rModelIndex3;
-    private GameObject rModelIndex4;
-
-    private GameObject rModelMiddle1;
-    private GameObject rModelMiddle2;
-    private GameObject rModelMiddle3;
-    private GameObject rModelMiddle4;
-
-    private GameObject rModelRing1;
-    private GameObject rModelRing2;
-    private GameObject rModelRing3;
-    private GameObject rModelRing4;
-
-    private GameObject rModelPinky1;
-    private GameObject rModelPinky2;
-    private GameObject rModelPinky3;
-    private GameObject rModelPinky4;
-
-
     // Use this for initialization
     void Start()
     {
         animator = GetComponent<Animator>();
-        if (DetermineController.Instance.UseKnucklesControllers())
-        {
-            rModelThumb1 = GameObject.Find("mixamorig_RightHandThumb1");
-            rModelThumb2 = GameObject.Find("mixamorig_RightHandThumb2");
-            rModelThumb3 = GameObject.Find("mixamorig_RightHandThumb3");
-            rModelThumb4 = GameObject.Find("mixamorig_RightHandThumb4");
-            lModelThumb1 = GameObject.Find("mixamorig_LeftHandThumb1");
-            lModelThumb2 = GameObject.Find("mixamorig_LeftHandThumb2");
-            lModelThumb3 = GameObject.Find("mixamorig_LeftHandThumb3");
-            lModelThumb4 = GameObject.Find("mixamorig_LeftHandThumb4");
-
-            rModelIndex1 = GameObject.Find("mixamorig_RightHandIndex1");
-            rModelIndex2 = GameObject.Find("mixamorig_RightHandIndex2");
-            rModelIndex3 = GameObject.Find("mixamorig_RightHandIndex3");
-            rModelIndex4 = GameObject.Find("mixamorig_RightHandIndex4");
-            lModelIndex1 = GameObject.Find("mixamorig_LeftHandIndex1");
-            lModelIndex2 = GameObject.Find("mixamorig_LeftHandIndex2");
-            lModelIndex3 = GameObject.Find("mixamorig_LeftHandIndex3");
-            lModelIndex4 = GameObject.Find("mixamorig_LeftHandIndex4");
-
-            rModelMiddle1 = GameObject.Find("mixamorig_RightHandMiddle1");
-            rModelMiddle2 = GameObject.Find("mixamorig_RightHandMiddle2");
-            rModelMiddle3 = GameObject.Find("mixamorig_RightHandMiddle3");
-            rModelMiddle4 = GameObject.Find("mixamorig_RightHandMiddle4");
-            lModelMiddle1 = GameObject.Find("mixamorig_LeftHandMiddle1");
-            lModelMiddle2 = GameObject.Find("mixamorig_LeftHandMiddle2");
-            lModelMiddle3 = GameObject.Find("mixamorig_LeftHandMiddle3");
-            lModelMiddle4 = GameObject.Find("mixamorig_LeftHandMiddle4");
-
-            rModelRing1 = GameObject.Find("mixamorig_RightHandRing1");
-            rModelRing2 = GameObject.Find("mixamorig_RightHandRing2");
-            rModelRing3 = GameObject.Find("mixamorig_RightHandRing3");
-            rModelRing4 = GameObject.Find("mixamorig_RightHandRing4");
-            lModelRing1 = GameObject.Find("mixamorig_LeftHandRing1");
-            lModelRing2 = GameObject.Find("mixamorig_LeftHandRing2");
-            lModelRing3 = GameObject.Find("mixamorig_LeftHandRing3");
-            lModelRing4 = GameObject.Find("mixamorig_LeftHandRing4");
-
-            rModelPinky1 = GameObject.Find("mixamorig_RightHandPinky1");
-            rModelPinky2 = GameObject.Find("mixamorig_RightHandPinky2");
-            rModelPinky3 = GameObject.Find("mixamorig_RightHandPinky3");
-            rModelPinky4 = GameObject.Find("mixamorig_RightHandPinky4");
-            lModelPinky1 = GameObject.Find("mixamorig_LeftHandPinky1");
-            lModelPinky2 = GameObject.Find("mixamorig_LeftHandPinky2");
-            lModelPinky3 = GameObject.Find("mixamorig_LeftHandPinky3");
-            lModelPinky4 = GameObject.Find("mixamorig_LeftHandPinky4");
-        }
     }
 
     // Update is called once per frame
@@ -313,65 +214,18 @@ public class UserAvatarIKControl : MonoBehaviour
     {
         if (trackingIKTargetManager.IsReady() && DetermineController.Instance.UseKnucklesControllers())
         {
-            updateFingerTargetLeft();
-            updateFingerTargetRight();
+            UpdateFingerTargets();
         }
 
     }
 
-    private void updateFingerTargetLeft()
+    private void UpdateFingerTargets()
     {
-        lModelThumb1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
-        lModelThumb2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.THUMB_2).rotation;
-        lModelThumb3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.THUMB_3).rotation;
-        lModelThumb4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.THUMB_4).rotation;
-
-        lModelIndex1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.INDEX_1).rotation;
-        lModelIndex2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.INDEX_2).rotation;
-        lModelIndex3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.INDEX_3).rotation;
-        lModelIndex4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.INDEX_4).rotation;  
-
-        lModelMiddle1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_1).rotation;
-        lModelMiddle2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_2).rotation;
-        lModelMiddle3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_3).rotation;
-        lModelMiddle4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_4).rotation;
-
-        lModelRing1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.RING_1).rotation;
-        lModelRing2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.RING_2).rotation;
-        lModelRing3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.RING_3).rotation;
-        lModelRing4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.RING_4).rotation;
-
-        lModelPinky1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.PINKY_1).rotation;
-        lModelPinky2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.PINKY_2).rotation;
-        lModelPinky3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.PINKY_3).rotation;
-        lModelPinky4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.LEFT, TrackingHandManager.FINGER_SEGMENT.PINKY_4).rotation;
-    }
-
-    private void updateFingerTargetRight()
-    {
-        rModelThumb1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
-        rModelThumb2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
-        rModelThumb3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
-        rModelThumb4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.THUMB_1).rotation;
-                                          
-        rModelIndex1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.INDEX_1).rotation;
-        rModelIndex2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.INDEX_2).rotation;
-        rModelIndex3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.INDEX_3).rotation;
-        rModelIndex4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.INDEX_4).rotation;
-                                          
-        rModelMiddle1.transform.rotation =trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_1).rotation;
-        rModelMiddle2.transform.rotation =trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_2).rotation;
-        rModelMiddle3.transform.rotation =trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_3).rotation;
-        rModelMiddle4.transform.rotation =trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.MIDDLE_4).rotation;
-                                         
-        rModelRing1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.RING_1).rotation;
-        rModelRing2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.RING_2).rotation;
-        rModelRing3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.RING_3).rotation;
-        rModelRing4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.RING_4).rotation;
-                                          
-        rModelPinky1.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.PINKY_1).rotation;
-        rModelPinky2.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.PINKY_2).rotation;
-        rModelPinky3.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.PINKY_3).rotation;
-        rModelPinky4.transform.rotation = trackingHandManager.GetRemotePoseTarget(TrackingHandManager.HAND_SIDE.RIGHT, TrackingHandManager.FINGER_SEGMENT.PINKY_4).rotation;
+        // enum HumanBodyBones lowest finger index is LeftThumbProximal, highest finger index is RightLittleDistal
+        for (int i = (int)HumanBodyBones.LeftThumbProximal; i <= (int)HumanBodyBones.RightLittleDistal; i++)
+        {
+            HumanBodyBones bone = (HumanBodyBones)i;
+            this.animator.GetBoneTransform(bone).rotation = trackingHandManager.GetRemotePoseTarget(bone).rotation;
+        }
     }
 }

@@ -118,7 +118,7 @@ public class TrackingIKTargetManager : MonoBehaviour
 
     public void Initialize()
     {
-        Debug.Log("OnControllerGripPress() - initializing");
+        Debug.Log("OnControllerGripPress() - initializing ...");
 
         if (!UserAvatarService.Instance.use_gazebo)
         {
@@ -134,6 +134,8 @@ public class TrackingIKTargetManager : MonoBehaviour
         }
 
         initialized = true;
+
+        Debug.Log("OnControllerGripPress() - ... done");
     }
 
     #region IK_TARGET_SETUP
@@ -239,6 +241,8 @@ public class TrackingIKTargetManager : MonoBehaviour
                 dictSteamVRInputSources.Add((uint)trackerB.trackedObject.index, SteamVR_Input_Sources.RightFoot);
             }
         }
+
+        Debug.Log("IdentifyTrackingTargets() - ... done");
     }
 
     private void SetupIKTargets()
@@ -253,6 +257,8 @@ public class TrackingIKTargetManager : MonoBehaviour
         if (trackingTargetHandRight) SetupIKTargetHandRight(trackingTargetHandRight);
         if (trackingTargetFootLeft) SetupIKTargetFootLeft(trackingTargetFootLeft);
         if (trackingTargetFootRight) SetupIKTargetFootRight(trackingTargetFootRight);
+
+        Debug.Log("SetupIKTargets() - ... done");
     }
 
     private void SetupIKTargetHead(Transform trackingTarget)
