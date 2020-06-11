@@ -5,25 +5,13 @@ using Valve.VR;
 
 public class DetermineController : Singleton<DetermineController>
 {
-
-    //private SteamVR_Input_Sources inputSource;
-
-    //private SteamVR_Input input;
-
-    //private Dictionary<uint, SteamVR_Input_Sources> dictSteamVRInputSources = new Dictionary<uint, SteamVR_Input_Sources>();
-
     private bool useKnucklesController = false;
     private bool determined = false;
 
     // Use this for initialization
     void Start()
     {
-        //input.GetLocalizedName(originHandle, VRInputString_ControllerType);
-        //SteamVRControllerInput.
-        //SteamVR_Input.GetLocalizedName(SteamVR_Input.origin activeOrigin, EVRInputStringBits.VRInputString_All);
-        //VRInputValueHandle_t inputHandleHandLeft = new VRInputValueHandle_t();
-        //SteamVR_Input.GetInputSourceHandle("/user/hand/left", inputHandleHandLeft);
-        
+        StartCoroutine(CheckControllersAvailableCoroutine());
     }
 
     // Update is called once per frame
@@ -32,13 +20,36 @@ public class DetermineController : Singleton<DetermineController>
 
     }
 
+    //TODO: turn into async task, sometimes controllers aren't initialized properly (results in unrecognized knuckles controllers)
     public bool UseKnucklesControllers()
     {
-        if (this.determined == false)
+        return this.useKnucklesController;
+    }
+
+    public bool IsReady()
+    {
+        return this.determined;
+    }
+
+    // transform into System.Threading.Tasks.Task (needs to target NET4.0 first)
+    private IEnumerator CheckControllersAvailableCoroutine()
+    {
+        while (!this.determined)
         {
             string[] controllers = Input.GetJoystickNames();
+            Debug.Log("Controller list (" + controllers.Length + "):");
+            foreach (string controller in controllers)
+            {
+                Debug.Log(controller);
+            }
+
             bool knucklesControllerLeft = false;
             bool knucklesControllerRight = false;
+            bool viveControllerLeft = false;
+            bool viveControllerRight = false;
+
+            int numKnucklesControllers = 0;
+            int numViveControllers = 0;
 
             foreach (string controller in controllers)
             {
@@ -46,38 +57,34 @@ public class DetermineController : Singleton<DetermineController>
                 if (controller.IndexOf("OpenVR Controller(Knuckles Left)") != -1)
                 {
                     knucklesControllerLeft = true;
+                    numKnucklesControllers++;
                 }
                 else if (controller.IndexOf("OpenVR Controller(Knuckles Right)") != -1)
                 {
                     knucklesControllerRight = true;
+                    numKnucklesControllers++;
+                }
+                else if (controller.IndexOf("VIVE Controller") != -1)
+                {
+                    knucklesControllerRight = true;
+                    numViveControllers++;
                 }
             }
 
-            if (knucklesControllerLeft && knucklesControllerRight)
+            if (knucklesControllerLeft && knucklesControllerRight && numKnucklesControllers == 2)
             {
                 this.useKnucklesController = true;
-                Debug.Log("Using Valve Knuckles Controllers");
+                this.determined = true;
+                Debug.Log("Coroutine - Using Valve Knuckles Controllers");
             }
-            else
+            else if (numViveControllers == 2)
             {
                 this.useKnucklesController = false;
-                Debug.Log("Using HTC Vive Controllers");
+                this.determined = true;
+                Debug.Log("Coroutine - Using HTC Vive Controllers");
             }
 
-            this.determined = true;
-        }
-
-        return this.useKnucklesController;
-    }
-
-    /*
-    public void CheckInputSource()
-    {
-        foreach (KeyValuePair<uint, TrackingReferenceObject> entry in trackingReferences)
-        {
-            uint deviceIndex = entry.Key;
-            TrackingReferenceObject trackingReference = entry.Value;
+            yield return null;
         }
     }
-    */
 }
