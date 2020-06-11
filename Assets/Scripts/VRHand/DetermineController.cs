@@ -37,11 +37,6 @@ public class DetermineController : Singleton<DetermineController>
         while (!this.determined)
         {
             string[] controllers = Input.GetJoystickNames();
-            Debug.Log("Controller list (" + controllers.Length + "):");
-            foreach (string controller in controllers)
-            {
-                Debug.Log(controller);
-            }
 
             bool knucklesControllerLeft = false;
             bool knucklesControllerRight = false;
@@ -66,7 +61,6 @@ public class DetermineController : Singleton<DetermineController>
                 }
                 else if (controller.IndexOf("VIVE Controller") != -1)
                 {
-                    knucklesControllerRight = true;
                     numViveControllers++;
                 }
             }
