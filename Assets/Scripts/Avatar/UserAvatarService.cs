@@ -362,34 +362,8 @@ public class UserAvatarService : Singleton<UserAvatarService>
         }
     }
 
-    //private void PublishJointPIDParams()
-    //{
-    //    /*Transform joints_parent = local_avatar.transform.Find("mixamorig_Hips");
-    //    Transform[] children = joints_parent.GetComponentsInChildren<Transform>();
-    //    foreach (Transform child in children)*/
-    //    foreach (string joint in RigAngleTracker.GetJointToRadianMapping().Keys)
-    //    {
-    //        string topic = "/" + this.avatar_name + "/avatar_ybot/" + joint + "/set_pid_params";
-    //        ROSBridgeService.Instance.websocket.Publish(topic, new Vector3Msg(InitialP, InitialI, InitialD));
-    //    }
-    //}
-
     private void PublishJointPIDPositionTargetsJointStatesTopic()
     {
-        /*string[] names = new string[joint_pid_position_targets_.Count];
-        double[] positions = new double[joint_pid_position_targets_.Count];
-
-        var enumerator = joint_pid_position_targets_.GetEnumerator();
-        for (int index = 0; index < joint_pid_position_targets_.Count; index++)
-        {
-            var item = enumerator.Current;
-            names[index] = item.Key;
-            positions[index] = item.Value.x;
-        }
-
-        string topic = "/" + this.avatar_name + "/set_joint_pid_pos_targets";
-        JointStatesMsg msg = new JointStatesMsg(names, positions, null, null, null, null, null, null);*/
-
         List<ROSBridgeLib.gazebo_msgs.JointStateMsg> states = new List<ROSBridgeLib.gazebo_msgs.JointStateMsg>();
 
         foreach (var entry in RigAngleTracker.GetJointToRadianMapping())

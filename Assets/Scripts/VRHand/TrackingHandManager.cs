@@ -14,14 +14,15 @@ public class TrackingHandManager : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        if (DetermineController.Instance.UseKnucklesControllers())
-        {
-            InitializeMapBones2TransformsSteamVRKnucklesConntrollers();
-        }
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
+        if (trackingTargets.Count == 0 && DetermineController.Instance.IsReady() && DetermineController.Instance.UseKnucklesControllers())
+        {
+            InitializeMapBones2TransformsSteamVRKnucklesConntrollers();
+        }
     }
 
     public Transform GetRemotePoseTarget(HumanBodyBones bone)

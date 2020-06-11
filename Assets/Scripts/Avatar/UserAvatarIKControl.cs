@@ -8,15 +8,12 @@ public class UserAvatarIKControl : MonoBehaviour
 {
     [SerializeField] public bool ikActive = true;
     [SerializeField] private TrackingIKTargetManager trackingIKTargetManager;
+    [SerializeField] private TrackingHandManager trackingHandManager;
     [SerializeField] private Vector3 bodyHeadOffset = new Vector3(0, -1.0f, 0);
     [SerializeField] private Vector3 inferredBodyOffset = new Vector3(0, 0, 0);
     [SerializeField] private Pose manualBodyOffset;
     [SerializeField] private Transform nonGazeboZeroPoint;
     [SerializeField] private Transform nonGazeboBodyPoint;
-
-
-    // Bachelor Thesis VRHand
-    [SerializeField] private TrackingHandManager trackingHandManager;
 
     protected Animator animator;
 
@@ -33,7 +30,7 @@ public class UserAvatarIKControl : MonoBehaviour
     private int groundCenterTrajectorySize = 20;
     public float coordStartAnchor;
 
-    public GameObject lModelHand;
+    //public GameObject lModelHand;
 
     // Use this for initialization
     void Start()
@@ -216,7 +213,6 @@ public class UserAvatarIKControl : MonoBehaviour
         {
             UpdateFingerTargets();
         }
-
     }
 
     private void UpdateFingerTargets()
