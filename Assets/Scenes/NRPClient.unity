@@ -496,7 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41060aea552a4d94bbcd37eaf3961364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IP: 192.168.178.28
+  IP: 192.168.178.39
   GzBridgePort: 8080
   ROSBridgePort: 9090
   ROSBridgeSuffix: 
@@ -881,39 +881,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1000014258166540, guid: 5dc81ef5cae96304586abbc6e4b5beb8,
     type: 2}
   m_PrefabInternal: {fileID: 622850785}
---- !u!21 &689870054
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &793128702
 GameObject:
   m_ObjectHideFlags: 0
@@ -1093,11 +1060,11 @@ Prefab:
     - target: {fileID: 3380982, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1343462143}
+      objectReference: {fileID: 983303565}
     - target: {fileID: 2348914, guid: 4d293c8e162f3874b982baadd71153d2, type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 689870054}
+      objectReference: {fileID: 1343092397}
     - target: {fileID: 20000014031267948, guid: 4d293c8e162f3874b982baadd71153d2,
         type: 2}
       propertyPath: near clip plane
@@ -1177,80 +1144,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: Valve.VR.SteamVR_Behaviour_BooleanEvent, SteamVR, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!1001 &1102113001
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0.5675945
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.6384628
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
-      propertyPath: m_RootOrder
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000010158459022, guid: 057574477c20401448aba7c848873712,
-        type: 2}
-      propertyPath: rangeOfMotion
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 137000011342081356, guid: 057574477c20401448aba7c848873712,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 057574477c20401448aba7c848873712, type: 2}
-  m_IsPrefabAsset: 0
---- !u!1 &1102113002 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1000010333623354, guid: 057574477c20401448aba7c848873712,
-    type: 2}
-  m_PrefabInternal: {fileID: 1102113001}
---- !u!114 &1102113003 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114000010158459022, guid: 057574477c20401448aba7c848873712,
-    type: 2}
-  m_PrefabInternal: {fileID: 1102113001}
-  m_Script: {fileID: 11500000, guid: 00f6c0d7b5a00aa4a8d38a09a0480032, type: 3}
---- !u!137 &1129297833 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 13700000, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
-    type: 3}
-  m_PrefabInternal: {fileID: 1932146457}
---- !u!4 &1176987638 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400076, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
-    type: 3}
-  m_PrefabInternal: {fileID: 1932146457}
---- !u!43 &1343462143
+--- !u!43 &983303565
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1405,6 +1299,112 @@ Mesh:
   m_MeshMetrics[0]: 1
   m_MeshMetrics[1]: 1
   m_MeshOptimized: 0
+--- !u!1001 &1102113001
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -0.5675945
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0.6384628
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000013477813392, guid: 057574477c20401448aba7c848873712, type: 2}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000010158459022, guid: 057574477c20401448aba7c848873712,
+        type: 2}
+      propertyPath: rangeOfMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 137000011342081356, guid: 057574477c20401448aba7c848873712,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 057574477c20401448aba7c848873712, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!1 &1102113002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000010333623354, guid: 057574477c20401448aba7c848873712,
+    type: 2}
+  m_PrefabInternal: {fileID: 1102113001}
+--- !u!114 &1102113003 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114000010158459022, guid: 057574477c20401448aba7c848873712,
+    type: 2}
+  m_PrefabInternal: {fileID: 1102113001}
+  m_Script: {fileID: 11500000, guid: 00f6c0d7b5a00aa4a8d38a09a0480032, type: 3}
+--- !u!137 &1129297833 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 13700000, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
+    type: 3}
+  m_PrefabInternal: {fileID: 1932146457}
+--- !u!4 &1176987638 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400076, guid: 2cda2daa2c3618c4bb01103b4e28ca54,
+    type: 3}
+  m_PrefabInternal: {fileID: 1932146457}
+--- !u!21 &1343092397
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1421554624
 GameObject:
   m_ObjectHideFlags: 0
@@ -1471,11 +1471,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1466789971 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1000013597184258, guid: 057574477c20401448aba7c848873712,
-    type: 2}
-  m_PrefabInternal: {fileID: 1102113001}
 --- !u!1 &1553195033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1905,7 +1900,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa0eacefed95a54d94ff7002cc37417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugUseMockIKTargets: 1
+  debugUseMockIKTargets: 0
   ikTargetOffsetViveControllerLeft:
     position: {x: -0.05, y: 0, z: -0.15}
     rotation: {x: 0, y: 0, z: 0.70710677, w: 0.70710677}
@@ -2426,16 +2421,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ikActive: 1
   trackingIKTargetManager: {fileID: 1813675161}
-  bodyHeadOffset: {x: 0, y: -1, z: 0}
+  trackingHandManager: {fileID: 1813675163}
+  bodyHeadOffset: {x: 0, y: -1.5, z: 0}
   inferredBodyOffset: {x: 0, y: 0, z: 0}
   manualBodyOffset:
     position: {x: 0, y: 0, z: 0}
     rotation: {x: 0, y: 0, z: 0, w: 0}
   nonGazeboZeroPoint: {fileID: 0}
   nonGazeboBodyPoint: {fileID: 0}
-  trackingHandManager: {fileID: 0}
   coordStartAnchor: 0
-  lModelHand: {fileID: 1466789971}
 --- !u!114 &1932146461
 MonoBehaviour:
   m_ObjectHideFlags: 0

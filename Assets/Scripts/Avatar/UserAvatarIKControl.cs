@@ -52,13 +52,13 @@ public class UserAvatarIKControl : MonoBehaviour
             // initialize
             if (ikActive && trackingIKTargetManager.IsReady() && headTarget == null)
             {
-                headTarget = trackingIKTargetManager.GetIKTargetHead();
-                lookAtObj = trackingIKTargetManager.GetIKTargetLookAt();
-                bodyTarget = trackingIKTargetManager.GetIKTargetBody();
-                leftHandTarget = trackingIKTargetManager.GetIKTargetLeftHand();
-                rightHandTarget = trackingIKTargetManager.GetIKTargetRightHand();
-                leftFootTarget = trackingIKTargetManager.GetIKTargetLeftFoot();
-                rightFootTarget = trackingIKTargetManager.GetIKTargetRightFoot();
+                headTarget = trackingIKTargetManager.GetIKTargetTransform(TrackingIKTargetManager.BODY_PART.HEAD);
+                lookAtObj = trackingIKTargetManager.GetIKTargetTransform(TrackingIKTargetManager.BODY_PART.VIEWING_DIRECTION);
+                bodyTarget = trackingIKTargetManager.GetIKTargetTransform(TrackingIKTargetManager.BODY_PART.HIP);
+                leftHandTarget = trackingIKTargetManager.GetIKTargetTransform(TrackingIKTargetManager.BODY_PART.HAND_LEFT);
+                rightHandTarget = trackingIKTargetManager.GetIKTargetTransform(TrackingIKTargetManager.BODY_PART.HAND_RIGHT);
+                leftFootTarget = trackingIKTargetManager.GetIKTargetTransform(TrackingIKTargetManager.BODY_PART.FOOT_LEFT);
+                rightFootTarget = trackingIKTargetManager.GetIKTargetTransform(TrackingIKTargetManager.BODY_PART.FOOT_RIGHT);
 
                 UserAvatarService.Instance.SpawnYBot();
             }
