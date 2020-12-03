@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RemoteAvatarVisuals : MonoBehaviour {
+public class RemoteAvatarVisuals : MonoBehaviour
+{
 
     public float opacity = 0.1f;
 
@@ -13,14 +14,16 @@ public class RemoteAvatarVisuals : MonoBehaviour {
     private GameObject spine2;
 
     // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void IdentifyGameObjects()
     {
@@ -43,10 +46,13 @@ public class RemoteAvatarVisuals : MonoBehaviour {
                 continue;
             foreach (Material material in renderer.materials)
             {
-                Color color = material.color;
-                color.a = opacity;
-                material.SetColor("_Color", color);
-                this.SetRenderModeTransparent(material);
+                if (material.HasProperty("_Color"))
+                {
+                    Color color = material.color;
+                    color.a = opacity;
+                    material.SetColor("_Color", color);
+                    this.SetRenderModeTransparent(material);
+                }
             }
         }
     }
